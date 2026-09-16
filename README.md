@@ -17,6 +17,8 @@
 ## 当前进度
 - **第一周**：已完成业务需求分析、角色识别、业务流程梳理、数据边界划定。
   - 交付物：[week1_deliverables.md](week1_deliverables.md)
+- **第二周**：已完成关系模式设计，包括表结构、字段定义、码标注、样例元组。
+  - 交付物：[week2_deliverables_v2.md](week2_deliverables_v2.md)（包含上游账号、库存流水、补货任务、异常记录、使用汇总表）
 
 ## 环境要求
 - SQL Server 2025 Express
