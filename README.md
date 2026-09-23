@@ -19,6 +19,11 @@
   - 交付物：[week1_deliverables.md](week1_deliverables.md)
 - **第二周**：已完成关系模式设计，包括表结构、字段定义、码标注、样例元组。
   - 交付物：[week2_deliverables_v2.md](week2_deliverables_v2.md)（包含上游账号、库存流水、补货任务、异常记录、使用汇总表）
+- **第三周**：已完成 SQL Server 建库建表、合成数据装载、CRUD 演示与空库复现验证。
+  - 实施计划：[week3_plan.md](week3_plan.md)
+  - 交付说明：[week3/week3_deliverables.md](week3/week3_deliverables.md)
+  - SQL 脚本：[week3/sql/](week3/sql/)
+  - 数据生成器：[week3/tools/datagen.py](week3/tools/datagen.py)
 
 ## 环境要求
 - SQL Server 2025 Express
