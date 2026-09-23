@@ -20,6 +20,7 @@
 - **第二周**：已完成关系模式设计，包括表结构、字段定义、码标注、样例元组。
   - 交付物：[week2_deliverables_v2.md](week2_deliverables_v2.md)（包含上游账号、库存流水、补货任务、异常记录、使用汇总表）
 - **第三周**：已完成 SQL Server 建库建表、合成数据装载、CRUD 演示与空库复现验证。
+  - 通用复现与演示教程：[DEMO_GUIDE.md](DEMO_GUIDE.md)
   - 实施计划：[week3_plan.md](week3_plan.md)
   - 交付说明：[week3/week3_deliverables.md](week3/week3_deliverables.md)
   - SQL 脚本：[week3/sql/](week3/sql/)
@@ -30,6 +31,6 @@
 - 数据库管理工具 ： SSMS
 
 ## 复现步骤
-1. 克隆本仓库
-2. 按照各阶段说明执行SQL脚本
-3. 详细步骤将在各阶段文档中说明
+1. 克隆本仓库并确认 SQL Server、SSMS、sqlcmd 与 Python 环境可用。
+2. 按照 [DEMO_GUIDE.md](DEMO_GUIDE.md) 从空数据库执行第三周脚本。
+3. 复现完成后可继续按照同一教程进行课堂演示与结果核对。

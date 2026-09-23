@@ -1,0 +1,8 @@
+# Python environment
+# Requires Python >= 3.11
+#
+# Runtime dependencies:
+# None. week3/tools/datagen.py uses only the Python standard library.
+#
+# Development / code quality
+ruff>=0.6,<1.0
