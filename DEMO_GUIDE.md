@@ -25,16 +25,17 @@ DB_lab/
 ├── requirements.txt
 ├── week2_deliverables_v2.md
 ├── week3_plan.md
-├── week3/
-│   ├── sql/
-│   │   ├── 00_create_database.sql
-│   │   ├── 01_create_tables.sql
-│   │   ├── 02_insert_data.sql
-│   │   └── 03_crud_demo.sql
-│   ├── tools/
-│   │   └── datagen.py
-│   └── week3_deliverables.md
-└── DEMO_GUIDE.md
+├──week3/
+├── sql/
+│   ├── 00_create_database.sql
+│   ├── 01_create_tables.sql
+│   ├── 02_insert_data.sql
+│   ├── 03_crud_demo.sql
+│   ├── 04_constraint_demo.sql
+│   └── 05_consistency_check.sql
+├── tools/
+│   └── datagen.py
+└── week3_deliverables.md
 ```
 
 ## 3. 环境要求
@@ -453,61 +454,7 @@ END;
 
 重建完成后重新执行第 8 节检查；关键统计应与原结果一致。
 
-## 14. 课堂演示推荐流程（8～10 分钟）
-
-### 第 1 分钟：介绍项目
-
-建议表述：
-
-> 本项目模拟 API Token 中转站。第二周完成了 14 张表的关系模式设计，第三周把设计真正落地到 SQL Server，并完成数据装载、CRUD 和可复现验证。
-
-### 第 2 分钟：展示仓库结构
-
-展示 `week3/sql` 的 00～03 四个脚本和 `week3/tools/datagen.py`。
-
-说明：编号就是执行顺序。
-
-### 第 3～4 分钟：展示 DDL
-
-重点展示：
-
-- Users：主键、username UNIQUE、status CHECK。
-- Products：DECIMAL 金额、price CHECK。
-- Orders：Users 外键。
-- OrderDetails：Orders / Products 外键。
-- Inventory：UpstreamAccount 外键。
-
-### 第 5 分钟：证明 14 张表和业务数据存在
-
-执行表数量检查和一条多表 JOIN。
-
-### 第 6 分钟：演示 CRUD
-
-运行 `03_crud_demo.sql` 中 Products 段，指出 INSERT / SELECT / UPDATE / DELETE。
-
-### 第 7 分钟：演示约束
-
-分别尝试负价格和不存在用户的订单，展示数据库拒绝非法数据。
-
-### 第 8 分钟：展示生成器
-
-执行：
-
-```powershell
-python -B .\week3\tools\datagen.py
-```
-
-指出 `self_check=PASS`。
-
-### 第 9 分钟：展示一致性
-
-订单不一致数 = 0；库存不一致数 = 0。
-
-### 第 10 分钟：总结复现能力
-
-说明项目已经实际完成过空库重放，并可用 00→01→02→03 在任何符合环境要求的机器上重新构建。
-
-## 15. 常见问题与处理
+## 14. 常见问题与处理
 
 ### sqlcmd 找不到
 
@@ -547,7 +494,7 @@ git log -1 --oneline
 不建议。
 它是生成器产物，接近一万行。演示时展示 `datagen.py` 的设计和 `self_check=PASS` 更有价值。
 
-## 16. 演示时必须知道的设计理由
+## 15. 演示时必须知道的设计理由
 
 ### 为什么金额用 DECIMAL 而不是 FLOAT？
 
@@ -569,7 +516,7 @@ git log -1 --oneline
 
 OrderDetails 保存分项值，Orders 保存汇总值，属于为了查询便利保留的受控冗余；生成器负责检查两者一致。
 
-## 17. 安全与演示注意事项
+## 16. 安全与演示注意事项
 
 - 不要展示、读取或提交真实 API Key。
 - 仓库中的 API Key 仅为 `DEMO_NOT_A_REAL_API_KEY_*` 占位符。
@@ -579,7 +526,7 @@ OrderDetails 保存分项值，Orders 保存汇总值，属于为了查询便利
 - 不要现场手工修改 `02_insert_data.sql`。
 - CRUD 演示优先使用项目现有事务脚本，避免污染基础数据。
 
-## 18. 演示前最终检查清单
+## 17. 演示前最终检查清单
 
 ```text
 □ 已拉取最新仓库
@@ -587,7 +534,7 @@ OrderDetails 保存分项值，Orders 保存汇总值，属于为了查询便利
 □ SSMS 可连接实际 SQL Server 实例
 □ sqlcmd 可用
 □ Python >= 3.11
-□ 00～03 四个 SQL 文件存在
+□ 00～05 六个 SQL 文件存在
 □ datagen.py 存在
 □ TokenHubDB_Week3 已创建或确认可重建
 □ 14 张业务表存在
@@ -597,11 +544,8 @@ OrderDetails 保存分项值，Orders 保存汇总值，属于为了查询便利
 □ TokenUsageLogs = 3000
 □ 订单一致性 mismatch_count = 0
 □ 库存一致性 mismatch_count = 0
+□ 约束演示两条均报错
 □ 知道 Inventory 为什么关联 UpstreamAccount
 □ 知道 DECIMAL / NVARCHAR / DATETIME2 的选择理由
 □ 不会展示任何真实密钥
 ```
-
-## 19. 推荐结束语
-
-> 第三周完成了从关系模式设计到 SQL Server 实际数据库的落地。数据库包含 14 张业务表，具备主键、唯一、外键、CHECK 和默认值等约束；样例数据通过固定随机种子的生成器构建，并经过订单、库存和外键一致性自检；Products、Inventory、Orders 均完成 CRUD 演示。整个数据库可以通过 00、01、02、03 四个脚本从空库完整重建，因此团队任何成员都可以在相同环境下复现并展示本周成果。

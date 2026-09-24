@@ -26,7 +26,9 @@ week3/
 │   ├── 00_create_database.sql
 │   ├── 01_create_tables.sql
 │   ├── 02_insert_data.sql
-│   └── 03_crud_demo.sql
+│   ├── 03_crud_demo.sql
+│   ├── 04_constraint_demo.sql
+│   └── 05_consistency_check.sql
 ├── tools/
 │   └── datagen.py
 └── week3_deliverables.md
@@ -116,6 +118,22 @@ SQL Server 用户表数量检查结果：14 张。
 - DELETE：先删明细，再删订单；
 - 最终 ROLLBACK。
 
+## 6.4 约束演示
+
+`04_constraint_demo.sql` 演示非法数据被拒绝：
+
+- 负价格 → 被 `CK_Products_price` CHECK 约束拒绝；
+- 不存在的用户下单 → 被 `FK_Orders_Users` 外键约束拒绝。
+
+执行结果：两条 INSERT 均报错，数据库拒绝非法数据。
+
+## 6.5 一致性校验
+
+`05_consistency_check.sql` 验证业务数据闭环：
+
+- `order_mismatch = 0`：订单汇总金额、Token 数与明细汇总完全一致；
+- `inventory_mismatch = 0`：库存额度、上游账号额度、流水净额完全一致。
+
 ## 7. 验证结果
 
 ### 7.1 生成器自检
@@ -174,6 +192,8 @@ sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\00_create_database.sql"
 sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\01_create_tables.sql"
 sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\02_insert_data.sql"
 sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\03_crud_demo.sql"
+sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\04_constraint_demo.sql"
+sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\05_consistency_check.sql"
 ```
 
 如果需要重新生成样例数据：
