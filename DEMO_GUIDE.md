@@ -1,551 +1,135 @@
-# DB_lab 第三周复现与现场演示指南
+# DB_lab v0.1 复现与课堂演示指南
 
-> 适用对象：仓库所有小组成员、助教复现、课堂展示  
-> 目标：任何成员克隆仓库后，都能从空数据库复现第三周成果，并按同一套流程完成演示。  
-> 数据库：`TokenHubDB_Week3`  
-> 默认 SQL Server 实例：`localhost\SQLEXPRESS`
+> 适用：组员复现、课堂展示、助教验收。所有命令均从仓库根目录执行。
 
-## 1. 这份教程要完成什么
-
-完成本教程后，应能够证明：
-
-1. 可以从空数据库开始创建数据库和 14 张业务表。
-2. 主键、唯一约束、外键、非空、默认值和 CHECK 约束真实生效。
-3. 样例数据不是孤立随机数据，而是满足订单、库存、流水等业务关系。
-4. Products、Inventory、Orders 可以完成 CRUD。
-5. 删除实验数据库后，按脚本重放可以得到一致结果。
-
-## 2. 仓库结构
-
-在仓库根目录应看到：
-
-```text
-DB_lab/
-├── README.md
-├── requirements.txt
-├── week2_deliverables_v2.md
-├── week3_plan.md
-├──week3/
-├── sql/
-│   ├── 00_create_database.sql
-│   ├── 01_create_tables.sql
-│   ├── 02_insert_data.sql
-│   ├── 03_crud_demo.sql
-│   ├── 04_constraint_demo.sql
-│   └── 05_consistency_check.sql
-├── tools/
-│   └── datagen.py
-└── week3_deliverables.md
-```
-
-## 3. 环境要求
-
-必需环境：
-
-- Windows 10/11。
-- SQL Server 2025 Express。
-- SSMS（SQL Server Management Studio）。
-- `sqlcmd` 命令行工具。
-- Python 3.11 或更高版本。
-
-Python 运行时没有第三方依赖；`week3/tools/datagen.py` 只使用标准库。
-`requirements.txt` 中的 `ruff` 仅用于开发期代码检查，不影响数据库复现。
-
-首次准备时，可以在 PowerShell 中检查：
+## 1. 演示前检查
 
 ```powershell
 python --version
-sqlcmd -?
-```
-
-SQL Server 默认连接目标：
-
-```text
-localhost\SQLEXPRESS
-```
-
-如果你本机实例名不同，需要把后文所有 `localhost\SQLEXPRESS` 替换成自己的实例名。
-
-## 4. 获取仓库后先做什么
-
-克隆仓库后进入根目录：
-
-```powershell
-git clone <仓库地址>
-cd DB_lab
-```
-
-如果已经有仓库：
-
-```powershell
-git pull
-```
-
-检查第三周文件：
-
-```powershell
-Get-ChildItem .\week3\sql
-Get-ChildItem .\week3\tools
-```
-
-应至少看到四个 SQL 文件和 `datagen.py`。
-
-## 5. 第一次从空库复现
-
-进入 SQL 目录：
-
-```powershell
-cd .\week3\sql
-```
-
-按编号顺序执行：
-
-```powershell
-sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\00_create_database.sql"
-sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\01_create_tables.sql"
-sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\02_insert_data.sql"
-sqlcmd -S "localhost\SQLEXPRESS" -E -C -b -f 65001 -i ".\03_crud_demo.sql"
-```
-
-四个文件的职责：
-
-- `00_create_database.sql`：创建 `TokenHubDB_Week3`。
-- `01_create_tables.sql`：创建 14 张表及约束。
-- `02_insert_data.sql`：插入可复现样例数据。
-- `03_crud_demo.sql`：执行商品、库存、订单 CRUD 演示；演示数据最终回滚，不污染基础数据。
-
-如果某一步返回错误，先处理错误，不要跳过继续执行。
-
-## 6. 用 SSMS 检查数据库
-
-打开 SSMS，连接：
-
-```text
-Server name: localhost\SQLEXPRESS
-Authentication: Windows Authentication
-```
-
-刷新：
-
-```text
-Databases
-└── TokenHubDB_Week3
-    └── Tables
-```
-
-应看到 14 张用户表。
-
-也可以执行：
-
-```sql
-USE TokenHubDB_Week3;
-
-SELECT COUNT(*) AS table_count
-FROM sys.tables
-WHERE is_ms_shipped = 0;
-```
-
-预期：
-
-```text
-table_count = 14
-```
-
-## 7. 重新生成样例数据
-
-从仓库根目录执行：
-
-```powershell
-python -B .\week3\tools\datagen.py
-```
-
-关键输出应包括：
-
-```text
-seed=20260923
-Users=40
-Products=10
-UpstreamAccount=8
-Inventory=8
-Employees=6
-Orders=100
-OrderDetails=184
-InventoryLog=3012
-TokenBalances=61
-TokenUsageLogs=3000
-UsageSummary=3394
-RestockTask=8
-ExceptionLog=15
-self_check=PASS
-```
-
-其中最重要的是：
-
-```text
-self_check=PASS
-```
-
-固定随机种子保证同一版本生成器得到相同数据。
-
-生成器会检查：
-
-- Orders 汇总金额与 OrderDetails 一致。
-- Orders 汇总 Token 与 OrderDetails 一致。
-- Token 余额非负。
-- Inventory 与 UpstreamAccount 的额度关系一致。
-- Inventory 与 InventoryLog 流水净额一致。
-- 关键外键引用存在。
-- 上游账号中的 API Key 全部是教学占位符。
-
-## 8. 快速核对基础数据
-
-在 SSMS 执行：
-
-```sql
-USE TokenHubDB_Week3;
-
-SELECT COUNT(*) AS user_count FROM dbo.Users;
-SELECT COUNT(*) AS order_count FROM dbo.Orders;
-SELECT COUNT(*) AS usage_count FROM dbo.TokenUsageLogs;
-```
-
-预期：
-
-```text
-Users = 40
-Orders = 100
-TokenUsageLogs = 3000
-```
-
-继续检查订单签名：
-
-```sql
-SELECT
-    COUNT(*) AS orders_count,
-    SUM(total_amount) AS orders_amount,
-    SUM(total_tokens) AS orders_tokens
-FROM dbo.Orders;
-```
-
-预期：
-
-```text
-orders_count = 100
-orders_amount = 4931.00
-orders_tokens = 108950000
-```
-
-Token 使用签名：
-
-```sql
-SELECT
-    COUNT(*) AS usage_count,
-    SUM(CAST(tokens_used AS BIGINT)) AS usage_tokens,
-    SUM(CAST(upstream_tokens_consumed AS BIGINT)) AS usage_upstream
-FROM dbo.TokenUsageLogs;
-```
-
-预期：
-
-```text
-usage_count = 3000
-usage_tokens = 6040100
-usage_upstream = 7248120
-```
-
-## 9. 业务关系展示
-
-### 9.1 用户与订单
-
-```sql
-SELECT TOP 10
-    o.order_id,
-    u.username,
-    o.status,
-    o.total_amount,
-    o.total_tokens
-FROM dbo.Orders AS o
-JOIN dbo.Users AS u ON u.user_id = o.user_id
-ORDER BY o.order_id;
-```
-
-展示重点：订单中的 `user_id` 可以连接到真实用户。
-
-### 9.2 订单、明细与商品
-
-```sql
-SELECT TOP 10
-    o.order_id,
-    p.name AS product_name,
-    d.quantity,
-    d.unit_price,
-    d.subtotal,
-    d.total_tokens
-FROM dbo.OrderDetails AS d
-JOIN dbo.Orders AS o ON o.order_id = d.order_id
-JOIN dbo.Products AS p ON p.product_id = d.product_id
-ORDER BY o.order_id;
-```
-
-展示重点：样例数据存在完整业务联系，不是独立随机行。
-
-## 10. CRUD 演示
-
-推荐直接打开：
-
-```text
-week3/sql/03_crud_demo.sql
-```
-
-脚本包含三组演示：
-
-### A. Products
-
-依次展示：
-
-```text
-SELECT → INSERT → SELECT → UPDATE → SELECT → DELETE → SELECT
-```
-
-说明：
-
-- 插入临时套餐。
-- 修改价格和状态。
-- 删除临时套餐。
-- 最终事务回滚，所以正式样例数据保持不变。
-
-### B. Inventory
-
-演示逻辑：
-
-1. 新建一个临时 UpstreamAccount。
-2. 为该账号建立 Inventory。
-3. 将 `current_quota` 从 100000 修改到 99000。
-4. 删除临时库存和账号。
-5. 回滚事务。
-
-这里要解释：库存表示上游 API 账号可用额度，因此 Inventory 关联 UpstreamAccount，而不是 Products。
-
-### C. Orders
-
-演示逻辑：
-
-1. 创建临时订单。
-2. 创建对应 OrderDetails。
-3. 将订单状态从 pending 更新为 paid。
-4. 删除时先删 OrderDetails，再删 Orders。
-5. 回滚事务。
-
-这里要解释外键决定了父子表的创建和删除顺序。
-
-## 11. 约束演示
-
-### 11.1 负价格必须失败
-
-```sql
-INSERT INTO dbo.Products
-(
-    name, price, model_provider,
-    token_amount, required_upstream_tokens, status
-)
-VALUES
-(
-    N'非法价格测试', -1.00, 'Other',
-    1, 1, 'active'
-);
-```
-
-预期：SQL Server 报 CHECK 约束错误。
-
-解释：`Products.price` 必须大于 0。
-
-### 11.2 不存在的用户不能下订单
-
-```sql
-INSERT INTO dbo.Orders
-(
-    user_id, total_amount, total_tokens, status
-)
-VALUES
-(
-    999999, 1.00, 1, 'pending'
-);
-```
-
-预期：SQL Server 报外键错误。
-
-解释：`Orders.user_id` 必须引用真实存在的 `Users.user_id`。
-
-## 12. 一致性演示
-
-订单一致性：
-
-```sql
-WITH d AS (
-    SELECT order_id,
-           SUM(subtotal) AS detail_amount,
-           SUM(total_tokens) AS detail_tokens
-    FROM dbo.OrderDetails
-    GROUP BY order_id
-)
-SELECT COUNT(*) AS mismatch_count
-FROM dbo.Orders AS o
-JOIN d ON d.order_id = o.order_id
-WHERE o.total_amount <> d.detail_amount
-   OR o.total_tokens <> d.detail_tokens;
-```
-
-预期：
-
-```text
-mismatch_count = 0
-```
-
-库存一致性：
-
-```sql
-WITH l AS (
-    SELECT account_id,
-           SUM(change_amount) AS log_balance
-    FROM dbo.InventoryLog
-    GROUP BY account_id
-)
-SELECT COUNT(*) AS mismatch_count
-FROM dbo.UpstreamAccount AS a
-JOIN dbo.Inventory AS i ON i.account_id = a.account_id
-JOIN l ON l.account_id = a.account_id
-WHERE i.current_quota <> a.total_quota - a.used_quota
-   OR i.current_quota <> l.log_balance;
-```
-
-预期：
-
-```text
-mismatch_count = 0
-```
-
-库存三层语义：
-
-- `total_quota`：累计采购额度。
-- `used_quota`：累计已使用额度。
-- `Inventory.current_quota`：当前可用额度。
-- `InventoryLog`：每次增加/减少的历史流水。
-
-## 13. 重复做“从空库复现”
-
-如果数据库已经存在，`00_create_database.sql` 会主动拒绝覆盖。
-
-只有在确认可以删除本项目实验库时，才执行：
-
-```sql
-USE master;
-
-IF DB_ID(N'TokenHubDB_Week3') IS NOT NULL
-BEGIN
-    ALTER DATABASE TokenHubDB_Week3
-        SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE TokenHubDB_Week3;
-END;
-```
-
-注意：只允许删除 `TokenHubDB_Week3`，不要删除其他数据库。
-
-删除后重新执行第 5 节的四条 `sqlcmd` 命令。
-
-重建完成后重新执行第 8 节检查；关键统计应与原结果一致。
-
-## 14. 常见问题与处理
-
-### sqlcmd 找不到
-
-先检查：
-
-```powershell
 Get-Command sqlcmd
+sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -Q "SELECT @@VERSION;"
 ```
 
-如果不存在，需要安装 SQL Server 命令行工具；也可以暂时在 SSMS 中依次打开并执行 00～03。
+确认根目录存在 `sql/`、`tools/run_v01.ps1`、`result/`、`week4/`。
 
-### 无法连接 localhost\SQLEXPRESS
+正式实验库建议使用 `TokenHubDB_v01_A`。如果数据库已存在，不要直接覆盖；需要重新演示空库复现时，只删除本项目实验库。
 
-检查 SQL Server Express 服务是否启动，并确认实际实例名称。
-如果本机实例不是 `SQLEXPRESS`，把教程中的服务器名替换成实际实例。
-
-### 00_create_database.sql 提示数据库已存在
-
-这是保护机制，不是脚本故障。
-如果只是展示已有数据库，不需要重建。
-如果确实要从空库复现，按第 13 节只删除 `TokenHubDB_Week3` 后再执行。
-
-### datagen.py 运行后数据与预期不同
-
-先确认仓库版本一致：
+## 2. 一键从空库复现
 
 ```powershell
-git status
-git log -1 --oneline
+powershell -NoProfile -File .\tools\run_v01.ps1 `
+  -DatabaseName TokenHubDB_v01_A -RunLabel demo_A
 ```
 
-然后重新运行生成器。
-固定随机种子版本下，输出行数和关键签名应一致。
-
-### 02_insert_data.sql 很大，要不要现场打开
-
-不建议。
-它是生成器产物，接近一万行。演示时展示 `datagen.py` 的设计和 `self_check=PASS` 更有价值。
-
-## 15. 演示时必须知道的设计理由
-
-### 为什么金额用 DECIMAL 而不是 FLOAT？
-
-金额要求精确，FLOAT 是近似浮点类型，因此使用 `DECIMAL(10,2)`。
-
-### 为什么时间用 DATETIME2(0)？
-
-它是现代 SQL Server 推荐使用的日期时间类型之一；本实验只需要精确到秒。
-
-### 为什么中文文本使用 NVARCHAR？
-
-避免依赖数据库默认代码页，保证中文业务文本稳定保存。
-
-### 为什么 Inventory 关联 UpstreamAccount？
-
-本项目库存表示“上游账号剩余 Token 额度”，不是“商品还剩多少件”。
-
-### 为什么 Orders 和 OrderDetails 都保存 total_tokens？
-
-OrderDetails 保存分项值，Orders 保存汇总值，属于为了查询便利保留的受控冗余；生成器负责检查两者一致。
-
-## 16. 安全与演示注意事项
-
-- 不要展示、读取或提交真实 API Key。
-- 仓库中的 API Key 仅为 `DEMO_NOT_A_REAL_API_KEY_*` 占位符。
-- 不要在课堂上随意删除其他数据库。
-- 重建时只操作 `TokenHubDB_Week3`。
-- 不要删除 UPDATE / DELETE 中的 WHERE。
-- 不要现场手工修改 `02_insert_data.sql`。
-- CRUD 演示优先使用项目现有事务脚本，避免污染基础数据。
-
-## 17. 演示前最终检查清单
+预期依次看到：
 
 ```text
-□ 已拉取最新仓库
-□ SQL Server Express 正常运行
-□ SSMS 可连接实际 SQL Server 实例
-□ sqlcmd 可用
-□ Python >= 3.11
-□ 00～05 六个 SQL 文件存在
-□ datagen.py 存在
-□ TokenHubDB_Week3 已创建或确认可重建
-□ 14 张业务表存在
-□ datagen.py 输出 self_check=PASS
-□ Users = 40
-□ Orders = 100
-□ TokenUsageLogs = 3000
-□ 订单一致性 mismatch_count = 0
-□ 库存一致性 mismatch_count = 0
-□ 约束演示两条均报错
-□ 知道 Inventory 为什么关联 UpstreamAccount
-□ 知道 DECIMAL / NVARCHAR / DATETIME2 的选择理由
-□ 不会展示任何真实密钥
+PASS 00_create_database.sql
+PASS 01_create_tables.sql
+PASS 02_insert_data.sql
+PASS 03_crud_demo.sql
+PASS query.sql
+PASS view.sql
+PASS constraint.sql
+PASS role.sql
+PASS verify.sql
+PASS signature.sql
+PASS v0.1 TokenHubDB_v01_A
 ```
+
+## 3. 10 分钟课堂演示顺序
+
+### 第 1 分钟：建库与 14 张表
+在 SSMS 连接 `localhost\SQLEXPRESS`，打开 `TokenHubDB_v01_A`。
+
+```sql
+USE TokenHubDB_v01_A;
+SELECT COUNT(*) AS table_count FROM sys.tables WHERE is_ms_shipped=0;
+```
+
+预期 `table_count = 14`。说明根目录 00～03 是第三周基线，第四周在此基础上新增查询、视图、约束和权限。
+
+### 第 2 分钟：CRUD
+打开 `sql/03_crud_demo.sql`，展示 Products、Inventory、Orders 三组 INSERT / SELECT / UPDATE / DELETE。强调演示事务最终回滚，不改变基础数据。
+
+### 第 3～4 分钟：Q01 / Q02 / Q05
+打开 `sql/query.sql`：
+- Q01：Orders + Users + OrderDetails + Products，184 条订单明细。
+- Q02：已支付商品销量，10 个商品，总件数 191，总销售额 4228.90。
+- Q05：`NOT EXISTS` 找出 14 个没有已支付订单的会员。
+
+说明 Q02 使用 LEFT JOIN 保留零销量商品；订单总额不能在一对多明细连接后直接重复求和。
+
+### 第 5 分钟：四个核心统计视图
+展示：
+- `v_OrderDetail`：184 行
+- `v_ProductSales`：10 行
+- `v_MemberSpending`：40 行
+- `v_InventoryStatus`：8 行
+
+库存视图使用固定样例快照时间 `2026-09-22 23:59:59`，避免演示日期变化导致结果漂移。
+
+### 第 6 分钟：约束正反例
+打开 `sql/constraint.sql`，重点展示：
+- C06：负价格被 `CK_Products_price` 拒绝，错误 547。
+- C08：篡改订单明细 subtotal 被 `CK_OrderDetails_subtotal_formula` 拒绝，错误 547。
+- C01/C02：合法数据能使用 DEFAULT，并在事务中回滚。
+
+脚本总共执行 C01～C11，只有实际错误号与预期一致才算 PASS。
+
+### 第 7～8 分钟：角色和会员隔离
+打开 `sql/role.sql`：
+- R04：店员直接修改 Products 被拒绝，错误 229。
+- R05：店员可通过 `v_StaffOrderQueue` 处理 pending/cancelled 订单。
+- R06：`hub_user_1` 只看到 user_id=1 的 13 个订单。
+- R07：`hub_user_2` 只看到 user_id=2 的 15 个订单。
+- R09：会员读取上游 API Key 基表被拒绝。
+- R13：店员试图更新队列视图的 `user_id` 列被拒绝，错误 230。
+
+说明 `dbo.Roles` 是应用层角色数据，`hub_manager/hub_staff/hub_customer/hub_guest` 才是 SQL Server 数据库角色。
+
+### 第 9 分钟：综合验收
+打开 `result/run_A/verify.sql.log`，展示末尾：
+
+```text
+PASS VFY07 product view row-by-row
+PASS VFY08 member view row-by-row
+PASS VFY09 balance reconciliation
+PASS VFY10 usage summary reconciliation
+PASS VFY11 boundary positives
+PASS v0.1 verification
+```
+
+说明验收不仅检查行数，还做订单、库存、余额、汇总粒度的逐行/逐键对账。
+
+### 第 10 分钟：双空库签名
+展示：
+
+```powershell
+Compare-Object `
+  (Get-Content .\result\run_A\signature.txt) `
+  (Get-Content .\result\run_B\signature.txt)
+```
+
+预期无输出。说明 A/B 两个空库的 14 张业务表内容完全一致；A 库重复执行第四周脚本后的 `result/repeat_A/signature.txt` 也与首次一致。
+
+## 4. 关键设计理由
+- 金额用 `DECIMAL`，避免 FLOAT 近似误差。
+- 中文业务文本用 `NVARCHAR`。
+- 时间戳用 `DATETIME2(0)`。
+- Inventory 关联 UpstreamAccount，因为库存表示上游账号可用 Token，不是商品件数。
+- Orders 与 OrderDetails 都保存 Token 汇总属于受控冗余，`verify.sql` 检查两者一致。
+- 商品销售只统计 `status='paid'`，退款、取消、待支付不计入销售额。
+- 会员个人视图使用 `USER_NAME()` 绑定数据库用户，不依赖调用者可任意设置的会话变量。
+
+## 5. 证据位置
+- 首次完整复现：`result/run_A/`
+- 第二次完整复现：`result/run_B/`
+- 重复执行验证：`result/repeat_A/`
+- 证据索引：`result/README.md`
+- 阶段报告：`week4/stage_report.md`
+
+SSMS 截图必须来自真实 GUI 操作并放到 `result/screenshots/`。没有真实截图时，不要用模拟表格或生成图片代替。
+
+## 6. 安全注意事项
+只操作本项目实验库；不要展示或读取真实密码、API Key、私钥。仓库数据中的 API Key 均为 `DEMO_NOT_A_REAL_API_KEY_*` 教学占位符。执行 UPDATE / DELETE 前确认 WHERE；一键脚本不会自动删除已有数据库。
