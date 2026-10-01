@@ -51,7 +51,10 @@ INSERT #ConstraintCases VALUES
 ('C08',N'UPDATE dbo.OrderDetails SET subtotal=subtotal+0.01 WHERE detail_id=1;',547,N'CK_OrderDetails_subtotal_formula',N''),
 ('C09',N'UPDATE dbo.OrderDetails SET total_tokens=total_tokens+1 WHERE detail_id=1;',547,N'CK_OrderDetails_tokens_formula',N''),
 ('C10',N'UPDATE dbo.Orders SET paid_at=NULL WHERE order_id=(SELECT MIN(order_id) FROM dbo.Orders WHERE status=''paid'');',547,N'CK_Orders_payment_time',N''),
-('C11',N'DELETE dbo.Users WHERE user_id=1;',547,NULL,N'');
+('C11',N'DELETE dbo.Users WHERE user_id=1;',547,NULL,N''),
+('C12',N'INSERT dbo.Products(name,price,model_provider,token_amount,required_upstream_tokens) SELECT name+N''-C12'',price,model_provider,token_amount,required_upstream_tokens FROM dbo.Products WHERE product_id=1;',2627,N'UQ_Products_provider_tokens',N''),
+('C13',N'INSERT dbo.OrderDetails(order_id,product_id,quantity,unit_price,subtotal,tokens_per_unit,total_tokens) SELECT order_id,product_id,quantity,unit_price,subtotal,tokens_per_unit,total_tokens FROM dbo.OrderDetails WHERE detail_id=1;',2627,N'UQ_OrderDetails_order_product',N''),
+('C14',N'UPDATE dbo.Roles SET permissions=N''not-json'' WHERE role_name=''staff'';',547,N'CK_Roles_permissions_json',N'');
 GO
 DECLARE @id VARCHAR(4),@stmt NVARCHAR(MAX),@want INT,@name SYSNAME,
         @cleanup NVARCHAR(MAX),@got INT,@msg NVARCHAR(4000),@pass_count INT=0;
@@ -85,7 +88,7 @@ END;
 CLOSE cases;
 DEALLOCATE cases;
 DROP TABLE #ConstraintCases;
-IF @pass_count<>11 THROW 51198,N'Expected 11 constraint PASS cases',1;
+IF @pass_count<>14 THROW 51198,N'Expected 14 constraint PASS cases',1;
 IF @@TRANCOUNT<>0 THROW 51197,N'Open transaction after constraint tests',1;
-PRINT N'PASS C01-C11 constraint cases';
+PRINT N'PASS C01-C14 constraint cases';
 GO

@@ -1,7 +1,7 @@
 # 第四周与第一阶段 v0.1 交付清单
 
-> 日期：2026-09-30
-> 数据库：`TokenHubDB_v01_A`、`TokenHubDB_v01_B`
+> 初版日期：2026-09-30　修订：2026-10-01（v0.1 评审修订，阮依成执行）
+> 数据库：`TokenHubDB_v01_A`、`TokenHubDB_v01_B`、`TokenHubDB_v01_C`
 > 环境：SQL Server 2025 Express 17.0.1000.7 / Python 3.12.6
 
 ## 1. README
@@ -21,26 +21,26 @@
 - [x] 建表：`01_create_tables.sql`，覆盖第二周 14 表、主码、候选码、外码和基础约束。
 - [x] 样例数据：`02_insert_data.sql`。
 - [x] CRUD：`03_crud_demo.sql`，覆盖商品、库存、订单。
-- [x] 关键查询：`query.sql`，Q01～Q08。
-- [x] 统计/权限视图：`view.sql`，9 个视图。
-- [x] 完整性约束：`constraint.sql`，C01～C11。
-- [x] 数据库角色：`role.sql`，R01～R13。
+- [x] 统计/权限视图：`view.sql`，10 个视图（含客服视图 `v_CustomerService`）。
+- [x] 关键查询：`query.sql`，Q01～Q12。
+- [x] 完整性约束：`constraint.sql`，C01～C14。
+- [x] 数据库角色：`role.sql`，R01～R17。
 - [x] 综合断言：`verify.sql`，VFY01～VFY11。
 - [x] 数据签名：`signature.sql`。
 - [x] 各周要求与脚本映射：`sql/README.md`。
 
 ## 3. `result/` 结果与截图
 
-- [x] A 库首次完整运行日志：`result/run_A/`。
-- [x] B 库第二次完整运行日志：`result/run_B/`。
-- [x] A 库重复执行第四周脚本日志：`result/repeat_A/`。
-- [x] 12 组截图证据 SQL 与原始输出：`result/evidence_sql/`、`result/evidence_logs/`。
+- [x] 修订后完整运行日志：`result/run_A/`、`result/run_B/`、`result/run_C/`。
+- [x] 22 组截图证据 SQL 与原始输出：`result/evidence_sql/`、`result/evidence_logs/`。
+- [x] 第三周人工测试记录：`result/第3周人工测试演示结果.pdf`。
 - [x] 成功建库和 14 表截图：`01_database_tables.png`。
 - [x] 三类 CRUD 截图：`02`～`04`。
 - [x] JOIN、销售/会员统计、统计视图截图：`05`～`07`。
 - [x] 合法值和非法数据截图：`08`、`09`。
 - [x] 正常权限、越权拒绝、会员隔离截图：`10`、`11`。
 - [x] A/B 双空库逐表签名一致截图：`12_reproduction.png`。
+- [x] 修订后新增用例截图：客服视图与越权拒绝 `13`、库存状态三字段 `14`、Q09～Q12 `15`～`18`、C12/C13/C14 `19`、`20`、VFY01～VFY11 全 PASS `21`、A/B/C 三库签名 `22`。
 
 截图均来自实时 SQL Server 执行窗口；对应 SQL 和日志可用于复核，详见 `result/README.md`。
 
@@ -52,8 +52,9 @@
 - [x] 权限：四角色最小权限矩阵及正常/越权正反例。
 - [x] 实验过程：第 1～4 周落地过程、真实运行环境和修正记录。
 - [x] 实验总结：结果、局限和后续阶段衔接。
+- [x] 可视化：角色—数据库操作流程图、14 表 ER 图、知识导图。
 
-文件：`stage_report.md`。
+文件：`../report/stage_report.md`、`../report/role_workflow.md`。实体关系图与知识导图已并入 `stage_report.md` 第 1 节第 4、7 小节，不再单独成文件。
 
 ## 5. AI 日志
 
@@ -67,15 +68,15 @@ AI 使用记录统一为 `ai_usage_log.md`，包含 AI 建议、人工修改与�
 
 | 项目 | 结果 |
 |---|---:|
-| 业务表 / 视图 | 14 / 9 |
+| 业务表 / 视图 | 14 / 10 |
 | 数据库角色 / 演示用户 | 4 / 5 |
 | 已支付订单 / 销售额 / Token | 85 / 4228.90 / 92950000 |
-| Q01～Q08 | 全部 PASS |
-| C01～C11 | 全部 PASS |
-| R01～R13 | 全部 PASS |
+| Q01～Q12 | 全部 PASS |
+| C01～C14 | 全部 PASS |
+| R01～R17 | 全部 PASS |
 | VFY01～VFY11 | 全部 PASS |
-| A/B 14 表签名 | 完全一致 |
-| A 库重复执行后签名 | 不变 |
-| 结果截图 | 12 张已生成 |
+| A/B/C 三库 14 表签名 | 逐字节一致 |
+| 与 2026-09-30 基线签名 | 一致（基础数据未变） |
+| 结果截图 | 22 张（01～12 基线版本，13～22 修订版本） |
 
-**阶段结论：v0.1 技术交付物已落实并通过本机自动化与截图验收。** 课程计划中“另一名成员独立按 README 复现”属于额外的团队交叉复核，尚需由实际成员执行后再登记人员和日期。
+**阶段结论：v0.1 技术交付物已落实，并于 2026-10-01 在本机完成 A/B/C 三个空库的自动化复现验收。** 课程计划中“另一名成员独立按 README 复现”属于额外的团队交叉复核，尚需由实际成员执行后再登记人员和日期；状态见 `../team_division.md`。

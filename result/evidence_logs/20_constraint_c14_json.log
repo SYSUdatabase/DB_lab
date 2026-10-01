@@ -1,0 +1,14 @@
+C14 - Roles.permissions JSON CHECK constraint
+check_constraint table_name definition is_disabled
+---------------- ---------- ---------- -----------
+CK_Roles_permissions_json Roles ([permissions] IS NULL OR isjson([permissions])=(1)) 0
+case_id actual_error message result
+------- ------------ ------- ------
+C14 invalid JSON in Roles.permissions 547 UPDATE 语句与 CHECK 约束"CK_Roles_permissions_json"冲突。该冲突发生于数据库"TokenHubDB_v01_A"，表"dbo.Roles", column 'permissions'。 PASS 547
+-- the stored value must still be valid JSON
+role_name permissions is_valid_json
+--------- ----------- -------------
+admin {"all": true} 1
+staff {"orders":"read/write","users":"read","inventory":"read"} 1
+customer {"products":"read","orders":"create","balance":"read"} 1
+PASS C14 JSON check constraint evidence

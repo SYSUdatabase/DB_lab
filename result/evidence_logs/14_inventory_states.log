@@ -1,0 +1,27 @@
+v_InventoryStatus - account / quota / stock states split
+account_id provider current_quota safety_threshold account_state stock_state quota_headroom action
+---------- -------- ------------- ---------------- ------------- ----------- -------------- ------
+1 OpenAI 1300000 500000 usable normal 800000 review
+2 OpenAI 1050000 500000 usable normal 550000 review
+3 OpenAI 1450000 500000 usable normal 950000 review
+4 Claude 1050000 500000 usable normal 550000 review
+5 Claude 500000 500000 usable normal 0 review
+6 Claude 600000 500000 unusable normal 100000 review
+7 Gemini 400000 500000 unusable low -100000 INNER branch
+8 Gemini 0 500000 unusable low -500000 INNER branch
+account_state stock_state accounts
+------------- ----------- --------
+unusable low 2
+unusable normal 1
+usable normal 5
+-- accounts with a negative balance must not appear in the view
+rows_with_negative_balance
+--------------------------
+0
+-- movement mix behind the quota values
+change_type movements net_change
+----------- --------- ----------
+consumption 3000 -7248120
+purchase 8 10098120
+restock 4 3500000
+PASS inventory state split

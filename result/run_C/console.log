@@ -1,0 +1,42 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261001155809
+Username: XIAO_RUAN\ruanyicheng
+RunAs User: XIAO_RUAN\ruanyicheng
+Configuration Name: 
+Machine: XIAO_RUAN (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\run_v01.ps1 -DatabaseName TokenHubDB_v01_C -RunLabel run_C -DropExisting
+Process ID: 8296
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+PASS 00_create_database.sql
+
+PASS 01_create_tables.sql
+
+PASS 02_insert_data.sql
+
+PASS 03_crud_demo.sql
+
+PASS view.sql
+
+PASS query.sql
+
+PASS constraint.sql
+
+PASS role.sql
+
+PASS verify.sql
+PASS signature.sql
+PASS v0.1 TokenHubDB_v01_C
+**********************
+Windows PowerShell transcript end
+End time: 20261001155823
+**********************

@@ -4,6 +4,8 @@ SET NOCOUNT ON;
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 GO
+-- Snapshot time 2026-09-22T23:59:59 equals the last day of the sample data window.
+-- It is shared with query.sql Q06/Q09; change both places together if the window moves.
 
 CREATE OR ALTER VIEW dbo.v_OrderDetail AS
 SELECT o.order_id,o.user_id,u.username,o.status,o.created_at,o.paid_at,
@@ -39,16 +41,26 @@ CREATE OR ALTER VIEW dbo.v_InventoryStatus AS
 SELECT a.account_id,a.provider,a.account_name,a.status,
        i.current_quota,a.safety_threshold,a.expires_at,
        CAST('2026-09-22T23:59:59' AS DATETIME2(0)) AS as_of_time,
-       CASE WHEN a.status<>'active' THEN a.status
-            WHEN a.expires_at<='2026-09-22T23:59:59' THEN 'expired'
-            WHEN i.current_quota<a.safety_threshold THEN 'low'
-            ELSE 'normal' END AS stock_state
+       CASE WHEN a.status='active'
+             AND (a.expires_at IS NULL OR a.expires_at>'2026-09-22T23:59:59')
+            THEN 'usable' ELSE 'unusable' END AS account_state,
+       CASE WHEN i.current_quota<a.safety_threshold THEN 'low' ELSE 'normal' END AS stock_state,
+       i.current_quota-a.safety_threshold AS quota_headroom
 FROM dbo.UpstreamAccount a JOIN dbo.Inventory i ON i.account_id=a.account_id;
 GO
 
 CREATE OR ALTER VIEW dbo.v_ProductCatalog AS
 SELECT product_id,name,description,price,model_provider,token_amount
 FROM dbo.Products WHERE status='active';
+GO
+CREATE OR ALTER VIEW dbo.v_CustomerService AS
+SELECT u.user_id,u.username,u.email,u.phone,u.status,u.created_at,
+       (SELECT COUNT_BIG(*) FROM dbo.Orders o WHERE o.user_id=u.user_id) AS order_count,
+       (SELECT COALESCE(SUM(o.total_amount),0) FROM dbo.Orders o
+         WHERE o.user_id=u.user_id AND o.status='paid') AS paid_amount,
+       (SELECT COALESCE(SUM(b.remaining_tokens),0) FROM dbo.TokenBalances b
+         WHERE b.user_id=u.user_id) AS remaining_tokens
+FROM dbo.Users u;
 GO
 
 CREATE OR ALTER VIEW dbo.v_MyOrders AS
@@ -82,4 +94,7 @@ PRINT N'V03 v_MemberSpending';
 SELECT * FROM dbo.v_MemberSpending ORDER BY user_id;
 PRINT N'V04 v_InventoryStatus';
 SELECT * FROM dbo.v_InventoryStatus ORDER BY account_id;
+PRINT N'V05 v_CustomerService';
+SELECT TOP 10 user_id,username,email,phone,status,order_count,paid_amount,remaining_tokens
+FROM dbo.v_CustomerService ORDER BY paid_amount DESC,user_id;
 GO

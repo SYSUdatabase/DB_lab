@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 DECLARE @expected TABLE(table_name SYSNAME,pk_name SYSNAME);
 INSERT @expected VALUES

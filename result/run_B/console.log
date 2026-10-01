@@ -1,16 +1,16 @@
-**********************
+﻿**********************
 Windows PowerShell transcript start
-Start time: 20260930105000
-Username: LAPTOP-3H5FCR3B\dulant
-RunAs User: LAPTOP-3H5FCR3B\dulant
-Configuration Name:
-Machine: LAPTOP-3H5FCR3B (Microsoft Windows NT 10.0.22631.0)
-Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -File .\tools\run_v01.ps1 -DatabaseName TokenHubDB_v01_B -RunLabel run_B
-Process ID: 37660
-PSVersion: 5.1.22621.4391
+Start time: 20261001155754
+Username: XIAO_RUAN\ruanyicheng
+RunAs User: XIAO_RUAN\ruanyicheng
+Configuration Name: 
+Machine: XIAO_RUAN (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\run_v01.ps1 -DatabaseName TokenHubDB_v01_B -RunLabel run_B -DropExisting
+Process ID: 15512
+PSVersion: 5.1.26100.9444
 PSEdition: Desktop
-PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.4391
-BuildVersion: 10.0.22621.4391
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
 CLRVersion: 4.0.30319.42000
 WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
@@ -25,19 +25,18 @@ PASS 02_insert_data.sql
 
 PASS 03_crud_demo.sql
 
-PASS query.sql
-
 PASS view.sql
+
+PASS query.sql
 
 PASS constraint.sql
 
 PASS role.sql
 
 PASS verify.sql
-
 PASS signature.sql
 PASS v0.1 TokenHubDB_v01_B
 **********************
 Windows PowerShell transcript end
-End time: 20260930105008
+End time: 20261001155808
 **********************

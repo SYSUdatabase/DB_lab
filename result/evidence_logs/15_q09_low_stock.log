@@ -1,0 +1,16 @@
+Q09 - low stock purchase plus quota deduction, boundary case rolled back
+-- accounts already below the safety threshold
+account_id provider account_name current_quota safety_threshold account_state stock_state quota_headroom
+---------- -------- ------------ ------------- ---------------- ------------- ----------- --------------
+7 Gemini Gemini-池-01 400000 500000 unusable low -100000
+8 Gemini Gemini-池-02 0 500000 unusable low -500000
+-- positive branch: new account purchased 1000, consumed 900, threshold 200
+account_id provider current_quota safety_threshold account_state stock_state quota_headroom
+---------- -------- ------------- ---------------- ------------- ----------- --------------
+7 Gemini 400000 500000 unusable low -100000
+8 Gemini 0 500000 unusable low -500000
+17 Other 100 200 usable low -100
+baseline_unchanged
+------------------
+9
+Q09 boundary rows rolled back; baseline data unchanged

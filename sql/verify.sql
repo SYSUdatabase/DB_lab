@@ -57,14 +57,25 @@ PRINT N'PASS VFY02 core business totals';
 GO
 
 PRINT N'VFY03 Views, roles and constraints';
-IF (SELECT COUNT(*) FROM sys.views WHERE is_ms_shipped=0)<>9
+IF (SELECT COUNT(*) FROM sys.views WHERE is_ms_shipped=0)<>10
     THROW 51308,N'View count mismatch',1;
 IF (SELECT COUNT(*) FROM dbo.v_OrderDetail)<>184
  OR (SELECT COUNT(*) FROM dbo.v_ProductSales)<>10
  OR (SELECT COUNT(*) FROM dbo.v_MemberSpending)<>40
  OR (SELECT COUNT(*) FROM dbo.v_InventoryStatus)<>8
- OR (SELECT COUNT(*) FROM dbo.v_InventoryStatus WHERE stock_state='low')<>0
+ OR (SELECT COUNT(*) FROM dbo.v_CustomerService)<>40
     THROW 51324,N'Core view row counts mismatch',1;
+IF (SELECT COUNT(*) FROM dbo.v_InventoryStatus WHERE stock_state='low')
+  <>(SELECT COUNT(*) FROM dbo.Inventory i JOIN dbo.UpstreamAccount a
+       ON a.account_id=i.account_id WHERE i.current_quota<a.safety_threshold)
+    THROW 51350,N'Low stock classification mismatch',1;
+IF (SELECT COUNT(*) FROM dbo.v_InventoryStatus WHERE stock_state='low')<1
+    THROW 51351,N'Low stock branch not exercised by sample data',1;
+IF EXISTS(SELECT 1 FROM dbo.v_InventoryStatus v
+          JOIN dbo.Inventory i ON i.account_id=v.account_id
+          JOIN dbo.UpstreamAccount a ON a.account_id=v.account_id
+          WHERE v.quota_headroom<>i.current_quota-a.safety_threshold)
+    THROW 51352,N'Quota headroom mismatch',1;
 IF (SELECT SUM(revenue) FROM dbo.v_ProductSales)<>4228.90
  OR (SELECT SUM(units_sold) FROM dbo.v_ProductSales)<>191
  OR (SELECT SUM(tokens_sold) FROM dbo.v_ProductSales)<>92950000
@@ -83,6 +94,27 @@ IF (SELECT COUNT(*) FROM sys.database_principals
 IF (SELECT COUNT(*) FROM sys.check_constraints WHERE name IN
     ('CK_OrderDetails_subtotal_formula','CK_OrderDetails_tokens_formula','CK_Orders_payment_time'))<>3
     THROW 51326,N'New cross-column constraints missing',1;
+IF EXISTS(SELECT 1 FROM sys.database_permissions p
+          JOIN sys.database_principals r ON r.principal_id=p.grantee_principal_id
+          JOIN sys.objects o ON o.object_id=p.major_id
+          WHERE r.name IN('hub_customer','hub_guest') AND p.class=1
+            AND p.state IN('G','W') AND p.permission_name IN('INSERT','UPDATE','DELETE','CONTROL')
+            AND o.schema_id=SCHEMA_ID('dbo'))
+    THROW 51353,N'Customer or guest has write permission',1;
+IF EXISTS(SELECT 1 FROM sys.database_permissions p
+          JOIN sys.database_principals r ON r.principal_id=p.grantee_principal_id
+          JOIN sys.objects o ON o.object_id=p.major_id
+          WHERE r.name IN('hub_customer','hub_staff') AND p.class=1
+            AND p.state IN('G','W') AND o.type='U')
+    THROW 51354,N'Customer or staff has permission on base tables',1;
+IF (SELECT COUNT(*) FROM (
+        SELECT p.major_id FROM sys.database_permissions p
+        JOIN sys.database_principals r ON r.principal_id=p.grantee_principal_id
+        JOIN sys.objects o ON o.object_id=p.major_id
+        WHERE r.name='hub_manager' AND p.class=1 AND p.state IN('G','W')
+          AND o.type='U' AND p.permission_name IN('SELECT','INSERT','UPDATE','DELETE')
+        GROUP BY p.major_id) g)<>14
+    THROW 51355,N'Manager CRUD grants incomplete',1;
 IF @@TRANCOUNT<>0 THROW 51309,N'Open transaction remains',1;
 PRINT N'PASS VFY03 views, roles and constraints';
 GO

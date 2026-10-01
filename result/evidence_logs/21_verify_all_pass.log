@@ -1,0 +1,66 @@
+已将数据库上下文更改为 "TokenHubDB_v01_A"。
+VFY01 Baseline row counts
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Roles 3 3 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Users 40 40 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Products 10 10 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+UpstreamAccount 8 8 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Inventory 8 8 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Employees 6 6 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+Orders 100 100 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+OrderDetails 184 184 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+InventoryLog 3012 3012 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+TokenBalances 61 61 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+TokenUsageLogs 3000 3000 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+UsageSummary 3394 3394 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+RestockTask 8 8 PASS
+table_name actual_rows expected_rows result
+---------- ----------- ------------- ------
+ExceptionLog 15 15 PASS
+VFY02 Core business totals
+PASS VFY02 core business totals
+VFY03 Views, roles and constraints
+PASS VFY03 views, roles and constraints
+VFY04 UsageSummary aggregate grain
+PASS VFY04 usage summary grain
+VFY05 Header/detail and inventory relationships
+PASS VFY05 relationship checks
+VFY06 Exact member identity sets
+警告: 聚合或其他 SET 操作消除了 Null 值。
+PASS VFY06 exact member identity sets
+VFY07 Product view row-by-row
+PASS VFY07 product view row-by-row
+VFY08 Member view row-by-row
+PASS VFY08 member view row-by-row
+VFY09 Balance per user/provider
+PASS VFY09 balance reconciliation
+VFY10 UsageSummary per key
+PASS VFY10 usage summary reconciliation
+VFY11 Boundary positives
+PASS VFY11 boundary positives
+PASS v0.1 verification

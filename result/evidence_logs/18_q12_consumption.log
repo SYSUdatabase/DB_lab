@@ -1,0 +1,28 @@
+Q12 - inventory consumption ranking
+account_id provider account_name tokens_consumed tokens_purchased tokens_restocked movements
+---------- -------- ------------ --------------- ---------------- ---------------- ---------
+7 Gemini Gemini-池-01 1239720 1639720 0 511
+8 Gemini Gemini-池-02 1185960 1185960 0 486
+1 OpenAI OpenAI-池-01 893280 1193280 1000000 354
+2 OpenAI OpenAI-池-02 822240 1072240 800000 358
+3 OpenAI OpenAI-池-03 818040 1268040 1000000 350
+5 Claude Claude-池-02 803160 1303160 0 326
+4 Claude Claude-池-01 792720 1142720 700000 331
+6 Claude Claude-池-03 693000 1293000 0 296
+-- movement mix: replenishment must not count as consumption
+change_type movements net_change
+----------- --------- ----------
+consumption 3000 -7248120
+purchase 8 10098120
+restock 4 3500000
+-- top consumer detail (6 most recent movements)
+top consumer account=7
+log_id change_type change_amount reason
+------ ----------- ------------- ------
+3005 consumption -1800 API 调用消耗，对应 usage_log#2997
+3002 consumption -2400 API 调用消耗，对应 usage_log#2994
+2994 consumption -1800 API 调用消耗，对应 usage_log#2986
+2983 consumption -1800 API 调用消耗，对应 usage_log#2975
+2981 consumption -2400 API 调用消耗，对应 usage_log#2973
+2975 consumption -2400 API 调用消耗，对应 usage_log#2967
+PASS Q12 consumption ranking

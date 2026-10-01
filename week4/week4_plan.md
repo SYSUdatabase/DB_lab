@@ -1,6 +1,8 @@
 # 第四周与 v0.1 阶段交付 Implementation Plan
 
-> **For agentic workers:** 使用 `superpowers:executing-plans` 按任务执行本计划；步骤使用复选框记录。当前文档是计划，未勾选项均未实施。默认在同一会话顺序执行；分工表表示小组职责，不表示自动启动子代理。
+> **For agentic workers:** 使用 `superpowers:executing-plans` 按任务执行本计划；步骤使用复选框记录。当前文档是计划，未勾选项均未实施。默认在同一会话执行；分工表表示小组职责，不表示自动启动子代理。
+>
+> **版本说明：** 本文档第 1～7 节是 2026-09-30 的实施计划原文（计划口径为 9 个视图、Q01～Q08、C01～C11、R01～R13、两个空库）。第 8 节是 2026-09-30 的执行记录，**第 9 节是 2026-10-01 v0.1 修订记录**，修订后的交付口径以第 9 节、根 `README.md` 和 `report/stage_report.md` 为准。
 
 **Goal:** 按《第四周任务讲解.docx》完成连接查询、统计视图、完整性与角色权限，并交付可从空库复现、附真实验证证据的 API Token 中转站数据库原型 v0.1。
 
@@ -1196,12 +1198,14 @@ git -c core.quotepath=false status --short
 
 ## 7. 完成定义
 
-- [ ] 课程第四周四类 SQL 均可直接运行且有明确业务解释。
-- [ ] 14 张表、9 个视图、4 种数据库角色、5 个演示用户正确存在。
-- [ ] 8 个业务查询、11 个约束用例、13 个权限用例及边界测试通过。
-- [ ] 表行数、金额、Token、库存、汇总粒度与本计划基准一致，逐行对账无差异。
-- [ ] 两个空库复现的 14 张表内容签名完全一致；重复运行第四周脚本不改变基础数据。
-- [ ] README、SQL、结果证据、阶段报告、AI 记录与组内分工齐全。
+> 本节已按 2026-10-01 修订后的实际规模更新（视图 10 个、查询 12 个、约束用例 14 个、权限用例 17 个、三个空库）。
+
+- [x] 课程第四周四类 SQL 均可直接运行且有明确业务解释。
+- [x] 14 张表、10 个视图、4 种数据库角色、5 个演示用户正确存在。
+- [x] 12 个业务查询、14 个约束用例、17 个权限用例及边界测试通过。
+- [x] 表行数、金额、Token、库存、汇总粒度与本计划基准一致，逐行对账无差异。
+- [x] 三个空库复现的 14 张表内容签名完全一致；重复运行第四周脚本不改变基础数据。
+- [x] README、SQL、结果证据、阶段报告、AI 记录与组内分工齐全。
 - [ ] 另一名成员能够按 README 复现并解释查询口径、约束正反例及权限差异。
 
 达到全部条件后，将 `week4/week4_deliverables.md` 的阶段结论标记为“v0.1 验收通过”，并在 README 更新第四周完成状态。
@@ -1220,10 +1224,69 @@ git -c core.quotepath=false status --short
 - [x] T6：4 个数据库角色、5 个演示用户、R01～R13 与权限审计全部 PASS。
 - [x] T7：A/B 两个空库完整复现成功，14 表 SHA-256 内容签名一致；A 库重复执行第四周脚本签名不变。
 - [x] T8：README、DEMO_GUIDE、阶段报告、交付清单、AI 使用记录、分工和结果索引完成。
-- [x] T8 截图：`result/screenshots/` 已生成 12 张真实 SQL Server 执行截图；对应 SQL/日志位于 `result/evidence_sql/`、`result/evidence_logs/`。
+- [x] T8 截图：`result/screenshots/` 已生成 22 张真实 SQL Server 执行截图（01～12 为基线版本，13～22 为 2026-10-01 修订版本）；对应 SQL/日志位于 `result/evidence_sql/`、`result/evidence_logs/`。
 - [x] T9 自动核对：README/文档本地链接、UTF-8、中文 SQL N 前缀、文件清单、Git whitespace、截图数量和签名一致性均通过。
 - [x] 结果清理：开发阶段重复日志、IDE/Python 缓存和临时文件已清理；AI 日志统一为 `week4/ai_usage_log.md`。
 - [ ] T9 同伴复现：尚未由第二名成员在独立环境执行，不能标记完成。
 - [ ] T9 提交/推送：尚未执行，等待最终人工复核后处理。
 
 当前结论：**v0.1 技术交付物、自动验收与结果截图已完成；仅团队独立复现登记和 Git 提交/推送待后续动作。**
+
+---
+
+## 9. 2026-10-01 v0.1 修订记录
+
+本节记录第四周评审后的修订，以及修订后在本机的重新验收。第 1～7 节的计划数字（9 视图、Q01～Q08、C01～C11、R01～R13、A/B 两库）保留为实施原文，实际口径以本节为准。
+
+### 9.1 修订动因
+
+| # | 评审问题 | 处理结论 |
+|---|---|---|
+| 1 | 店员要联系客户，但直接读 `dbo.Users` 会暴露 `password_hash` | 新增客服视图 `v_CustomerService`，只暴露联系方式与订单/余额聚合 |
+| 2 | 第一周允许会员下单、支付、改资料，v0.1 却无会员写权限 | 确认为已知差异，写入阶段报告并说明改由第三阶段存储过程实现 |
+| 3 | Q06 低库存查询结果恒为空，演示无输出 | 新增 Q09：事务内造阈值边界账号、查询后回滚 |
+| 4 | 查询缺少连接方式对照、汇总趋势与消耗分析 | 新增 Q10（INNER/LEFT 对照）、Q11（UsageSummary 趋势）、Q12（InventoryLog 消耗排名） |
+| 5 | 完整性反例只覆盖 CHECK 与外键 | 新增 C12、C13（复合候选码）、C14（JSON 域） |
+| 6 | `v_InventoryStatus` 把账号状态写进 `stock_state`，低库存显示成“过期” | 拆为 `account_state` 与 `stock_state`，新增 `quota_headroom` |
+| 7 | `signature.sql` 独立执行时不知道目标库 | 补 `USE [$(DatabaseName)]`，并让输出只含签名行以便跨库比较 |
+| 8 | 重复演示时空库已存在导致 THROW 50001 中断 | `run_v01.ps1` 增加可选 `-DropExisting`，默认仍不自动删库 |
+| 9 | 本机执行策略限制导致脚本无法运行 | README 与 DEMO_GUIDE 补充 `-ExecutionPolicy Bypass` 调用方式 |
+| 10 | 文档对象数量与实际不一致 | 视图 9→10、Q→Q12、C→C14、R→R17 逐份同步 |
+
+### 9.2 实际改动文件
+
+| 文件 | 改动 |
+|---|---|
+| `sql/view.sql` | 新增 `v_CustomerService`（V05）；`v_InventoryStatus` 拆分 `account_state`/`stock_state` 并新增 `quota_headroom`；顶部注释标注快照时点与 `query.sql` 共用 |
+| `sql/query.sql` | Q06 增加低库存计数结果集；新增 Q09～Q12 |
+| `sql/constraint.sql` | 新增 C12～C14，PASS 断言由 11 例改为 14 例 |
+| `sql/role.sql` | 授予 `v_CustomerService` 给 `hub_manager`/`hub_staff`；新增 R14～R17；补充会员写权限延后的原因注释；PASS 断言由 13 例改为 17 例；权限审计增加客服视图与 `dbo.Users` |
+| `sql/verify.sql` | 视图数 9→10；新增低库存分类一致性、命中行数、`quota_headroom`、会员/游客无写权限、会员/店员无基表权限、店长 14 表 CRUD 齐全等断言 |
+| `sql/signature.sql` | 增加 `USE [$(DatabaseName)]` |
+| `tools/run_v01.ps1` | 视图提前到查询之前；`-DropExisting` 开关；签名调用传 `-v`；签名输出过滤为 14 行签名行 |
+| `report/` | 新增 `stage_report.md`、`role_workflow.md`（ER 图与项目知识导图已并入 `stage_report.md`） |
+| 根目录 | 新增 `ai_usage_log.md`、`team_division.md`；`README.md` 更新目录结构、执行顺序、复现命令与实测结论 |
+| `DEMO_GUIDE.md`、`sql/README.md`、`result/README.md`、`result/screenshots/README.md`、`week4/week4_deliverables.md` | 同步查询/视图/约束/权限数量、证据目录与演示步骤 |
+
+`sql/01_create_tables.sql` 与 `sql/02_insert_data.sql` 未改动，14 张基础业务表的数据口径不变。
+
+### 9.3 修订后验收结果
+
+- [x] 2026-10-01 在 `localhost\SQLEXPRESS` 分别以 `TokenHubDB_v01_A`、`TokenHubDB_v01_B`、`TokenHubDB_v01_C` 从空库完整执行 `tools/run_v01.ps1`，三次全部 PASS，退出码 0。
+- [x] Q01～Q12、C01～C14、R01～R17、VFY01～VFY11 全部通过，见 `result/run_A/`～`result/run_C/` 的 `query.sql.log`、`constraint.sql.log`、`role.sql.log`、`verify.sql.log`。
+- [x] 三个数据库的 `signature.txt` 逐字节一致，证明脚本确定性可复现。
+- [x] 低库存账号 2 个，`v_InventoryStatus` 的 `stock_state='low'` 与基表推导结果一致（VFY03）。
+- [x] 修订后新增用例截图已补：`result/screenshots/13`～`22` 共 10 张，覆盖 R14～R17、`v_InventoryStatus` 三字段口径、Q09～Q12、C12～C14、VFY01～VFY11 和 A/B/C 三库签名对照；对应 SQL 与原始输出为 `result/evidence_sql/13`～`22` 与 `result/evidence_logs/13`～`22`。
+- [ ] 第二名成员独立复现仍未登记。
+
+### 9.4 文档位置变更
+
+| 原位置 | 现位置 |
+|---|---|
+| `week4/stage_report.md` | `report/stage_report.md` |
+| `week4/role_workflow.md` | `report/role_workflow.md` |
+| `week4/ai_usage_log.md`（第四周部分） | 并入根 `ai_usage_log.md` 第 4～6 节 |
+| `week4/team_division.md`（第四周部分） | 并入根 `team_division.md` |
+| `docs/superpowers/plans/2026-09-30-week4-v01.md` | `week4/week4_plan.md`（本文件） |
+
+`week1 & 2/`、`week3/`、`week4/` 保留为过程材料，不属于提交目录；提交目录结构见根 `README.md` 第 9 节。

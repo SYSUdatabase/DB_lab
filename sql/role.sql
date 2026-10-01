@@ -60,11 +60,19 @@ GRANT SELECT ON dbo.v_OrderDetail TO hub_manager,hub_staff;
 GRANT SELECT ON dbo.v_ProductSales TO hub_manager,hub_staff;
 GRANT SELECT ON dbo.v_MemberSpending TO hub_manager,hub_staff;
 GRANT SELECT ON dbo.v_InventoryStatus TO hub_manager,hub_staff;
+GRANT SELECT ON dbo.v_CustomerService TO hub_manager,hub_staff;
 GRANT SELECT ON dbo.v_StaffOrderQueue TO hub_manager,hub_staff;
 GRANT UPDATE ON dbo.v_StaffOrderQueue(status) TO hub_staff;
 GRANT SELECT ON dbo.v_MyOrders TO hub_customer;
 GRANT SELECT ON dbo.v_MyBalances TO hub_customer;
 GRANT SELECT ON dbo.v_MyUsage TO hub_customer;
+GO
+-- hub_customer has no INSERT/UPDATE/DELETE grant in v0.1 on purpose.
+-- Week 1 lets a member place and pay an order, but v0.1 is a data prototype:
+-- member writes arrive with the stage 3 stored procedures (order / restock),
+-- which check USER_NAME() against the target user_id inside the procedure.
+-- Week 1 also lets a member edit their own profile; that is the same
+-- stored-procedure path and is listed as a known difference in the stage report.
 GO
 
 SET XACT_ABORT ON;
@@ -85,7 +93,11 @@ INSERT #RoleCases VALUES
 ('R10','hub_user_1',N'IF EXISTS(SELECT 1 FROM dbo.v_MyOrders WHERE user_id=2) THROW 51210,N''Other user visible'',1; IF NOT EXISTS(SELECT 1 FROM dbo.v_MyBalances) OR EXISTS(SELECT 1 FROM dbo.v_MyBalances WHERE user_id<>1) THROW 51211,N''Balance isolation failed'',1; IF NOT EXISTS(SELECT 1 FROM dbo.v_MyUsage) OR EXISTS(SELECT 1 FROM dbo.v_MyUsage WHERE user_id<>1) THROW 51212,N''Usage isolation failed'',1;',0),
 ('R11','hub_manager_demo',N'UPDATE dbo.Products SET price=price+1 WHERE product_id=1; IF @@ROWCOUNT<>1 THROW 51213,N''Manager update failed'',1;',0),
 ('R12','hub_manager_demo',N'IF COALESCE(HAS_PERMS_BY_NAME(DB_NAME(),''DATABASE'',''CREATE TABLE''),0)<>0 OR COALESCE(HAS_PERMS_BY_NAME(DB_NAME(),''DATABASE'',''CONTROL''),0)<>0 THROW 51214,N''Manager overprivileged'',1;',0),
-('R13','hub_staff_demo',N'UPDATE dbo.v_StaffOrderQueue SET user_id=user_id WHERE order_id=(SELECT MIN(order_id) FROM dbo.v_StaffOrderQueue);',230);
+('R13','hub_staff_demo',N'UPDATE dbo.v_StaffOrderQueue SET user_id=user_id WHERE order_id=(SELECT MIN(order_id) FROM dbo.v_StaffOrderQueue);',230),
+('R14','hub_staff_demo',N'IF EXISTS(SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID(N''dbo.v_CustomerService'',N''V'') AND name IN(N''password_hash'',N''api_key'')) THROW 51214,N''Sensitive column exposed in service view'',1; IF (SELECT COUNT(*) FROM dbo.v_CustomerService)<>40 THROW 51215,N''Customer service row count mismatch'',1; SELECT TOP(5) user_id,username,email,phone,status,order_count,paid_amount,remaining_tokens FROM dbo.v_CustomerService ORDER BY paid_amount DESC,user_id;',0),
+('R15','hub_staff_demo',N'SELECT TOP(1) password_hash FROM dbo.Users;',229),
+('R16','hub_user_1',N'SELECT TOP(1) email FROM dbo.v_CustomerService;',229),
+('R17','hub_manager_demo',N'IF (SELECT COUNT(*) FROM dbo.v_CustomerService)<>40 THROW 51217,N''Manager service view mismatch'',1;',0);
 GO
 DECLARE @case VARCHAR(4),@actor SYSNAME,@stmt NVARCHAR(MAX),@want INT,
         @got INT,@msg NVARCHAR(4000),@switched BIT,@pass_count INT=0,
@@ -126,12 +138,17 @@ END;
 CLOSE role_cases;
 DEALLOCATE role_cases;
 DROP TABLE #RoleCases;
-IF @pass_count<>13 THROW 51297,N'Expected 13 role PASS cases',1;
+IF @pass_count<>17 THROW 51297,N'Expected 17 role PASS cases',1;
 IF @@TRANCOUNT<>0 THROW 51296,N'Open transaction after role tests',1;
 GO
 EXECUTE AS USER='hub_staff_demo';
-PRINT N'R14 Staff permissions on queue view';
+PRINT N'R14 Staff permissions on queue view and customer service view';
 SELECT * FROM sys.fn_my_permissions('dbo.v_StaffOrderQueue','OBJECT');
+SELECT * FROM sys.fn_my_permissions('dbo.v_CustomerService','OBJECT');
+REVERT;
+PRINT N'R15 Staff permissions on dbo.Users base table (expect no SELECT)';
+EXECUTE AS USER='hub_staff_demo';
+SELECT * FROM sys.fn_my_permissions('dbo.Users','OBJECT');
 REVERT;
 
 IF EXISTS(
@@ -157,5 +174,5 @@ REVERT;
 IF COALESCE(@can_impersonate,0)<>0 THROW 51292,N'Customer can impersonate another user',1;
 IF USER_NAME()<>N'dbo' THROW 51293,N'Execution context not dbo at script end',1;
 IF @@TRANCOUNT<>0 THROW 51294,N'Open transaction at role script end',1;
-PRINT N'PASS R01-R13 role cases and permission audit';
+PRINT N'PASS R01-R17 role cases and permission audit';
 GO
