@@ -97,5 +97,5 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 - [第四周原始任务书](docs/requirements/week4.docx) 与 [要求映射](docs/requirements/README.md)
 - [SQL 说明](sql/README.md)、[阶段报告](report/stage_report.md)、[角色流程](report/role_workflow.md)
 - [结果证据](result/README.md)、[复现说明](docs/reproduction.md)
-- [AI 日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md)、[修复记录](ROADMAP.md)
+- [ai使用文档（第四周提交正文）](docs/ai使用文档.md)、[AI 详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md)、[修复记录](ROADMAP.md)
 - [历史材料与迁移映射](archive/README.md)
