@@ -1,7 +1,7 @@
 # 第一阶段 v0.1 阶段报告
 
 > 项目：API Token 中转站数据库　阶段：第一阶段（v0.1）
-> 环境：SQL Server 2025 Express 17.0.1000.7 / `localhost\SQLEXPRESS` / Windows 身份验证
+> 环境：SQL Server 2025 Express 17.0.1135.8 / `localhost\SQLEXPRESS` / Windows 身份验证
 > 正式脚本：[`sql/`](../sql/README.md)　复现入口：[`tools/run_v01.ps1`](../tools/run_v01.ps1)
 
 ## 一、设计思路
@@ -55,7 +55,7 @@
 
 `Inventory` 关联 `UpstreamAccount` 而不是 `Products`，因为库存表示的是“上游账号还剩多少可用 Token”，产品只是销售层套餐。`Orders.total_tokens` 与 `OrderDetails.total_tokens` 是受控冗余：前者是订单汇总，后者是明细分项，`verify.sql` 会逐订单核对两者一致。
 
-字段类型的选择也有明确理由：金额一律用 `DECIMAL(10,2)` 而非 `FLOAT`，避免浮点近似误差累积；中文业务文本（商品名、错误描述、员工姓名）用 `NVARCHAR`；时间戳统一 `DATETIME2(0)`；`Roles.permissions` 用 `NVARCHAR(MAX)` 承载 JSON 并配 `ISJSON` CHECK；`password_hash` 定长 60 字符以容纳真实 bcrypt 格式；API Key 列存 `DEMO_NOT_A_REAL_API_KEY_*` 占位符，真实密钥不入库。
+字段类型的选择也有明确理由：金额一律用 `DECIMAL(10,2)` 而非 `FLOAT`，避免浮点近似误差累积；中文业务文本（商品名、错误描述、员工姓名）用 `NVARCHAR`；时间戳统一 `DATETIME2(0)`；`Roles.permissions` 用 `NVARCHAR(MAX)` 承载 JSON 并配 `ISJSON` CHECK；`password_hash` 最多 60 字符以容纳真实 bcrypt 格式；API Key 列存 `DEMO_NOT_A_REAL_API_KEY_*` 占位符，真实密钥不入库。
 
 ### 4. 实体关系图
 
@@ -269,7 +269,7 @@ C12～C14 是本轮补充的三个反例，用来证明候选码与 JSON 域约�
 
 | 角色 | 允许 | 明确禁止 |
 |---|---|---|
-| `hub_manager` | 14 张业务表 CRUD、全部视图 | CREATE TABLE、CONTROL、db_owner、sysadmin |
+| `hub_manager` | 14 张业务表 CRUD、7 个共享视图 | CREATE TABLE、CONTROL、db_owner、sysadmin |
 | `hub_staff` | 经营视图（订单明细、销量、会员消费、库存、客服视图）；仅更新 `v_StaffOrderQueue.status` | 直接改商品价格、任意基表 CRUD、读取 `dbo.Users` 密码哈希 |
 | `hub_customer` | 商品目录、本人订单/余额/用量 | 读取 Orders/TokenBalances/UpstreamAccount/Users 等基表、读取客服视图 |
 | `hub_guest` | 在售商品目录 | 订单和个人数据 |
@@ -308,90 +308,53 @@ C12～C14 是本轮补充的三个反例，用来证明候选码与 JSON 域约�
 
 ## 二、实验过程
 
-### 1. 第 1～2 周：业务与模式设计
+### 1. 第一至四周成果与目录
 
-第 1 周确定 API Token 中转站经营场景、四类角色、交易闭环和数据边界。第 2 周把业务实体转成 14 张关系表，定义字段类型、主码、候选码、外码、样例元组和关系说明。
+第一周确定 Token 中转经营场景、角色与数据边界；第二周形成 14 表关系模式、属性和键；第三周完成 SQL Server 建库、样例和 CRUD；第四周完成多表查询、统计视图、约束和角色授权。
 
-### 2. 第 3 周：DDL、样例数据与 CRUD
+各周原始过程材料保留在 [archive](../archive/README.md)。正式交付只使用根 sql、tools、report、docs 和 result；正式生成器不依赖归档材料。第四周要求逐条映射见 [任务书索引](../docs/requirements/README.md)。
 
-第三周使用 SQL Server 2025 Express 落地 14 张表。`datagen.py` 使用固定随机种子生成业务相关样例数据，并自检订单金额、Token、余额、库存和外键关系。商品、库存和订单均完成 INSERT / SELECT / UPDATE / DELETE，演示写操作最终回滚，不污染基线。
+### 2. 2026-10-02 修复过程
 
-第三周的两个补充脚本在第四周并入正式流水线，对应关系如下：
+审查发现旧数据有 20 个订单、402 次调用早于注册；225 次调用晚于账号到期；用户 32 的调用发生在首次付款前，导致一次历史余额 -2000。旧验收只检查最终余额，未捕获业务时间错误。
 
-| 第三周脚本 | v0.1 中的位置 | 变化 |
-|---|---|---|
-| `week3/sql/04_constraint_demo.sql` | `sql/constraint.sql` C05（负价格）、C06（非法 `Orders.user_id`） | 改为表驱动用例驱动器，逐条比对预期错误号与命中的约束名；并扩展到 C01～C14 |
-| `week3/sql/05_consistency_check.sql` | `sql/verify.sql` VFY02、VFY05 | 订单汇总、库存与流水对账改用可参数化的 `USE [$(DatabaseName)]`；补足孤儿订单与余额对账 |
-| `week3/sql/12_reproduction.sql` | `tools/run_v01.ps1` + `sql/signature.sql` | 全自动空库重建 + SHA-256 签名比较，替代人工比对 |
+修复将注册时间安排到最早订单前，按 paid_at 的累计到账额度安排消费，调用遇到已到期账号时改用同 provider 的有效账号。保留金额和 Token 总量，不为保留旧签名迁就错误数据。当前快照 suspended/expired 状态不用于推断过去状态，账号有效期按创建和到期时间核对。
 
-第三周遗留问题中，“`Orders` 缺 paid 与 `paid_at` 的列间 CHECK”已在第四周作为 `CK_Orders_payment_time` 落地；“一致性校验依赖内连接”已改为双向 `EXCEPT` 与视图/基表对账。
+新增 VFY12 检查注册、账号有效期与 provider；VFY13 用窗口累计和检查每个充值/消费事件余额。同秒付款先到账再扣款。VFY03 逐表逐权限检查四项 CRUD，VFY14 通过演示用户上下文检查实际基表权限，防止用户直接授权绕过仅检查角色的旧逻辑。
 
-### 3. 第 4 周：查询与视图
+证据脚本改为对结果、错误号、必要约束名和回滚恢复进行断言；不再无条件打印 PASS。截图工具检查 sqlcmd 失败并将实际输出控件分页，完整日志另存。首次控件捕获因未完成显示布局生成空白图，视觉检查发现后改为屏幕外显示、完成布局再捕获；该尝试保留在 archive/implementation-attempts。
 
-`sql/query.sql` 实现 Q01～Q12，覆盖 INNER JOIN、LEFT JOIN、GROUP BY、HAVING、NOT EXISTS、CTE、子查询与按 provider 聚合。关键实测结果：
+最终 22 个回归测试、ruff 检查与格式检查通过。生成器与 SQL 回归分别注入错误样例、缺权限和直接用户授权，确认指定错误能被捕获，之后回滚反例。修复原因和预防规则同步进入 [ROADMAP](../ROADMAP.md)、[CLAUDE](../CLAUDE.md) 及 [AI 日志](../docs/ai_usage_log.md)。
 
-- Q01 订单明细 184 行；Q02 已支付商品 10 个、总件数 191、销售额 4228.90；Q05 找出 14 个没有 paid 订单的会员；Q04 有 13 人消费至少 100 元。
-- Q09 在事务内临时插入一个阈值边界账号，`v_InventoryStatus` 立刻把它判为 `stock_state='low'`，随后回滚，基线数据不变。
-- Q10 用同一份聚合结果对照两种连接写法：商品 INNER/LEFT 都是 10 行（样例数据里每个商品都有销量），会员 INNER 是 26 行、LEFT 是 40 行，直观说明 INNER JOIN 会丢掉没有 paid 订单的会员。
-- Q11 从 `UsageSummary` 汇总日粒度与月粒度用量；Q12 按上游账号统计消耗/采购/补货净额，消耗合计 7248120 与 `TokenUsageLogs.upstream_tokens` 一致。
+### 3. 实际运行与结果
 
-`sql/view.sql` 创建 10 个视图：4 个经营统计视图（`v_OrderDetail` 184 行、`v_ProductSales` 10 行、`v_MemberSpending` 40 行、`v_InventoryStatus` 8 行）、商品目录 `v_ProductCatalog`、客服视图 `v_CustomerService`（40 行）、会员隔离视图 `v_MyOrders`/`v_MyBalances`/`v_MyUsage`、店员工作队列 `v_StaffOrderQueue`。
+本机 SQL Server Express 17.0.1135.8 使用 Windows 集成认证。两个新空库 TokenHubDB_v01_FinalA、TokenHubDB_v01_FinalB 完整执行当前版本，日志见 [result](../result/README.md)。
 
-`v_InventoryStatus` 把“账号可用性”和“额度水位”拆成两个字段：`account_state`（usable/unusable，考虑 `status` 与 `expires_at`）和 `stock_state`（low/normal，只比较 `current_quota` 与 `safety_threshold`），并给出 `quota_headroom`。拆分的原因是早期版本用单个 `stock_state` 混装状态值，账号过期会把“低库存”显示成“过期”，补货判断会被误导。
+| 项目 | 实测结果 |
+|---|---|
+| 业务表 / 视图 / 数据库角色 / 演示用户 | 14 / 10 / 4 / 5 |
+| 用户 / 订单 / 明细 / 调用 | 40 / 100 / 184 / 3000 |
+| paid 订单 / 销售额 / Token | 85 / 4228.90 / 92950000 |
+| 完整性 / 权限 / 综合验收 | C01～C14 / R01～R17 / VFY01～VFY14 全部 PASS |
+| 注册前订单 / 注册前调用 / 到期后消费 / 历史负余额 | 0 / 0 / 0 / 0 |
+| 两库业务内容签名 | 14 表一致 |
+| 证据 | 22 组 SQL 与日志，26 张分页输出控件截图 |
 
-### 4. 第 4 周：约束与权限
-
-`constraint.sql` 先盘点现有约束，再新增 3 个跨列 CHECK，并通过 C01～C14 逐条执行正反例。只有错误号和必要的约束名符合预期才算 PASS，避免“只要报错就算成功”。C12/C13/C14 覆盖候选码与域约束的反例：重复的 (`model_provider`,`token_amount`) 返回 2627、同一订单重复商品行返回 2627、非法 JSON 权限串返回 547。
-
-`role.sql` 创建 4 个数据库角色和 5 个 WITHOUT LOGIN 演示用户，逐项执行 R01～R17。实际验证访客、店员、会员和店长的允许/禁止操作，并确认会员相互隔离、会员与店员没有基表权限、没有固定高权限角色成员关系、public 没有业务对象授权。
-
-### 5. 综合验收与空库复现
-
-`verify.sql` 执行 VFY01～VFY11：逐表行数、订单与库存总量、视图行数、会员集合、商品/会员视图逐行比对、余额逐用户/provider 对账、UsageSummary 三种粒度逐键比对，以及零销量/低库存边界正例。本轮补充的断言包括：低库存分类与基表推导结果必须一致且至少命中一行、`quota_headroom` 逐账号核对、会员与游客不得拥有任何写权限、会员与店员不得拥有任何基表权限、店长对 14 张表的 CRUD 授权必须齐全。
-
-`tools/run_v01.ps1` 从空库按 `00 → 01 → 02 → 03 → view → query → constraint → role → verify → signature` 顺序执行（视图先于查询，Q09 才能引用视图）。
-
-2026-10-01 在 `localhost\SQLEXPRESS` 实际构建 `TokenHubDB_v01_A`、`TokenHubDB_v01_B`、`TokenHubDB_v01_C` 三个全新数据库，三次均全项通过；`signature.sql` 对 14 张表完整内容计算 SHA-256，A/B/C 的 `signature.txt` 逐字节完全一致。本轮修订没有改动 `sql/01_create_tables.sql` 与 `sql/02_insert_data.sql`，只涉及视图、查询、约束用例、权限和验收脚本，因此 14 张基础业务表的数据口径保持不变。
-
-### 6. 结果截图与证据
-
-`result/screenshots/` 保存 12 张真实 SQL Server 执行截图，覆盖成功建库、三组 CRUD、多表查询、销售/会员统计、统计视图、合法与非法完整性用例、不同角色权限、会员隔离和 A/B 双空库签名比较。每张截图都可追溯到 `result/evidence_sql/` 和 `result/evidence_logs/`。
-
-主流水线原始日志保存在 `result/run_A/`、`result/run_B/`、`result/run_C/`。第三周的人工测试记录以 PDF 形式保存在 `result/第3周人工测试演示结果.pdf`。截图和日志分别证明“结果可视化”和“执行过程可追溯”，避免只依赖单一证据。
+Q01～Q12 成功执行，经营结果与独立验收对账。Q06 可用低库存账号为 0；库存视图纯额度低于阈值的账号为 2。两者筛选不同。Q11 最近 14 天与全周期月汇总是不同窗口，完整日/月汇总才用于总量对账。Q12 当前最高消耗账号为 8，旧账号 7 的结果属于修复前版本。
 
 ## 三、实验总结
 
-第一阶段 v0.1 已经把业务需求、关系模式、DDL/CRUD、查询、视图、完整性和权限串成一套可以从空数据库重复执行的原型。相较于仅验证 SQL 能运行，本阶段进一步使用自动断言、预期错误号、逐行/逐键对账和内容签名来验证结果是否正确。
+当前成果覆盖任务书要求的查询、视图、完整性、角色授权、结果证据和从空库复现。此次修复补充了“最终总量一致”之外的时间与过程验证，也证明权限缺项、直接用户授权和错误样例会被实际验收拒绝。
 
-实际最终状态：14 张业务表、10 个视图、4 个数据库角色、5 个演示用户、3 个第四周新增跨列 CHECK；已支付订单 85 个，已支付销售额 4228.90，已支付 Token 92950000。Q01～Q12、C01～C14、R01～R17、VFY01～VFY11 均通过。
+当前局限包括：样例是合成数据；库存状态为固定历史快照；WITHOUT LOGIN 用户用于课程演示；跨表规则通过验收检测，后续真实事务必须在存储过程或相应事务逻辑中即时维护。第一周会员下单、支付、修改资料以及店员退款职责在本阶段尚未完整实现，不以开放任意基表写权限代替这些工作。
 
-执行过程中实际发生的修正（均可在日志中复现）：
-
-1. 权限异常在 `XACT_ABORT ON` 事务中需要先 ROLLBACK 再 REVERT，否则报 3930；修正后 R 用例全部通过。
-2. VFY06 原计划 CTE 后直接接 IF，在 SQL Server 中报 156 语法错误，改为表变量加双向 `EXCEPT` 后通过。
-3. `signature.sql` 独立执行时无法确定目标库，补 `USE [$(DatabaseName)]`；该语句会让 `sqlcmd` 额外打印一行本地化的“更改了数据库上下文”提示，导致不同库名的签名文件无法直接比较，因此 `run_v01.ps1` 现在只保留 `表名|行数|哈希` 三段式行，签名文件可跨库名逐字节比较。
-4. 早期 `v_InventoryStatus` 把账号状态写进 `stock_state`，低库存账号显示为“过期/耗尽”，Q06 结果恒为空；拆成 `account_state` 与 `stock_state` 后补货判断可依据 `quota_headroom`，并新增 Q09 边界用例。
-
-当前局限：
-
-- 数据是固定随机种子的合成数据，不代表真实客户或真实商业报价；库存状态使用固定样例快照 `2026-09-22 23:59:59`，不是实时监控。
-- WITHOUT LOGIN 用户与 `USER_NAME()` 映射用于课程权限演示，不是生产级身份体系。
-- 会员下单、支付与修改本人资料的真实注册/支付/退款/充值/补货事务和并发控制，需在第三阶段以存储过程实现。
-- `result/screenshots/` 的 PNG 抓屏于 2026-09-30、修改前的脚本版本；本轮新增的 Q09～Q12、C12～C14、R14～R17 目前只有 `result/run_*/` 原始日志，没有对应截图。
-
-总体上，v0.1 已满足第一阶段从“业务设计”到“可复现数据库原型”的目标，并为下一阶段事务、存储过程、并发控制和应用接入保留了稳定数据基线。
+第二名成员独立复现尚未登记，自动化多库验证不等于团队独立复核。
 
 ## 四、证据位置
 
-| 内容 | 位置 |
-|---|---|
-| 第一、二周设计 | 过程材料 `week1 & 2/`（不随提交包提供） |
-| 第三周历史实现 | 过程材料 `week3/`（不随提交包提供）；人工测试记录见 `result/第3周人工测试演示结果.pdf` |
-| 第四周交付清单与实施计划 | 过程材料 `week4/week4_deliverables.md`、`week4/week4_plan.md` |
-| 正式阶段 SQL | [`sql/`](../sql/README.md) |
-| 自动运行与签名 | `result/run_A/`、`result/run_B/`、`result/run_C/` |
-| 结果截图与证据 SQL | [`result/`](../result/README.md)、[`result/screenshots/`](../result/screenshots/README.md) |
-| 角色权限流程图 | [`role_workflow.md`](role_workflow.md) |
-| 实体关系图与知识导图 | 本报告第 1 节第 4、7 小节 |
-| AI 使用记录 | [`ai_usage_log.md`](../ai_usage_log.md) |
-| 分工记录 | [`team_division.md`](../team_division.md) |
+- [SQL 入口](../sql/README.md)、[复现说明](../docs/reproduction.md)
+- [原始任务书与要求映射](../docs/requirements/README.md)
+- [执行日志与截图](../result/README.md)、[截图索引](../result/screenshots/README.md)
+- [角色流程与权限矩阵](role_workflow.md)
+- [AI 日志](../docs/ai_usage_log.md)、[组内分工](../docs/team_division.md)
+- [各周历史材料](../archive/README.md)

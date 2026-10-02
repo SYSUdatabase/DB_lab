@@ -1,9 +1,9 @@
-param(
+﻿param(
     [string]$Server = 'localhost\SQLEXPRESS',
     [ValidatePattern('^TokenHubDB_v01(?:_[A-Za-z0-9]+)?$')]
-    [string]$DatabaseName = 'TokenHubDB_v01_A',
+    [string]$DatabaseName = ('TokenHubDB_v01_' + [guid]::NewGuid().ToString('N').Substring(0,12)),
     [ValidatePattern('^[A-Za-z0-9_]+$')]
-    [string]$RunLabel = 'run_A',
+    [string]$RunLabel = ('run_' + [guid]::NewGuid().ToString('N').Substring(0,12)),
     [switch]$DropExisting
 )
 $ErrorActionPreference = 'Stop'
@@ -17,7 +17,6 @@ if ($DropExisting) {
     & sqlcmd -S $Server -d master -E -C -b -f 65001 -Q $dropSql
     if ($LASTEXITCODE -ne 0) { throw "FAILED to drop $DatabaseName" }
 }
-New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 $files = @('00_create_database.sql','01_create_tables.sql','02_insert_data.sql',
            '03_crud_demo.sql','view.sql','query.sql','constraint.sql','role.sql','verify.sql')
 foreach ($name in $files) {
@@ -27,6 +26,8 @@ foreach ($name in $files) {
 if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'sql/signature.sql'))) {
     throw 'Missing script: sql/signature.sql'
 }
+Get-Command sqlcmd -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Path $outDir | Out-Null
 Start-Transcript -Path (Join-Path $outDir 'console.log') | Out-Null
 try {
     foreach ($name in $files) {

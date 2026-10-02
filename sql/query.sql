@@ -83,6 +83,7 @@ ORDER BY t.task_id;
 GO
 PRINT N'Q09 Low quota detection with a boundary case inside a rolled-back transaction';
 SET XACT_ABORT ON;
+DECLARE @baseline_accounts INT=(SELECT COUNT(*) FROM dbo.UpstreamAccount);
 BEGIN TRY
     BEGIN TRANSACTION;
     INSERT dbo.UpstreamAccount(provider,account_name,api_key,total_quota,
@@ -101,6 +102,8 @@ BEGIN TRY
     JOIN dbo.v_InventoryStatus v ON v.account_id=a.account_id
     WHERE i.current_quota<a.safety_threshold
     ORDER BY a.account_id;
+    IF NOT EXISTS(SELECT 1 FROM dbo.v_InventoryStatus WHERE account_id=@probe_account AND stock_state='low')
+        THROW 51402,N'Low quota boundary missing',1;
     ROLLBACK TRANSACTION;
 END TRY
 BEGIN CATCH
@@ -108,6 +111,9 @@ BEGIN CATCH
     THROW;
 END CATCH;
 IF @@TRANCOUNT<>0 THROW 51401,N'Open transaction after Q09',1;
+IF (SELECT COUNT(*) FROM dbo.UpstreamAccount)<>@baseline_accounts
+ OR EXISTS(SELECT 1 FROM dbo.UpstreamAccount WHERE account_name=N'Q09低库存边界')
+    THROW 51403,N'Q09 baseline not restored',1;
 PRINT N'Q09 boundary rows rolled back; baseline data unchanged';
 GO
 PRINT N'Q10 INNER JOIN versus LEFT JOIN row counts';
@@ -130,7 +136,7 @@ SELECT 'members LEFT JOIN',COUNT(*)
 FROM dbo.Users u
 LEFT JOIN (SELECT DISTINCT user_id FROM dbo.Orders WHERE status='paid') s ON s.user_id=u.user_id;
 GO
-PRINT N'Q11 Usage trend from UsageSummary';
+PRINT N'Q11 Usage trend: latest 14 daily rows, then all monthly buckets';
 SELECT TOP 14 period_start AS usage_day,
        SUM(total_tokens_used) AS tokens_used,
        SUM(total_upstream_consumed) AS upstream_consumed,

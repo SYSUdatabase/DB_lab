@@ -1,0 +1,884 @@
+[
+  {
+    "original": "result/README.md",
+    "archived": "archive/evidence/2026-10-01/README.md",
+    "sha256": "26f6a18fb13356f6549d4bd844c8959a4bf00c7364204a022f0a8fafa21ad056",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/01_database_tables.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/01_database_tables.log",
+    "sha256": "63ce891761ee803658c3c00a7f0765a6c45a1557740f9eb8c6d7fac0b8121a05",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/02_crud_products.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/02_crud_products.log",
+    "sha256": "98fe04bb84b83f0bdd266edc0d5507a9ace8bfb7877f3347e97315691db20200",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/03_crud_inventory.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/03_crud_inventory.log",
+    "sha256": "1a2bc8d3412a6f79372c6d886453a72073e65848aa3de1d4e1c08b0183acbd2a",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/04_crud_orders.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/04_crud_orders.log",
+    "sha256": "549574bac4a6e2934e9dc3d517613c9b501ef512ba9bcb2a1b6db5c319475b5b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/05_join_query.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/05_join_query.log",
+    "sha256": "728998192090806a53873f58a3962dddd13c05e867a1c1de5aae1fdb32e5ae7b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/06_sales_members.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/06_sales_members.log",
+    "sha256": "41efcff49ed6e2a8b6dafab9a305485b198490d7a7ae1b15df6fd289fa8c123c",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/07_statistical_views.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/07_statistical_views.log",
+    "sha256": "716271a5110d3588385ef8f5e31da45fcaf8f8fecfa5ece27d16b0e8fa1934f0",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/08_constraint_legal.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/08_constraint_legal.log",
+    "sha256": "e6f4dc0678b743b3896b8aad1b8ee7b3570fd3eec51584810d709cf6def13987",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/09_constraint_illegal.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/09_constraint_illegal.log",
+    "sha256": "eb63a712027abfa7d1da24940cea5e005d89083a39c85903d331e49ab3316e3d",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/10_role_allowed_denied.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/10_role_allowed_denied.log",
+    "sha256": "c423a9ab0fb1f73343170b4ed5e90fd3bce4ef963c3dc85ef1a96ac51de99c6e",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/11_customer_isolation.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/11_customer_isolation.log",
+    "sha256": "85ed0896e100d0cfafae758426a9ce6d2faa56f4d0e37b9baf34522ac35a0ab7",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/12_reproduction.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/12_reproduction.log",
+    "sha256": "1db5dbb4234be66168e8fba57bead74948a3150c5487afd4ea9366c028e1c637",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/13_customer_service.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/13_customer_service.log",
+    "sha256": "c83a290917f18f0755fe178dbc16a4eef1b6377410869fe7f1f6522d899ebdb1",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/14_inventory_states.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/14_inventory_states.log",
+    "sha256": "730bfd0c8c452b95f61762e424f6604d479eb6a50c02dde870e2e283886a95ab",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/15_q09_low_stock.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/15_q09_low_stock.log",
+    "sha256": "a704dc2896428a5493923ea5faf91ddb8ba295eeb59de6a50ab900858e1cf435",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/16_q10_join_contrast.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/16_q10_join_contrast.log",
+    "sha256": "5589b8538df41709f843903c8a282a660f5ea07dce95e79a0750a7093f46f42c",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/17_q11_usage_trend.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/17_q11_usage_trend.log",
+    "sha256": "e04534830fbfbdcbb6d01803daf048718654507ca2ba034cb4b5caa8b8c2a9c4",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/18_q12_consumption.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/18_q12_consumption.log",
+    "sha256": "00839e5833f7ff842374b73e99393f31e1c82ecf838c039abd6401bfbe45fd20",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/19_constraint_c12_c13.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/19_constraint_c12_c13.log",
+    "sha256": "1becbd11a7aa3e83ee124d1f3fb540b52390f23a78633084893ad95d98f4f4b2",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/20_constraint_c14_json.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/20_constraint_c14_json.log",
+    "sha256": "5dd8b99b6f5540b1574f832c291990f7856f29e0dedbe87be651ca1c8a60bd4d",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/21_verify_all_pass.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/21_verify_all_pass.log",
+    "sha256": "1bf6ac19ed1f7b89402d40b3b9f479e6d732a5d6139522f965d00cf48f986d3d",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_logs/22_three_db_signature.log",
+    "archived": "archive/evidence/2026-10-01/evidence_logs/22_three_db_signature.log",
+    "sha256": "97ad86607ec44cb050c31529ac3d769f6fdc9b363b96da3611024bd7bd84ee1f",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/01_database_tables.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/01_database_tables.sql",
+    "sha256": "63f6220484a03a4d881c65defd619060b1a27812ea4da0b0e7fbfab547c78616",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/02_crud_products.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/02_crud_products.sql",
+    "sha256": "fbab052867397f12941eecfee453c0fd84de987e34446d12027cb480ab3423e2",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/03_crud_inventory.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/03_crud_inventory.sql",
+    "sha256": "872d473511b7b484a093e943d5a40228977825821bb4683077bdbd45a1c2a3b9",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/04_crud_orders.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/04_crud_orders.sql",
+    "sha256": "44d5f8abbe5504a911f99f7949e61a8fc68bcaa5277db10caf7ed5601195ea93",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/05_join_query.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/05_join_query.sql",
+    "sha256": "faf4b5a1d46cae0cf5ce42a5a77c61e751e30f4dd44f61269de9efb63d8e35d4",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/06_sales_members.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/06_sales_members.sql",
+    "sha256": "90d4c29f6f3c1cad861ca5b25340f71776c138aa7f94940348711156d7c65dbf",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/07_statistical_views.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/07_statistical_views.sql",
+    "sha256": "266bea6aa2a0977ab777cdecef66310213bf495c1a213dc0a4ca0ee92d20d061",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/08_constraint_legal.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/08_constraint_legal.sql",
+    "sha256": "378c8f02d38b03a58f35d31dab80e17c26c3426c9145290884e38f4f7caffcbd",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/09_constraint_illegal.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/09_constraint_illegal.sql",
+    "sha256": "6df926ab6868e585967eaa12548f493a96e5bcc024ceb37a19e757706cfe4d49",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/10_role_allowed_denied.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/10_role_allowed_denied.sql",
+    "sha256": "72e63c9828c60e47e542291bdd6025f9db68321807bc4c20f645292786289157",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/11_customer_isolation.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/11_customer_isolation.sql",
+    "sha256": "3e252f7e0f0c01d237c06b8958f887cbd8eddc6529e248f3233939e67b59cedf",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/12_reproduction.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/12_reproduction.sql",
+    "sha256": "df35c01dc6ff310fccb2760136ebb6bdd0cf814faad646d39df98a4e214a72bb",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/13_customer_service.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/13_customer_service.sql",
+    "sha256": "8abf3730a74a2744ae612d7acba23c39360268ccbcfda507e7b7169f79172eb8",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/14_inventory_states.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/14_inventory_states.sql",
+    "sha256": "65f05bc2fcf4f6f13516df88342c6160d265a502d28283d5c201fa0560af55a3",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/15_q09_low_stock.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/15_q09_low_stock.sql",
+    "sha256": "0267d7a89b9526ac2f9e8d943eb38180b90fee035c6b792e014f5ddb916a0cf5",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/16_q10_join_contrast.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/16_q10_join_contrast.sql",
+    "sha256": "377d0169e82167eacfdf833cfac1a9297eb660de455aa430c53e0ad1760c0657",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/17_q11_usage_trend.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/17_q11_usage_trend.sql",
+    "sha256": "52a6cd4e7ab3860655bf50f84358bbbc14a20227d24138d62238ab2be650b1b1",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/18_q12_consumption.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/18_q12_consumption.sql",
+    "sha256": "bf9d57c9715e7e8f1d017326ba21d6ef094c949c91ea97b0bfb425acf0d46fb0",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/19_constraint_c12_c13.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/19_constraint_c12_c13.sql",
+    "sha256": "edc62f1fe3c82f22f3e56223a83ac54f21cad7ac2f3cd7e31c9e3e05e220d643",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/20_constraint_c14_json.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/20_constraint_c14_json.sql",
+    "sha256": "a3d99124504b88c4911a01916d3e6d709dbcbdbc4a98f922d4263287058922cf",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/evidence_sql/22_three_db_signature.sql",
+    "archived": "archive/evidence/2026-10-01/evidence_sql/22_three_db_signature.sql",
+    "sha256": "c163f507aa0cfdb89644eabac78718d96163df08d8ebf8dac7b84544f95afebc",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/00_create_database.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/00_create_database.sql.log",
+    "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/01_create_tables.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/01_create_tables.sql.log",
+    "sha256": "acc5947c601926e2699102c4e578eb627a04cd0fe73198a83b523b5c4b4e5b8a",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/02_insert_data.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/02_insert_data.sql.log",
+    "sha256": "a79705267625acfb360d4d71be077c1c48066cd18b67f8518eb257e029bdd7ab",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/03_crud_demo.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/03_crud_demo.sql.log",
+    "sha256": "34b94cb51c1a9dff9ef3a0a525df5b0955aa1dc80f0d75341eb0469c4b34b976",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/console.log",
+    "archived": "archive/evidence/2026-10-01/run_A/console.log",
+    "sha256": "5429cff65052379970ac8e96fbc54f749e7f00905433c176ea8eb0b42a9f70ad",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/constraint.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/constraint.sql.log",
+    "sha256": "f3ade7aef94fd638144743ba720f8e6e29796b173d1ea09d746d1604033f6e70",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/query.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/query.sql.log",
+    "sha256": "05fe8bf94aafba4b9ac3b7e91d433dc972b2efd4881475efcf1335ed34fc2a8f",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/role.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/role.sql.log",
+    "sha256": "de984aacf5fc58c51583c5ee4c3b97d51052baaf40cbd7906daf1c743f636157",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/signature.txt",
+    "archived": "archive/evidence/2026-10-01/run_A/signature.txt",
+    "sha256": "2979d58866fb2adcd8c7b2d0f2b53eb39ee455be24c3c7518adf63d70b29cb61",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/verify.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/verify.sql.log",
+    "sha256": "2e47e15d747441253f036e7a4bc5326ceeabe240f083be99569d53295c4357c2",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_A/view.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_A/view.sql.log",
+    "sha256": "0cc67826341e1a0a9852edf04cd4df2b0a409d9b82bb908349dbe51778149372",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/00_create_database.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/00_create_database.sql.log",
+    "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/01_create_tables.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/01_create_tables.sql.log",
+    "sha256": "8be7f2ff96c13faa3a19e06d524f90bbd940d6153c564c715cb5b906b13c7451",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/02_insert_data.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/02_insert_data.sql.log",
+    "sha256": "806422b7d28c28ae64ab00b66acc868a14ee02d91d0f77f117ba2e98c642d9db",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/03_crud_demo.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/03_crud_demo.sql.log",
+    "sha256": "1b22b37366ba57a6dd23d311983279c137507ac92fb67b448106f7321c3ab522",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/console.log",
+    "archived": "archive/evidence/2026-10-01/run_B/console.log",
+    "sha256": "015c391ed69a3cd5cdfaf5b0252be38c4f97ea553af63f794e5fb505af6f48cf",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/constraint.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/constraint.sql.log",
+    "sha256": "c4bf6872fd1427d0e48e214ae008364714d24b852c4caaab6f06b17dc0ecc115",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/query.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/query.sql.log",
+    "sha256": "467fd50d9f728be1bc26cc760bdc75ad0f1931bb4c2cfa8ef2358075184d78b5",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/role.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/role.sql.log",
+    "sha256": "40330e04dcd08c9c87b617bd02ca06ecde2c51dd85eea6e67bb92dd05d48d7a1",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/signature.txt",
+    "archived": "archive/evidence/2026-10-01/run_B/signature.txt",
+    "sha256": "2979d58866fb2adcd8c7b2d0f2b53eb39ee455be24c3c7518adf63d70b29cb61",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/verify.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/verify.sql.log",
+    "sha256": "2d246a289b678aac9c4849bebe0e6d6f5061d3354506dc8cc66d3e6d693b1344",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_B/view.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_B/view.sql.log",
+    "sha256": "921696a5d074d689d20c375c5ecb057e375a8137a5820f9d25d2d0c1cc685b7b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/00_create_database.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/00_create_database.sql.log",
+    "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/01_create_tables.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/01_create_tables.sql.log",
+    "sha256": "d75fd5e1a29d2bf35198236e98a03258e20a99be9ad5a17f811e86ae0eeaf1c9",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/02_insert_data.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/02_insert_data.sql.log",
+    "sha256": "2dfc328f3d293a10c60ddfa7c778a4690b49bb21229d8412816030fbd7dccb26",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/03_crud_demo.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/03_crud_demo.sql.log",
+    "sha256": "bb55b1cf93b9ae75eb79513f8e25a789d714a2d3dc000e3e1b5a7e51f11f9d55",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/console.log",
+    "archived": "archive/evidence/2026-10-01/run_C/console.log",
+    "sha256": "d07e378f0ad8c644e71f599e8fd6c3f0deebc1254cb0df5b70053bbc8d5b6549",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/constraint.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/constraint.sql.log",
+    "sha256": "4befb735866874a94c382ef7e81681657cef45b3fcb46cc316d0617f0810f80e",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/query.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/query.sql.log",
+    "sha256": "957b8bdd91f503b53bd35b47db067dba8321285b6bc081362d179a8e5f343aba",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/role.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/role.sql.log",
+    "sha256": "244d8942b80c2895d72783d66373a72acb5f45af146f9c6aa1160b701ffc36cc",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/signature.txt",
+    "archived": "archive/evidence/2026-10-01/run_C/signature.txt",
+    "sha256": "2979d58866fb2adcd8c7b2d0f2b53eb39ee455be24c3c7518adf63d70b29cb61",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/verify.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/verify.sql.log",
+    "sha256": "1ad8054dab7cfcaa3cab4c7cb1ad7a40a8b6440a3cc56fb404c483f6d445b5ad",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/run_C/view.sql.log",
+    "archived": "archive/evidence/2026-10-01/run_C/view.sql.log",
+    "sha256": "d92217c88d0cd368ffd13b3d2ac6a5139926630b3d13d2a0f1122fb6c7dbd502",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/01_database_tables.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/01_database_tables.png",
+    "sha256": "af301dc1f0893a4f6a772ab5b5dd51fce0985711ba2219cb537994564b0a945e",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/02_crud_products.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/02_crud_products.png",
+    "sha256": "06683909dc46a3b6e81a4d23ff42dc887571410fbc41c37238ee8d58302422f5",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/03_crud_inventory.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/03_crud_inventory.png",
+    "sha256": "9e92e7bf944bf709fa4e48bbe102d1babf06572d306af2b572858f5fe69f2c3b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/04_crud_orders.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/04_crud_orders.png",
+    "sha256": "7655a999c89d3669428082f7d07795c6f9c77c2862a5f49c9b4917fa740f50f5",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/05_join_query.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/05_join_query.png",
+    "sha256": "900b9e6c7c7f49c45265476cb27d4aa731ca3c75ff0b42b1beb50a8bf6a0db9c",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/06_sales_members.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/06_sales_members.png",
+    "sha256": "b03a79b232d226c41a93fd46392c1dc71dc7ba62550e713c72f701d606e8d5a5",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/07_statistical_views.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/07_statistical_views.png",
+    "sha256": "d6ef517bf4f02f16918a5cdbe76fb47b09f72d09b7fa1764054c29055f551cb7",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/08_constraint_legal.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/08_constraint_legal.png",
+    "sha256": "d204818142a9efa05067237aa2b77b9c26550fd9952fd1f6328620be13c49f09",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/09_constraint_illegal.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/09_constraint_illegal.png",
+    "sha256": "310191f812a7cb1c4eaea5e713eb154e0145a6a006b20196313a3a37e7aeca03",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/10_role_allowed_denied.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/10_role_allowed_denied.png",
+    "sha256": "2dd1d932c7efb8fe7cfb96747376cb03ec2ad9e6568bdef5f9883da4ce440ebf",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/11_customer_isolation.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/11_customer_isolation.png",
+    "sha256": "6dafece64e5cda5a37144dce65f06b3dab3bd1ff31a05816e866434ccab90446",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/12_reproduction.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/12_reproduction.png",
+    "sha256": "aa275042481c523f4cf6f14d12d1c53cf1a9b13d26a03b97c0f12d72c5780581",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/13_customer_service.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/13_customer_service.png",
+    "sha256": "90d38574e9b93dc660ecdda51d130c73724b6494b81b224b6422de8c8b6deb91",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/14_inventory_states.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/14_inventory_states.png",
+    "sha256": "d3e8a3620b0919dda30a5cb06b07a9916fb81279a05c51869ffd568502c33d41",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/15_q09_low_stock.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/15_q09_low_stock.png",
+    "sha256": "da3bec4b4d011ad4d7bcc6e49171e0e9a06667a7bd67e2a85b8cbf2556e55603",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/16_q10_join_contrast.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/16_q10_join_contrast.png",
+    "sha256": "4cc09a9efcb814bb76ccc0095571aca11d946f66ebe2a57ebfbe9c008677d1b0",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/17_q11_usage_trend.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/17_q11_usage_trend.png",
+    "sha256": "819f3e9d3871afe7dd3c10e37f2fe4f2ab8c2c597d68894f91c6611c0ec52039",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/18_q12_consumption.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/18_q12_consumption.png",
+    "sha256": "305f000c3d1098a6ece990b8ccaff661138be998da49a97640bd29416e615643",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/19_constraint_c12_c13.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/19_constraint_c12_c13.png",
+    "sha256": "aa213f8cd9858dbff5560bc124af6e3610fcfbb30f677315e2e072ccc9273862",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/20_constraint_c14_json.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/20_constraint_c14_json.png",
+    "sha256": "5e39251beafc688eb4359a0ed111228f705272409cb16ebe1269cd0ea1370a9a",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/21_verify_all_pass.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/21_verify_all_pass.png",
+    "sha256": "d6f7811c0abdcc34bfd58ab2d43e5a1162158bc67f5b7e8a08b856b237c8bd9b",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/22_reproduction_abc.png",
+    "archived": "archive/evidence/2026-10-01/screenshots/22_reproduction_abc.png",
+    "sha256": "a9d29197236ba0e89510b11d21cb151b78fa320f4f7977a5ad4bf056a130af99",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/screenshots/README.md",
+    "archived": "archive/evidence/2026-10-01/screenshots/README.md",
+    "sha256": "2e777e5f65eded96a94242545267e5ae07af4edde8526c7cdf2c60073f62b4cc",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "result/第3周人工测试演示结果.pdf",
+    "archived": "archive/evidence/2026-10-01/第3周人工测试演示结果.pdf",
+    "sha256": "4cab47d893d2e39d8427b399bdc6141c20afbefce5cc9b1a2f02052be95bbb82",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week1 & 2/ai_usage_log.md",
+    "archived": "archive/coursework/week1-2/ai_usage_log.md",
+    "sha256": "6d31be9f1cc37155f4b9b768d0d1c631ae9facaea9ff8f7e13164c35b74d15de",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week1 & 2/team_division.md",
+    "archived": "archive/coursework/week1-2/team_division.md",
+    "sha256": "064af8122f56e2295cf742805ec7afdea51ff345e2974d5543367d7d5d441277",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week1 & 2/week1_deliverables.md",
+    "archived": "archive/coursework/week1-2/week1_deliverables.md",
+    "sha256": "6a21b19ed2df5d20c9c487688f74df7b3dd787dcb7cd041d63c529f5ceab36bb",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week1 & 2/week2_deliverables_v2.md",
+    "archived": "archive/coursework/week1-2/week2_deliverables_v2.md",
+    "sha256": "4f9e7ac8c1872f04a9e1cf00fe89e7a7ff4ab8bad7ac89c8ccf5ca970e7ae630",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/ai_usage_log.md",
+    "archived": "archive/coursework/week3/ai_usage_log.md",
+    "sha256": "e886803e45a990c3a05a51ed2d7d0868e9a8ba988407d7b49eb619968e8db7df",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/00_create_database.sql",
+    "archived": "archive/coursework/week3/sql/00_create_database.sql",
+    "sha256": "7adc53e12424883970825a503d448cf02544785f9f744b1de9fd93d6fe30a616",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/01_create_tables.sql",
+    "archived": "archive/coursework/week3/sql/01_create_tables.sql",
+    "sha256": "257ccf9f424b1056e36cc1a2ecd22871e9cc309af4bebdce0c69b069d18a66cc",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/02_insert_data.sql",
+    "archived": "archive/coursework/week3/sql/02_insert_data.sql",
+    "sha256": "63011c8ae790a3b5dc33eed2a1a67e995f9bff68b86452e39a2755f14315b7ed",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/03_crud_demo.sql",
+    "archived": "archive/coursework/week3/sql/03_crud_demo.sql",
+    "sha256": "3335386b64003ce521037d8d480255e8a9b7ae67cbdf8731a771f4062bf7b949",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/04_constraint_demo.sql",
+    "archived": "archive/coursework/week3/sql/04_constraint_demo.sql",
+    "sha256": "a82027b8167074a1910ab44c28b9fa554c8dde02893c97bff172dd5acfd5c80e",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/sql/05_consistency_check.sql",
+    "archived": "archive/coursework/week3/sql/05_consistency_check.sql",
+    "sha256": "bfb58df4695ef9d03030876ff22f917421267d6148053bbf2c980fda23f682cd",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/team_division.md",
+    "archived": "archive/coursework/week3/team_division.md",
+    "sha256": "e2a957d87284cdfaa508be39d2b54fa8a29f6a55c80f21f816d7900ab10a7cdc",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/tools/datagen.py",
+    "archived": "archive/coursework/week3/tools/datagen.py",
+    "sha256": "72eea6fc093f3226d7ddd96c10035591499ee500dcc0b1ecd97f7948ccf626db",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/week3_deliverables.md",
+    "archived": "archive/coursework/week3/week3_deliverables.md",
+    "sha256": "a7542cf289f3a06cc605963c5b01fc58f97668894e886bb705120377d28044c3",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/week3_plan.md",
+    "archived": "archive/coursework/week3/week3_plan.md",
+    "sha256": "54346b40fafc9984f6ea2d17ea77be81ae3636a08f84445b9edb3e07e9ba2d3a",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/人工测试演示结果.pdf",
+    "archived": "archive/coursework/week3/人工测试演示结果.pdf",
+    "sha256": "4cab47d893d2e39d8427b399bdc6141c20afbefce5cc9b1a2f02052be95bbb82",
+    "equals_git_blob_bytes": true,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/注释版/sql/00_create_database_注释版.sql",
+    "archived": "archive/coursework/week3/注释版/sql/00_create_database_注释版.sql",
+    "sha256": "3297246ee28e4566a36cf1e5e0f2a6cad70c5322d441f6ed1d57d349b8e10270",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/注释版/sql/01_create_tables_注释版.sql",
+    "archived": "archive/coursework/week3/注释版/sql/01_create_tables_注释版.sql",
+    "sha256": "9c835e905e5dca1ce50f8222f7cd7d0bc5eac324f1a5d1527a5f6ea88b115bd3",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/注释版/sql/02_insert_data_注释版.sql",
+    "archived": "archive/coursework/week3/注释版/sql/02_insert_data_注释版.sql",
+    "sha256": "23a18bb660e0e9fbebf78ce6891e8dc89f0963911b4c1972db612378c3265b08",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/注释版/sql/03_crud_demo_注释版.sql",
+    "archived": "archive/coursework/week3/注释版/sql/03_crud_demo_注释版.sql",
+    "sha256": "5f4853a8f06108baa2ae911b95b57efbf3c32cc85cebc02a147824701bc06b2d",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week3/注释版/tools/datagen_注释版.py",
+    "archived": "archive/coursework/week3/注释版/tools/datagen_注释版.py",
+    "sha256": "62cdd45483f6faff917ece4cc092613b0dba10e27b05eaea7c08139f176e81b6",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week4/ai_usage_log.md",
+    "archived": "archive/coursework/week4/ai_usage_log.md",
+    "sha256": "17026d7dffeba73384469047cf1212602bb608c4c35ba142ab552fc85b76ea37",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week4/team_division.md",
+    "archived": "archive/coursework/week4/team_division.md",
+    "sha256": "d05fffa605bc05e5e94c0e24e5a50804c894b6d238a53ae74b3bed0537a14d82",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week4/week4_deliverables.md",
+    "archived": "archive/coursework/week4/week4_deliverables.md",
+    "sha256": "9713c4677afd1a1775c07e855d8e934b579e737368ec6237e0b160c9388749ed",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  },
+  {
+    "original": "week4/week4_plan.md",
+    "archived": "archive/coursework/week4/week4_plan.md",
+    "sha256": "c786e09b11799b3b3ad70ef4c225a595f9b45735e457ae25a0a1960ebd2d2b2d",
+    "equals_git_blob_bytes": false,
+    "content_equal_after_CRLF_normalization": true
+  }
+]

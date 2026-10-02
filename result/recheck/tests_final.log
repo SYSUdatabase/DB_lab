@@ -1,0 +1,26 @@
+test_fail_marker_prevents_capture_despite_pass_marker (test_evidence_tool.EvidenceToolTests.test_fail_marker_prevents_capture_despite_pass_marker) ... ok
+test_unexpected_sql_error_prevents_capture (test_evidence_tool.EvidenceToolTests.test_unexpected_sql_error_prevents_capture) ... ok
+test_direct_user_grant_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_user_grant_is_detected) ... ok
+test_expiry_equal_boundary (test_sql_integration.SqlIntegrationTests.test_expiry_equal_boundary) ... ok
+test_historical_overdraft_with_correct_final_totals (test_sql_integration.SqlIntegrationTests.test_historical_overdraft_with_correct_final_totals) ... ok
+test_missing_one_manager_permission (test_sql_integration.SqlIntegrationTests.test_missing_one_manager_permission) ... ok
+test_provider_mismatch (test_sql_integration.SqlIntegrationTests.test_provider_mismatch) ... ok
+test_registration_order (test_sql_integration.SqlIntegrationTests.test_registration_order) ... ok
+test_registration_usage (test_sql_integration.SqlIntegrationTests.test_registration_usage) ... ok
+test_business_totals_are_preserved (test_timeline.TimelineTests.test_business_totals_are_preserved) ... ok
+test_expired_usage_is_rejected (test_timeline.TimelineTests.test_expired_usage_is_rejected) ... ok
+test_expiry_is_exclusive_and_null_expiry_is_supported (test_timeline.TimelineTests.test_expiry_is_exclusive_and_null_expiry_is_supported) ... ok
+test_final_balance_cannot_hide_historical_overdraft (test_timeline.TimelineTests.test_final_balance_cannot_hide_historical_overdraft) ... ok
+test_fixed_dataset_and_serialized_sql (test_timeline.TimelineTests.test_fixed_dataset_and_serialized_sql) ... ok
+test_insufficient_credit_cannot_be_scheduled (test_timeline.TimelineTests.test_insufficient_credit_cannot_be_scheduled) ... ok
+test_missing_parent_is_rejected_before_serialization (test_timeline.TimelineTests.test_missing_parent_is_rejected_before_serialization) ... ok
+test_no_eligible_account_fails_explicitly (test_timeline.TimelineTests.test_no_eligible_account_fails_explicitly) ... ok
+test_order_before_registration_is_rejected (test_timeline.TimelineTests.test_order_before_registration_is_rejected) ... ok
+test_payment_at_same_second_precedes_consumption (test_timeline.TimelineTests.test_payment_at_same_second_precedes_consumption) ... ok
+test_provider_mismatch_is_rejected (test_timeline.TimelineTests.test_provider_mismatch_is_rejected) ... ok
+test_usage_before_registration_is_rejected (test_timeline.TimelineTests.test_usage_before_registration_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 2.010s
+
+OK

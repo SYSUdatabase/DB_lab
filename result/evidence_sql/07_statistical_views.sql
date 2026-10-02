@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 PRINT N'Core statistical views';
 SELECT N'v_OrderDetail' AS view_name,COUNT(*) AS rows FROM dbo.v_OrderDetail
@@ -14,3 +16,6 @@ FROM dbo.v_ProductSales ORDER BY revenue DESC,product_id;
 
 SELECT account_id,provider,current_quota,safety_threshold,stock_state
 FROM dbo.v_InventoryStatus ORDER BY account_id;
+
+IF (SELECT COUNT(*) FROM dbo.v_OrderDetail)<>184 OR (SELECT COUNT(*) FROM dbo.v_ProductSales)<>10 OR (SELECT COUNT(*) FROM dbo.v_MemberSpending)<>40 OR (SELECT COUNT(*) FROM dbo.v_InventoryStatus)<>8 OR (SELECT SUM(revenue) FROM dbo.v_ProductSales)<>4228.90 THROW 51463,N'View result mismatch',1;
+PRINT N'PASS verified evidence result';

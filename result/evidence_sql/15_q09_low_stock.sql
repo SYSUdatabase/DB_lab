@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 PRINT N'Q09 - low stock purchase plus quota deduction, boundary case rolled back';
@@ -11,6 +13,7 @@ WHERE i.current_quota<a.safety_threshold
 ORDER BY a.account_id;
 
 PRINT N'-- positive branch: new account purchased 1000, consumed 900, threshold 200';
+DECLARE @baseline INT=(SELECT COUNT(*) FROM dbo.UpstreamAccount);
 BEGIN TRY
   BEGIN TRANSACTION;
   INSERT dbo.UpstreamAccount(provider,account_name,api_key,total_quota,
@@ -28,7 +31,7 @@ BEGIN TRY
   JOIN dbo.Inventory i ON i.account_id=a.account_id
   JOIN dbo.v_InventoryStatus v ON v.account_id=a.account_id
   WHERE i.current_quota<a.safety_threshold ORDER BY a.account_id;
-  SELECT COUNT(*) AS baseline_unchanged FROM dbo.UpstreamAccount;
+  IF NOT EXISTS(SELECT 1 FROM dbo.v_InventoryStatus WHERE account_id=@probe_account AND stock_state='low') THROW 51467,N'Low quota boundary missing',1;
   ROLLBACK TRANSACTION;
 END TRY
 BEGIN CATCH
@@ -36,4 +39,6 @@ BEGIN CATCH
   THROW;
 END CATCH
 IF @@TRANCOUNT<>0 THROW 51401,N'Open transaction after Q09',1;
-PRINT N'Q09 boundary rows rolled back; baseline data unchanged';
+IF (SELECT COUNT(*) FROM dbo.UpstreamAccount)<>@baseline OR EXISTS(SELECT 1 FROM dbo.UpstreamAccount WHERE account_name=N'Q09低库存边界') THROW 51468,N'Baseline changed',1;
+SELECT @baseline AS baseline_restored,@@TRANCOUNT AS open_transactions;
+PRINT N'PASS Q09 boundary rows rolled back; baseline restored';

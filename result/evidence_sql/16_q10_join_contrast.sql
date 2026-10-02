@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 PRINT N'Q10 - INNER JOIN versus LEFT JOIN row counts';
 WITH paid_product AS (
@@ -34,4 +36,6 @@ LEFT JOIN (SELECT d.product_id FROM dbo.OrderDetails d
 WHERE s.product_id IS NULL
 ORDER BY p.product_id;
 
-PRINT N'PASS Q10 inner/left join contrast';
+
+IF (SELECT COUNT(DISTINCT user_id) FROM dbo.Orders WHERE status='paid')<>26 OR (SELECT COUNT(*) FROM dbo.Users)<>40 THROW 51465,N'Join contrast mismatch',1;
+PRINT N'PASS verified evidence result';

@@ -1,0 +1,17 @@
+Q10 - INNER JOIN versus LEFT JOIN row counts
+join_type rows_returned
+--------- -------------
+products INNER JOIN 10
+products LEFT JOIN 10
+members INNER JOIN 26
+members LEFT JOIN 40
+-- the INNER branch drops the products that were never ordered
+products_total
+--------------
+10
+products_never_ordered
+----------------------
+0
+product_id model_provider token_amount
+---------- -------------- ------------
+PASS Q10 inner/left join contrast

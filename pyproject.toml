@@ -1,0 +1,9 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["archive", ".venv"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP"]
+
+# SQL Server DATETIME2 样例统一为 Asia/Shanghai 本地墙上时间，不写入时区偏移。

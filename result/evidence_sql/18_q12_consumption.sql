@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 PRINT N'Q12 - inventory consumption ranking';
 SELECT TOP 10 a.account_id,a.provider,a.account_name,
@@ -22,4 +24,6 @@ SELECT TOP(6) l.log_id,l.change_type,l.change_amount,l.reason
 FROM dbo.InventoryLog l WHERE l.account_id=@top
 ORDER BY l.log_id DESC;
 
-PRINT N'PASS Q12 consumption ranking';
+
+IF (SELECT SUM(-change_amount) FROM dbo.InventoryLog WHERE change_type='consumption')<>(SELECT SUM(CAST(upstream_tokens_consumed AS BIGINT)) FROM dbo.TokenUsageLogs) THROW 51466,N'Consumption mismatch',1;
+PRINT N'PASS verified evidence result';

@@ -1,0 +1,24 @@
+R14/R15/R16 - customer service view boundary
+1) staff CAN read v_CustomerService (no password_hash / api_key columns)
+view_column_check
+-----------------
+PASS no sensitive column
+user_id username email phone status order_count paid_amount remaining_tokens
+------- -------- ----- ----- ------ ----------- ----------- ----------------
+2 user002 user002@example.edu 13800000002 active 15 608.30 16177300
+1 user001 user001@example.edu 13800000001 active 13 491.10 8735800
+5 user005 user005@example.edu 13800000005 active 6 367.70 7935600
+8 user008 user008@example.edu 13800000008 active 6 335.50 6213900
+33 user033 user033@example.edu 13800000033 active 3 294.10 4829800
+service_rows
+------------
+40
+2) R15 staff reading dbo.Users.password_hash is denied (expect error 229)
+case_id actual_error result
+------- ------------ ------
+R15 staff reads dbo.Users 229 PASS permission denied
+3) R16 member reading v_CustomerService is denied (expect error 229)
+case_id actual_error result
+------- ------------ ------
+R16 member reads v_CustomerService 229 PASS permission denied
+PASS customer service view evidence

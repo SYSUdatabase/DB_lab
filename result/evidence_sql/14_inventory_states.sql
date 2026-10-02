@@ -1,3 +1,5 @@
+USE [$(DatabaseName)];
+GO
 SET NOCOUNT ON;
 PRINT N'v_InventoryStatus - account / quota / stock states split';
 SELECT TOP(12) account_id,provider,current_quota,safety_threshold,
@@ -19,4 +21,6 @@ PRINT N'-- movement mix behind the quota values';
 SELECT change_type,COUNT(*) AS movements,SUM(change_amount) AS net_change
 FROM dbo.InventoryLog GROUP BY change_type ORDER BY change_type;
 
-PRINT N'PASS inventory state split';
+
+IF EXISTS(SELECT 1 FROM dbo.v_InventoryStatus WHERE current_quota<0 OR quota_headroom<>current_quota-safety_threshold OR stock_state<>CASE WHEN current_quota<safety_threshold THEN 'low' ELSE 'normal' END OR account_state<>CASE WHEN status='active' AND (expires_at IS NULL OR expires_at>as_of_time) THEN 'usable' ELSE 'unusable' END) THROW 51464,N'Inventory state mismatch',1;
+PRINT N'PASS verified evidence result';

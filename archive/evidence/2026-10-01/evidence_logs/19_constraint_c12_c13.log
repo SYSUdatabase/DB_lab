@@ -1,0 +1,33 @@
+C12/C13 - unique constraints rejected with error 2627
+case_id actual_error message result
+------- ------------ ------- ------
+C12 duplicate (model_provider,token_amount) 2627 违反了 UNIQUE KEY 约束“UQ_Products_provider_tokens”。不能在对象“dbo.Products”中插入重复键。重复键值为 (OpenAI, 50000)。 PASS 2627
+case_id actual_error message result
+------- ------------ ------- ------
+C13 duplicate (order_id,product_id) 2627 违反了 UNIQUE KEY 约束“UQ_OrderDetails_order_product”。不能在对象“dbo.OrderDetails”中插入重复键。重复键值为 (1, 5)。 PASS 2627
+-- the candidate keys actually present in the database
+unique_constraint table_name column_name key_ordinal
+----------------- ---------- ----------- -----------
+UQ_Employees_account Employees account 1
+UQ_Inventory_account Inventory account_id 1
+UQ_OrderDetails_order_product OrderDetails order_id 1
+UQ_OrderDetails_order_product OrderDetails product_id 2
+UQ_Products_name Products name 1
+UQ_Products_provider_tokens Products model_provider 1
+UQ_Products_provider_tokens Products token_amount 2
+UQ_Roles_role_name Roles role_name 1
+UQ_TokenBalances_user_provider TokenBalances user_id 1
+UQ_TokenBalances_user_provider TokenBalances model_provider 2
+UQ_UpstreamAccount_provider_name UpstreamAccount provider 1
+UQ_UpstreamAccount_provider_name UpstreamAccount account_name 2
+UQ_UsageSummary_key UsageSummary user_id 1
+UQ_UsageSummary_key UsageSummary product_id 2
+UQ_UsageSummary_key UsageSummary period_type 3
+UQ_UsageSummary_key UsageSummary period_start 4
+UQ_Users_email Users email 1
+UQ_Users_username Users username 1
+-- baseline row counts unchanged after the rejected inserts
+products order_details
+-------- -------------
+10 184
+PASS C12/C13 unique constraint evidence

@@ -177,7 +177,7 @@ flowchart TD
 | `v_CustomerService` 读（联系方式，无密码哈希） | — | — | 读 | 读 |
 | `v_StaffOrderQueue` 读 | — | — | 读 | 读 |
 | `v_StaffOrderQueue.status` 更新 | — | — | 仅此列 | 允许 |
-| `v_MyOrders` / `v_MyBalances` / `v_MyUsage` 读 | — | 仅本人 | — | 允许 |
+| `v_MyOrders` / `v_MyBalances` / `v_MyUsage` 读 | — | 仅本人 | — | —（改读基表） |
 | 14 张基表 SELECT | — | — | — | 允许 |
 | 14 张基表 INSERT / UPDATE / DELETE | — | — | — | 允许 |
 | 下单 / 支付 / 改本人资料 | — | 第三阶段存储过程 | — | 允许 |
@@ -193,8 +193,8 @@ flowchart TD
 2. `CREATE USER hub_*_demo / hub_user_1 / hub_user_2 ... WITHOUT LOGIN`，用于课程内 `EXECUTE AS` 演示，不写真实登录；
 3. `ALTER ROLE ... ADD MEMBER` 只把演示用户加入对应角色，不建立任何固定高权限成员关系；
 4. 按最小权限逐对象 `GRANT SELECT`，只对队列视图的 `status` 列 `GRANT UPDATE`，不使用 `GRANT ALL`；
-5. 用表驱动用例 R01～R17 逐条执行正反例：正例必须执行成功，非法例必须匹配指定错误号（229/230/547/2627）；
-6. 追加 `sys.fn_my_permissions` 审计输出，列出店员、店长在视图与基表上的实际权限；
+5. 用表驱动用例 R01～R17 逐条执行正反例：正例必须执行成功，非法例必须匹配指定错误号（229/230）；
+6. 追加 `sys.fn_my_permissions` 审计输出，列出店员在视图与基表上的实际权限，并校验店长管理权限；
 7. 断言会员与店员在基表上没有权限、店长 CRUD 覆盖 14 张表、public 没有业务对象授权。
 
-会员写权限为什么不在本阶段实现：见阶段报告第 1 节第 5 点。直接授予 `INSERT ON Orders` 会让会员绕过“订单汇总 = 明细之和”“支付时间一致性”和 `USER_NAME()` 与目标 `user_id` 的比对；因此 v0.1 交付会员只读能力，下单、支付、修改本人资料统一由第三阶段存储过程在同一事务内完成并校验调用者身份。
+会员写权限为什么不在本阶段实现：见阶段报告的当前局限及本文件权限矩阵。直接授予 `INSERT ON Orders` 会让会员绕过“订单汇总 = 明细之和”“支付时间一致性”和 `USER_NAME()` 与目标 `user_id` 的比对；因此 v0.1 交付会员只读能力，下单、支付、修改本人资料统一由第三阶段存储过程在同一事务内完成并校验调用者身份。

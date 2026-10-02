@@ -1,0 +1,30 @@
+test_fail_marker_prevents_capture_despite_pass_marker (test_evidence_tool.EvidenceToolTests.test_fail_marker_prevents_capture_despite_pass_marker) ... ok
+test_unexpected_sql_error_prevents_capture (test_evidence_tool.EvidenceToolTests.test_unexpected_sql_error_prevents_capture) ... ok
+test_direct_user_grant_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_user_grant_is_detected) ... ok
+test_expiry_equal_boundary (test_sql_integration.SqlIntegrationTests.test_expiry_equal_boundary) ... ok
+test_historical_overdraft_with_correct_final_totals (test_sql_integration.SqlIntegrationTests.test_historical_overdraft_with_correct_final_totals) ... ok
+test_missing_one_manager_permission (test_sql_integration.SqlIntegrationTests.test_missing_one_manager_permission) ... ok
+test_provider_mismatch (test_sql_integration.SqlIntegrationTests.test_provider_mismatch) ... ok
+test_registration_order (test_sql_integration.SqlIntegrationTests.test_registration_order) ... ok
+test_registration_usage (test_sql_integration.SqlIntegrationTests.test_registration_usage) ... ok
+test_timeline (unittest.loader._FailedTest.test_timeline) ... ERROR
+
+======================================================================
+ERROR: test_timeline (unittest.loader._FailedTest.test_timeline)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_timeline
+Traceback (most recent call last):
+  File "D:\scoop\apps\python\current\Lib\unittest\loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "D:\scoop\apps\python\current\Lib\unittest\loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "C:\Users\xy\Desktop\数据库实验\DB_lab\tests\test_timeline.py", line 7, in <module>
+    from tools import datagen
+ModuleNotFoundError: No module named 'tools'
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.672s
+
+FAILED (errors=1)

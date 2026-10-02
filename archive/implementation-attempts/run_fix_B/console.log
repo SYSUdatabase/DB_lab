@@ -1,0 +1,42 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261002214621
+Username: LAPTOP-OJSK2J30\xy
+RunAs User: LAPTOP-OJSK2J30\xy
+Configuration Name: 
+Machine: LAPTOP-OJSK2J30 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File DB_lab/tools/run_v01.ps1 -DatabaseName TokenHubDB_v01_FixB -RunLabel run_fix_B
+Process ID: 8276
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+PASS 00_create_database.sql
+
+PASS 01_create_tables.sql
+
+PASS 02_insert_data.sql
+
+PASS 03_crud_demo.sql
+
+PASS view.sql
+
+PASS query.sql
+
+PASS constraint.sql
+
+PASS role.sql
+
+PASS verify.sql
+PASS signature.sql
+PASS v0.1 TokenHubDB_v01_FixB
+**********************
+Windows PowerShell transcript end
+End time: 20261002214629
+**********************
