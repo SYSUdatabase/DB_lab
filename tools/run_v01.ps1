@@ -45,9 +45,11 @@ try {
       -v "DatabaseName=$DatabaseName" `
       -i (Join-Path $repoRoot 'sql/signature.sql')
     if ($LASTEXITCODE -ne 0) { throw 'FAILED signature.sql' }
-    $rawSignature | Where-Object { $_ -match '^[A-Za-z_]+\|\d+\|[0-9A-F]{64}$' } |
-      Set-Content -LiteralPath $signature -Encoding utf8
-    $sigLines = (Get-Content -LiteralPath $signature | Measure-Object -Line).Lines
+    # 固定 LF 与 UTF-8 BOM：与仓库归档签名逐字节可比，避免 Windows CRLF 造成哈希差异。
+    $sigLinesOut = @($rawSignature | Where-Object { $_ -match '^[A-Za-z_]+\|\d+\|[0-9A-F]{64}$' })
+    $sigText = ($sigLinesOut -join "`n") + "`n"
+    [System.IO.File]::WriteAllText($signature, $sigText, (New-Object System.Text.UTF8Encoding($true)))
+    $sigLines = $sigLinesOut.Count
     if ($sigLines -ne 14) { throw "signature.sql returned $sigLines signature lines, expected 14" }
     Write-Output "PASS signature.sql"
     Write-Output "PASS v0.1 $DatabaseName"

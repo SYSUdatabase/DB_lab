@@ -14,6 +14,43 @@
 
 销售只计算 `Orders.status='paid'`，金额采用订单明细下单快照。样例 refunded 订单已净冲销，不为当前余额形成充值。
 
+## 业务流程
+
+流程中的规则均由 `sql/verify.sql`（VFY）、`sql/role.sql`（R）、`sql/constraint.sql`（C）和 `sql/query.sql`（Q）逐条验收，编号见 [当前验收](#当前验收)。
+
+### 会员：购买与使用 Token
+
+1. **注册/登录**：写入 `Users`，记录 `created_at`。此后所有订单与调用都必须晚于该时间（VFY12）。
+2. **浏览商品**：读取 `v_ProductCatalog`，只暴露在售商品的价格、Token 档位和上游折算量。
+3. **选购下单**：写入 `Orders`（`status='pending'`，`paid_at` 必须为 NULL）与 `OrderDetails`（保存商品、单价、Token 数快照）。
+4. **支付**：状态改为 `paid` 并写入 `paid_at`。`CK_Orders_payment_time`（在 `sql/constraint.sql` 中补充创建）强制 paid/refunded 必须有 `paid_at` 且不早于 `created_at`，pending/cancelled 必须为 NULL。
+5. **余额到账**：按用户 + provider 写入或累加 `TokenBalances.remaining_tokens`。同一秒内先到账、后扣款（VFY13）。
+6. **调用扣费**：写入 `TokenUsageLogs`，同时减少会员 `TokenBalances` 与上游账号 `Inventory.current_quota`。账号须在 `created_at`～`expires_at` 有效期内，且 `provider` 与商品匹配；到期边界当刻不可调用（VFY12）。
+7. **查看记录**：会员经 `v_MyOrders`、`v_MyBalances`、`v_MyUsage` 只读本人数据（R01～R17）。
+
+### 会员与客服：售后处理
+
+1. **提交咨询**：订单异常进入 `ExceptionLog`，记录关联订单、处理人与处理时间。
+2. **客服受理**：经 `v_CustomerService` 查看工单与订单上下文。
+3. **处理**：pending/cancelled 订单由店员经 `v_StaffOrderQueue` 工作队列改状态；refunded 订单不再形成充值。
+
+### 店员：日常运营
+
+1. **商品维护**：维护 `Products` 上下架与价格档位。
+2. **库存管理**：调整 `Inventory`，每次变动写 `InventoryLog`，保留变动前后数量、操作人与时间。
+3. **异常巡检**：查看 `RestockTask` 补货任务与 `ExceptionLog` 异常工单。
+
+### 店长：经营分析
+
+1. **汇总查询**：经 `v_ProductSales`、`v_MemberSpending`、`v_OrderDetail` 查看销售与消费汇总。
+2. **库存健康**：经 `v_InventoryStatus` 监控额度水位；额度触底生成 `RestockTask`。
+3. **用量趋势**：按日/周/月汇总 `UsageSummary` 观察调用量与 Token 消耗。
+4. **权限审计**：经 `v_CustomerService` 与权限矩阵核对四类角色的实际授权范围。
+
+### 系统约束
+
+余额按 provider 分账，充值只认 `paid_at`、只计 `paid` 订单。最终余额非负不足以证明过程正确，因此 `sql/verify.sql` 逐事件回放历史余额。同秒事件先到账后消费，保证任何时刻余额非负。
+
 ## 角色与权限
 
 | 角色 | 当前数据库能力 |

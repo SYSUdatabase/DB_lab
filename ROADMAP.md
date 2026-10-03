@@ -118,3 +118,15 @@
 改进措施：此类文档必须明确“AI 原建议或局限 → 具体成员判断 → 采用/拒绝/修改决定 → 新的 AI 任务 → 验证”，不能用“成员负责复核”代替实际决策。教训同步 CLAUDE 和 AI 详细日志。
 
 用户已明确授权将本轮 ai使用文档及配套记录提交并推送至 origin/main；推送前 fetch 确认本地与远端一致。本次仅有文档修改，本地链接及差异检查已通过。
+
+## 2026-10-03：文档一致性与业务流程补写
+
+用户要求解决队友更新后遗留的三个小问题，并指出根 README 缺少业务流程。
+
+- 失效引用：`docs/ai_usage_log.md` 三处提及已被 0a55c6d 删除的 `DEMO_GUIDE.md`（236、377、399 行）。前两处为历史过程记录，补注文件去向并保留历史语义；第三处为遗留问题汇总表，改为标注原文件名与迁移位置。未改写历史记录内容。
+- 换行与哈希：仓库无 `.gitattributes`，新生成的 `signature.txt` 为 CRLF 而归档版本为 LF，内容相同但文件哈希不同（1129 vs 1115 字节）。新增 `.gitattributes` 统一文本文件为 LF，并将 `.log`（sqlcmd 生成的 UTF-16LE）、`.png`、`.pdf`、`.docx` 标为binary避免换行转换。同时修改 `tools/run_v01.ps1`，签名改用 `WriteAllText` 固定 LF 与 UTF-8 BOM，不再依赖 `Set-Content`。复核 143 个文本文件的索引 blob 无意外变化。
+- 测试数口径：`tests_final.log` 名称暗示最终结论，实际是新增视图写权限反例之前的 21 项运行，易与 `tests_complete.log`（22 项）混淆。用 `git mv` 改名为 `tests_before_view_write_negative.log`，并在 `result/recheck/README.md` 明确 `tests_complete.log` 为唯一最终结论。未删除任何历史日志。
+- 业务流程：README 此前仅有业务范围散文。依据 `archive/coursework/week1-2/week1_deliverables.md` 第 2 节的历史流程，并对照当前 SQL 实现重写为四条流程加系统约束，会员购买使用、售后处理、店员运营、店长分析各自标注对应视图与表。
+- 核实方式：新建 `TokenHubDB_v01_Doc` 按当前 SQL 构建，确认 14 表、10 视图、0 存储过程、4 数据库角色，并逐项核对 README 引用的 21 个表/视图全部存在。`CK_Orders_payment_time` 实际在 `sql/constraint.sql` 补充创建而不在 `01_create_tables.sql`，README 已注明来源。85 paid / 4228.90 / 92950000 Token / 3000 调用与 README 既有数字一致。
+- 验证：`TokenHubDB_v01_Doc` 全流水线 10 步 PASS；另一次独立运行签名为 1115 字节 LF，与 `run_final_A/signature.txt` 逐字节相同。验证库与临时结果目录已清理。
+- 本轮未执行 commit/push。

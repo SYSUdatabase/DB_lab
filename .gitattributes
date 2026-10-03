@@ -1,0 +1,11 @@
+# 文本统一以 LF 存入仓库并以 LF 检出，避免 Windows 检出/写入产生 CRLF 差异。
+# 目的：run_v01.ps1 生成的 signature.txt 与仓库中已归档的签名逐字节可比。
+* text=auto eol=lf
+
+# sqlcmd -o 生成的是 UTF-16LE 日志，含 NUL 字节，必须按二进制处理。
+*.log binary
+
+# 截图、PDF、Word 为二进制，不做换行转换。
+*.png binary
+*.pdf binary
+*.docx binary

@@ -1,9 +1,9 @@
 # 回归与重复执行记录
 
-- tests_complete.log：最终 22 个 Python/SQL Server/证据工具测试全部通过，包含直接视图写授权反例。
-- tests_final.log：补充视图写权限反例前的 21 个测试通过记录。
+- tests_complete.log：最终 22 个 Python/SQL Server/证据工具测试全部通过，包含直接视图写授权反例。这是唯一的最终测试结论。
+- tests_before_view_write_negative.log：补充视图写权限反例之前的 21 个测试通过记录，属历史步骤，不代表当前测试集数量。
 - verify_TokenHubDB_v01_FinalA/B.log：加入视图写权限检查后两个数据库的完整验收均通过。
-- tests.log：新增引用反例前的 20 个测试通过记录。
+- tests.log：新增引用反例前的 20 个测试通过记录，同样属历史步骤。
 - view/query/constraint/role/verify/signature.sql.log：重复执行当前阶段脚本的真实输出。
 - signature_after_complete.txt：最终 22 个测试及最新权限验收后，14 表业务行签名仍与 run_final_A/signature.txt 一致；保留 sqlcmd 数据库上下文提示。
 - signature_after.txt：重复执行和事务反例后业务行签名，与 run_final_A/signature.txt 一致。
