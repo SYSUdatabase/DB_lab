@@ -324,7 +324,7 @@ C12～C14 是本轮补充的三个反例，用来证明候选码与 JSON 域约�
 
 证据脚本改为对结果、错误号、必要约束名和回滚恢复进行断言；不再无条件打印 PASS。截图工具检查 sqlcmd 失败并将实际输出控件分页，完整日志另存。首次控件捕获因未完成显示布局生成空白图，视觉检查发现后改为屏幕外显示、完成布局再捕获；该尝试保留在 archive/implementation-attempts。
 
-最终 22 个回归测试、ruff 检查与格式检查通过。生成器与 SQL 回归分别注入错误样例、缺权限和直接用户授权，确认指定错误能被捕获，之后回滚反例。修复原因和预防规则同步进入 [ROADMAP](../ROADMAP.md)、[CLAUDE](../CLAUDE.md) 及 [AI 日志](../docs/ai_usage_log.md)。
+最终 22 个回归测试、ruff 检查与格式检查通过。生成器与 SQL 回归分别注入错误样例、缺权限和直接用户授权，确认指定错误能被捕获，之后回滚反例。修复原因和预防规则同步进入 [ROADMAP](../ROADMAP.md)、[AGENT](../AGENT.md) 及 [AI 日志](../docs/ai_usage_log.md)。
 
 ### 3. 实际运行与结果
 
@@ -358,3 +358,10 @@ Q01～Q12 成功执行，经营结果与独立验收对账。Q06 可用低库存
 - [角色流程与权限矩阵](role_workflow.md)
 - [AI 日志](../docs/ai_usage_log.md)、[组内分工](../docs/team_division.md)
 - [各周历史材料](../archive/README.md)
+
+
+## 附录：第二阶段第五周 ER 模型（2026-10-10）
+
+此附录是对前文第一阶段 ER 草图的**更严格现状核对**，不修改 v0.1 正式 SQL。完整材料见 [第五周作业入口](week5/README.md)：[可编辑源图](week5/er_diagram.mmd)、[清晰矢量图](week5/er_diagram.svg)、[完整数据字典](week5/data_dictionary.md)、[17 条物理 FK 及两端参与约束](week5/business_rules_mapping.md)、[v0.1 问题/保留/六周改进](week5/v01_issues.md)和[业务场景实证与讲解](week5/design_validation.md)。
+
+关键区别：原报告中“订单至少一条明细”是**业务期望**，现有 FK 仅保证每条明细必须属于一个订单；原报告中上游账号与库存 1:1 是**业务模型简化**，现有 `Inventory.account_id NOT NULL UNIQUE` + FK 实际是账号对应 0..1 库存行、库存行必有一账号。当前样例恰好无空订单、无缺库存账号，并不改变此结构事实。完全无账户散客还不能以 `Orders.user_id=NULL` 直接下单；上述问题记录在第五周清单，六周再决定迁移。

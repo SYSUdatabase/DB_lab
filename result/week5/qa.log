@@ -1,0 +1,4 @@
+﻿PASS: 14 Mermaid tables; 17 Mermaid relations match 17 SQL Server FKs
+PASS: SVG XML and PNG image parse correctly
+PASS: relative links in 10 current documents
+PASS: QA did not query/modify the database or read credential values

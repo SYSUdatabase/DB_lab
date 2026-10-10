@@ -136,3 +136,10 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 - [结果证据](result/README.md)、[复现说明](docs/reproduction.md)
 - [ai使用文档（第四周提交正文）](docs/ai使用文档.md)、[AI 详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md)、[修复记录](ROADMAP.md)
 - [历史材料与迁移映射](archive/README.md)
+
+
+## 第二阶段：第五周 ER 模型（2026-10-10）
+
+第五周基于第一阶段 v0.1 **逆向分析** 14 张表、17 条 FK，明确实体标识、联系基数和参与约束，暂不修改既有表结构。正式交付入口是 [第五周 ER 设计审查](report/week5/README.md)，包含 [可编辑 ER 图](report/week5/er_diagram.mmd)、[SVG 图](report/week5/er_diagram.svg)、[数据字典](report/week5/data_dictionary.md)、[业务规则映射](report/week5/business_rules_mapping.md)、[v0.1 问题与保留项](report/week5/v01_issues.md)、[设计说明和真实只读验证](report/week5/design_validation.md)。
+
+本周在现存 `TokenHubDB_v01_A` 上只读核验了 100 订单、184 明细、68 个多明细订单；0 张无明细订单并不意味着数据库外码强制“一单至少一明细”。散客定义、同商品重复明细、账号是否必有库存和自动补货创建人仍待团队确认。第六周才研究规范化和结构迁移；v0.1 运行入口仍保持不变。

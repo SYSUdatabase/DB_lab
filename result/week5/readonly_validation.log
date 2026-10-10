@@ -1,0 +1,84 @@
+W5-01 current database and schema counts
+database_name business_tables
+------------- ---------------
+TokenHubDB_v01_A 14
+active_foreign_keys
+-------------------
+17
+formula_payment_checks
+----------------------
+3
+W5-02 order relationship checks
+orders
+------
+100
+order_details
+-------------
+184
+orders_with_multiple_details
+----------------------------
+68
+order_id detail_lines distinct_products
+-------- ------------ -----------------
+5 3 3
+11 3 3
+15 3 3
+16 3 3
+17 3 3
+orders_without_details
+----------------------
+0
+header_detail_mismatch
+----------------------
+0
+W5-03 member and guest participation
+members_with_orders
+-------------------
+28
+orders_with_nonexistent_members
+-------------------------------
+0
+W5-04 upstream account, inventory and usage
+accounts_without_inventory
+--------------------------
+0
+inventory_quota_mismatches
+--------------------------
+0
+provider account_count total_remaining below_safety_threshold
+-------- ------------- --------------- ----------------------
+Claude 3 2150000 0
+Gemini 2 400000 2
+OpenAI 3 3800000 0
+provider_mismatched_usage
+-------------------------
+0
+W5-05 optional employee FKs, and FK metadata count
+nullable_operator_rows
+----------------------
+3000
+nullable_assignee_rows
+----------------------
+3
+nullable_handler_rows
+---------------------
+0
+child_table fk_constraint parent_table
+----------- ------------- ------------
+Employees FK_Employees_Roles Roles
+ExceptionLog FK_ExceptionLog_HandledBy Employees
+Inventory FK_Inventory_UpstreamAccount UpstreamAccount
+InventoryLog FK_InventoryLog_Account UpstreamAccount
+InventoryLog FK_InventoryLog_Operator Employees
+OrderDetails FK_OrderDetails_Orders Orders
+OrderDetails FK_OrderDetails_Products Products
+Orders FK_Orders_Users Users
+RestockTask FK_RestockTask_Account UpstreamAccount
+RestockTask FK_RestockTask_AssignedTo Employees
+RestockTask FK_RestockTask_CreatedBy Employees
+TokenBalances FK_TokenBalances_Users Users
+TokenUsageLogs FK_TokenUsageLogs_Account UpstreamAccount
+TokenUsageLogs FK_TokenUsageLogs_Products Products
+TokenUsageLogs FK_TokenUsageLogs_Users Users
+UsageSummary FK_UsageSummary_Products Products
+UsageSummary FK_UsageSummary_Users Users

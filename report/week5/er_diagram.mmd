@@ -1,0 +1,131 @@
+%% Week 5 / API Token Hub v0.1 / 2026-10-10
+%% Crow's Foot physical FK model (17 FK constraints, 14 tables).
+%% Child multiplicity at the right is what the current DDL can enforce.
+%% Additional business wishes, such as Orders having >=1 detail, are NOT asserted here.
+%% || = exactly one; o| = zero or one; o{ = zero or many; |{ = one or many.
+%% UK marks each component of a composite UNIQUE key; see data_dictionary.md.
+erDiagram
+    direction LR
+    Roles ||--o{ Employees : role_id
+    Users ||--o{ Orders : user_id
+    Users ||--o{ TokenBalances : user_id
+    Users ||--o{ TokenUsageLogs : user_id
+    Users ||--o{ UsageSummary : user_id
+    Orders ||--o{ OrderDetails : order_id
+    Products ||--o{ OrderDetails : product_id
+    Products ||--o{ TokenUsageLogs : product_id
+    Products ||--o{ UsageSummary : product_id
+    UpstreamAccount ||--o| Inventory : account_id
+    UpstreamAccount ||--o{ InventoryLog : account_id
+    UpstreamAccount ||--o{ TokenUsageLogs : account_id
+    UpstreamAccount ||--o{ RestockTask : account_id
+    Employees o|--o{ InventoryLog : operator_id
+    Employees ||--o{ RestockTask : created_by
+    Employees o|--o{ RestockTask : assigned_to
+    Employees o|--o{ ExceptionLog : handled_by
+
+    Roles {
+        int role_id PK
+        varchar role_name UK
+        nvarchar permissions
+    }
+    Users {
+        int user_id PK
+        varchar username UK
+        varchar email UK
+        varchar status
+        datetime2 created_at
+    }
+    Products {
+        int product_id PK
+        nvarchar name UK
+        varchar model_provider UK
+        int token_amount UK
+        decimal price
+        int required_upstream_tokens
+    }
+    UpstreamAccount {
+        int account_id PK
+        varchar provider UK
+        nvarchar account_name UK
+        bigint total_quota
+        bigint used_quota
+        bigint safety_threshold
+    }
+    Inventory {
+        int inventory_id PK
+        int account_id FK,UK
+        bigint current_quota
+        datetime2 last_updated_at
+    }
+    Employees {
+        int employee_id PK
+        int role_id FK
+        varchar account UK
+        nvarchar name
+    }
+    Orders {
+        int order_id PK
+        int user_id FK
+        decimal total_amount
+        bigint total_tokens
+        varchar status
+        datetime2 paid_at
+    }
+    OrderDetails {
+        int detail_id PK
+        int order_id FK,UK
+        int product_id FK,UK
+        int quantity
+        decimal unit_price
+        decimal subtotal
+        int tokens_per_unit
+        bigint total_tokens
+    }
+    InventoryLog {
+        int log_id PK
+        int account_id FK
+        int operator_id FK
+        bigint change_amount
+        varchar reference_type
+        int reference_id
+    }
+    TokenBalances {
+        int balance_id PK
+        int user_id FK,UK
+        varchar model_provider UK
+        bigint remaining_tokens
+    }
+    TokenUsageLogs {
+        int log_id PK
+        int user_id FK
+        int product_id FK
+        int account_id FK
+        int tokens_used
+        int upstream_tokens_consumed
+    }
+    UsageSummary {
+        int summary_id PK
+        int user_id FK,UK
+        int product_id FK,UK
+        varchar period_type UK
+        date period_start UK
+        bigint total_tokens_used
+        int request_count
+    }
+    RestockTask {
+        int task_id PK
+        int account_id FK
+        int created_by FK
+        int assigned_to FK
+        bigint target_amount
+        varchar status
+    }
+    ExceptionLog {
+        int exception_id PK
+        int handled_by FK
+        varchar related_table
+        int related_id
+        varchar exception_type
+        datetime2 occurred_at
+    }
