@@ -37,7 +37,7 @@
 ```text
 DB_lab/
 ├─ plan/week5-er-model-plan.md              # 本计划
-├─ report/week5/
+├─ week5/
 │  ├─ data_dictionary.md                     # 14 表实体、属性、行粒度与 PK/候选码/FK
 │  ├─ er_diagram.mmd                         # 统一 Crow's Foot/Mermaid 的可编辑 ER 源图
 │  ├─ er_diagram.svg                         # 清晰、可放大导出图
@@ -130,7 +130,7 @@ DB_lab/
 **执行状态：文档、ER 图、只读验证及自检已完成；人工业务决策与独立同伴复核待办。** 上方清单是制定计划时的原始安排；下面为实际执行记录。
 
 - [x] **P0 基线**：核对 v0.1 DDL、追加 CHECK、原始 ER 草图、Git 状态；现存 `TokenHubDB_v01_A` 只读确认 14 表、17 个启用 FK、3 个追加 CHECK。
-- [x] **P1 数据字典**：完成 `report/week5/data_dictionary.md`，14 张表的实体含义、行粒度、全部字段名/可空性、PK、UNIQUE 候选标识和 FK。
+- [x] **P1 数据字典**：完成 `week5/data_dictionary.md`，14 张表的实体含义、行粒度、全部字段名/可空性、PK、UNIQUE 候选标识和 FK。
 - [x] **P2 关系映射**：完成 `business_rules_mapping.md`；17 条 FK 的两端 min/max、NULL 约束、真实外码和逻辑联系分别列示。
 - [x] **P3 图**：完成 `er_diagram.mmd`、`er_diagram.svg`、`er_diagram.png`、本地渲染工具 `render_er.py`；覆盖 14 实体 17 外码。之后按反馈改为不规则避障布局、明确 `0..*` 等文字基数，移除原副标题与图例，重新导出并视觉核对。
 - [x] **P4 问题与保留**：完成 `v01_issues.md`，10 项问题/待确认项、7 项保留说明与第六周候选处理，未修改结构。
@@ -150,4 +150,4 @@ DB_lab/
 - [x] 核对严格弱实体、存在依赖实体、多值/复合属性、计算存储字段、关联实体、三方调用事实、同一实体间双角色联系、可选参与性及非标识性外码。
 - [x] 17 条真实 FK 在当前物理 PK 下均为非标识性联系，编辑 Mermaid 源关系符为 `..` 并以虚线导出；各关系两端保持 `1..1` / `0..1` / `0..*` / `1..*` 文本，不混同可空性。
 - [x] 图中对 `OrderDetails` 标明关联实体，对具体列标明计算存储/汇总存储/快照，并对 `TokenUsageLogs` 标明三方调用事实；**没有依据的弱实体、多值属性及新实体不凭空绘制**。
-- [x] [完整审查解释](../report/week5/special_er_features.md)；本轮仍无 DDL/数据库数据修改，人工小组业务判定仍待完成。
+- [x] [完整审查解释](../week5/special_er_features.md)；本轮仍无 DDL/数据库数据修改，人工小组业务判定仍待完成。

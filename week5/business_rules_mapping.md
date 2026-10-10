@@ -2,7 +2,7 @@
 
 **阅读约定**：一条规则以“父表→子表”描述。`父→子` 表示任一父行允许关联多少子行；`子→父` 表示任一子行允许关联多少父行。数值是 **min..max**，不是样例数据统计。`0..*` 不等于已经有 N 行。`1..1` 通常来自子 FK 的 NOT NULL + 引用完整性，`0..1` 来自可空 FK，`0..*`/ `0..1` 来自父侧是否限制子引用唯一。表中写的是**当前 DDL 能保证的物理参与性**。
 
-## A. 17 条真实外码（与源 ER 图逐条对应）
+## A. 17 条现有外码（与源 ER 图逐条对应）
 
 | ID | 父表 → 子表（联系/角色） | 父→子 | 子→父 | 子表 FK 列 / 实际约束名 | 当前实现及适用条件 |
 |---|---|---|---|---|---|
@@ -24,7 +24,7 @@
 | F16 | `Employees → RestockTask`（指派人） | 0..* | **0..1** | `RestockTask.assigned_to` / `FK_RestockTask_AssignedTo` | 可空 FK；未分配可为 NULL |
 | F17 | `Employees → ExceptionLog`（处理人） | 0..* | **0..1** | `ExceptionLog.handled_by` / `FK_ExceptionLog_HandledBy` | 可空 FK；尚未处理时可为空 |
 
-**图例与特殊联系**：正式导出图直接标出 `1..1`、`0..1`、`0..*`、`1..*`。每条虚线对应一个真实 FK 且不参与子表的主码，因此是**非标识性联系**；线型不表示字段是否可空，须以参与基数和 DDL 为准。可编辑 `er_diagram.mmd` 必须使用 Mermaid 的关系语法，`..` 是非标识性关系。双外码角色、关联实体、派生与多值属性详见 [特殊 ER 要素](special_er_features.md)。图中不将业务愿望画成既有 DDL 保证。
+**图例与特殊联系**：正式导出图直接标出 `1..1`、`0..1`、`0..*`、`1..*`。SVG/PNG 每条**实线**对应一个现有 FK，线型本身不承载是否标识性/可空的含义，须以 PK、外码、参与基数和 DDL 为准。可编辑 `er_diagram.mmd` 保留 Mermaid 的 `..` 非标识性关系语法，直接在 Mermaid 编辑器渲染可能是虚线，但由 `render_er.py` 导出的导出图统一为实线。`Employees → RestockTask` 的双连线分别是 F15 `created_by`（创建人必填）和 F16 `assigned_to`（指派人可空），不是重复外码。双外码角色、关联实体、派生与多值属性详见 [特殊 ER 要素](special_er_features.md)。图中不将业务愿望画成既有 DDL 保证。
 
 ## B. 业务上的多对多与逻辑联系（**不是额外 17 条 FK**）
 
@@ -33,8 +33,8 @@
 | **订单与套餐** | 一张有效订单业务上有 1..* 条明细；一件套餐可能在 0..* 条明细被购买；一条明细必选 1 个订单和 1 个商品 | `Orders ↔ OrderDetails ↔ Products`；两个实际非空 FK | 子端 FK + `UQ_OrderDetails_order_product`；**订单至少一条明细目前未即时约束**；`verify.sql` 检查样例对账 |
 | **会员与 provider 余额** | 一用户可有 0..* 个 provider 余额条目；每个条目属于 1 用户、一个 provider 值 | `TokenBalances.user_id` 实际 FK；`model_provider` 为枚举字符，不是 provider 实体 FK | `UQ_TokenBalances_user_provider` + CHECK；跨表到账与用量由回归校验 |
 | **套餐与上游账号** | 按 provider 等业务规则选择服务来源，多套餐可能使用多账号，关系由一次调用事件落实；无直接套餐—账号 FK | `TokenUsageLogs.product_id`、`account_id` 两条 FK | 数据库能保证两行各自存在；**不能通过两条 FK 保证 provider 匹配**；`verify.sql` VFY12 检查 |
-| **补货任务与库存流水** | 任务可能对应 0..* 条流水；某流水逻辑上可能指向 0..1 个任务，取决于 `reference_type` | `InventoryLog.reference_type/reference_id`，不是真实 FK | 仅有枚举 CHECK；目标存在性和对应关系尚需应用或迁移方案 |
-| **异常与订单或其他对象** | 异常可关联 0..1 个业务对象（类型决定对象）；业务对象可有 0..* 次异常 | `ExceptionLog.related_table/related_id`，无真实 FK | 字符串/编号弱引用，未由 DB 强制存在性 |
+| **补货任务与库存流水** | 任务可能对应 0..* 条流水；某流水逻辑上可能指向 0..1 个任务，取决于 `reference_type` | `InventoryLog.reference_type/reference_id`，不是现有 FK | 仅有枚举 CHECK；目标存在性和对应关系尚需应用或迁移方案 |
+| **异常与订单或其他对象** | 异常可关联 0..1 个业务对象（类型决定对象）；业务对象可有 0..* 次异常 | `ExceptionLog.related_table/related_id`，无现有 FK | 字符串/编号弱引用，未由 DB 强制存在性 |
 | **会员 vs 无账户散客** | 业务若允许散客无账户下单，订单对用户应允许 0..1（散客）或 1..1（会员）且有类型约束 | 当前 `Orders.user_id NOT NULL` + FK | 仅实现订单 1..1 用户；“无账户散客”目前无法直接落单；需先确认业务口径 |
 
 ## C. 完整性规则 / 谁在落实
@@ -58,4 +58,4 @@
 - **DDL 当前可保证**：每条非空 FK 都有父行；可空 FK 可以没父行；UNIQUE 约束候选码；CHECK 限制同表字段；`Inventory.account_id` 最多一行。
 - **目前靠回归/业务流程检查**：订单汇总、库存对账、provider 匹配、逐事件历史余额、上游账号到期边界；是否有实时事务强制应在第七至九周落实并验收。
 - **未被现有结构表达或应与小组确认**：订单至少有一条明细、无账户散客、自动建补货任务创建人、多态弱引用、一单同商品可否重复明细行。
-- 第五周仅识别和说明，不运行 `ALTER/DROP`；第六周再用迁移脚本做结构调整。实际取证：`../../result/week5/readonly_validation.log`。
+- 第五周仅识别和说明，不运行 `ALTER/DROP`；第六周再用迁移脚本做结构调整。实际取证：`../result/week5/readonly_validation.log`。

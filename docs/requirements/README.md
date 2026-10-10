@@ -26,10 +26,10 @@
 
 | 第五周作业 | 当前交付 |
 |---|---|
-| ER 图可编辑源文件 + 清晰导出图 | [源图 mmd](../../report/week5/er_diagram.mmd)、[SVG](../../report/week5/er_diagram.svg)、[PNG](../../report/week5/er_diagram.png) |
-| 核心实体、属性、主码、候选码、外码；命名与字典一致 | [14 表数据字典](../../report/week5/data_dictionary.md) |
-| 基数与参与约束，业务规则/联系映射及对应实现 | [17 FK 与规则清单](../../report/week5/business_rules_mapping.md) |
-| v0.1 问题、业务证据、影响、改进方向和保留理由 | [问题与保留清单](../../report/week5/v01_issues.md) |
-| 设计说明及多商品订单、会员/散客购买、库存查询验证 | [设计与演示记录](../../report/week5/design_validation.md)、[只读 SQL 和真实输出](../../result/week5/README.md) |
+| ER 图可编辑源文件 + 清晰导出图 | [源图 mmd](../../week5/er_diagram.mmd)、[SVG](../../week5/er_diagram.svg)、[PNG](../../week5/er_diagram.png) |
+| 核心实体、属性、主码、候选码、外码；命名与字典一致 | [14 表数据字典](../../week5/data_dictionary.md) |
+| 基数与参与约束，业务规则/联系映射及对应实现 | [17 FK 与规则清单](../../week5/business_rules_mapping.md) |
+| v0.1 问题、业务证据、影响、改进方向和保留理由 | [问题与保留清单](../../week5/v01_issues.md) |
+| 设计说明及多商品订单、会员/散客购买、库存查询验证 | [设计与演示记录](../../week5/design_validation.md)、[只读 SQL 和真实输出](../../result/week5/README.md) |
 
 图表、静态检查和本周只读查询已完成；小组业务分歧及第二名组员独立复核仍待确认，不能标作完成。第六周才制作迁移脚本。

@@ -482,3 +482,37 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 ### 本次 AI 文档与 AGENT 约定的实际校验（2026-10-10）
 
 在增补 `docs/ai使用文档.md`、本日志和 `AGENT.md` 的同步记录规则后，实际执行：针对新增第五周 AI 文档段落检查相对链接（提交正文 **4** 条，详细日志新章节 **0** 条，全部通过）；`python report/week5/qa_week5.py` 仍返回 **14 实体/17 FK、SVG/PNG 可解析及 11 份文档链接通过**；`git diff --check` 返回 0。输出含 Windows CRLF/LF 行尾提示，但不是检测失败。本轮不把自动 QA 记为独立组员复核，也没有执行新的数据库查询或修改。作图更改及本次文档更改依然保持 Git 未提交状态。
+
+
+---
+
+## 2026-10-10 第五周 ER 图双外键说明与实线修订
+
+### 1. 用户提出的问题
+
+> “还有C:\\Users\\ruanyicheng\\Desktop\\数据库\\DB_lab\\week5\\er_diagram.png里面现在连接实体的线怎么是虚线，要改成实线。另外Empolyees实体和RestockTask实体之间连了2条线，说是有2个外键，这个肯定也是要进行说明的。”
+
+用户随后明确指出脚本位置并要求将对话留档：
+
+> “C:\\Users\\ruanyicheng\\Desktop\\数据库\\DB_lab\\week5\\render_er.py 就在这里，另外把我发现的`Employees -> RestockTask` 两条线 并让你说明的对话放到C:\\Users\\ruanyicheng\\Desktop\\数据库\\DB_lab\\docs\\ai_usage_log.md里面”
+
+### 2. 外码说明与处理决定
+
+- **针对两条线**：这并不是同一联系重复绘制，而是 `RestockTask` 引用 `Employees.employee_id` 的**两条独立外码**，表示创建人和被指派人这两个不同业务角色。必须在图上同时保留、分别命名、分别标参与约束。
+- **创建人外码**：`RestockTask.created_by INT NOT NULL`，约束名 `FK_RestockTask_CreatedBy`。每个任务必须对应恰好一个创建员工（任务→员工 `1..1`），员工可创建零到多个任务（员工→任务 `0..*`）。
+- **指派人外码**：`RestockTask.assigned_to INT NULL`，约束名 `FK_RestockTask_AssignedTo`。任务可以尚未分配员工（任务→员工 `0..1`），员工可被指派零到多个任务（员工→任务 `0..*`）；创建者和被指派者可以相同，也可以不同。
+- **针对虚线**：用户希望提交的 PNG 用实线表示实体间真实联系。AI 原先采用 Mermaid 的 `..` 非标识性关系，并用 Python 渲染成虚线；本轮决定**正式 SVG/PNG 全部改为实线**，不把线型用作“FK 是否参与子表 PK”的依据。为了不错误地把关系改成标识性，`er_diagram.mmd` 仍保留规范的 `..`；直接交给 Mermaid 渲染可能显示虚线，课程交付应使用同目录 `render_er.py` 输出的 PNG/SVG。
+- **针对 v0.1 是否“全改好”**：AI 澄清答案为“没有”。第五周是发现、人工技术复核、解释和形成问题/改进清单；订单非空明细、真正匿名散客等原始物理结构缺口仍如实登记，不应宣称 v0.1 全部解决，也不在本周迁移真实库。
+
+### 3. 修改文件
+
+- `week5/render_er.py`：所有 FK 的 SVG/PNG 线型统一为**实线**；`Employees→RestockTask` 的两个角色外码使用紫色连线、保留 `created_by` / `assigned_to` 独立标记；图例增加“created_by=创建人（必填）/assigned_to=被指派人（可空）”。
+- `week5/er_diagram.mmd`：补充说明“源 Mermaid 的 `..` 是非标识性语义；正式导出图可用实线”，没有把真实非标识性外码误改为主码的一部分。
+- `week5/README.md`、`business_rules_mapping.md`、`design_validation.md`、`special_er_features.md`、`data_dictionary.md`：同步纠正此前“导出图为虚线”的描述，单列解释这两条 FK 的业务含义、必需/可选参与。
+- `week5/qa_week5.py`：增加“SVG 不得含虚线样式”以及“实线、双角色外码、两个 FK 名称必须出现”的回归断言。
+
+### 4. 验证结果
+
+在 Windows 项目根目录执行 `python week5/render_er.py` 成功重新生成 `er_diagram.svg`、`er_diagram.png`。实测 SVG 的 `stroke-dasharray` 出现次数为 **0**，`created_by`、`assigned_to`、`实线` 均存在；PNG 为 **3250 × 2041**。运行 `python week5/qa_week5.py`：**14 实体、17 条关系匹配、SVG/PNG 可解析、12 份相关文档链接有效**。新增断言检查通过。
+
+本轮只修改图形、第五周文档及 AI 日志，未改动数据库，未执行 Git 提交。

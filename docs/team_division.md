@@ -1,12 +1,12 @@
-# 组内分工表（第一阶段 v0.1 汇总）
+# 组内分工表（第一阶段 v0.1 与第五周）
 
-> 汇总第 1～4 周与 v0.1 修订阶段的分工。各周原始记录保留在 `../archive/coursework/week1-2/team_division.md`、`../archive/coursework/week3/team_division.md`、`../archive/coursework/week4/team_division.md`。
+> 汇总第 1～4 周、v0.1 修订阶段及第五周的分工。前四周原始记录保留在 `../archive/coursework/week1-2/team_division.md`、`../archive/coursework/week3/team_division.md`、`../archive/coursework/week4/team_division.md`。
 
 ## 1. 小组信息
 
 - **项目名称**：API Token 中转站数据库项目
 - **小组成员**：阮依成、陈诗翰、肖懿
-- **阶段任务**：第一阶段 v0.1（业务设计 → 关系模式 → DDL/CRUD → 查询/视图/约束/权限 → 复现验收）
+- **阶段任务**：第一阶段 v0.1（业务设计 → 关系模式 → DDL/CRUD → 查询/视图/约束/权限 → 复现验收）；第五周 ER 设计与 v0.1 结构复核
 - **协作方式**：Git 仓库 + Markdown 文档 + 微信群沟通
 
 ## 2. 全阶段分工
@@ -47,3 +47,13 @@
 - 当前自动化验证使用 TokenHubDB_v01_FinalA/B，证据见 [result](../result/README.md)。
 - 第二名成员独立按 README 复现和三人共同口头确认仍待登记。
 - 本次未执行 Git commit 或 push。
+
+
+## 5. 第五周：ER 模型与 v0.1 设计复核（2026-10-10）
+
+| 成员 | 本周分工 | 对应文件 | 状态 |
+|---|---|---|---|
+| 陈诗翰 | 前期 ER 模型及配套文档编制：实体/联系、主码与外码、数据字典、业务规则映射、v0.1 问题与保留项、业务场景核对 | [第五周资料](../week5/README.md)：`er_diagram.mmd`、`data_dictionary.md`、`business_rules_mapping.md`、`v01_issues.md`、`design_validation.md` | 已完成初稿与前期整理 |
+| 阮依成 | 人工复核：对照 v0.1 DDL 和 SQL 查询结果核对 14 实体、17 FK、基数、复合候选码、弱实体语义；指出并确认修订 ER 连线样式、`Employees` 与 `RestockTask` 的两条角色外键，整理问题分类及文档 | [技术复核记录](../week5/independent_review.md)、[ER 图](../week5/er_diagram.png)、[验证记录](../week5/design_validation.md) | **人工复核已完成** |
+
+本轮模型核对已完成；四项业务取舍（散客身份、同单同商品多行、上游账号库存必需性、自动补货创建主体）已在 [v0.1 问题清单](../week5/v01_issues.md) 中列出，尚未选择实施方案。第五周保留原有数据库结构，不进行迁移。

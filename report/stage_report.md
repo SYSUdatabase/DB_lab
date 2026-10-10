@@ -362,6 +362,6 @@ Q01～Q12 成功执行，经营结果与独立验收对账。Q06 可用低库存
 
 ## 附录：第二阶段第五周 ER 模型（2026-10-10）
 
-此附录是对前文第一阶段 ER 草图的**更严格现状核对**，不修改 v0.1 正式 SQL。完整材料见 [第五周作业入口](week5/README.md)：[可编辑源图](week5/er_diagram.mmd)、[清晰矢量图](week5/er_diagram.svg)、[完整数据字典](week5/data_dictionary.md)、[17 条物理 FK 及两端参与约束](week5/business_rules_mapping.md)、[v0.1 问题/保留/六周改进](week5/v01_issues.md)和[业务场景实证与讲解](week5/design_validation.md)。
+此附录是对前文第一阶段 ER 草图的**更严格现状核对**，不修改 v0.1 正式 SQL。完整材料见 [第五周作业入口](../week5/README.md)：[可编辑源图](../week5/er_diagram.mmd)、[清晰矢量图](../week5/er_diagram.svg)、[完整数据字典](../week5/data_dictionary.md)、[17 条物理 FK 及两端参与约束](../week5/business_rules_mapping.md)、[v0.1 问题/保留/六周改进](../week5/v01_issues.md)和[业务场景实证与讲解](../week5/design_validation.md)。
 
 关键区别：原报告中“订单至少一条明细”是**业务期望**，现有 FK 仅保证每条明细必须属于一个订单；原报告中上游账号与库存 1:1 是**业务模型简化**，现有 `Inventory.account_id NOT NULL UNIQUE` + FK 实际是账号对应 0..1 库存行、库存行必有一账号。当前样例恰好无空订单、无缺库存账号，并不改变此结构事实。完全无账户散客还不能以 `Orders.user_id=NULL` 直接下单；上述问题记录在第五周清单，六周再决定迁移。

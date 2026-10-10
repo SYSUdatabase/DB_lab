@@ -16,7 +16,7 @@
 | `OrderDetails` | 订单与商品的关联实体；一行是一条商品购买明细及成交快照 | `detail_id` | (`order_id`,`product_id`) | `order_id → Orders.order_id`；`product_id → Products.product_id` |
 | `InventoryLog` | 上游配额变更留痕；一行是一次额度变化 | `log_id` | 无其他 UNIQUE | `account_id → UpstreamAccount.account_id`；`operator_id → Employees.employee_id`（可空） |
 | `TokenBalances` | 会员按 provider 独立结算；一行是一个会员在一个 provider 下的余额 | `balance_id` | (`user_id`,`model_provider`) | `user_id → Users.user_id` |
-| `TokenUsageLogs` | 一次 API 调用及消费；一行是一条真实调用事件 | `log_id` | 无其他 UNIQUE | `user_id → Users.user_id`；`product_id → Products.product_id`；`account_id → UpstreamAccount.account_id` |
+| `TokenUsageLogs` | 一次 API 调用及消费；一行是一条现有调用事件 | `log_id` | 无其他 UNIQUE | `user_id → Users.user_id`；`product_id → Products.product_id`；`account_id → UpstreamAccount.account_id` |
 | `UsageSummary` | 按用户、商品、周期统计的汇总；一行是一个用户某套餐某周期起点的统计 | `summary_id` | (`user_id`,`product_id`,`period_type`,`period_start`) | `user_id → Users.user_id`；`product_id → Products.product_id` |
 | `RestockTask` | 上游额度补货流程；一行是一次补货任务 | `task_id` | 无其他 UNIQUE | `account_id → UpstreamAccount.account_id`；`created_by → Employees.employee_id`；`assigned_to → Employees.employee_id`（可空） |
 | `ExceptionLog` | 异常事件及处理；一行是一条异常及处理状态 | `exception_id` | 无其他 UNIQUE | `handled_by → Employees.employee_id`（可空） |
@@ -47,7 +47,7 @@
 | 独立实体 | Users、Products、Employees、UpstreamAccount、Roles | 即使暂无交易也应能独立保存；Roles 是应用角色数据，不等于 SQL Server 的数据库 ROLE |
 | 交易与关联实体 | Orders、OrderDetails | Orders 是交易头；OrderDetails 用两条非空 FK 表达“订单—商品”业务多对多，另有独立 `detail_id` 主码 |
 | 依附状态/账户 | Inventory、TokenBalances | Inventory 依赖上游账号且一账号最多一库存行；TokenBalances 按会员 × provider 唯一 |
-| 事件流水 | InventoryLog、TokenUsageLogs、ExceptionLog | 不可用当前快照替代历史；弱引用必须区别真实 FK |
+| 事件流水 | InventoryLog、TokenUsageLogs、ExceptionLog | 不可用当前快照替代历史；弱引用必须区别现有 FK |
 | 派生汇总/任务 | UsageSummary、RestockTask | 业务粒度和状态信息需要单独维护，也会引入与原始事实的同步责任 |
 
 ## 4. 三个最易混淆的关系
@@ -64,6 +64,6 @@
 
 ## 6. 特殊 ER 要素补充核对
 
-“必须依赖别的表才能存在”与“弱实体”并不等价：`OrderDetails` 是关联且存在依赖的实体，但有独立 `detail_id PK`；`Inventory` 和 `TokenBalances` 也各有独立主码。因而本次**物理 ER 不绘制严格弱实体双框或标识性联系**，17 条 FK 都使用非标识性虚线。
+“必须依赖别的表才能存在”与“弱实体”并不等价：`OrderDetails` 是关联且存在依赖的实体，但有独立 `detail_id PK`；`Inventory` 和 `TokenBalances` 也各有独立主码。因而本次**物理 ER 不绘制严格弱实体双框或标识性联系**；17 条 FK 在 Mermaid 可编辑源中以 `..` 保留非标识性语义，而正式 PNG/SVG 使用实线便于阅读（实线不代表主码参与）。
 
 `OrderDetails.subtotal/total_tokens` 是由公式约束保证的**计算后存储字段**；`Orders` 总量和 `UsageSummary` 属于**汇总存储**；库存、余额属于**状态快照**，不能画成不存在的 SQL Server 虚拟计算列。目前没有可靠证据要求画多值属性双椭圆或复合属性分解；复合候选码不等于复合属性。`TokenUsageLogs` 是三方调用事实实体，`RestockTask` 的创建人/被指派人是两种不同角色的 FK。更多逐项证据和图例见 [特殊 ER 要素审查](special_er_features.md)。

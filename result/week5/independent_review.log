@@ -1,0 +1,60 @@
+REVIEW-01 table / FK metadata
+14
+FK_Employees_Roles Employees role_id 0 Roles role_id 0 0
+FK_ExceptionLog_HandledBy ExceptionLog handled_by 1 Employees employee_id 0 0
+FK_Inventory_UpstreamAccount Inventory account_id 0 UpstreamAccount account_id 0 0
+FK_InventoryLog_Account InventoryLog account_id 0 UpstreamAccount account_id 0 0
+FK_InventoryLog_Operator InventoryLog operator_id 1 Employees employee_id 0 0
+FK_OrderDetails_Orders OrderDetails order_id 0 Orders order_id 0 0
+FK_OrderDetails_Products OrderDetails product_id 0 Products product_id 0 0
+FK_Orders_Users Orders user_id 0 Users user_id 0 0
+FK_RestockTask_Account RestockTask account_id 0 UpstreamAccount account_id 0 0
+FK_RestockTask_AssignedTo RestockTask assigned_to 1 Employees employee_id 0 0
+FK_RestockTask_CreatedBy RestockTask created_by 0 Employees employee_id 0 0
+FK_TokenBalances_Users TokenBalances user_id 0 Users user_id 0 0
+FK_TokenUsageLogs_Account TokenUsageLogs account_id 0 UpstreamAccount account_id 0 0
+FK_TokenUsageLogs_Products TokenUsageLogs product_id 0 Products product_id 0 0
+FK_TokenUsageLogs_Users TokenUsageLogs user_id 0 Users user_id 0 0
+FK_UsageSummary_Products UsageSummary product_id 0 Products product_id 0 0
+FK_UsageSummary_Users UsageSummary user_id 0 Users user_id 0 0
+REVIEW-02 PK, UK candidates
+Employees PK_Employees PK employee_id
+Employees UQ_Employees_account UQ account
+ExceptionLog PK_ExceptionLog PK exception_id
+Inventory PK_Inventory PK inventory_id
+Inventory UQ_Inventory_account UQ account_id
+InventoryLog PK_InventoryLog PK log_id
+OrderDetails PK_OrderDetails PK detail_id
+OrderDetails UQ_OrderDetails_order_product UQ order_id,product_id
+Orders PK_Orders PK order_id
+Products PK_Products PK product_id
+Products UQ_Products_name UQ name
+Products UQ_Products_provider_tokens UQ model_provider,token_amount
+RestockTask PK_RestockTask PK task_id
+Roles PK_Roles PK role_id
+Roles UQ_Roles_role_name UQ role_name
+TokenBalances PK_TokenBalances PK balance_id
+TokenBalances UQ_TokenBalances_user_provider UQ user_id,model_provider
+TokenUsageLogs PK_TokenUsageLogs PK log_id
+UpstreamAccount PK_UpstreamAccount PK account_id
+UpstreamAccount UQ_UpstreamAccount_provider_name UQ provider,account_name
+UsageSummary PK_UsageSummary PK summary_id
+UsageSummary UQ_UsageSummary_key UQ user_id,product_id,period_type,period_start
+Users PK_Users PK user_id
+Users UQ_Users_email UQ email
+Users UQ_Users_username UQ username
+REVIEW-03 domain checks
+orders_without_details 0
+accounts_without_inventory 0
+same_product_repeated_lines 0
+provider_mismatch 0
+order_header_mismatch 0
+inventory_quota_mismatch 0
+REVIEW-04 weak reference types (no sensitive column values)
+ExceptionLog (NULL) ID_NULL 3
+ExceptionLog Inventory ID_SET 4
+ExceptionLog Orders ID_SET 4
+ExceptionLog TokenUsageLogs ID_SET 4
+InventoryLog (NULL) ID_NULL 8
+InventoryLog manual ID_SET 3000
+InventoryLog restock_task ID_SET 4

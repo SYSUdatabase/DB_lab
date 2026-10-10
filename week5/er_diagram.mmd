@@ -1,7 +1,10 @@
 %% Week 5 / API Token Hub v0.1 / 2026-10-10
 %% Editable physical ER source: 14 tables, 17 actual FK constraints.
-%% Mermaid ".." denotes non-identifying FK relationships; no FK is in the child PK.
+%% Mermaid ".." denotes non-identifying FKs in the editable source; no FK is in the child PK.
+%% The Python SVG/PNG renderer intentionally uses SOLID lines for course presentation;
+%% exported solid lines do NOT turn these into identifying relationships.
 %% The renderer writes endpoint multiplicities as 1..1 / 0..1 / 0..* / 1..*.
+%% 图例：PK 主码；UK 候选/唯一键成员；FK 外码；.. 非标识性 FK；o| 0..1；|| 1..1；o{ 0..*；|{ 1..*。
 %% Existence-dependent is NOT the same as a strict identifying weak entity.
 %% UK marks each component of a composite UNIQUE key; see data_dictionary.md.
 erDiagram

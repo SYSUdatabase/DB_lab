@@ -255,8 +255,11 @@ def draw_edges(ax, edges: list[Link]) -> None:
             occupancy[cell] = occupancy.get(cell, 0) + 1
         points = reduce_collinear([p, start, *interior, stop, q])
         xs, ys = zip(*points)
-        style = (0, (5.5, 2.5)) if edge.identifying_operator == ".." else "-"
-        ax.plot(xs, ys, color="#74889E", lw=1.5, linestyle=style,
+        # Export as solid connections for the course ER diagram.
+        # Mermaid's ".." still records non-identifying FK semantics in the editable source;
+        # visual line style here does NOT imply a child FK is part of its primary key.
+        edge_color = "#6D54B0" if (edge.src, edge.dst) == ("Employees", "RestockTask") else "#74889E"
+        ax.plot(xs, ys, color=edge_color, lw=1.65, linestyle="-",
                 solid_capstyle="round", zorder=1)
         for xy in (p, q):
             ax.plot([xy[0]], [xy[1]], marker="o", ms=2.5, color="#64748B", zorder=4)
@@ -322,9 +325,15 @@ def main() -> None:
     ax.set_ylim(-0.5, CANVAS_Y)
     ax.set_aspect("equal")
     ax.axis("off")
-    # The user requested only this title; no subtitle, symbol legend or footer.
+    # The assignment requires a legend; keep it inside the exported diagram.
     ax.text(0.65, 19.52, "API Token 中转站 | v0.1 物理 ER 模型",
             size=20, fontweight="bold", color="#13263D", ha="left")
+    ax.text(0.65, 18.85, "图例  PK = 主码   UK = 候选/唯一键成员（复合 UK 需组合看）   FK = 外码   实线 = 实体之间的业务联系",
+            fontsize=10.0, color="#334155", ha="left")
+    ax.text(0.65, 18.43, "基数  0..1 = 可选一个   1..1 = 恰好一个   0..* = 零到多个   1..* = 至少一个；当前图按 v0.1 物理约束绘制",
+            fontsize=10.0, color="#334155", ha="left")
+    ax.text(0.65, 18.01, "双角色外码  Employees → RestockTask：created_by = 创建人（必填）   assigned_to = 被指派人（可空）",
+            fontsize=10.0, color="#6D54B0", ha="left")
     draw_edges(ax, edges)
     draw_nodes(ax, tables)
     svg, png = ROOT / "er_diagram.svg", ROOT / "er_diagram.png"

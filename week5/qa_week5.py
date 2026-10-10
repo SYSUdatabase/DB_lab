@@ -9,7 +9,7 @@ from xml.etree import ElementTree
 from PIL import Image
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
+ROOT = HERE.parent
 ER = (HERE / "er_diagram.mmd").read_text(encoding="utf-8")
 LOG = (ROOT / "result/week5/readonly_validation.log").read_text(encoding="utf-8")
 
@@ -29,12 +29,32 @@ er_pairs = Counter((parent, child) for parent, child, _ in EDGES)
 sql_pairs = Counter((parent, child) for child, _, parent in FK_LOG)
 assert er_pairs == sql_pairs, f"ER model does not match actual FK parent/child pairs: {er_pairs - sql_pairs}"
 
+# Verify each relation's exact child FK column against the authoritative v0.1 DDL.
+# Comparing parent/child pairs alone misses role swaps such as created_by vs assigned_to.
+ddl = (ROOT / "sql/01_create_tables.sql").read_text(encoding="utf-8-sig")
+schema_fk: set[tuple[str, str, str]] = set()
+for block in re.finditer(r"CREATE TABLE dbo\.(\w+)\s*\((.*?)^\);", ddl, re.S | re.M):
+    child, definition = block.groups()
+    for match in re.finditer(
+        r"CONSTRAINT\s+FK_\w+\s+FOREIGN KEY\s*\((\w+)\)\s*"
+        r"REFERENCES\s+dbo\.(\w+)\s*\(\w+\)", definition, re.S
+    ):
+        column, parent = match.groups()
+        schema_fk.add((parent, child, column))
+er_fk = set((parent, child, column) for parent, child, column in EDGES)
+assert len(schema_fk) == len(er_fk) == 17, (schema_fk, er_fk)
+assert schema_fk == er_fk, f"Mermaid FK column mismatch: {er_fk ^ schema_fk}"
+
 vector = HERE / "er_diagram.svg"
 bitmap = HERE / "er_diagram.png"
 tree = ElementTree.parse(vector)
 visible_text = " ".join(t.text or "" for t in tree.iter() if t.tag.endswith("text"))
+assert "stroke-dasharray" not in vector.read_text(encoding="utf-8"), "Exported FK lines must be solid"
+for role_label in ("created_by", "assigned_to", "双角色外码", "实线"):
+    assert role_label in visible_text, f"Missing role/solid-line explanation: {role_label}"
 assert "API Token 中转站" in visible_text, "Main diagram title missing"
 assert "第五周 · 14 张业务表" not in visible_text, "Unwanted subtitle still displayed"
+assert "图例" in visible_text, "Diagram legend missing"
 assert "0..N" not in visible_text and "1..N" not in visible_text
 assert "0..*" in visible_text and "1..1" in visible_text and "0..1" in visible_text
 for tag in ("关联实体", "三方调用", "计算存储", "汇总存储", "额度快照"):

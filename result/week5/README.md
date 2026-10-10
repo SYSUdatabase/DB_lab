@@ -4,7 +4,7 @@
 - **运行日期**：2026-10-10；目标：`LAPTOP-3H5FCR3B` 上的 `localhost\SQLEXPRESS`。
 - **SQL 源码**：[readonly_validation.sql](readonly_validation.sql)。仅含 `SET`、`PRINT`、`SELECT`，含必要系统目录只读查询。
 - **真实 SQL Server 执行日志**：[readonly_validation.log](readonly_validation.log)。命令返回码为 0。
-- **对应的解释及图**：[第五周正式交付](../../report/week5/README.md) 和 [设计验证](../../report/week5/design_validation.md)。
+- **对应的解释及图**：[第五周正式交付](../../week5/README.md) 和 [设计验证](../../week5/design_validation.md)。
 
 ## 关键观测数据
 
@@ -26,4 +26,4 @@
 
 ## 自动 QA 记录
 
-[qa.log](qa.log) 是原始自动检查记录；[qa_special_er.log](qa_special_er.log) 是本次更新后的检查，额外验证 17 条非标识性外码线、图中的特殊 ER 注记以及新版链接。均来自执行 `report/week5/qa_week5.py`：14 表/17 FK 图文一致、SVG/PNG 可解析、文档链接检查通过。Git `diff --check` 返回 0（仅有 Windows 行尾规范提示）。无数据库写入。
+[qa.log](qa.log) 是原始自动检查记录；[qa_special_er.log](qa_special_er.log) 是本次更新后的检查，额外验证 17 条非标识性外码线、图中的特殊 ER 注记以及新版链接。均来自执行 `week5/qa_week5.py`：14 表/17 FK 图文一致、SVG/PNG 可解析、文档链接检查通过。Git `diff --check` 返回 0（仅有 Windows 行尾规范提示）。无数据库写入。
