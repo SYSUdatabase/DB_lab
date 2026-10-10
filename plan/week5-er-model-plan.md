@@ -65,14 +65,14 @@ DB_lab/
 
 ### P2｜整理联系、基数、参与约束与实现方式
 - [ ] 逐个 FK 建关系映射：`Users→Orders→OrderDetails←Products`；`UpstreamAccount→Inventory/InventoryLog/RestockTask`；`Users→TokenBalances/TokenUsageLogs/UsageSummary`；`Roles→Employees`；员工处理/指派/操作联系等。
-- [ ] 每条关系**两端都填写 min..max**（0..1、1..1、0..N、1..N），并说明限定条件及产生该判断的业务依据。
+- [ ] 每条关系**两端都填写 min..max**（0..1、1..1、0..*、1..*），并说明限定条件及产生该判断的业务依据。
 - [ ] 记录“目前如何保证”：PK/UNIQUE/FK/NOT NULL/CHECK、`verify.sql` 检查、业务代码/人工约定或当前完全缺失；只读验证时也要标明是“真实数据库”还是“静态 DDL”证据。
 - [ ] 重点分辨：`Orders` 业务上至少一条 `OrderDetails`，现有 FK **无法强制订单头一定有明细**；`UpstreamAccount→Inventory` 在当前 `UNIQUE(account_id)+NOT NULL FK` 下，库存行必须有账号，但账号可以没有库存行（数据库保证的账号侧是 0..1）。
 - [ ] `TokenBalances.model_provider` 目前是枚举值而非指向 provider 实体的 FK；`ExceptionLog.related_table/related_id` 和 `InventoryLog.reference_type/reference_id` 不是指向任意目标表的真实 FK，需用虚线/注释区分逻辑关联与物理 FK。
 - [ ] 分析 `Products` 与上游账号的 provider 匹配、`TokenUsageLogs` 记录中的 provider 一致性：哪些依靠 `verify.sql` 或流程约定而非数据库 FK。
 
 ### P3｜绘制并核对 ER 图
-- [ ] 选定 **Crow's Foot（鸟爪）表示法**，统一标出实体、关键属性、PK/UK/FK、联系名称、两端的最小/最大基数以及符号图例；图例说明 `||`、`o|`、`|{`、`o{`。
+- [x] 编辑源文件保留 Mermaid ER 关系语法，渲染图使用 `1..1`、`0..1`、`0..*`、`1..*` 文本标注两端基数，不显示符号图例。保留实体、关键属性和 PK/UK/FK。
 - [ ] 按 14 张表先绘主图。业务约束与当前数据库约束不同时：以**当前 v0.1 的物理实现为主体**，另用文字注明期望业务约束；不得画成已经强制的关系。
 - [ ] 核对每条线的两端是否有实际 FK；无 FK 的逻辑联系用注释表或区分样式，不伪装为物理约束。
 - [ ] 将源图 `.mmd` 导出 SVG，检查 100% 缩放与投屏可读性、中文不乱码、线条不遮挡关键字段；必要时另导出 PNG 和局部放大图。保留源图以便二次编辑。
@@ -132,7 +132,7 @@ DB_lab/
 - [x] **P0 基线**：核对 v0.1 DDL、追加 CHECK、原始 ER 草图、Git 状态；现存 `TokenHubDB_v01_A` 只读确认 14 表、17 个启用 FK、3 个追加 CHECK。
 - [x] **P1 数据字典**：完成 `report/week5/data_dictionary.md`，14 张表的实体含义、行粒度、全部字段名/可空性、PK、UNIQUE 候选标识和 FK。
 - [x] **P2 关系映射**：完成 `business_rules_mapping.md`；17 条 FK 的两端 min/max、NULL 约束、真实外码和逻辑联系分别列示。
-- [x] **P3 图**：完成 `er_diagram.mmd`、`er_diagram.svg`、`er_diagram.png`、本地渲染工具 `render_er.py`；全部覆盖 14 实体 17 外码；矢量导出通过图像可读性检查。
+- [x] **P3 图**：完成 `er_diagram.mmd`、`er_diagram.svg`、`er_diagram.png`、本地渲染工具 `render_er.py`；覆盖 14 实体 17 外码。之后按反馈改为不规则避障布局、明确 `0..*` 等文字基数，移除原副标题与图例，重新导出并视觉核对。
 - [x] **P4 问题与保留**：完成 `v01_issues.md`，10 项问题/待确认项、7 项保留说明与第六周候选处理，未修改结构。
 - [x] **P5 业务场景**：`result/week5/readonly_validation.sql` 实际在 `TokenHubDB_v01_A` 只读运行成功，结果存档为同名 `.log`。100 订单、184 明细、68 多明细订单；订单和库存两类校验异常均为 0；库存阈值下 Gemini 账号为 2。
 - [x] **P6 资料归档与入口**：第五周目录 README、数据字典、规则、问题、设计说明、结果证据与根文档入口同步；只添加本周文件及索引。
@@ -144,3 +144,10 @@ DB_lab/
 
 
 **最后自检**：`qa_week5.py` 对 14 个实体、17 个 Mermaid 关系与 SQL Server 已有 17 个 FK 逐对校验均通过；SVG/PNG 可解析，当前文档相对链接通过，`git diff --check` 通过。真实记录见 `result/week5/qa.log`。未运行历史 v0.1 全量建库流水线；本周只做增量分析和只读检查。
+
+## 八、特殊 ER 要素复核补充
+
+- [x] 核对严格弱实体、存在依赖实体、多值/复合属性、计算存储字段、关联实体、三方调用事实、同一实体间双角色联系、可选参与性及非标识性外码。
+- [x] 17 条真实 FK 在当前物理 PK 下均为非标识性联系，编辑 Mermaid 源关系符为 `..` 并以虚线导出；各关系两端保持 `1..1` / `0..1` / `0..*` / `1..*` 文本，不混同可空性。
+- [x] 图中对 `OrderDetails` 标明关联实体，对具体列标明计算存储/汇总存储/快照，并对 `TokenUsageLogs` 标明三方调用事实；**没有依据的弱实体、多值属性及新实体不凭空绘制**。
+- [x] [完整审查解释](../report/week5/special_er_features.md)；本轮仍无 DDL/数据库数据修改，人工小组业务判定仍待完成。

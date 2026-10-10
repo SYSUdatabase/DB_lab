@@ -61,3 +61,9 @@
 - DDL、候选码、NOT NULL 和 FK：`sql/01_create_tables.sql`；追加公式与支付 CHECK：`sql/constraint.sql`。
 - 实际数据库：`result/week5/readonly_validation.sql`、`readonly_validation.log`，查询 `TokenHubDB_v01_A` 的结构计数为 14 表、17 FK、3 个追加 CHECK；各表定义仍以正式 DDL 为主要依据。
 - 字典不包含任何凭证取值；敏感列只允许记录字段存在及其目的。
+
+## 6. 特殊 ER 要素补充核对
+
+“必须依赖别的表才能存在”与“弱实体”并不等价：`OrderDetails` 是关联且存在依赖的实体，但有独立 `detail_id PK`；`Inventory` 和 `TokenBalances` 也各有独立主码。因而本次**物理 ER 不绘制严格弱实体双框或标识性联系**，17 条 FK 都使用非标识性虚线。
+
+`OrderDetails.subtotal/total_tokens` 是由公式约束保证的**计算后存储字段**；`Orders` 总量和 `UsageSummary` 属于**汇总存储**；库存、余额属于**状态快照**，不能画成不存在的 SQL Server 虚拟计算列。目前没有可靠证据要求画多值属性双椭圆或复合属性分解；复合候选码不等于复合属性。`TokenUsageLogs` 是三方调用事实实体，`RestockTask` 的创建人/被指派人是两种不同角色的 FK。更多逐项证据和图例见 [特殊 ER 要素审查](special_er_features.md)。

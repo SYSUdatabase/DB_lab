@@ -1,28 +1,28 @@
 %% Week 5 / API Token Hub v0.1 / 2026-10-10
-%% Crow's Foot physical FK model (17 FK constraints, 14 tables).
-%% Child multiplicity at the right is what the current DDL can enforce.
-%% Additional business wishes, such as Orders having >=1 detail, are NOT asserted here.
-%% || = exactly one; o| = zero or one; o{ = zero or many; |{ = one or many.
+%% Editable physical ER source: 14 tables, 17 actual FK constraints.
+%% Mermaid ".." denotes non-identifying FK relationships; no FK is in the child PK.
+%% The renderer writes endpoint multiplicities as 1..1 / 0..1 / 0..* / 1..*.
+%% Existence-dependent is NOT the same as a strict identifying weak entity.
 %% UK marks each component of a composite UNIQUE key; see data_dictionary.md.
 erDiagram
     direction LR
-    Roles ||--o{ Employees : role_id
-    Users ||--o{ Orders : user_id
-    Users ||--o{ TokenBalances : user_id
-    Users ||--o{ TokenUsageLogs : user_id
-    Users ||--o{ UsageSummary : user_id
-    Orders ||--o{ OrderDetails : order_id
-    Products ||--o{ OrderDetails : product_id
-    Products ||--o{ TokenUsageLogs : product_id
-    Products ||--o{ UsageSummary : product_id
-    UpstreamAccount ||--o| Inventory : account_id
-    UpstreamAccount ||--o{ InventoryLog : account_id
-    UpstreamAccount ||--o{ TokenUsageLogs : account_id
-    UpstreamAccount ||--o{ RestockTask : account_id
-    Employees o|--o{ InventoryLog : operator_id
-    Employees ||--o{ RestockTask : created_by
-    Employees o|--o{ RestockTask : assigned_to
-    Employees o|--o{ ExceptionLog : handled_by
+    Roles ||..o{ Employees : role_id
+    Users ||..o{ Orders : user_id
+    Users ||..o{ TokenBalances : user_id
+    Users ||..o{ TokenUsageLogs : user_id
+    Users ||..o{ UsageSummary : user_id
+    Orders ||..o{ OrderDetails : order_id
+    Products ||..o{ OrderDetails : product_id
+    Products ||..o{ TokenUsageLogs : product_id
+    Products ||..o{ UsageSummary : product_id
+    UpstreamAccount ||..o| Inventory : account_id
+    UpstreamAccount ||..o{ InventoryLog : account_id
+    UpstreamAccount ||..o{ TokenUsageLogs : account_id
+    UpstreamAccount ||..o{ RestockTask : account_id
+    Employees o|..o{ InventoryLog : operator_id
+    Employees ||..o{ RestockTask : created_by
+    Employees o|..o{ RestockTask : assigned_to
+    Employees o|..o{ ExceptionLog : handled_by
 
     Roles {
         int role_id PK

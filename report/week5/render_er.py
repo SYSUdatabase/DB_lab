@@ -1,163 +1,341 @@
-"""Render the 14-entity Mermaid v0.1 source into presentation-ready vector and raster diagrams.
+"""Render the editable Mermaid ER source with readable 0..* cardinalities.
 
-Only reads er_diagram.mmd; never connects to the database or reads any row values.
-Requires matplotlib (already available on the demonstrated Windows host).
+The data model lives in er_diagram.mmd. This file only changes presentation:
+loose, domain-aware node positions and obstacle-avoiding routed FK connectors.
+No database access, DDL, or sensitive row reads.
 """
 from __future__ import annotations
 
+import heapq
 import re
+from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "er_diagram.mmd"
-ENTITY_RE = re.compile(r"^\s{4}(\w+)\s+\{\s*$")
-EDGE_RE = re.compile(r"^\s{4}(\w+)\s+(o\||\|\||o\{|\|\{)--(o\||\|\||o\{|\|\{)\s+(\w+)\s*:\s*(\w+)\s*$")
-
-# x,y represent card lower-left corners on a 17 x 13 grid.
+ENTITY_RE = re.compile(r"^    (\w+) \{$")
+EDGE_RE = re.compile(
+    r"^    (\w+)\s+(o\||\|\||o\{|\|\{)(\.\.|--)(o\||\|\||o\{|\|\{)"
+    r"\s+(\w+)\s*:\s*(\w+)$"
+)
+CARDINALITY = {"||": "1..1", "o|": "0..1", "o{": "0..*", "|{": "1..*"}
+W, H = 4.05, 2.55
+STEP = 0.25
+CANVAS_X, CANVAS_Y = 33.9, 20.7
+# Deliberately staggered placement, not a forced rectangular grid.
+# New positions are presentation-only; the Mermaid source remains authoritative.
 LAYOUT = {
-    "Roles": (0.45, 9.7), "Employees": (0.45, 6.2), "Users": (0.45, 2.4),
-    "Products": (4.68, 9.65), "Orders": (4.68, 6.75),
-    "OrderDetails": (4.68, 3.6), "TokenBalances": (4.68, 0.65),
-    "UpstreamAccount": (8.91, 9.65), "Inventory": (8.91, 6.75),
-    "InventoryLog": (8.91, 3.6), "RestockTask": (8.91, 0.65),
-    "TokenUsageLogs": (13.14, 9.65), "UsageSummary": (13.14, 6.4),
-    "ExceptionLog": (13.14, 3.05),
+    "Users": (0.65, 14.10),
+    "Orders": (6.05, 14.65),
+    "OrderDetails": (11.48, 14.35),
+    "Products": (16.80, 14.90),
+    "UpstreamAccount": (23.13, 13.45),
+    "Inventory": (29.00, 15.35),
+    "TokenBalances": (0.72, 9.33),
+    "UsageSummary": (7.65, 9.12),
+    "TokenUsageLogs": (15.55, 9.45),
+    "InventoryLog": (28.53, 9.46),
+    "RestockTask": (24.12, 4.55),
+    "Employees": (17.34, 3.80),
+    "Roles": (11.58, 4.10),
+    "ExceptionLog": (11.40, 0.08),
 }
-# Reserve dedicated header space; keep diagram cards below the title and legend.
-LAYOUT = {name: (x, y - 1.10) for name, (x, y) in LAYOUT.items()}
 TYPES = {
-    "Roles": "权限元数据", "Employees": "员工", "Users": "会员",
-    "Products": "销售套餐", "Orders": "订单", "OrderDetails": "订单明细",
-    "TokenBalances": "会员余额", "UpstreamAccount": "上游账号",
-    "Inventory": "额度快照", "InventoryLog": "额度流水",
-    "RestockTask": "补货任务", "TokenUsageLogs": "调用流水",
-    "UsageSummary": "期间汇总", "ExceptionLog": "异常处理",
+    "Roles": "角色", "Employees": "员工", "Users": "会员",
+    "Products": "销售套餐", "Orders": "订单", "OrderDetails": "关联实体",
+    "TokenBalances": "余额依赖", "UpstreamAccount": "上游账号",
+    "Inventory": "快照依赖", "InventoryLog": "额度流水",
+    "RestockTask": "补货任务", "TokenUsageLogs": "三方调用",
+    "UsageSummary": "周期汇总", "ExceptionLog": "异常处理",
 }
-W = 3.55
-PANEL_H = 2.35
-PALETTE = {
-    "Roles": "#4F46E5", "Employees": "#4F46E5", "Users": "#4F46E5",
-    "Products": "#0284C7", "Orders": "#0284C7", "OrderDetails": "#0284C7",
-    "TokenBalances": "#0284C7",
-    "UpstreamAccount": "#059669", "Inventory": "#059669",
-    "InventoryLog": "#059669", "RestockTask": "#059669",
-    "TokenUsageLogs": "#C47F0B", "UsageSummary": "#C47F0B",
-    "ExceptionLog": "#C47F0B",
+COLORS = {
+    **dict.fromkeys(("Users", "Orders", "OrderDetails", "Products", "TokenBalances"), "#216EAC"),
+    **dict.fromkeys(("UpstreamAccount", "Inventory", "InventoryLog", "RestockTask"), "#087D72"),
+    **dict.fromkeys(("UsageSummary", "TokenUsageLogs"), "#A35C25"),
+    **dict.fromkeys(("Roles", "Employees", "ExceptionLog"), "#6D54B0"),
+}
+# Side choices are kept explicit for diagram legibility, not DB semantics.
+# L/R/T/B = left/right/top/bottom perimeter of a table.
+SIDES = {
+    ("Roles", "Employees", "role_id"): ("R", "L"),
+    ("Users", "Orders", "user_id"): ("R", "L"),
+    ("Users", "TokenBalances", "user_id"): ("B", "T"),
+    ("Users", "TokenUsageLogs", "user_id"): ("R", "L"),
+    ("Users", "UsageSummary", "user_id"): ("R", "L"),
+    ("Orders", "OrderDetails", "order_id"): ("R", "L"),
+    ("Products", "OrderDetails", "product_id"): ("L", "R"),
+    ("Products", "TokenUsageLogs", "product_id"): ("B", "T"),
+    ("Products", "UsageSummary", "product_id"): ("B", "T"),
+    ("UpstreamAccount", "Inventory", "account_id"): ("R", "L"),
+    ("UpstreamAccount", "InventoryLog", "account_id"): ("R", "T"),
+    ("UpstreamAccount", "TokenUsageLogs", "account_id"): ("L", "R"),
+    ("UpstreamAccount", "RestockTask", "account_id"): ("B", "T"),
+    ("Employees", "InventoryLog", "operator_id"): ("R", "L"),
+    ("Employees", "RestockTask", "created_by"): ("R", "L"),
+    ("Employees", "RestockTask", "assigned_to"): ("R", "L"),
+    ("Employees", "ExceptionLog", "handled_by"): ("B", "R"),
 }
 
 
-def read_source() -> tuple[dict[str, list[str]], list[tuple[str, str, str, str, str]]]:
-    entities: dict[str, list[str]] = {}
-    edges: list[tuple[str, str, str, str, str]] = []
-    active: str | None = None
-    for raw in SOURCE.read_text(encoding="utf-8").splitlines():
-        if match := EDGE_RE.match(raw):
-            edges.append(tuple(match.groups()))
-        elif match := ENTITY_RE.match(raw):
-            active = match.group(1)
-            entities[active] = []
-        elif active is not None and raw.strip() == "}":
-            active = None
-        elif active is not None and raw.strip():
-            items = raw.strip().split()
-            if len(items) >= 2:
-                field = items[1]
-                flags = items[2] if len(items) >= 3 else ""
-                entities[active].append(field + (f"  [{flags}]" if flags else ""))
-    if set(entities) != set(LAYOUT) or len(edges) != 17:
-        raise ValueError(f"Unexpected ER source: {len(entities)} tables, {len(edges)} FKs")
-    return entities, edges
+@dataclass(frozen=True)
+class Link:
+    src: str
+    src_mark: str
+    identifying_operator: str
+    dst_mark: str
+    dst: str
+    fk: str
 
 
-def boundary(src: str, dst: str):
-    xa, ya = LAYOUT[src]
-    xb, yb = LAYOUT[dst]
-    ca = (xa + W / 2, ya + PANEL_H / 2)
-    cb = (xb + W / 2, yb + PANEL_H / 2)
-    dx, dy = cb[0] - ca[0], cb[1] - ca[1]
-    if abs(dx) > abs(dy) * 0.46:
-        s = (xa + (W if dx > 0 else 0), ca[1])
-        t = (xb if dx > 0 else xb + W, cb[1])
-        off = (0.27 if dx > 0 else -0.27, 0)
-    else:
-        s = (ca[0], ya + (PANEL_H if dy > 0 else 0))
-        t = (cb[0], yb if dy > 0 else yb + PANEL_H)
-        off = (0, 0.19 if dy > 0 else -0.19)
-    return s, t, off
+def read_model() -> tuple[dict[str, list[str]], list[Link]]:
+    tables: dict[str, list[str]] = {}
+    links: list[Link] = []
+    current: str | None = None
+    for row in SOURCE.read_text(encoding="utf-8").splitlines():
+        if m := EDGE_RE.match(row):
+            links.append(Link(*m.groups()))
+        elif m := ENTITY_RE.match(row):
+            current = m.group(1)
+            tables[current] = []
+        elif current and row.strip() == "}":
+            current = None
+        elif current and row.strip():
+            parts = row.split()
+            if len(parts) >= 2:
+                field, flags = parts[1], (parts[2] if len(parts) > 2 else "")
+                tables[current].append(f"{field}  {flags}".strip())
+    if set(tables) != set(LAYOUT) or len(links) != 17:
+        raise ValueError("Expected 14 editable entities and 17 FK links")
+    if {tuple((v.src, v.dst, v.fk)) for v in links} != set(SIDES):
+        raise ValueError("Routing side settings must correspond to every Mermaid FK")
+    if any(link.identifying_operator != ".." for link in links):
+        raise ValueError("All current FK columns are outside child primary keys; expected non-identifying links")
+    return tables, links
+
+
+def center(table: str) -> tuple[float, float]:
+    x, y = LAYOUT[table]
+    return x + W / 2, y + H / 2
+
+
+def assign_ports(links: list[Link]) -> dict[tuple[int, str], tuple[float, float, str]]:
+    uses: dict[tuple[str, str], list[tuple[int, str, float]]] = defaultdict(list)
+    for i, edge in enumerate(links):
+        left_side, right_side = SIDES[edge.src, edge.dst, edge.fk]
+        uses[edge.src, left_side].append((i, "src", center(edge.dst)[1 if left_side in "LR" else 0]))
+        uses[edge.dst, right_side].append((i, "dst", center(edge.src)[1 if right_side in "LR" else 0]))
+    ports: dict[tuple[int, str], tuple[float, float, str]] = {}
+    for (table, side), ends in uses.items():
+        x, y = LAYOUT[table]
+        ends.sort(key=lambda item: (item[2], item[0]))
+        for j, (index, tag, _) in enumerate(ends, 1):
+            f = j / (len(ends) + 1)
+            if side == "L":
+                point = (x, y + 0.35 + f * (H - 0.70), side)
+            elif side == "R":
+                point = (x + W, y + 0.35 + f * (H - 0.70), side)
+            elif side == "T":
+                point = (x + 0.35 + f * (W - 0.70), y + H, side)
+            else:
+                point = (x + 0.35 + f * (W - 0.70), y, side)
+            # Snap the coordinate along the box edge to the routing grid.
+            # This removes small diagonal kinks where paths leave their boxes.
+            px, py, _ = point
+            point = (px, round(py / STEP) * STEP, side) if side in "LR" else (round(px / STEP) * STEP, py, side)
+            ports[index, tag] = point
+    return ports
+
+
+NORMAL = {"L": (-1, 0), "R": (1, 0), "T": (0, 1), "B": (0, -1)}
+MOVES = ((1, 0), (0, 1), (-1, 0), (0, -1))
+
+
+def snap(p: tuple[float, float]) -> tuple[int, int]:
+    return round(p[0] / STEP), round(p[1] / STEP)
+
+
+def route(
+    start: tuple[float, float],
+    end: tuple[float, float],
+    forbidden: set[tuple[int, int]],
+    occupancy: dict[tuple[int, int], int],
+) -> list[tuple[float, float]]:
+    """Four-direction A*, with large obstacle/crossing and turn penalties."""
+    a, b = snap(start), snap(end)
+    start_state = (*a, -1)
+    best = {start_state: 0.0}
+    previous: dict[tuple[int, int, int], tuple[int, int, int]] = {}
+    queue: list[tuple[float, float, tuple[int, int, int]]] = [(0, 0, start_state)]
+    target = None
+    while queue:
+        _, g, state = heapq.heappop(queue)
+        if g > best.get(state, float("inf")) + 0.00001:
+            continue
+        x, y, old_dir = state
+        if (x, y) == b:
+            target = state
+            break
+        for direction, (dx, dy) in enumerate(MOVES):
+            nx, ny = x + dx, y + dy
+            if not (1 <= nx < CANVAS_X / STEP - 2 and 1 <= ny < CANVAS_Y / STEP - 2):
+                continue
+            if (nx, ny) in forbidden and (nx, ny) not in (a, b):
+                continue
+            crossing = occupancy.get((nx, ny), 0)
+            adjacent = sum(occupancy.get((nx + ox, ny + oy), 0) > 0 for ox, oy in MOVES)
+            bend = 2.7 if old_dir != -1 and direction != old_dir else 0
+            ng = g + 1 + bend + 42 * crossing + adjacent * 0.8
+            new = (nx, ny, direction)
+            if ng < best.get(new, float("inf")):
+                best[new] = ng
+                previous[new] = state
+                heur = (abs(nx - b[0]) + abs(ny - b[1])) * 1
+                heapq.heappush(queue, (ng + heur, ng, new))
+    if target is None:
+        raise RuntimeError(f"No clear diagram route between {start} and {end}")
+    chain = [target]
+    while chain[-1] != start_state:
+        chain.append(previous[chain[-1]])
+    chain.reverse()
+    return [(x * STEP, y * STEP) for x, y, _ in chain]
+
+
+def reduce_collinear(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    kept: list[tuple[float, float]] = []
+    for p in points:
+        if kept and p == kept[-1]:
+            continue
+        kept.append(p)
+        while len(kept) >= 3:
+            a, b, c = kept[-3:]
+            if abs((b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])) > 1e-5:
+                break
+            kept.pop(-2)
+    return kept
+
+
+def obstacle_cells() -> set[tuple[int, int]]:
+    blocks: set[tuple[int, int]] = set()
+    for x, y in LAYOUT.values():
+        ix0, iy0 = snap((x - 0.20, y - 0.20))
+        ix1, iy1 = snap((x + W + 0.20, y + H + 0.20))
+        for i in range(ix0, ix1 + 1):
+            for j in range(iy0, iy1 + 1):
+                blocks.add((i, j))
+    return blocks
+
+
+def draw_edges(ax, edges: list[Link]) -> None:
+    ports = assign_ports(edges)
+    obstacles = obstacle_cells()
+    occupancy: dict[tuple[int, int], int] = {}
+    # Local links first, letting costly longer routes use the free corridors.
+    order = sorted(range(len(edges)), key=lambda i: (
+        abs(center(edges[i].src)[0] - center(edges[i].dst)[0])
+        + abs(center(edges[i].src)[1] - center(edges[i].dst)[1])
+    ))
+    for i in order:
+        edge = edges[i]
+        first, last = ports[i, "src"], ports[i, "dst"]
+        p, q = first[:2], last[:2]
+        fx, fy = NORMAL[first[2]]
+        lx, ly = NORMAL[last[2]]
+        start = (p[0] + 0.73 * fx, p[1] + 0.73 * fy)
+        stop = (q[0] + 0.73 * lx, q[1] + 0.73 * ly)
+        interior = route(start, stop, obstacles, occupancy)
+        for point in interior:
+            cell = snap(point)
+            occupancy[cell] = occupancy.get(cell, 0) + 1
+        points = reduce_collinear([p, start, *interior, stop, q])
+        xs, ys = zip(*points)
+        style = (0, (5.5, 2.5)) if edge.identifying_operator == ".." else "-"
+        ax.plot(xs, ys, color="#74889E", lw=1.5, linestyle=style,
+                solid_capstyle="round", zorder=1)
+        for xy in (p, q):
+            ax.plot([xy[0]], [xy[1]], marker="o", ms=2.5, color="#64748B", zorder=4)
+        for endpoint, mark in ((first, edge.src_mark), (last, edge.dst_mark)):
+            x, y, side = endpoint
+            dx, dy = NORMAL[side]
+            # Only human-readable min..max labels. No crow's-foot symbols in exports.
+            ax.text(x + 0.31 * dx, y + 0.31 * dy, CARDINALITY[mark],
+                    size=8.2, color="#172A42", ha="center", va="center", zorder=7,
+                    bbox=dict(facecolor="white", edgecolor="none", pad=0.7, alpha=0.94))
+        if edge.src == "Employees" and edge.dst == "RestockTask":
+            # Distinguish the two FK links sharing one parent/child pair.
+            label_x = 22.58
+            label_y = 6.78 if edge.fk == "created_by" else 5.25
+            ax.text(label_x, label_y, edge.fk, fontsize=8.1, color="#6D54B0",
+                    ha="left", va="center", zorder=8,
+                    bbox=dict(facecolor="white", edgecolor="none", pad=0.8))
+
+
+ATTRIBUTE_KIND = {
+    ("OrderDetails", "subtotal"): "计算存储",
+    ("OrderDetails", "total_tokens"): "计算存储",
+    ("Orders", "total_amount"): "汇总存储",
+    ("Orders", "total_tokens"): "汇总存储",
+    ("Inventory", "current_quota"): "额度快照",
+    ("TokenBalances", "remaining_tokens"): "余额快照",
+    ("UsageSummary", "total_tokens_used"): "周期汇总",
+    ("UsageSummary", "request_count"): "周期汇总",
+}
+
+
+def draw_nodes(ax, entities: dict[str, list[str]]) -> None:
+    for name, (x, y) in LAYOUT.items():
+        bg = FancyBboxPatch((x, y), W, H, boxstyle="round,pad=0.01,rounding_size=0.10",
+                            facecolor="white", edgecolor="#CBD5E1", lw=1.0, zorder=3)
+        ax.add_patch(bg)
+        head = FancyBboxPatch((x + 0.02, y + H - 0.54), W - 0.04, 0.51,
+                              boxstyle="round,pad=0.01,rounding_size=0.07",
+                              facecolor=COLORS[name], edgecolor="none", zorder=4)
+        ax.add_patch(head)
+        ax.text(x + 0.12, y + H - 0.27, name, va="center", ha="left",
+                color="white", fontweight="bold", fontsize=11.0, zorder=5)
+        ax.text(x + W - 0.14, y + H - 0.27, TYPES[name], va="center", ha="right",
+                color="white", fontsize=7.8, zorder=5)
+        for j, field in enumerate(entities[name][:8]):
+            column = field.split()[0]
+            if annotation := ATTRIBUTE_KIND.get((name, column)):
+                field += f"  ({annotation})"
+            if len(field) > 39:
+                field = field[:38] + "…"
+            ax.text(x + 0.15, y + H - 0.77 - j * 0.218, field,
+                    va="center", ha="left", fontsize=8.35, zorder=5,
+                    color="#0F172A" if "PK" in field else "#334155",
+                    fontweight="bold" if "PK" in field else "normal")
 
 
 def main() -> None:
-    entities, edges = read_source()
-    plt.rcParams["font.family"] = ["Microsoft YaHei", "DejaVu Sans"]
-    plt.rcParams["svg.fonttype"] = "none"
-    fig, ax = plt.subplots(figsize=(23.0, 17.0), dpi=200)
-    fig.patch.set_facecolor("#FFFFFF")
-    ax.set_facecolor("#FFFFFF")
-    ax.set_xlim(0, 17.15)
-    ax.set_ylim(-1.8, 13.1)
+    tables, edges = read_model()
+    plt.rcParams.update({"font.family": ["Microsoft YaHei", "DejaVu Sans"], "svg.fonttype": "none"})
+    fig, ax = plt.subplots(figsize=(25, 15), dpi=170)
+    fig.patch.set_facecolor("white")
+    ax.set_xlim(-0.35, CANVAS_X)
+    ax.set_ylim(-0.5, CANVAS_Y)
     ax.set_aspect("equal")
     ax.axis("off")
-    ax.text(0.44, 12.47, "API Token 中转站  |  v0.1 物理 ER 模型", fontsize=22, weight="bold", color="#111827")
-    ax.text(0.47, 12.05, "第五周 · 14 张业务表 · 17 条实际 FK · Crow's Foot · 以当前 DDL 为准", fontsize=11, color="#475569")
-    ax.text(0.47, 11.66, "|| = 1..1    o| = 0..1    o{ = 0..N    |{ = 1..N     端点标的是对侧每条记录可关联的数量", fontsize=10, color="#334155")
-
-    for i, (src, left, right, dst, fk) in enumerate(edges):
-        s, t, offset = boundary(src, dst)
-        color = PALETTE.get(src, "#64748B")
-        bow = [0.055, -0.06, 0.12, -0.12][i % 4]
-        line = FancyArrowPatch(s, t, arrowstyle="-", color=color,
-                               mutation_scale=8, lw=1.5, alpha=0.32,
-                               connectionstyle=f"arc3,rad={bow}", zorder=1)
-        ax.add_patch(line)
-        # Endpoint symbols convey the relation multiplicities. See mapping for role-specific participation.
-        ax.text(s[0] + offset[0], s[1] + offset[1], left, fontsize=9, weight="bold",
-                color=color, zorder=3, ha="center", va="center",
-                bbox=dict(boxstyle="round,pad=0.08", facecolor="white", edgecolor="none", alpha=0.95))
-        ax.text(t[0] - offset[0], t[1] - offset[1], right, fontsize=9, weight="bold",
-                color=color, zorder=3, ha="center", va="center",
-                bbox=dict(boxstyle="round,pad=0.08", facecolor="white", edgecolor="none", alpha=0.95))
-
-    for table, fields in entities.items():
-        x, y = LAYOUT[table]
-        c = PALETTE[table]
-        bg = FancyBboxPatch((x, y), W, PANEL_H, boxstyle="round,pad=0.02,rounding_size=0.13",
-                            linewidth=1.4, edgecolor="#CBD5E1", facecolor="white", zorder=5)
-        ax.add_patch(bg)
-        header = FancyBboxPatch((x + 0.02, y + PANEL_H - 0.59), W - 0.04, 0.56,
-                                boxstyle="round,pad=0.005,rounding_size=0.08",
-                                linewidth=0, facecolor=c, zorder=6)
-        ax.add_patch(header)
-        ax.text(x + 0.16, y + PANEL_H - 0.27, table, color="white",
-                fontsize=13, weight="bold", va="center", zorder=7)
-        ax.text(x + W - 0.13, y + PANEL_H - 0.27, TYPES[table], color="white",
-                fontsize=8.5, ha="right", va="center", zorder=7)
-        for j, field in enumerate(fields[:8]):
-            label = field.replace("  [", "   ").replace("]", "")
-            if len(label) > 37:
-                label = label[:36] + "…"
-            ax.text(x + 0.18, y + PANEL_H - 0.87 - j * 0.185, label,
-                    fontsize=8.4, color="#0F172A" if "PK" in field else "#334155",
-                    weight="bold" if "PK" in field else "normal", zorder=7, va="center")
-    ax.text(0.48, -1.40,
-            "实线表示实际外键。此图只反映 v0.1 的结构性约束；订单至少一条明细、散客购买、跨表余额等业务规则见映射和问题清单。",
-            fontsize=10.5, color="#475569")
-    svg = ROOT / "er_diagram.svg"
-    png = ROOT / "er_diagram.png"
-    fig.savefig(svg, format="svg", bbox_inches="tight", pad_inches=0.28)
-    # Matplotlib emits trailing spaces in multi-line SVG paths; normalize for Git checks.
+    # The user requested only this title; no subtitle, symbol legend or footer.
+    ax.text(0.65, 19.52, "API Token 中转站 | v0.1 物理 ER 模型",
+            size=20, fontweight="bold", color="#13263D", ha="left")
+    draw_edges(ax, edges)
+    draw_nodes(ax, tables)
+    svg, png = ROOT / "er_diagram.svg", ROOT / "er_diagram.png"
+    fig.savefig(svg, bbox_inches="tight", pad_inches=0.23, format="svg")
     svg.write_text(
         "\n".join(line.rstrip() for line in svg.read_text(encoding="utf-8").splitlines()) + "\n",
         encoding="utf-8",
     )
-    fig.savefig(png, format="png", dpi=200, bbox_inches="tight", pad_inches=0.28)
+    fig.savefig(png, bbox_inches="tight", pad_inches=0.23, format="png", dpi=170)
     plt.close(fig)
-    print(f"rendered {len(entities)} entities, {len(edges)} FK relationships: {svg.name}, {png.name}")
+    print(f"ER export: {len(tables)} entities, {len(edges)} physical FK links -> {svg.name}, {png.name}")
 
 
 if __name__ == "__main__":
