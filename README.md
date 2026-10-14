@@ -149,3 +149,19 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 第六周入口：[规范化分析与迁移进度](week6/README.md)、[14 表函数依赖与范式判断](week6/dependency_normalization.md)、[有条件重构及无损/依赖保持](week6/redesign_decisions.md)、[当前证据](result/week6/README.md)、[执行计划](plan/week6-normalization-migration-plan.md)。
 
 已保护 `TokenHubDB_v01_A` 并备份还原隔离副本，源/副本迁移前订单、销售、库存和权限基准完全一致。**目前 P2 目标结构待业务确认，尚未执行 migration.sql/regression.sql；不能称为第六周全部完成。**
+
+## 第六周执行结果补充（2026-10-14）
+
+已根据用户批准，在隔离副本 `TokenHubDB_v10_W6_20261014` 实施有依据的固定周期规范化：`UsagePeriod` 99 条，`UsageSummaryCore` 3394 条，物理表 15 张、真实外码 18 条，旧 `UsageSummary` 以只读兼容视图继续提供 10 列业务查询。原 `TokenHubDB_v01_A` 未修改，迁移前后源业务基准 SHA-256 一致。
+
+正式入口：[第六周 README](week6/README.md)、[依赖与范式分析](week6/dependency_normalization.md)、[重构决策](week6/redesign_decisions.md)、[v1.0 可编辑 ER 图](week6/er_diagram_v10.mmd)、[v1.0 数据字典](week6/data_dictionary_v10.md)、[迁移脚本](sql/migration.sql)、[回归脚本](sql/regression.sql)及[结果证据](result/week6/README.md)。
+
+回归 R01–R12、权限 VFY14 均通过，非权限业务基准 3763 行零差异；源库自带订单/调用时间不一致及历史负余额问题使旧 VFY12/VFY13 **未通过**。完整异常计数见第六周报告，不能以迁移成功替代原始数据修复。原 `sql/02_insert_data.sql` 只适用于 v0.1，新 v1.0 写入应经 UsagePeriod/UsageSummaryCore。未执行针对当前变更的新 Git 提交或 push。
+
+## 第五周问题修复试验（v1.1 隔离库，2026-10-14）
+
+[本轮修复明细与决策项](week6/issue_fixes/README.md)：在新副本 `TokenHubDB_v11_Issues_20261014` 中，对已完成订单、调用 provider/日期、已知弱引用和原子化消费增加前向校验；原 v0.1 与 v1.0 不变。与 v1.0 的 3763 条业务基准零差异，关联正反例及 R01–R12 通过。I02/I03/I04/I07 等业务规则尚待明确，不将部分控制冒称“第五周全部问题已修复”。
+
+## 用户批准后的 v1.1 I02/I03/I04/I07 修复（2026-10-14）
+
+在隔离库 `TokenHubDB_v11_Issues_20261014` 已实施：同单同商品通过 quantity 合并；散客先登记 Users 后下单；新增上游账号自动生成且必须保留唯一库存；补货任务按 manual/system 决定是否必须有创建人。新增两个受控订单过程、三个触发器和 `RestockTask.created_source`，并提供 [v1.1 数据字典](week6/issue_fixes/data_dictionary_v11.md)、[可编辑 ER 图](week6/issue_fixes/er_diagram_v11.mmd)、[测试和限制](week6/issue_fixes/README.md)。新规则与先前 R01–R12 回归全部通过；业务数据 3763 条零差异。原库和 v1.0 结果库均未改。旧历史数据异常及其它写入入口的后续完善仍需独立处理。

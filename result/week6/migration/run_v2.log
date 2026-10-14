@@ -1,0 +1,2 @@
+注意: 更改对象名的任一部分都可能会破坏脚本和存储过程。
+PASS W6 MIGRATION: 3394 summaries, 99 normalized period keys, 15 tables, 18 FK, 11 views

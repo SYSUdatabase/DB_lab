@@ -1,0 +1,3 @@
+PASS W6 diagram: 15 entities / 18 FKs match SQL Server columns
+PASS W6 exported SVG/PNG and visible textual multiplicities
+PASS W6 document links: 56 checked; 0 broken

@@ -1,0 +1,12 @@
+issue affected
+----- --------
+orders_before_registration 20
+issue affected
+----- --------
+usage_before_registration 402
+issue affected
+----- --------
+invalid_upstream_interval_or_provider 225
+issue affected
+----- --------
+negative_historical_balance_events 1

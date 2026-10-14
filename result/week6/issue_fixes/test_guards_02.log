@@ -1,0 +1,7 @@
+﻿PASS I01 pending to paid without details rejected
+PASS I01/I06 complete matched order finalized and rolled back
+PASS I01/I06 paid detail immutable
+PASS I05 pre-registration usage rejected
+PASS I08 restock_task reference rejected
+PASS I08 exception reference rejected
+PASS V11 GUARD REGRESSION

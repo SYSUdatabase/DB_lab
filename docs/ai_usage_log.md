@@ -555,3 +555,84 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 - 首次用 PowerShell here-string 通过管道传 Python 标准输入检查链接，输入首字节携带 UTF-8 BOM，Python 返回 `SyntaxError: invalid non-printable character U+FEFF`；该调用未修改项目文件或数据库。随后改用 PowerShell 自身的只读 Markdown 相对链接检查。
 - 重新检查 `README.md`、`week6/`、`result/week6/README.md` 和计划共 42 条相对链接，**0 条失效**；`git diff --check` 通过。 `week5/qa_week5.py` 重新核验 14 张表、17 条 FK、图像与 12 份文档引用通过。
 - 源库和隔离副本的基准均有成功文件；第一次 collation 451 错误见 `result/week6/baseline/source_semantics.failed_collation.txt`，`source_semantics.txt` 和后缀 v2 的对账文件均为有效版本。无 P3/P4 结果，等待用户批准具体目标模式。
+
+## 2026-10-14：P3 获批准并设计迁移脚本
+- 用户要求“commit后批准执行”。已先提交 P0–P2 基线与设计：`43b5112 docs(week6): establish normalization analysis and copy baseline`；未 push。随后才开始迁移准备。
+- 为避免原有查询接口失效，最终实施路径选择将原 `dbo.UsageSummary` 改名为 `dbo.UsageSummaryCore`，把 `period_end` 提取至新表 `dbo.UsagePeriod`（周期复合主码），再以同名 `dbo.UsageSummary` 只读兼容视图还原旧 10 列读路径；原 CRUD 许可随实体表迁移，新增周期表由 manager 持有 CRUD，原同名视图授予 manager SELECT。旧 INSERT（含 IDENTITY_INSERT）不再通过视图写入，后续须使用 v1.0 写入路径，v0.1 生成器不改动。
+- 迁移脚本 `sql/migration.sql` 强制检查数据库名 `TokenHubDB_v10_W6_20261014`、原表/行数/17 FK、周期定义和权限状态；用单事务与 TRY/CATCH，失败回滚。脚本仅对隔离副本有效，绝不执行在 `TokenHubDB_v01_A`。
+
+### P3 第一次执行失败及根因
+- 第一次在隔离副本运行 `sql/migration.sql` 报 51610（迁移后表/FK/视图数量检查不满足），`result/week6/migration/run.log` 保留失败输出。
+- 失败后只读核对发现副本回到旧 `UsageSummary` 表（14 表、17 FK、无 UsagePeriod/UsageSummaryCore），说明事务回滚生效。基线源库和副本都只有 **9 个视图**，而仓库 `sql/view.sql` 定义 **10 个**，缺失 `dbo.v_CustomerService`；因此迁移中新增兼容视图后只有 10 个而非预计 11 个。该源库比 README 描述的当前 v0.1 不完整。
+- 处理计划：**不修改源库**；将官方 `sql/view.sql` 已声明的 `v_CustomerService` 定义和原来角色应有的 manager/staff 只读权限作为隔离副本的显式修复步骤纳入迁移，并重新进行安全校验与回归。不会把 9 视图的源库冒充为 10 视图。
+
+### P3/P4 完成与 v0.1 基线缺陷
+- `sql/migration.sql` 修订版第二次执行成功（`result/week6/migration/run_v2.log`）；得到 15 张表、18 个启用且可信外码、11 个视图、99 条周期定义、3394 条不丢失的 UsageSummary 明细。旧逻辑读接口以兼容视图还原，原写入接口调整为 `dbo.UsageSummaryCore` 与 `dbo.UsagePeriod`。
+- `sql/regression.sql` R01—R12 全部通过，包含与源库双向 EXCEPT、合法写入后回滚、候选码/检查约束/FK 反例、角色权限及原库未变。迁移前后 3763 条业务基准记录（排除有意新增的权限对象）差异为 0。
+- 从正式 `sql/verify.sql` 派生 `week6/verify_v10.sql`，仅适配目标库名、15 表/11 视图预期。第一次检查发现源库旧 `v_InventoryStatus` 缺少 `quota_headroom`；在副本执行 `week6/align_legacy_views.sql` 使用正式 `sql/view.sql` 的视图定义补齐，原 v0.1 不改。
+- 完整校验随后通过 VFY01—VFY11，但在 VFY12 报 51360。源/目标各自查询现存问题数完全一致：订单早于注册 20、调用早于注册 402、调用与上游有效期/provider 不符 225、逐事件历史负余额 1（`result/week6/regression/legacy_anomalies_{source,target}.log`）。属于复制的旧数据缺陷；未为掩盖错误而改写交易历史。VFY12/13 **不能记录为通过**，原库全量验收口径需另行纠正。
+
+### 第六周 P5 最终交付与 QA
+
+- 生成 `week6/er_diagram_v10.mmd` 与 `render_er_v10.py`，初次程序替换把 PowerShell 的转义序列误写入 Python 源文件，触发 SyntaxError；纠正两处布局/路由字典项后，成功从可编辑 Mermaid 源导出 SVG/PNG。图包含 15 张物理表、18 条实际 FK，基数为 `0..1/1..1/0..*/1..*`，保留 Employees→RestockTask 两种独立角色联系。完成 `data_dictionary_v10.md`。
+- 使用 `sys.foreign_keys` 生成 `result/week6/regression/actual_fks.txt`，由 `week6/qa_week6.py` 对照每条 FK 的父/子表及复合外码列，15 实体/18 FK 完全匹配，SVG/PNG 解析通过。
+- 运行 `week6/verify_v10_roles.sql` 独立 VFY14，全部通过；R01–R12 修复库存视图后再次通过，旧源库后置基准哈希仍为 `A73CB20D7DAA334328AABC25EB06CDD4FE6977F20C2EF86302406176AACB8EEC`。
+- 单元测试第一次 PowerShell 设置 ErrorActionPreference Stop 时把 unittest 正常 stderr 进度当成 NativeCommandError；重新通过 cmd 重定向运行，22 项测试中 12 PASS、10 因未配置隔离集成测试库而 skipped，不计为集成验证成功；其余 SQL 回归证据来自独立脚本。ER QA 及文档链接检查通过。
+- 更新第六周数据字典、设计方案、报告、根 README、ROADMAP、要求索引和 AI 使用文档。旧 VFY12/13 缺陷四项原库与新副本均一致，继续保留为 FAIL，等待独立的数据质量修复决策。没有新的第二次 Git commit/push。
+
+### 交付前质量检查收尾
+
+- 第六周 `week6/qa_week6.py` 对 15 物理表/18 真实 FK 的所有列组合与 Mermaid 实体/关系逐条匹配，通过 SVG/PNG 和 56 条相对链接检查；第五周 QA 重跑亦通过。
+- 第六周两个 Python 文件 AST 检查通过。旧项目单元测试共 22 项，12 PASS、10 skipped（明确禁止把 skipped 算通过）；原电脑未发现仓库 `.venv` 或 `ruff`，本轮未执行 Ruff check/format。SQL 回归 R01—R12 和 VFY14 的 PASS 来自独立执行日志，不使用单元测试 skipped 充当证据。
+- `git diff --check` 已通过（有 Windows 行尾格式提示但非错误），目录仍有本次新增/修改文件**未提交**，没有第二次 commit/push。目标数据库已迁移，原 `TokenHubDB_v01_A` 的业务基准哈希未变。
+
+## 2026-10-14：第五周问题修复启动（v1.1 隔离试验）
+- 用户指示“那就现在解决”，授权在 sh 项目内推进，但没有给出 I02/I03/I04/I07 等业务歧义的具体选择。先落实不改变现有业务含义的保护措施；涉及匿名散客、同单商品重复等不擅自定案。
+- 已只读核对 v1.0 库及正式 DDL/role 定义，确认 I01、I05、I08、I09 相关字段。现有 InventoryLog 有 restock_task 4 行、manual 3000 行且后者均带编号；ExceptionLog 当前使用 Orders、Inventory、TokenUsageLogs 三种对象引用，各 4 行。历史引用关联目标当前均存在，但 SQL 未以真实 FK 强制。
+- 从 v1.0 隔离数据库 COPY_ONLY/CHECKSUM 备份、VERIFYONLY，独立还原为 TokenHubDB_v11_Issues_20261014。保留 v0.1、v1.0 原库，备份不放在 Git。预备实施新写入约束和原子化消费流程，测试只在 v1.1 副本进行，历史异常不无依据地改写.
+
+### v1.1 第一批约束与原子化调用测试（2026-10-14）
+- 新建 `week6/issue_fixes/enforce_known_rules.sql`，仅部署在 `TokenHubDB_v11_Issues_20261014`。新增五类 AFTER 触发器：已支付/退款订单至少一条明细并核对汇总；已完成订单禁止直接改明细；新增使用记录检查注册时间/provider/上游使用区间；新库存流水的 order/restock_task 引用验证；新 ExceptionLog 的 Orders/Inventory/TokenUsageLogs 引用验证。`manual` 类型参考号没有已确认目标，不伪造 FK。
+- 第一次 `test_guards.sql` 在最后一项因测试样例 `ExceptionLog.exception_type='test'` 触发既有 CHECK，而不是新引用约束。失败日志 `result/week6/issue_fixes/test_guards_01.log` 保留。改为既有合法 `system_error` 后重跑，六项正反例全部通过，见 `test_guards_02.log`。未覆盖失败证据。
+- 新建 `week6/issue_fixes/record_usage.sql`：`usp_W5_RecordUsage` 在事务内对有效用户/套餐/账号、余额和库存加锁，检查 provider、时间范围及余额/配额；同事务更新 TokenBalances、UpstreamAccount、Inventory、TokenUsageLogs、InventoryLog、UsagePeriod、UsageSummaryCore。只授予 `hub_manager` EXECUTE。新写入正例和余额不足反例见 `test_managed_usage_01.log`；正例在外层事务回滚，余额/库存/上游配额及日志记录恢复，错误 51956 拒绝超额消费。
+- 边界：历史数据没有重写；当前管理员仍有旧版直接 DML 授权，因此不把该过程宣称为所有写入路径的强制单一入口。I02/I03/I04/I07 仍涉及未确认的业务选择，后续需明确口径。
+
+### v1.1 审计引用保护、回归及数据对照
+
+- 第二批 `protect_parent_deletes.sql` 新增普通管理员不能直接插入/更新/删除 TokenUsageLogs 的触发器，以及对已知多态审计引用目标的删除保护。 `test_parent_and_role_01.log` 验证管理员直写事件被 51982 拒绝，Orders 和 RestockTask 被引用时删除分别被 51983/51985 拒绝。
+- 第一批原子化存储过程在第二批触发器部署后重新执行 `test_managed_usage.sql`：正例事务回滚、余额不足错误 51956，均通过，见 `test_managed_usage_02.log`。
+- `regression_v11.sql` 从正式 `sql/regression.sql` 仅更改 v1.1 目标库白名单，R01–R12 再次全部通过。用 `week6/baseline.sql` 提取副本业务数据，与原 v1.0 `copy_after.txt` 对照，排除有意新增的对象权限行后，两侧各 3763 行、差异 0。
+- 以上成功不等于旧历史业务违规已清零：第五周 I02/I03/I04/I07 未确定业务选择，I05/I06/I08/I09 仍有直接父表/余额维护及不明 manual 参考编号等待闭环。
+
+### 2026-10-14 I02/I03/I04/I07 用户明确决策
+- 用户批准：I02 同订单同商品通过 quantity 合并、保留 UNIQUE；I03 散客必须先有 Users 记录、Orders.user_id 继续 NOT NULL/FK；I04 每个上游账号必须存在且仅有一个 Inventory；I07 创建补货任务区分 manual/system，manual 必填员工，system 不需要员工。
+- 读库核验：v1.1 库仍为 15 表、18 FK、已有 10 个触发器及原子化调用过程；RestockTask.created_by 当前仍 NOT NULL、created_source 不存在；现有上游账号缺少库存的计数为 0。
+- 待实施 SQL 将仅运行在 TokenHubDB_v11_Issues_20261014，原 v0.1/v1.0 继续不修改；保留首次运行和反例证据，不创建任何账户密钥或用户真实密码数据。
+
+### 2026-10-14 I02/I03/I04/I07 已授权决策实施与失败修复
+- 在隔离 v1.1 副本部署 `week6/issue_fixes/approved_rules.sql`：保留同单商品联合唯一，RestockTask.created_by 改为可空并增加 created_source、默认 manual 及可信 CHECK；新增上游账号自动建立库存、阻止库存删除/改绑造成缺口、订单插入前必须已有 active Users 记录的三个触发器。
+- 初次安装因 SQL Server 在同一批次内编译对刚创建的 created_source 列的引用报 207，事务回滚；第二次取消最终验证直接列访问后依旧在 ADD CHECK 同批次编译时报 207，检查确认安装未部分生效；第三次将 ADD COLUMN 与 ADD CHECK 分成两个 GO 批次，成功。失败日志 approved_rules_install_01.log / _02.log 完整保留，成功日志 approved_rules_install_03.log。
+- 新增 `usp_W5_CreateRegisteredOrder`（existing active Users 方可创建）和 `usp_W5_AddMergedOrderItem`（仅待支付单，商品按 quantity 合并、旧成交价格快照保留，同事务更新 Orders 金额/Token）。安装成功：registered_order_workflow_install_01.log。
+- `test_approved_rules_01.log` 六组情形全部通过：同商品数量 2+3 合并到 5、无账户直接/过程下单被拒、创建账号立即有唯一正确额度快照、库存删除拒绝、系统补货 created_by=NULL 和人工补货 created_by 必填的正反例均通过，所有业务写入事务回滚。
+- 老四组测试 `test_guards.sql`、`test_managed_usage.sql`、`test_parent_and_role.sql`、`regression_v11.sql` 重新执行全部通过，分别保留后缀 postapproval.log。
+- 使用可编辑 ER 源生成独立 `er_diagram_v11.mmd` 与 SVG/PNG，保留 v1.0 原图不覆盖，库存参与基数改为 1..1，RestockTask 创建人基数改为 0..1，补充 created_source 字段。没有变动源 v0.1/v1.0 数据库。
+
+### 2026-10-14 I02/I03/I04/I07 验收补充
+
+- `approved_rules.sql` 首次两次失败，均为 SQL Server 207（同一批次引用刚添加列）；分别保存 `approved_rules_install_01.log` 和 `approved_rules_install_02.log`，读取元数据确认恢复到 10 个旧触发器/18 FK、无 created_source；加入 GO 后在 `approved_rules_install_03.log` 成功。
+- `registered_order_workflow.sql` 成功创建 `usp_W5_CreateRegisteredOrder` 和 `usp_W5_AddMergedOrderItem`（保留首次成交单价快照、更新订单汇总）。`test_approved_rules_01.log` 六类结果 PASS；又补充同单同商品直接重复 INSERT 的 UNIQUE 负例，`test_approved_rules_02.log` PASS。
+- `verify_approved_rules.log`：8 个上游账号对应 8 条库存，8 个存量补货任务转为 manual；可信 FK/CHECK 与 13 个启用触发器 PASS。四个旧 v1.1 测试及 R01–R12 再次通过（见 postapproval 后缀日志）。
+- v1.1 独立可编辑 `er_diagram_v11.mmd` 与渲染器/导出 SVG/PNG 已创建：库存父→子改为 1..1，RestockTask.created_by 变为可选、加入 created_source。与 v1.0 的非权限业务基准两侧各 3763 行，差异 0。
+
+## 2026-10-14：按业务板块新增项目总览图（进行中）
+
+- 用户要求换一种图理解整个数据库项目，分板块而非继续阅读 15 表 18 外码的密集 ER 图。已只读核对当前 v1.0 迁移说明、目标数据字典、根 README 与业务流程。工作区存在此前未提交的第六周迁移/修补文件，均须原样保留；不执行数据库修改。
+- 采用六板块：身份与权限、套餐与订单、余额与调用、上游与库存、用量统计、异常与经营处理；每个物理表只归到一个主板块，总计 15 张。特别注明 UsageSummary 是只读兼容视图，不是第 16 张物理表；v1.1 独立修补不混入 v1.0 结构图。
+- 新增可编辑 Mermaid 源 `report/overview_modules.mmd`，与第五/六周 ER 图并存，不覆盖原图。下一步从该源文件生成 SVG/PNG 并核对图面与物理表数。
+
+### 用户批准规则实施后的最后核验
+
+- v1.1 SQL 元数据只读检查：15 表、18 可信 FK、13 个启用 W5 触发器，8 个上游账号/8 条库存、8 个现存补货任务且均为 manual，created_by 可空但 manual/source CHECK 可信。见 `result/week6/issue_fixes/verify_approved_rules.log`。
+- 测试新批准规则 `test_approved_rules_02.log` 全部 PASS；原 `test_guards_postapproval.log`、`test_managed_usage_postapproval.log`、`test_parent_and_role_postapproval.log` 以及 `regression_v11_postapproval.log` 全部 PASS。最新业务基准非权限记录两侧各 3763 行，差异为 0，模拟业务写入均回滚。
+- v1.1 可编辑图的 15 实体/18 FK、库存 1..1 与 RestockTask.created_by 0..1 基数、SVG/PNG 解析 QA 通过；旧第五周/第六周 QA 通过；检查 133 条文档相对链接均存在，`git diff --check` 成功。
+- Git 中仍保留了先前未提交的第六周迁移与本轮 v1.1 文件；没有执行 commit/push。仓库出现一个未跟踪的 `report/overview_modules.mmd`，本轮没有创建或修改该文件，保留原状。

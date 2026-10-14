@@ -89,3 +89,11 @@ UsageSummary(
 经只读审查，`tools/datagen.py` 以周一作为 weekly 起点、周日作为终点，以月首/月末作为 monthly 边界；`sql/verify.sql` VFY10 使用相同规则检查 `UsageSummary`。因此当前项目本身已经按“统一周期”生成并核对数据，业务 FD 有代码依据。副本包含 **3394 条汇总行 / 99 种周期定义**（daily 83、weekly 13、monthly 3），无周期结束日冲突。
 
 这使 `UsagePeriod` 分解成为有根据的**优先候选**，但不等于用户已经批准影响写入接口的 DDL。仍需明确批准迁移后再实施 P3；未来若要引入自定义用户周期则需另外建模。
+
+## 六、已批准并实施的决定（2026-10-14）
+
+用户先要求将 P0–P2 commit 后批准执行；实际本地提交 `43b5112`，其后才执行 P3。迁移选择本文第二节的 **UsagePeriod + UsageSummaryCore** 无损分解，保留名为 `dbo.UsageSummary` 的读兼容视图。物理表 **15 张、18 FK**；周期 99 种，汇总 3394 行。定义已在 `sql/migration.sql` 中实现（因具体源库缺失官方视图，追加补齐 `v_CustomerService` 与 `v_InventoryStatus` 的迁移保护步骤）。
+
+不实施 OrderDetails 的计算列转换；订单明细历史快照及两个公式 CHECK 保留。散客/一单同商品、库存参与、自动补货创建人等未决规则未擅改。真正的 v1.0 旧 INSERT 接口需要新写入程序适配，不能将保留旧字段读取的视图视为支持旧写入。
+
+P4 R01–R12 全部通过，源/目标非权限业务数据一致；**VFY12/VFY13 历史业务检查未通过，是旧库继承的缺陷**，具体见 [执行结果](report_material.md)。

@@ -69,3 +69,7 @@
 补查 `tools/datagen.py` 生成 `UsageSummary` 的逻辑：daily 的起点/终点均为调用日期；weekly 使用 `used_date.weekday()` 将起点对齐周一，终点为六日后；monthly 将起点对齐该月 1 日，终点为该月最后一天。`sql/verify.sql` 的 VFY10 使用同样的周一/自然月规则生成参照并做双向 EXCEPT 比较。因而对**现有项目明确采用的统计定义**，`(period_type,period_start)→period_end` 是有代码与验收规则支持的业务 FD，而不再只是样例观察。数据库 `CK_UsageSummary_dates` 仍仅保证 end≥start，不保证该 FD；模式调整需要批准。
 
 隔离副本只读计数：`UsageSummary` **3394 行**，其中不同的 `(period_type,period_start)` 共 **99 个**（daily 83、weekly 13、monthly 3），同键不同结束日 **0**。按上述 FD 提取周期定义表可将重复的日期规则统一管理，但必须同步旧的 `query.sql`、`verify.sql`、生成器与已有插入接口。
+
+## 5. 本次重构结果
+
+原 `UsageSummary` 中关于 `(period_type,period_start)→period_end` 的已确认统一周期规则，在 v1.0 分离到 `UsagePeriod`：`(period_type,period_start)` 为新表完整复合主码，`period_end` 完全依赖该码；`UsageSummaryCore` 的同名二列同时为目标外码，与用户/商品标识组成原四元候选码。该分解不改变单条指标粒度，并通过双向 EXCEPT 验证。保留 `OrderDetails` 计算后存储小计与历史成交快照的受控冗余，不能因此称其形式上已消除全部 3NF 缺陷。

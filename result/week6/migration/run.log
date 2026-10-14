@@ -1,0 +1,3 @@
+注意: 更改对象名的任一部分都可能会破坏脚本和存储过程。
+消息 51610，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，第 92 行
+Post-migration table/FK/view counts do not match expected schema
