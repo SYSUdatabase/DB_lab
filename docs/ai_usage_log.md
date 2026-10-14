@@ -658,3 +658,27 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 - 文档核对过程中先检测到三条相对链接失效（本次新增的复现 SQL 相对路径一条、迁移归档前已移动的第五周目录两条），逐项修正链接而未改原正文含义；重新检查涉及的 Markdown 相对链接 **145 条 / 0 失效**。
 - 实测复用已存在的 `-Suffix W6Auto261014` 时程序在开始前拒绝写入，符合“不覆盖已有目录/数据库”的安全要求。
 - `git diff --check` 通过，出现 Windows CRLF/LF 行尾提醒但非失败；其它任务的未提交 `report/overview_modules.*` 和关联 README/ROADMAP 片段保留原状。原 v0.1/v1.0/v1.1 业务数据库未被复现脚本覆写。本轮**未 commit/push**。
+
+## 2026-10-14：第六周当前工作交接文档（开始）
+
+- **用户要求**：在 `D:\Desktop\DB\DB_lab\week6` 生成可由同事继续工作的上下文文件，并做本地 Git commit。
+- **依据核对**：仓库最新已有提交 `5ec2c94`，此前依次为 `e82ce7b`、`43b5112`，迁移前基线 `c8d4e64`。本地 `main` 已有另一项 `report/overview_modules.*` 的 5 个未跟踪文件及 README/ROADMAP/AI 日志的未提交改动；本轮不得混入提交。
+- **只读数据库核验**：`TokenHubDB_v01_A` 为 14 表/17 可信 FK/9 视图，`TokenHubDB_v10_W6_20261014` 为 15 表/18 FK/11 视图/99 个周期/3394 条汇总，`TokenHubDB_v11_Issues_20261014` 同样为 15 表/18 FK/11 视图，另有 13 个 v1.1 触发器、3 个受控存储过程。三库均处于 ONLINE。
+- **拟写入文件**：`week6/HANDOFF_CONTEXT.md`，保留第五、六周详细文档原始结论，区分已完成的规范化及复现、v1.1 的前向保护、未解决的旧库数据异常及其他待做质量验收。完成后更新入口、检查链接/敏感字段和 Git diff，并仅提交交接相关差异。
+
+### 交接文件已写入（2026-10-14）
+
+- 新增 `week6/HANDOFF_CONTEXT.md`（152 行），涵盖项目和主要数据库位置、历史提交/完整旧代码 ZIP、P0–P5 规范化成果、R01–R12/VFY01–VFY14 两条数据来源差别、v1.1 I01–I10 已实施范围、尚未解决的历史数据/写入治理/独立评审/Ruff 与集成测试，以及给接手同事的操作和验收清单。
+- `week6/README.md` 顶部新增交接入口，保留旧版报告按阶段留下的“当时状态”，不默改历史结论；`TokenHubDB_v01_A`、`TokenHubDB_v10_W6_20261014`、`TokenHubDB_v11_Issues_20261014` 均只进行元数据 SELECT，未执行写库操作。
+- 交接文档内容源于已提交文件、现存结果日志及三库当前元数据（14/17/9、15/18/11、15/18/11 加 13 个触发器与 3 个过程），没有记录任何密钥或密码哈希值。
+
+### 交接文档 QA（2026-10-14）
+
+- `week6/HANDOFF_CONTEXT.md` 的相对链接 **37 条 / 0 失效**；仅引用项目里可查验的设计、回归、备份和复现结果。
+- 依次重跑 `week6/reproduction/qa_reproduction.py`（历史 ZIP 344 文件/哈希、两段日志、3763 行业务对账）、`week6/qa_week6.py`（15 实体/18 FK/ER 图片/文档链接）、`week6/issue_fixes/qa_approved_rules.py`（v1.1 模型）以及 `week5/qa_week5.py`（14 实体/17 FK），全部 PASS。`git diff --check` 通过（仅有 Windows 文档行尾提示）。
+- 这些 QA 为自动检查；**没有收到同事人工签收或独立审阅结果**，也未运行任何修改数据库的操作。待提交时采用精确暂存，保留其他任务的 README/ROADMAP/AI 日志改动及 `report/overview_modules.*` 未跟踪文件。
+
+### 选择性暂存异常与核验
+
+- 由于工作区已含另一项 HTML 总览任务的未提交修改，本轮使用 Git 对象和 index 选择性暂存交接新增段落，不将其它任务的 README/ROADMAP/AI 日志改动一并提交。
+- 第一版索引校验脚本把 Git 默认的非 ASCII 路径转义（`docs/ai\\344...`）与 Python Unicode 路径直接比较，触发 AssertionError；此错误出现在**暂存后名称校验**，不是文档写入/链接或文件损坏。随后用 `git -c core.quotePath=false diff --cached --name-only` 核实恰好 5 个交接相关文件；`git diff --cached --check` 退出码 0，且工作区其他修改仍保留未暂存。

@@ -180,3 +180,10 @@
 - [x] [复现说明](week6/reproduction/README.md)、[实际日志与清单](result/week6/reproduction/README.md) 均已写入。
 - [ ] 旧 `TokenHubDB_v01_A` 业务历史数据异常不在本次代码复现范围，旧库依然保留。
 - 本轮未执行 Git commit/push；与本次无关的 `report/overview_modules.*` 保持原状。
+
+## 2026-10-14：第六周任务交接准备
+
+- [x] [交接上下文](week6/HANDOFF_CONTEXT.md)：将仓库/数据库版本、已经通过的规范化与复现证据、v1.1 业务修复范围、历史异常和接手命令集中整理在 `week6/`。
+- [x] [第六周入口](week6/README.md) 加入交接文件链接；未改动旧版 SQL Server 业务数据。
+- [ ] 待接手同事实际检查并确认：历史数据问题的可信修复方案、I05/I06/I08/I09 的其它 DML 入口、v1.1 端到端独立复现、Ruff/未运行的数据库集成测试，以及第六周规范化方案的独立审核。
+- [ ] 共享仓库给同事或 push：须另行获得明确授权；本地 Git commit 不代表远端已经同步。
