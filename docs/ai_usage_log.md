@@ -516,3 +516,42 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 在 Windows 项目根目录执行 `python week5/render_er.py` 成功重新生成 `er_diagram.svg`、`er_diagram.png`。实测 SVG 的 `stroke-dasharray` 出现次数为 **0**，`created_by`、`assigned_to`、`实线` 均存在；PNG 为 **3250 × 2041**。运行 `python week5/qa_week5.py`：**14 实体、17 条关系匹配、SVG/PNG 可解析、12 份相关文档链接有效**。新增断言检查通过。
 
 本轮只修改图形、第五周文档及 AI 日志，未改动数据库，未执行 Git 提交。
+
+---
+
+## 2026-10-14 第六周规范化与迁移计划
+
+1. **输入与审查**：用户上传《第六周任务讲解.docx》及 AGENT 协作约定；AI 只读检查 sh 电脑 `D:\Desktop\DB\DB_lab` 下 `AGENT.md`、`week5/`、`sql/01_create_tables.sql`、`sql/README.md`、`tools/run_v01.ps1`、`README.md`、第五周复核记录。
+2. **识别的技术约束**：14 张表、17 条外码；`OrderDetails` 有 `detail_id` 与 `(order_id,product_id)` 两种标识，`Products.price` 不能替代成交快照，`Inventory` 和 `TokenBalances` 存在状态快照，`UsageSummary` 是周期汇总。范式分析必须覆盖全部候选码；是否调整须业务依据而非样例重复。
+3. **AI 形成方案**：写入 `plan/week6-normalization-migration-plan.md`，将工作分为 P0 基线副本与三类对账、P1 函数依赖与三种异常、P2 目标结构/无损与依赖保持、P3 副本迁移、P4 数据/完整性/权限回归、P5 第二阶段文档与证据。包含保留路径和实迁移路径两种可能，待 P1/P2 决策后确定。
+4. **执行边界**：目前仅形成计划，没有执行 SQL、备份、还原、迁移、数据修改或 commit/push；不存在迁移结果和新库回归结论，不能登记为已完成。用户未批准实际迁移之前保持 v0.1 不变。
+
+## 2026-10-14：第六周 P0 / P1 启动
+- 用户授权按第六周计划实施。检查 sh 电脑当前只有 `TokenHubDB_v01_A`，工作区已有第六周计划与上次 AI 日志的未提交更改；本轮不会擅自提交。
+- 只读检查：源表 `OrderDetails` 的 `subtotal`、`total_tokens` 目前是实际存储列，另有两个同表公式 CHECK；`v_OrderDetail`、`v_ProductSales` 依赖该表，但不是 schema-bound；数据库内含四个 hub 数据库角色。
+- **优先方案**：不调整四项尚未确认的业务规则，不改变订单价格快照；若基线数据和公式检查符合条件，在隔离副本上将两个可由同一行字段计算的明细小计改为 SQL Server 持久化计算列，从数据库端消除手工维护的同表冗余。完整 FD/范式分析另行论证，不把计算列调整称为所有表已达 3NF。
+- 首次只读元数据查询误用了 `sys.database_principals.state_desc`（不存在），SQL 返回 207；纠正查询后成功，未产生库级修改。
+
+## 2026-10-14：P0 数据隔离完成
+- 源库只有 `TokenHubDB_v01_A`。在 SQL Server 默认备份目录新增 `TokenHubDB_v01_A_W6_20261014.bak`（不放入 Git），执行 `BACKUP ... COPY_ONLY, CHECKSUM`、`RESTORE VERIFYONLY` 与 `RESTORE DATABASE ... WITH MOVE` 成功。目标库为 `TokenHubDB_v10_W6_20261014`，MDF/LDF 使用独立目标路径，未覆盖原库文件。
+- 命令及输出位置：`week6/prepare_copy.sql`、`result/week6/baseline/prepare_copy.log`；备份校验与还原返回码 0。此前先检查备份路径、目标数据文件和目标库均不存在。未查看任何密钥/凭据字段取值。
+
+## 第六周 P0 修复基准与对账（2026-10-14）
+- 第一次执行 `week6/baseline.sql` 在读取数据库角色权限元数据时返回 SQL 451：系统目录与用户库字符串拼接时 collation 冲突。错误输出保留于 `result/week6/baseline/source_semantics.txt`，不覆盖失败证据。
+- 对该 SELECT 的系统目录字符列显式指定 `COLLATE DATABASE_DEFAULT` 后，以新文件名 `source_semantics_v2.txt`、`copy_before_v2.txt` 分别核对源库及还原副本。两份文件各 3837 行，SHA-256 **A73CB20D7DAA334328AABC25EB06CDD4FE6977F20C2EF86302406176AACB8EEC** 完全一致；订单、明细、销售、库存、余额、汇总和角色权限基线一致。
+- 尚未执行第六周结构迁移；严格保护源库与最初副本基准。
+
+## 第六周 P1/P2：范式判断和候选迁移方案
+- 新增 `week6/fd_checks.sql` 与 `result/week6/baseline/fd_checks.log`，只读确认明细 subtotal/Token 公式无异常、库存和订单汇总一致、相同 `(period_type,period_start)` 未出现不同 `period_end`（样例不能证明业务 FD）。daily/weekly/monthly 日差分别 0/6/29～30。
+- 在 `week6/dependency_normalization.md` 逐表列出 14 表的所有 DDL 候选码、主要业务 FD、1NF/2NF/3NF、插入/修改/删除异常；将 `OrderDetails` 公式存储列归为受约束的理论非 3NF，并标出 `UsageSummary` 按统一周期规则才会成立的部分依赖。
+- 在 `week6/redesign_decisions.md` 提出有条件把 `period_end` 拆到 `UsagePeriod(period_type,period_start,period_end)`，说明交集决定新周期表、无损连接、依赖保持、应用写入兼容和权限影响。用户尚未确认全局周期业务规则和实际迁移范围，未执行 P3 业务表 DDL；原库和副本迁移前基准保持不变。
+
+### P2 代码级交叉核对
+
+只读查看 `tools/datagen.py` 的汇总周期生成逻辑及 `sql/verify.sql` VFY10：前者按周一到周日、自然月首末生成，后者按同一算法验收，因而固定周期 FD 有项目规则支持。对隔离副本只读查询：3394 行 UsageSummary、99 种 `(period_type,period_start)`（daily 83 / weekly 13 / monthly 3），同键不同 period_end 计数为 0。更新第六周依赖与设计说明，但仍不修改原库或副本结构；正式目标迁移范围尚待用户批准。
+
+### P2 文档自检与命令修正
+
+- 首次用 PowerShell here-string 通过管道传 Python 标准输入检查链接，输入首字节携带 UTF-8 BOM，Python 返回 `SyntaxError: invalid non-printable character U+FEFF`；该调用未修改项目文件或数据库。随后改用 PowerShell 自身的只读 Markdown 相对链接检查。
+- 重新检查 `README.md`、`week6/`、`result/week6/README.md` 和计划共 42 条相对链接，**0 条失效**；`git diff --check` 通过。 `week5/qa_week5.py` 重新核验 14 张表、17 条 FK、图像与 12 份文档引用通过。
+- 源库和隔离副本的基准均有成功文件；第一次 collation 451 错误见 `result/week6/baseline/source_semantics.failed_collation.txt`，`source_semantics.txt` 和后缀 v2 的对账文件均为有效版本。无 P3/P4 结果，等待用户批准具体目标模式。

@@ -1,0 +1,38 @@
+check_name n
+---------- -
+schema_table_count 14
+check_name n
+---------- -
+schema_fk_count 17
+check_name n
+---------- -
+detail_subtotal_formula_bad 0
+check_name n
+---------- -
+detail_tokens_formula_bad 0
+check_name n
+---------- -
+duplicate_order_product_key 0
+check_name n
+---------- -
+summary_period_multiple_ends_for_same_start 0
+period_type n min_days max_days
+----------- - -------- --------
+daily 2200 0 0
+monthly 286 29 30
+weekly 908 6 6
+check_name n
+---------- -
+order_header_amount_mismatch 0
+check_name n
+---------- -
+inventory_snapshot_mismatch 0
+check_name n
+---------- -
+roles_count 3
+check_name n
+---------- -
+restock_task_created_nullable 0
+check_name n
+---------- -
+exception_polymorphic_reference_count 12

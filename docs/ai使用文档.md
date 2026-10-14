@@ -223,3 +223,25 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 ### 本次记录文档的校验补充
 
 补录第五周作图说明并在 `AGENT.md` 增加“边修改边记录”要求后，实际检查 `docs/ai使用文档.md` 新章节的 **4 条相对链接**，全部存在；`docs/ai_usage_log.md` 新章节无新增相对链接。重新运行 `python report/week5/qa_week5.py`，结果为 **14 实体 / 17 FK 匹配、SVG 与 PNG 可解析、11 份当前项目文档链接检查通过**；`git diff --check` 通过。以上仅证明自动/静态检查通过，不代表独立组员已人工复核；仍未 commit/push。
+
+---
+
+# 第六周 AI 使用记录：规范化与迁移规划（2026-10-14）
+
+- **用户要求**：依据《第六周任务讲解.docx》与仓库现状，在 `D:\Desktop\DB\DB_lab` 制定第六周执行计划。
+- **AI 辅助内容**：只读核对第五周 ER、14 张表/17 条外码、候选码、原 SQL 与现有复现脚本；结合第六周五类必交成果，制定 `plan/week6-normalization-migration-plan.md`，覆盖函数依赖与 1NF/2NF/3NF、更新异常、无损连接及依赖保持、迁移副本、`migration.sql`、`regression.sql` 与回归证据。
+- **采用的限制**：先确认业务 FD 与是否需要改变 v0.1；现有模式合理时允许保留并通过独立关系阐述分解，不为凑范式新增表。迁移须先保留原库并在隔离副本实施，执行前另获用户授权。
+- **本轮状态**：仅制定计划；未备份、复制或修改数据库，未执行迁移或回归，尚未对第六周目标模式作出业务取舍。第五周历史材料与 v0.1 实现未改动。
+
+## 2026-10-14：第六周 P0 / P1 启动
+- 用户授权按第六周计划实施。检查 sh 电脑当前只有 `TokenHubDB_v01_A`，工作区已有第六周计划与上次 AI 日志的未提交更改；本轮不会擅自提交。
+- 只读检查：源表 `OrderDetails` 的 `subtotal`、`total_tokens` 目前是实际存储列，另有两个同表公式 CHECK；`v_OrderDetail`、`v_ProductSales` 依赖该表，但不是 schema-bound；数据库内含四个 hub 数据库角色。
+- **优先方案**：不调整四项尚未确认的业务规则，不改变订单价格快照；若基线数据和公式检查符合条件，在隔离副本上将两个可由同一行字段计算的明细小计改为 SQL Server 持久化计算列，从数据库端消除手工维护的同表冗余。完整 FD/范式分析另行论证，不把计算列调整称为所有表已达 3NF。
+- 首次只读元数据查询误用了 `sys.database_principals.state_desc`（不存在），SQL 返回 207；纠正查询后成功，未产生库级修改。
+
+## 第六周 P0—P2 阶段记录补充（2026-10-14）
+
+- 已完成 P0：`TokenHubDB_v01_A` COPY_ONLY/校验备份，隔离还原到 `TokenHubDB_v10_W6_20261014`；迁移前源/副本业务基准 3837 行完全一致。
+- 已完成 P1：`week6/dependency_normalization.md` 对 14 表逐一核对候选码、业务 FD、1NF/2NF/3NF、插入/修改/删除异常；`week6/fd_checks.sql` 返回明细公式、订单、库存零差异。
+- P2 方案：旧实现的 `tools/datagen.py` 和 `sql/verify.sql` 使用固定 daily/周一至周日/自然月周期，给出 `(period_type,period_start)→period_end` 的业务依据；3394 条 UsageSummary 对应 99 种周期定义，提出有条件分解 `UsagePeriod`。完整无损/依赖保持说明见 `week6/redesign_decisions.md`。
+- 当前尚未获用户对“新增 UsagePeriod、移出 UsageSummary.period_end、同步原写入接口”这一具体重构的许可，未执行 P3/P4，不存在迁移后成功结论。

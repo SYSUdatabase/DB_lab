@@ -130,3 +130,13 @@
 - 核实方式：新建 `TokenHubDB_v01_Doc` 按当前 SQL 构建，确认 14 表、10 视图、0 存储过程、4 数据库角色，并逐项核对 README 引用的 21 个表/视图全部存在。`CK_Orders_payment_time` 实际在 `sql/constraint.sql` 补充创建而不在 `01_create_tables.sql`，README 已注明来源。85 paid / 4228.90 / 92950000 Token / 3000 调用与 README 既有数字一致。
 - 验证：`TokenHubDB_v01_Doc` 全流水线 10 步 PASS；另一次独立运行签名为 1115 字节 LF，与 `run_final_A/signature.txt` 逐字节相同。验证库与临时结果目录已清理。
 - 本轮未执行 commit/push。
+
+## 2026-10-14：第六周规范化与迁移进度
+
+- [x] P0：从 `TokenHubDB_v01_A` 安全备份、VERIFYONLY 并还原 `TokenHubDB_v10_W6_20261014`；源/副本基准各 3837 行，SHA-256 一致；保留初次 collation 错误及修复后的结果。
+- [x] P1：逐表分析 14 表的候选码、FD、1NF/2NF/3NF 和插入/修改/删除异常；FD 异常查询与统计已保存。
+- [x] P2：形成有条件的 `UsageSummary → UsagePeriod + UsageSummary` 分解、无损/依赖保持分析；存储公式冗余与快照按业务保留，**迁移范围尚待用户批准**。
+- [ ] P3：执行有前提检查的 `migration.sql`（仅隔离副本），保存成功/失败恢复证据。
+- [ ] P4：执行 `regression.sql`，验证订单明细、销售统计、库存、合法/非法写入及四类角色权限，与基线逐项比较。
+- [ ] P5：确认迁移后 v1.0 ER、字典、README/报告/AI 使用记录与脚本一致；完成相关测试。
+- **边界**：原 v0.1 未改；备份不在 Git 内；尚无迁移后 PASS，不得把 P2 计划当作迁移完成。
