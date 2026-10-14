@@ -177,3 +177,13 @@ DB_lab/
 ## 十、2026-10-14 追加批准的第五周业务规则落地
 
 用户确认 I02“同单同商品通过 quantity 合并”、I03“散客先有 Users 记录”、I04“上游账号强制对应一条库存”、I07“补货来源为 manual/system，系统允许创建员工为空”。在独立的 v1.1 副本 `TokenHubDB_v11_Issues_20261014` 部署并通过测试，保持原 v0.1/v1.0 未变更。数据库仍为 15 张物理表、18 个真实外码，新增 3 个写入触发器、2 个受控订单过程，RestockTask 增添 created_source 与可信 CHECK，原先的 10 个触发器及消费过程保留。执行与正反例见 [v1.1 最终业务规则](../week6/issue_fixes/data_dictionary_v11.md) 与 [日志](../result/week6/issue_fixes/README.md)。额外业务基准 3763 行对比差异为 0，新旧 ER 图均可编辑。I05/I06/I08/I09 的其它写入通道与旧历史异常继续作为后续独立事项。未自动 commit/push。
+
+## 十一、从第六周前完整代码复现的新增交付（2026-10-14）
+
+- [x] 从 Git 历史定位首个第六周提交 `43b5112` 的父提交 `c8d4e64`，采用 `git archive` 导出第六周前完整 Git 跟踪树（344 文件），保存 [独立 ZIP 和 Git 对象清单](../archive/week6-pre-migration/README.md)。SHA-256 `D2DFA2F23504050ACBA3F4BDE95A7946DCA72D29F6599A6D75A67C16DDE5743C`；不覆盖仓库外数据库备份。
+- [x] 直接从旧代码在新目录重新建库（不依赖旧 v0.1_A）：旧 `run_v01.ps1` 全阶段 PASS、原始 `verify.sql`、`signature.sql` PASS；还原到独立新副本，迁移前两份基准 SHA-256 完全一致。
+- [x] 解决复现基线差异：旧本地 v0.1_A 是 9 个视图，新建的标准 v0.1 为 10 个；迁移前明确验证 9/10 视图的规定组合，并按需创建缺失的客服视图。其它未知版本失败停止。新建代码数据库迁移成功，R01–R12 和 VFY01–VFY14 全 PASS。
+- [x] 新增 [可重复运行 PowerShell 脚本](../week6/reproduction/run_from_snapshot.ps1)，每次需独一无二的后缀、使用 SQL Server 默认备份/数据目录及新物理文件名，严禁覆盖或自动删除已有 DB。脚本已以 `W6Auto261014` **完整再跑一轮**，新源/副本独立、3763 条业务基准零差异。
+- [x] 保存 [完整复现命令/说明](../week6/reproduction/README.md) 和 [两轮 SQL 日志及对账](../result/week6/reproduction/README.md)。
+- [ ] **与本地旧数据历史问题分离**：原 `TokenHubDB_v01_A` 的 VFY12/VFY13 异常仍需有证据的后续修复；此次标准新库全 PASS 不等于旧样例内容已修好。
+- **状态**：代码备份、独立建库、迁移与回归实际完成；没有擅自对已提交代码执行新的 commit/push，也没有覆盖 3 个既有数据库或其它任务的文件。

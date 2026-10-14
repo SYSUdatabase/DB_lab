@@ -36,3 +36,7 @@
 ## 第五周问题修复的 v1.1 独立副本
 
 [修复内容与未决事项](../../week6/issue_fixes/README.md)、[v1.1 测试日志索引](issue_fixes/README.md)。这是在 v1.0 之外追加的约束与管理事务验证，**不是覆盖第六周原迁移结果**。
+
+## 从迁移前完整代码独立复现
+
+见 [第六周历史代码归档](../../archive/week6-pre-migration/README.md)、[自动复现脚本及命令](../../week6/reproduction/README.md)、[实际两轮复现日志](reproduction/README.md)。从历史 Git 版本 `c8d4e64` 的 344 个文件重新创建 v0.1 并迁移成功，自动脚本运行 R01–R12、VFY01–VFY14 全部通过，非权限业务基准 3763 条零差异。此结果仅属于新建的标准样例库，不代表历史 v0.1_A 的异常已清洗。

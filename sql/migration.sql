@@ -40,10 +40,15 @@ IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE is_disabled=1 OR is_not_trus
  THROW 51605, 'Source constraint is not enabled and trusted', 1;
 IF DATABASE_PRINCIPAL_ID(N'hub_manager') IS NULL
  THROW 51606, 'Manager role missing', 1;
--- This particular v0.1_A snapshot has 9 views; official sql/view.sql defines
--- a tenth, v_CustomerService, absent from both original and restored copy.
-IF OBJECT_ID(N'dbo.v_CustomerService',N'V') IS NOT NULL
- OR (SELECT COUNT(*) FROM sys.views WHERE is_ms_shipped=0)<>9
+-- Support two measured v0.1 baseline states, without changing the data:
+-- 9 views, missing documented v_CustomerService (historical local v0.1_A);
+-- 10 views, including v_CustomerService (fresh build from pre-week6 code).
+-- Any other view count/name combination must stop before writing.
+DECLARE @source_view_count INT =
+ (SELECT COUNT(*) FROM sys.views WHERE is_ms_shipped=0);
+IF @source_view_count NOT IN (9,10)
+ OR (@source_view_count=9 AND OBJECT_ID(N'dbo.v_CustomerService',N'V') IS NOT NULL)
+ OR (@source_view_count=10 AND OBJECT_ID(N'dbo.v_CustomerService',N'V') IS NULL)
  THROW 51612, 'Unexpected source views; review baseline before migration', 1;
 
 BEGIN TRY
@@ -86,14 +91,17 @@ BEGIN TRY
  GRANT SELECT ON OBJECT::dbo.UsageSummary TO hub_manager;
  -- Restore the pre-existing documented but absent tenth view on COPY ONLY.
  -- Definition is copied from sql/view.sql; this does NOT change source v0.1.
- EXEC(N'CREATE VIEW dbo.v_CustomerService AS
- SELECT u.user_id,u.username,u.email,u.phone,u.status,u.created_at,
-        (SELECT COUNT_BIG(*) FROM dbo.Orders o WHERE o.user_id=u.user_id) AS order_count,
-        (SELECT COALESCE(SUM(o.total_amount),0) FROM dbo.Orders o
-          WHERE o.user_id=u.user_id AND o.status=''paid'') AS paid_amount,
-        (SELECT COALESCE(SUM(b.remaining_tokens),0) FROM dbo.TokenBalances b
-          WHERE b.user_id=u.user_id) AS remaining_tokens
- FROM dbo.Users u;');
+ IF @source_view_count=9
+ BEGIN
+  EXEC(N'CREATE VIEW dbo.v_CustomerService AS
+  SELECT u.user_id,u.username,u.email,u.phone,u.status,u.created_at,
+         (SELECT COUNT_BIG(*) FROM dbo.Orders o WHERE o.user_id=u.user_id) AS order_count,
+         (SELECT COALESCE(SUM(o.total_amount),0) FROM dbo.Orders o
+           WHERE o.user_id=u.user_id AND o.status=''paid'') AS paid_amount,
+         (SELECT COALESCE(SUM(b.remaining_tokens),0) FROM dbo.TokenBalances b
+           WHERE b.user_id=u.user_id) AS remaining_tokens
+  FROM dbo.Users u;');
+ END;
  GRANT SELECT ON OBJECT::dbo.v_CustomerService TO hub_manager,hub_staff;
  -- Align the other documented legacy view that is incomplete in v0.1_A.
  -- This is the official sql/view.sql shape, preserving the fixed snapshot time.

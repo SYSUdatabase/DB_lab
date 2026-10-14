@@ -170,3 +170,13 @@
 - [x] 正反例、V11 结构验收、先前 R01–R12 回归、业务数据零差异通过；v1.1 可编辑 ER 同步完成。
 - [ ] 旧历史数据不一致及其它直接写入通道继续单独处理。具体见 `week6/issue_fixes/data_dictionary_v11.md`。
 - 本批增量未 commit 或 push。
+
+## 2026-10-14：第六周可复现交付已验证
+
+- [x] 冻结迁移前完整 Git 树 `c8d4e64`（344 文件），在 `archive/week6-pre-migration/` 保存独立 ZIP（5,237,257 字节、SHA-256 已记录）和 Git 对象清单。
+- [x] 第一次用 ZIP 中代码从零运行旧 `run_v01.ps1`，全阶段成功；备份/还原新副本，迁移 v0.1→v1.0，R01–R12、VFY01–VFY14 全部通过。
+- [x] 支持旧本地 9 视图与标准代码重建 10 视图两种已查证源结构；未知状态迁移前拒绝。
+- [x] 新增 `week6/reproduction/run_from_snapshot.ps1`，自动从 ZIP 验证哈希、解压、建源库、备份与还原新目标、执行迁移和全部验证；第二轮 `W6Auto261014` 端到端实测通过，迁移前后 3763 条非权限业务记录零差异。
+- [x] [复现说明](week6/reproduction/README.md)、[实际日志与清单](result/week6/reproduction/README.md) 均已写入。
+- [ ] 旧 `TokenHubDB_v01_A` 业务历史数据异常不在本次代码复现范围，旧库依然保留。
+- 本轮未执行 Git commit/push；与本次无关的 `report/overview_modules.*` 保持原状。

@@ -636,3 +636,25 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 - 测试新批准规则 `test_approved_rules_02.log` 全部 PASS；原 `test_guards_postapproval.log`、`test_managed_usage_postapproval.log`、`test_parent_and_role_postapproval.log` 以及 `regression_v11_postapproval.log` 全部 PASS。最新业务基准非权限记录两侧各 3763 行，差异为 0，模拟业务写入均回滚。
 - v1.1 可编辑图的 15 实体/18 FK、库存 1..1 与 RestockTask.created_by 0..1 基数、SVG/PNG 解析 QA 通过；旧第五周/第六周 QA 通过；检查 133 条文档相对链接均存在，`git diff --check` 成功。
 - Git 中仍保留了先前未提交的第六周迁移与本轮 v1.1 文件；没有执行 commit/push。仓库出现一个未跟踪的 `report/overview_modules.mmd`，本轮没有创建或修改该文件，保留原状。
+
+## 2026-10-14：用户要求追加第六周迁移前完整代码备份并验证独立复现
+- 先只读检查 Git 历史，确定第六周首个提交是 `43b5112`，其父提交 `c8d4e64`（2026-10-10）为第六周开始前的项目版本，344 个已跟踪文件。仓库现有 5 个未跟踪 `report/overview_modules.*` 不纳入历史快照，也不覆盖。
+- 仅按历史 Git 树路径扫描敏感文件名，未发现 .env、密钥、私钥、密码、CDKey、证书或 SQL Server 备份等文件名；未读取凭据值。使用 `git archive --format=zip c8d4e64` 创建 `archive/week6-pre-migration/DB_lab_pre_week6_c8d4e64_full_source.zip`（344 文件，5,237,257 字节；SHA-256 `D2DFA2F23504050ACBA3F4BDE95A7946DCA72D29F6599A6D75A67C16DDE5743C`），另写 344 项原始 Git blob 路径/对象清单 `source_manifest.txt`，不重写压缩包。
+- 首次 PowerShell ZIP 检查缺少 `System.IO.Compression.FileSystem` 程序集而失败，压缩包创建成功但后续验证未运行；引入正确程序集后验证 344/344 文件并核对核心 SQL/Python/测试路径均存在。无数据库更改。
+- 下一步将从不修改的 ZIP 解压到全新目录，使用其中旧版代码重新建独立测试库，再验证第六周迁移能否实际复现；历史 SQL Server 备份需单独保存，不能用代码快照代替完整数据备份。
+
+### 第六周完整代码复现：已运行的分步和自动测试（2026-10-14）
+
+1. 首次从冻结的 `c8d4e64` ZIP 解压 344 个文件到新的 `D:\Desktop\DB\DB_lab_replay_c8d4e64`；用快照自己的 `tools/run_v01.ps1` 创建新 `TokenHubDB_v01_W6Replay261014`，原建库、建表、数据、CRUD、view、query、constraint、role、verify、signature **全部 PASS**。
+2. 原代码构建的数据库为 14 表/17 FK/**10 视图**，UsageSummary 3394 行、99 个周期，与历史本地 v0.1_A 的 9 视图不同。修改现有 `sql/migration.sql` 的前置版本判断为严格允许 9 或 10 视图，只有缺 `v_CustomerService` 的 9 视图分支才补建；10 视图分支避免重复创建。其它未知状态继续 THROW。
+3. 用新备份 `BACKUP COPY_ONLY/CHECKSUM` / `RESTORE VERIFYONLY` / `RESTORE ... WITH MOVE` 复制新 v0.1 至 `TokenHubDB_v10_W6Replay261014`；迁移前源/副本基准 SHA-256 同为 `A12B5ED2FFD832C2DC5DDC7988446212E8D18695260A90382B94F060286C5FF5`。用当前迁移模板派生受新目标名限定的 SQL 文件，实际迁移成功，R01–R12 和全套 VFY01–VFY14 **PASS**。记录在 `result/week6/reproduction/`。
+4. 编写 `week6/reproduction/run_from_snapshot.ps1`，采用严格后缀验证、ZIP SHA-256、文件/数据库已存在即停止、SQL Server 默认数据/备份路径、仅新命名目标及独立复制出的 SQL 验收脚本。第二次完整调用 `-Suffix W6Auto261014`，19 秒左右实际完成，两套新的数据库及物理文件均独立，R01–R12、VFY01–VFY14 **PASS**，非权限业务记录 3763 条差异 0，日志含回放 manifest。
+5. 加入只读 `week6/reproduction/qa_reproduction.py`。首次 QA 尝试把 PowerShell UTF-16 转录作为 UTF-8 解码而失败；增加基于 BOM 的 UTF-16/UTF-8 识别后，又误认为 VFY01 也必须有 `PASS VFY01` 字符串，实际旧校验在 VFY01 输出每表计数和最终汇总 PASS；将 QA 改为检查 VFY01 表头及 VFY02–VFY14 PASS、完整最终 PASS。随后检查 ZIP、清单、R01–R12、VFY01–VFY14、源/副本对账及 3763 行全部通过，未篡改测试日志。
+6. 历史本地 `TokenHubDB_v01_A` 仍保留历史时间/provider/余额异常，v1.1 业务修复副本也未被本次复现脚本覆盖。未跟踪 `report/overview_modules.*` 和同期 HTML 文档修改属于另一个任务，本轮不删除或覆盖，也不将它们并入这份历史源代码 ZIP。未执行 Git commit/push。
+
+### 第六周代码复现交付的最终静态检查（2026-10-14）
+- 新增只读 `week6/reproduction/qa_reproduction.py`：重新校验历史 ZIP SHA-256 与 344 个条目、Git 对象清单、自动执行的原代码建库/迁移/R01–R12/VFY01–VFY14 日志，以及源/副本字节相同的迁移前基准和迁移前后 3763 行业务对账。最终运行全部通过，记录为 `result/week6/reproduction/qa_reproduction.log`。
+- PowerShell 新复现脚本语法解析检查 PASS，重新运行旧第五周、第六周与 v1.1 ER QA 全部 PASS。
+- 文档核对过程中先检测到三条相对链接失效（本次新增的复现 SQL 相对路径一条、迁移归档前已移动的第五周目录两条），逐项修正链接而未改原正文含义；重新检查涉及的 Markdown 相对链接 **145 条 / 0 失效**。
+- 实测复用已存在的 `-Suffix W6Auto261014` 时程序在开始前拒绝写入，符合“不覆盖已有目录/数据库”的安全要求。
+- `git diff --check` 通过，出现 Windows CRLF/LF 行尾提醒但非失败；其它任务的未提交 `report/overview_modules.*` 和关联 README/ROADMAP 片段保留原状。原 v0.1/v1.0/v1.1 业务数据库未被复现脚本覆写。本轮**未 commit/push**。

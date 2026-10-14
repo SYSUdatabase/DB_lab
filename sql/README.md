@@ -30,3 +30,9 @@
 - [migration.sql](migration.sql)：仅允许在已备份并还原、且尚未迁移的 `TokenHubDB_v10_W6_20261014` 上执行。统一统计周期迁入 `dbo.UsagePeriod`，原汇总表成为 `dbo.UsageSummaryCore`，兼容只读视图 `dbo.UsageSummary` 恢复旧列。事务失败回滚，禁止将脚本指向原 `TokenHubDB_v01_A` 或重复运行。
 - [regression.sql](regression.sql)：仅对迁移后的隔离副本运行，校验 15 张表/18 FK/11 视图、汇总无损连接、旧订单/销售/库存/余额/调用双向等价、合法与非法写入、四类角色权限以及原库未变。
 - 完整分析及现有数据限制见 [week6 README](../week6/README.md) 和 [结果记录](../result/week6/README.md)。旧 `02_insert_data.sql` / `run_v01.ps1` 保留为 v0.1 的原始复现入口，不能直接作为 v1.0 的写入/重建脚本使用。
+
+## 迁移兼容性与从旧代码复现
+
+`sql/migration.sql` 增加对**两种已核实 v0.1 基线**的前置判定：历史本地 9 个视图（缺 `v_CustomerService`）或从第六周前源码重建的 10 个视图。对 9 视图路径按官方定义补建，10 视图路径保留原客服视图；两条路径最终要求 v1.0 11 视图，不接受未识别的视图组合。这不放宽 14 表、17 FK、3394 汇总和 99 周期及约束可信性的强制检查。
+
+[完整历史源代码备份](../archive/week6-pre-migration/README.md)、[从代码独立重建 + 规范化迁移](../week6/reproduction/README.md)。复现脚本只在全新的隔离数据库上运行，通过名称模板复制派生 SQL，不直接修改本文件；已自动完成并通过全部 R01–R12 与 VFY01–VFY14。

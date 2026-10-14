@@ -1,0 +1,28 @@
+﻿已处理百分之 10。
+已处理百分之 20。
+已处理百分之 30。
+已处理百分之 40。
+已处理百分之 50。
+已处理百分之 60。
+已处理百分之 70。
+已处理百分之 80。
+已处理百分之 90。
+已处理百分之 100。
+已为数据库 'TokenHubDB_v01_W6Replay261014'，文件 'TokenHubDB_v01_W6Replay261014' (位于文件 1 上)处理了 960 页。
+已为数据库 'TokenHubDB_v01_W6Replay261014'，文件 'TokenHubDB_v01_W6Replay261014_log' (位于文件 1 上)处理了 2 页。
+BACKUP DATABASE 成功处理了 962 页，花费 0.030 秒(250.390 MB/秒)。
+文件 1 上的备份集有效。
+已处理百分之 10。
+已处理百分之 20。
+已处理百分之 30。
+已处理百分之 40。
+已处理百分之 50。
+已处理百分之 60。
+已处理百分之 70。
+已处理百分之 80。
+已处理百分之 90。
+已处理百分之 100。
+已为数据库 'TokenHubDB_v10_W6Replay261014'，文件 'TokenHubDB_v01_W6Replay261014' (位于文件 1 上)处理了 960 页。
+已为数据库 'TokenHubDB_v10_W6Replay261014'，文件 'TokenHubDB_v01_W6Replay261014_log' (位于文件 1 上)处理了 2 页。
+RESTORE DATABASE 成功处理了 962 页，花费 0.013 秒(577.824 MB/秒)。
+PASS independent clean v0.1 copy restored for week6 migration

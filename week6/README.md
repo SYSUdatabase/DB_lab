@@ -76,3 +76,11 @@ python -B .\week6\qa_week6.py
 ## v1.1：第五周业务选择已落地（2026-10-14）
 
 已在独立 v1.1 副本实施 I02/I03/I04/I07 的最终业务口径，结果见 [v1.1 约束和数据字典](issue_fixes/data_dictionary_v11.md)、[可编辑 ER](issue_fixes/er_diagram_v11.mmd)、[功能与回归证据](issue_fixes/README.md)。原 v1.0 迁移结果和基准未改，I05/I06/I08/I09 的其他写入路径和继承的历史异常仍需后续处理。
+
+## 第六周完整历史代码备份与可重复迁移（2026-10-14）
+
+第六周开始前的完整 Git 跟踪项目已归档在 [迁移前代码 ZIP](../archive/week6-pre-migration/DB_lab_pre_week6_c8d4e64_full_source.zip)（`c8d4e64`，344 个文件，SHA-256 见 [备份说明](../archive/week6-pre-migration/README.md)）。新增 [一键复现入口](reproduction/README.md)、[独立重建脚本](reproduction/run_from_snapshot.ps1) 与 [两次复现实测日志](../result/week6/reproduction/README.md)。
+
+**完整从代码复现已通过**：从 ZIP 解压旧版、用历史 `tools/run_v01.ps1` 建一套全新的 v0.1（14 表/17 FK/10 视图）、备份/还原到另一个空库、执行 `sql/migration.sql` 得到 v1.0（15 表/18 FK/11 视图），R01–R12 与 VFY01–VFY14 **全部 PASS**，迁移前后 3763 条非权限业务记录差异 0。自动脚本已用独立 `W6Auto261014` 后缀再次实跑，不依赖原 v0.1_A 数据库。
+
+**两种来源不可混同**：历史本地 v0.1_A 缺少正式视图并有旧数据异常；从迁移前代码重建的标准 v0.1 使用 10 个视图并通过旧数据验证。为兼容这两种已确认基线，`sql/migration.sql` 已增加 9/10 视图的前置核验与条件补建客服视图，其他未识别结构仍停止。
