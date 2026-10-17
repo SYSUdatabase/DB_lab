@@ -592,9 +592,9 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 - 从 v1.0 隔离数据库 COPY_ONLY/CHECKSUM 备份、VERIFYONLY，独立还原为 TokenHubDB_v11_Issues_20261014。保留 v0.1、v1.0 原库，备份不放在 Git。预备实施新写入约束和原子化消费流程，测试只在 v1.1 副本进行，历史异常不无依据地改写.
 
 ### v1.1 第一批约束与原子化调用测试（2026-10-14）
-- 新建 `week6/issue_fixes/enforce_known_rules.sql`，仅部署在 `TokenHubDB_v11_Issues_20261014`。新增五类 AFTER 触发器：已支付/退款订单至少一条明细并核对汇总；已完成订单禁止直接改明细；新增使用记录检查注册时间/provider/上游使用区间；新库存流水的 order/restock_task 引用验证；新 ExceptionLog 的 Orders/Inventory/TokenUsageLogs 引用验证。`manual` 类型参考号没有已确认目标，不伪造 FK。
+- 新建 `week6/v11/enforce_known_rules.sql`，仅部署在 `TokenHubDB_v11_Issues_20261014`。新增五类 AFTER 触发器：已支付/退款订单至少一条明细并核对汇总；已完成订单禁止直接改明细；新增使用记录检查注册时间/provider/上游使用区间；新库存流水的 order/restock_task 引用验证；新 ExceptionLog 的 Orders/Inventory/TokenUsageLogs 引用验证。`manual` 类型参考号没有已确认目标，不伪造 FK。
 - 第一次 `test_guards.sql` 在最后一项因测试样例 `ExceptionLog.exception_type='test'` 触发既有 CHECK，而不是新引用约束。失败日志 `result/week6/issue_fixes/test_guards_01.log` 保留。改为既有合法 `system_error` 后重跑，六项正反例全部通过，见 `test_guards_02.log`。未覆盖失败证据。
-- 新建 `week6/issue_fixes/record_usage.sql`：`usp_W5_RecordUsage` 在事务内对有效用户/套餐/账号、余额和库存加锁，检查 provider、时间范围及余额/配额；同事务更新 TokenBalances、UpstreamAccount、Inventory、TokenUsageLogs、InventoryLog、UsagePeriod、UsageSummaryCore。只授予 `hub_manager` EXECUTE。新写入正例和余额不足反例见 `test_managed_usage_01.log`；正例在外层事务回滚，余额/库存/上游配额及日志记录恢复，错误 51956 拒绝超额消费。
+- 新建 `week6/v11/record_usage.sql`：`usp_W5_RecordUsage` 在事务内对有效用户/套餐/账号、余额和库存加锁，检查 provider、时间范围及余额/配额；同事务更新 TokenBalances、UpstreamAccount、Inventory、TokenUsageLogs、InventoryLog、UsagePeriod、UsageSummaryCore。只授予 `hub_manager` EXECUTE。新写入正例和余额不足反例见 `test_managed_usage_01.log`；正例在外层事务回滚，余额/库存/上游配额及日志记录恢复，错误 51956 拒绝超额消费。
 - 边界：历史数据没有重写；当前管理员仍有旧版直接 DML 授权，因此不把该过程宣称为所有写入路径的强制单一入口。I02/I03/I04/I07 仍涉及未确认的业务选择，后续需明确口径。
 
 ### v1.1 审计引用保护、回归及数据对照
@@ -610,7 +610,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 - 待实施 SQL 将仅运行在 TokenHubDB_v11_Issues_20261014，原 v0.1/v1.0 继续不修改；保留首次运行和反例证据，不创建任何账户密钥或用户真实密码数据。
 
 ### 2026-10-14 I02/I03/I04/I07 已授权决策实施与失败修复
-- 在隔离 v1.1 副本部署 `week6/issue_fixes/approved_rules.sql`：保留同单商品联合唯一，RestockTask.created_by 改为可空并增加 created_source、默认 manual 及可信 CHECK；新增上游账号自动建立库存、阻止库存删除/改绑造成缺口、订单插入前必须已有 active Users 记录的三个触发器。
+- 在隔离 v1.1 副本部署 `week6/v11/approved_rules.sql`：保留同单商品联合唯一，RestockTask.created_by 改为可空并增加 created_source、默认 manual 及可信 CHECK；新增上游账号自动建立库存、阻止库存删除/改绑造成缺口、订单插入前必须已有 active Users 记录的三个触发器。
 - 初次安装因 SQL Server 在同一批次内编译对刚创建的 created_source 列的引用报 207，事务回滚；第二次取消最终验证直接列访问后依旧在 ADD CHECK 同批次编译时报 207，检查确认安装未部分生效；第三次将 ADD COLUMN 与 ADD CHECK 分成两个 GO 批次，成功。失败日志 approved_rules_install_01.log / _02.log 完整保留，成功日志 approved_rules_install_03.log。
 - 新增 `usp_W5_CreateRegisteredOrder`（existing active Users 方可创建）和 `usp_W5_AddMergedOrderItem`（仅待支付单，商品按 quantity 合并、旧成交价格快照保留，同事务更新 Orders 金额/Token）。安装成功：registered_order_workflow_install_01.log。
 - `test_approved_rules_01.log` 六组情形全部通过：同商品数量 2+3 合并到 5、无账户直接/过程下单被拒、创建账号立即有唯一正确额度快照、库存删除拒绝、系统补货 created_by=NULL 和人工补货 created_by 必填的正反例均通过，所有业务写入事务回滚。
@@ -675,10 +675,30 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 ### 交接文档 QA（2026-10-14）
 
 - `week6/HANDOFF_CONTEXT.md` 的相对链接 **37 条 / 0 失效**；仅引用项目里可查验的设计、回归、备份和复现结果。
-- 依次重跑 `week6/reproduction/qa_reproduction.py`（历史 ZIP 344 文件/哈希、两段日志、3763 行业务对账）、`week6/qa_week6.py`（15 实体/18 FK/ER 图片/文档链接）、`week6/issue_fixes/qa_approved_rules.py`（v1.1 模型）以及 `week5/qa_week5.py`（14 实体/17 FK），全部 PASS。`git diff --check` 通过（仅有 Windows 文档行尾提示）。
+- 依次重跑 `week6/reproduction/qa_reproduction.py`（历史 ZIP 344 文件/哈希、两段日志、3763 行业务对账）、`week6/qa_week6.py`（15 实体/18 FK/ER 图片/文档链接）、`week6/v11/qa_approved_rules.py`（v1.1 模型）以及 `week5/qa_week5.py`（14 实体/17 FK），全部 PASS。`git diff --check` 通过（仅有 Windows 文档行尾提示）。
 - 这些 QA 为自动检查；**没有收到同事人工签收或独立审阅结果**，也未运行任何修改数据库的操作。待提交时采用精确暂存，保留其他任务的 README/ROADMAP/AI 日志改动及 `report/overview_modules.*` 未跟踪文件。
 
-### 选择性暂存异常与核验
+## 2026-10-17 第六周 v1.1 加固与历史数据修复
 
-- 由于工作区已含另一项 HTML 总览任务的未提交修改，本轮使用 Git 对象和 index 选择性暂存交接新增段落，不将其它任务的 README/ROADMAP/AI 日志改动一并提交。
-- 第一版索引校验脚本把 Git 默认的非 ASCII 路径转义（`docs/ai\\344...`）与 Python Unicode 路径直接比较，触发 AssertionError；此错误出现在**暂存后名称校验**，不是文档写入/链接或文件损坏。随后用 `git -c core.quotePath=false diff --cached --name-only` 核实恰好 5 个交接相关文件；`git diff --cached --check` 退出码 0，且工作区其他修改仍保留未暂存。
+- **要求**：完善 v1.1、处理尚未闭环的业务约束与旧数据库异常、清理根目录 README 的过期状态；暂不修改第二阶段报告。
+- **执行**：核对旧库 v0.1_A 的 20/402/225/1 四类异常；以固定种子生成器核对订单、订单明细、3000 条调用业务身份、库存和汇总后，仅在新建 TokenHubDB_v11_Harden261017B 副本进行合成数据校正。先备份并 CHECKSUM/VERIFYONLY，11 个用户注册时点、226 条调用时间或关联账号、2 个账号及相应库存流水、1 条合成异常引用被核对更正。旧 v0.1 及此前队友 sh 的 v1.1 未改。
+- **约束与流程**：确认并规范 3000 条消费流水的调用引用；新增注册/provider/有效期反向保护、重要财务表直写限制、受控支付及补货；升级消费事务以写入明确的关联流水。
+- **测试与失败处理**：首次使用 Python ODBC 运行备份/还原时连接没有等待服务端全部完成，产生一个 RESTORING 的自建测试库，已仅清理该失败测试库并改成 sqlcmd 阻塞等待；历史数据映射预检查和触发器回归首次遇到匹配集合/错误回滚顺序问题，修复后分别复测通过。最终 VFY01–VFY14、X01–X10、Y01–Y04 和原 v1.1 五组测试全部通过。
+- **文件**：week6/v11/、result/week6/hardening/Harden261017B/、README.md、week6/README.md、week6/v11/README.md；原第二阶段 report/stage_report.md 没有改动。远端 sh 的正式 v1.1 尚未升级；退款完整账本属于后续开发边界。
+
+
+## 2026-10-17 统一 v1.1 与退款开发
+
+- **问题**：原第六周基础修复和加固分在两个目录，尚缺部分消费退款、金额责任流水、防重复退款。
+- **实现**：合并到 `week6/v11`；加入 OrderTokenLots 和 RefundLedger 两表以及两条标识性 FK；逐明细记录发放、FIFO 消耗和收回，按未消费比例及原订单明细成交价格计算应退款额。每个订单退款唯一；事务内扣回 Token，现金应付款另行凭外部支付凭证结清。旧 refunded 合成订单保留，不伪造结算。
+- **测试**：在备份的新库 `TokenHubDB_v11_Full261017D` 从原 v0.1 完整复现，旧问题修复与规范化 R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过，17 表/20 FK ER 匹配。退款 100000 Token 使用 20000 后按 80000 返还对应 5.52 的应退金额；完全未使用的 100000 Token 返还 6.90 应退金额。所有验证交易回滚。历史异常在新副本为零，原库未更改。
+- **限制**：无支付渠道可执行外部资金退款，数据库只能登记待支付金额和经服务端/人工验证的外部结算编号。第二阶段报告不修改；旧目录删除前先核对新路径不依赖它们。未执行 Git 提交。
+
+## 2026-10-17 第六周退款缺口的人工发现与后续修复
+
+-  在询问和核对 v1.1 的退款逻辑时，指出旧版主要只有订单 refunded 状态和相关明细约束，缺乏用户应退款金额、已消费 Token 的处理、退款流水及重复退款保护。随后明确要求补齐以上功能，并整合原先分散的两个 v1.1 代码目录。此处的“人工发现”指用户主动识别并提出功能缺口，不表示用户亲自执行了数据库测试。
+- **发现依据**：原设计允许订单 status 为 refunded，合成样例里已有 2 条退款状态订单，但当时不存在按原成交价计算返款、扣回未用 Token、记录现金退款责任并防止重复退款的完整受控事务。仅修改订单状态不能证明用户余额与现金退款已经同步。
+- **本轮采用的实现规则**：新增 OrderTokenLots 和 RefundLedger 两表及 2 条 PK/FK，已付款明细按购买顺序建立 Token 批次，消费按 FIFO 扣减。退款事务仅收回该订单未使用 Token，按订单明细成交小计乘以未消费比例、逐明细四舍五入计算应退款额；已消耗部分不退。每订单退款唯一，重复调用不重复扣减。应退款先记为 awaiting_transfer；外部支付实际成功且凭证经服务端/人工核实后才登记 settled。按未消费比例计算是本次系统采用的规则，不冒称其他组员已独立审批。
+- **文件修改与清理**：合并基础修复与加固代码到 [week6/v11](../week6/v11/README.md)；新增 [退款结构](../week6/v11/07_refund_schema.sql)、[Token 批次账务](../week6/v11/08_accounting_lots.sql)、[退款事务](../week6/v11/09_refund_workflow.sql) 和 [退款测试](../week6/v11/10_refund_regression.sql)。原 week6/issue_fixes、week6/hardening 代码目录在独立重建通过后删除；历史测试日志和备份保留。
+- **验证结果**：在新建的 TokenHubDB_v11_Full261017D 从 v0.1 备份、还原、迁移、修订可追溯的合成历史数据，再安装完整 v1.1 并运行 R01–R12、VFY01–VFY14、X01–X10、Y01–Y04 及 RF01–RF06，全部通过。退款案例中，原价 6.90 的 100000 Token 已使用 20000 时，只收回剩余 80000，记录应退 5.52；完全未使用时记录应退 6.90。重复退款、重复凭证及直接伪造退款流水的反例已测试。[退款回归日志](../result/week6/v11/Full261017D/final_validation/validation_10_refund_regression.sql.log) 和 [总体验证日志](../result/week6/v11/Full261017D/final_validation/validation_verify_v11_full.sql.log) 均保留；测试交易回滚。
+- **未完成边界**：数据库不向用户直接转账，尚未接入支付渠道及验证实际资金到账；原 v0.1 和队友 sh 电脑的旧 v1.1 未更新；第二阶段报告暂不动。

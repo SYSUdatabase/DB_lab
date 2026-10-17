@@ -142,13 +142,13 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 
 第五周基于第一阶段 v0.1 **逆向分析** 14 张表、17 条 FK，明确实体标识、联系基数和参与约束，暂不修改既有表结构。正式交付入口是 [第五周 ER 设计审查](week5/README.md)，包含 [可编辑 ER 图](week5/er_diagram.mmd)、[SVG 图](week5/er_diagram.svg)、[数据字典](week5/data_dictionary.md)、[业务规则映射](week5/business_rules_mapping.md)、[v0.1 问题与保留项](week5/v01_issues.md)、[设计说明和真实只读验证](week5/design_validation.md)。
 
-本周在现存 `TokenHubDB_v01_A` 上只读核验了 100 订单、184 明细、68 个多明细订单；0 张无明细订单并不意味着数据库外码强制“一单至少一明细”。散客定义、同商品重复明细、账号是否必有库存和自动补货创建人仍待团队确认。第六周才研究规范化和结构迁移；v0.1 运行入口仍保持不变。
+本周在现存 `TokenHubDB_v01_A` 上只读核验了 100 订单、184 明细、68 个多明细订单；0 张无明细订单并不意味着数据库外码强制“一单至少一明细”。这四项规则在第五周登记为待决项；后续已于 2026-10-14 确定业务方案，并在独立 v1.1 副本实施。第五周的 v0.1 ER 基线和运行入口保留不变。
 
-## 第二阶段：第六周规范化与迁移（执行中，2026-10-14）
+## 第二阶段：第六周规范化与迁移（2026-10-14）
 
 第六周入口：[规范化分析与迁移进度](week6/README.md)、[14 表函数依赖与范式判断](week6/dependency_normalization.md)、[有条件重构及无损/依赖保持](week6/redesign_decisions.md)、[当前证据](result/week6/README.md)、[执行计划](plan/week6-normalization-migration-plan.md)。
 
-已保护 `TokenHubDB_v01_A` 并备份还原隔离副本，源/副本迁移前订单、销售、库存和权限基准完全一致。**目前 P2 目标结构待业务确认，尚未执行 migration.sql/regression.sql；不能称为第六周全部完成。**
+已针对旧 `TokenHubDB_v01_A` 完成备份、校验和隔离还原；迁移前源/副本业务基准一致。周期规范化方案已批准，随后在隔离库实际执行 `sql/migration.sql` 与 `sql/regression.sql`，R01–R12 通过；详情及历史业务异常见下文。
 
 ## 第六周执行结果补充（2026-10-14）
 
@@ -156,18 +156,36 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 
 正式入口：[第六周 README](week6/README.md)、[依赖与范式分析](week6/dependency_normalization.md)、[重构决策](week6/redesign_decisions.md)、[v1.0 可编辑 ER 图](week6/er_diagram_v10.mmd)、[v1.0 数据字典](week6/data_dictionary_v10.md)、[迁移脚本](sql/migration.sql)、[回归脚本](sql/regression.sql)及[结果证据](result/week6/README.md)。
 
-回归 R01–R12、权限 VFY14 均通过，非权限业务基准 3763 行零差异；源库自带订单/调用时间不一致及历史负余额问题使旧 VFY12/VFY13 **未通过**。完整异常计数见第六周报告，不能以迁移成功替代原始数据修复。原 `sql/02_insert_data.sql` 只适用于 v0.1，新 v1.0 写入应经 UsagePeriod/UsageSummaryCore。未执行针对当前变更的新 Git 提交或 push。
+回归 R01–R12、权限 VFY14 均通过，非权限业务基准 3763 行零差异；源库自带订单/调用时间不一致及历史负余额问题使旧 VFY12/VFY13 **未通过**。完整异常计数见第六周报告，不能以迁移成功替代原始数据修复。原 `sql/02_insert_data.sql` 只适用于 v0.1，新 v1.0 写入应经 UsagePeriod/UsageSummaryCore。迁移与测试证据已进入第六周后续 Git 提交；以当前 `git log` 和 `git status` 为准。
 
 ## 第五周问题修复试验（v1.1 隔离库，2026-10-14）
 
-[本轮修复明细与决策项](week6/issue_fixes/README.md)：在新副本 `TokenHubDB_v11_Issues_20261014` 中，对已完成订单、调用 provider/日期、已知弱引用和原子化消费增加前向校验；原 v0.1 与 v1.0 不变。与 v1.0 的 3763 条业务基准零差异，关联正反例及 R01–R12 通过。I02/I03/I04/I07 等业务规则尚待明确，不将部分控制冒称“第五周全部问题已修复”。
+[本轮修复明细与决策项](week6/v11/README.md)：在新副本 `TokenHubDB_v11_Issues_20261014` 中，对已完成订单、调用 provider/日期、已知弱引用和原子化消费增加前向校验；原 v0.1 与 v1.0 不变。与 v1.0 的 3763 条业务基准零差异，关联正反例及 R01–R12 通过。I02/I03/I04/I07 的业务选择已于 2026-10-14 确定并在 v1.1 副本实施；I01/I05/I06/I08/I09 尚有局部写入入口与旧数据问题。
 
 ## 用户批准后的 v1.1 I02/I03/I04/I07 修复（2026-10-14）
 
-在隔离库 `TokenHubDB_v11_Issues_20261014` 已实施：同单同商品通过 quantity 合并；散客先登记 Users 后下单；新增上游账号自动生成且必须保留唯一库存；补货任务按 manual/system 决定是否必须有创建人。新增两个受控订单过程、三个触发器和 `RestockTask.created_source`，并提供 [v1.1 数据字典](week6/issue_fixes/data_dictionary_v11.md)、[可编辑 ER 图](week6/issue_fixes/er_diagram_v11.mmd)、[测试和限制](week6/issue_fixes/README.md)。新规则与先前 R01–R12 回归全部通过；业务数据 3763 条零差异。原库和 v1.0 结果库均未改。旧历史数据异常及其它写入入口的后续完善仍需独立处理。
+在隔离库 `TokenHubDB_v11_Issues_20261014` 已实施：同单同商品通过 quantity 合并；散客先登记 Users 后下单；新增上游账号自动生成且必须保留唯一库存；补货任务按 manual/system 决定是否必须有创建人。新增两个受控订单过程、三个触发器和 `RestockTask.created_source`，并提供 [v1.1 数据字典](week6/v11/data_dictionary_v11.md)、[可编辑 ER 图](week6/v11/er_diagram_v11.mmd)、[测试和限制](week6/v11/README.md)。新规则与先前 R01–R12 回归全部通过；业务数据 3763 条零差异。原库和 v1.0 结果库均未改。旧历史数据异常及其它写入入口的后续完善仍需独立处理。
 
 ## 第六周迁移前完整代码备份与独立复现（2026-10-14）
 
 [完整历史代码 ZIP 和校验](archive/week6-pre-migration/README.md) 保存第六周开始前 `c8d4e64` 的全部 344 个 Git 跟踪项目文件；[一键复现脚本和说明](week6/reproduction/README.md) 可从该快照全新建 v0.1、备份/还原另一个数据库、执行第六周 `migration.sql`、运行 R01–R12 与 VFY01–VFY14 并对比业务基准。[两轮实际复现结果](result/week6/reproduction/README.md) 均 PASS（第二轮由脚本端到端执行），3763 条非权限业务记录零差异。
 
 这一链路**不依赖原 `TokenHubDB_v01_A` 的本地数据**。标准旧代码重建的 v0.1 有 10 个视图并通过原始验证；原历史 `v01_A` 只有 9 个视图且带历史时间/余额异常，两者的结果须分开记录。
+
+
+## v1.1 加固与合成历史数据修复（2026-10-17）
+
+[部署与验收说明](week6/v11/README.md) 已补全第五周遗留问题的安全写入路径：受控支付、消费和补货；历史元数据的反向修改约束；余额/额度/明细与汇总的直接修改拦截；可验证的库存流水→调用事件关联。
+
+在 **xiao_ruan 本机新建的隔离副本** `TokenHubDB_v11_Harden261017B` 中，先从未变更的 `TokenHubDB_v01_A` 备份、校验并还原，再依次迁移 v1.0、安装 v1.1、核对并修订来源可验证的固定种子合成历史数据，最后部署新约束。四类历史异常由 `20 / 402 / 225 / 1` 降为 **`0 / 0 / 0 / 0`**；账号配额、库存和流水对账通过；v1.1 适配的 **VFY01–VFY14**、新增 **X01–X10、Y01–Y04** 及原 v1.1 测试均通过。[修复审计及日志](result/week6/hardening/Harden261017B/) 已保存。
+
+**版本边界**：原 v0.1_A/B/C/D、既有 v1.0 和队友 `sh` 电脑上的 `TokenHubDB_v11_Issues_20261014` 未更改，不能据本机副本核验推断远端旧库已经修复。此历史校正只适用于经固定种子指纹确认的合成样例；退款事务和第三阶段应用身份绑定仍需按业务规则另行开发。本轮未修改第二阶段报告。
+
+
+## v1.1 统一版本与退款功能（2026-10-17）
+
+当前完整可复现的 v1.1 版本已整合在 [week6/v11](week6/v11/README.md)，包含基础业务修复、历史合成样例修复、受控支付/消费/补货，以及退款与结算流水。**17 张表、20 个可信外码**；对应 [最新 ER](week6/v11/er_diagram_v11.png)、[数据字典](week6/v11/data_dictionary_v11.md) 和统一部署入口 `python -B .\week6\v11\run_full.py --suffix NewV11Run01`。
+
+在 `xiao_ruan` 的新库 `TokenHubDB_v11_Full261017D`，独立一键复现及 VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 均已通过。旧合成样例时间/余额异常在新副本中全部归零，旧 v0.1 不变。退款只退订单尚未消费的 Token 对应的成交价金额，已使用部分不退；数据库建立**应退款项**，实际金额仍须支付系统退款后凭证结算。未接入支付平台，不表示资金已自动到账。
+
+原 `issue_fixes` 和 `hardening` 基础脚本将统一保存在 `week6/v11`，不再分成两套代码目录；历史日志/备份不清理。第二阶段报告未改动，队友 sh 原有 v1.1 尚未升级，本机新副本通过不代表远端已生效。

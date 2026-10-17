@@ -1,0 +1,162 @@
+%% Week 6 / API Token Hub v1.1 / 2026-10-14
+%% Editable physical ER source: 17 tables, 20 actual FK constraints (two new identifying PK/FK links).
+%% ".." denotes non-identifying FKs; "--" is identifying if a new child PK is also its FK.
+%% OrderTokenLots.detail_id and RefundLedger.order_id are identifying PK/FK links.
+%% The Python SVG/PNG renderer intentionally uses SOLID lines for course presentation;
+%% exported solid lines do NOT turn these into identifying relationships.
+%% The renderer writes endpoint multiplicities as 1..1 / 0..1 / 0..* / 1..*.
+%% 图例：PK 主码；UK 候选/唯一键成员；FK 外码；.. 非标识性 FK；o| 0..1；|| 1..1；o{ 0..*；|{ 1..*。
+%% Existence-dependent is NOT the same as a strict identifying weak entity.
+%% UK marks each component of a composite UNIQUE key; see ../data_dictionary_v10.md and README.md.
+erDiagram
+    direction LR
+    Roles ||..o{ Employees : role_id
+    Users ||..o{ Orders : user_id
+    Users ||..o{ TokenBalances : user_id
+    Users ||..o{ TokenUsageLogs : user_id
+    Users ||..o{ UsageSummaryCore : user_id
+    Orders ||..o{ OrderDetails : order_id
+    Products ||..o{ OrderDetails : product_id
+    Products ||..o{ TokenUsageLogs : product_id
+    Products ||..o{ UsageSummaryCore : product_id
+    UsagePeriod ||..o{ UsageSummaryCore : period_type_period_start
+    UpstreamAccount ||..|| Inventory : account_id
+    UpstreamAccount ||..o{ InventoryLog : account_id
+    UpstreamAccount ||..o{ TokenUsageLogs : account_id
+    UpstreamAccount ||..o{ RestockTask : account_id
+    Employees o|..o{ InventoryLog : operator_id
+    Employees o|..o{ RestockTask : created_by
+    Employees o|..o{ RestockTask : assigned_to
+    Employees o|..o{ ExceptionLog : handled_by
+    OrderDetails ||--o| OrderTokenLots : detail_id
+    Orders ||--o| RefundLedger : order_id
+
+    Roles {
+        int role_id PK
+        varchar role_name UK
+        nvarchar permissions
+    }
+    Users {
+        int user_id PK
+        varchar username UK
+        varchar email UK
+        varchar status
+        datetime2 created_at
+    }
+    Products {
+        int product_id PK
+        nvarchar name UK
+        varchar model_provider UK
+        int token_amount UK
+        decimal price
+        int required_upstream_tokens
+    }
+    UpstreamAccount {
+        int account_id PK
+        varchar provider UK
+        nvarchar account_name UK
+        bigint total_quota
+        bigint used_quota
+        bigint safety_threshold
+    }
+    Inventory {
+        int inventory_id PK
+        int account_id FK,UK
+        bigint current_quota
+        datetime2 last_updated_at
+    }
+    Employees {
+        int employee_id PK
+        int role_id FK
+        varchar account UK
+        nvarchar name
+    }
+    Orders {
+        int order_id PK
+        int user_id FK
+        decimal total_amount
+        bigint total_tokens
+        varchar status
+        datetime2 paid_at
+    }
+    OrderDetails {
+        int detail_id PK
+        int order_id FK,UK
+        int product_id FK,UK
+        int quantity
+        decimal unit_price
+        decimal subtotal
+        int tokens_per_unit
+        bigint total_tokens
+    }
+    InventoryLog {
+        int log_id PK
+        int account_id FK
+        int operator_id FK
+        bigint change_amount
+        varchar reference_type
+        int reference_id
+    }
+    TokenBalances {
+        int balance_id PK
+        int user_id FK,UK
+        varchar model_provider UK
+        bigint remaining_tokens
+    }
+    TokenUsageLogs {
+        int log_id PK
+        int user_id FK
+        int product_id FK
+        int account_id FK
+        int tokens_used
+        int upstream_tokens_consumed
+    }
+    UsagePeriod {
+        varchar period_type PK
+        date period_start PK
+        date period_end
+    }
+    UsageSummaryCore {
+        int summary_id PK
+        int user_id FK,UK
+        int product_id FK,UK
+        varchar period_type FK,UK
+        date period_start FK,UK
+        bigint total_tokens_used
+        int request_count
+    }
+    RestockTask {
+        int task_id PK
+        int account_id FK
+        int created_by FK
+        varchar created_source
+        int assigned_to FK
+        bigint target_amount
+        varchar status
+    }
+    ExceptionLog {
+        int exception_id PK
+        int handled_by FK
+        varchar related_table
+        int related_id
+        varchar exception_type
+        datetime2 occurred_at
+    }
+    OrderTokenLots {
+        int detail_id PK,FK
+        datetime2 credited_at
+        bigint issued_tokens
+        bigint consumed_tokens
+        bigint refunded_tokens
+    }
+    RefundLedger {
+        int order_id PK,FK
+        int refund_id UK
+        datetime2 requested_at
+        decimal refund_amount
+        bigint refundable_tokens
+        bigint consumed_tokens
+        varchar payout_state
+        varchar external_payout_ref
+        datetime2 settled_at
+    }

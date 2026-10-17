@@ -1,12 +1,12 @@
-# 组内分工表（第一阶段 v0.1 与第五周）
+# 组内分工表（第一阶段 v0.1、第五周与第六周）
 
-> 汇总第 1～4 周、v0.1 修订阶段及第五周的分工。前四周原始记录保留在 `../archive/coursework/week1-2/team_division.md`、`../archive/coursework/week3/team_division.md`、`../archive/coursework/week4/team_division.md`。
+> 汇总第 1～4 周、v0.1 修订阶段及第五、六周的分工。前四周原始记录保留在 `../archive/coursework/week1-2/team_division.md`、`../archive/coursework/week3/team_division.md`、`../archive/coursework/week4/team_division.md`。
 
 ## 1. 小组信息
 
 - **项目名称**：API Token 中转站数据库项目
-- **小组成员**：阮依成、陈诗翰、肖懿
-- **阶段任务**：第一阶段 v0.1（业务设计 → 关系模式 → DDL/CRUD → 查询/视图/约束/权限 → 复现验收）；第五周 ER 设计与 v0.1 结构复核
+- **小组成员**：阮依成、陈诗瀚、肖懿
+- **阶段任务**：第一阶段 v0.1（业务设计 → 关系模式 → DDL/CRUD → 查询/视图/约束/权限 → 复现验收）；第五周 ER 设计与 v0.1 结构复核；第六周规范化迁移、v1.1 业务修复与退款流程
 - **协作方式**：Git 仓库 + Markdown 文档 + 微信群沟通
 
 ## 2. 全阶段分工
@@ -14,7 +14,7 @@
 | 成员 | 主责 | 每周具体职责 |
 |---|---|---|
 | 阮依成 | 场景设计、整合与复测 | 第 1 周确定经营场景、梳理业务流程、审核数据边界；第 3 周执行 SQL Server 复现、CRUD 与约束验证、整理测试结果与截图；第 4 周负责阶段报告、AI 记录、文档整合和最终提交 |
-| 陈诗翰 | 角色设计与 SQL 实现 | 第 1 周设计游客/会员/店员/店长四类角色与权限边界；第 3 周编写建库建表、样例数据与 CRUD 脚本；第 4 周实现查询、视图、约束、权限脚本与 PowerShell 复现脚本 |
+| 陈诗瀚 | 角色设计与 SQL 实现 | 第 1 周设计游客/会员/店员/店长四类角色与权限边界；第 3 周编写建库建表、样例数据与 CRUD 脚本；第 4 周实现查询、视图、约束、权限脚本与 PowerShell 复现脚本 |
 | 肖懿 | 数据边界与业务口径复核 | 第 1 周制定进库/不进库清单与理由、整理 AI 使用记录；第 2～3 周设计上游供给与补货/异常相关表、审核代码与课程要求的符合性；第 4 周复核统计口径、关系模式与权限设计 |
 
 ## 3. 交付物对应
@@ -22,11 +22,11 @@
 | 交付物 | 主责 | 复核 |
 |---|---|---|
 | 经营场景、角色、流程、数据边界 | 阮依成 | 肖懿 |
-| 14 表关系模式与样例元组 | 陈诗翰 | 肖懿 |
-| `sql/00`～`sql/03`（DDL、样例数据、CRUD） | 陈诗翰 | 阮依成（复测）、肖懿（语义） |
-| `sql/query.sql`、`view.sql`、`constraint.sql`、`role.sql` | 陈诗翰 | 阮依成（复测）、肖懿（口径与权限） |
-| `sql/verify.sql`、`signature.sql`、`tools/run_v01.ps1` | 陈诗翰 | 阮依成 |
-| `result/` 日志与签名 | 阮依成 | 陈诗翰 |
+| 14 表关系模式与样例元组 | 陈诗瀚 | 肖懿 |
+| `sql/00`～`sql/03`（DDL、样例数据、CRUD） | 陈诗瀚 | 阮依成（复测）、肖懿（语义） |
+| `sql/query.sql`、`view.sql`、`constraint.sql`、`role.sql` | 陈诗瀚 | 阮依成（复测）、肖懿（口径与权限） |
+| `sql/verify.sql`、`signature.sql`、`tools/run_v01.ps1` | 陈诗瀚 | 阮依成 |
+| `result/` 日志与签名 | 阮依成 | 陈诗瀚 |
 | `result/screenshots/` 真实截图 | 阮依成 | 肖懿 |
 | 阶段报告、ER 图、角色流程图、思维导图 | 阮依成 | 肖懿 |
 | `ai_usage_log.md`、`team_division.md`、README | 阮依成 | 全员 |
@@ -35,7 +35,7 @@
 
 | 日期 | 执行人 | 机器/数据库 | 内容 | 结论 |
 |---|---|---|---|---|
-| 2026-09-23～25 | 阮依成（陈诗翰实现） | 本机 `TokenHubDB_Week3` | 第三周 DDL、样例数据、CRUD、人工审查后复测 | 全部通过；人工测试记录见 `result/第3周人工测试演示结果.pdf` |
+| 2026-09-23～25 | 阮依成（陈诗瀚实现） | 本机 `TokenHubDB_Week3` | 第三周 DDL、样例数据、CRUD、人工审查后复测 | 全部通过；人工测试记录见 `result/第3周人工测试演示结果.pdf` |
 | 2026-09-30 | 组内协作（SSMS 操作在 sh 机器） | `TokenHubDB_v01_A`、`TokenHubDB_v01_B` | 第四周流水线、A/B 签名一致、12 张截图抓屏 | 全部通过；该批证据对应修订前脚本版本 |
 | 2026-10-01 | 阮依成（AI 协助执行与记录） | 本机 `TokenHubDB_v01_A/B/C` | v0.1 修订后的完整重跑：A/B/C 三库各一次，三库签名逐字节一致 | 全部通过；证据见 `result/run_A`、`result/run_B`、`result/run_C` |
 ## 2026-10-02 修复后的状态
@@ -53,7 +53,14 @@
 
 | 成员 | 本周分工 | 对应文件 | 状态 |
 |---|---|---|---|
-| 陈诗翰 | 前期 ER 模型及配套文档编制：实体/联系、主码与外码、数据字典、业务规则映射、v0.1 问题与保留项、业务场景核对 | [第五周资料](../week5/README.md)：`er_diagram.mmd`、`data_dictionary.md`、`business_rules_mapping.md`、`v01_issues.md`、`design_validation.md` | 已完成初稿与前期整理 |
+| 陈诗瀚 | 前期 ER 模型及配套文档编制：实体/联系、主码与外码、数据字典、业务规则映射、v0.1 问题与保留项、业务场景核对 | [第五周资料](../week5/README.md)：`er_diagram.mmd`、`data_dictionary.md`、`business_rules_mapping.md`、`v01_issues.md`、`design_validation.md` | 已完成初稿与前期整理 |
 | 阮依成 | 人工复核：对照 v0.1 DDL 和 SQL 查询结果核对 14 实体、17 FK、基数、复合候选码、弱实体语义；指出并确认修订 ER 连线样式、`Employees` 与 `RestockTask` 的两条角色外键，整理问题分类及文档 | [技术复核记录](../week5/independent_review.md)、[ER 图](../week5/er_diagram.png)、[验证记录](../week5/design_validation.md) | **人工复核已完成** |
 
-本轮模型核对已完成；四项业务取舍（散客身份、同单同商品多行、上游账号库存必需性、自动补货创建主体）已在 [v0.1 问题清单](../week5/v01_issues.md) 中列出，尚未选择实施方案。第五周保留原有数据库结构，不进行迁移。
+截至第五周复核结束，这四项业务取舍列于 [v0.1 问题清单](../week5/v01_issues.md)，当周未修改数据库；相关方案于第六周随后确定并在独立 v1.1 副本实施。第五周模型复核已完成。
+
+## 6. 第六周：规范化、v1.1 修复与退款（2026-10-14—17）
+
+| 阶段 | 主责成员 | 工作内容 | 主要证据 | 状态 |
+|---|---|---|---|---|
+| 前期设计与实现 | **陈诗瀚** | 第六周初始工作：v0.1 基线与备份、函数依赖及范式分析、UsagePeriod 规范化方案、v1.0 迁移及回归，以及初版 v1.1 业务规则与 ER / 数据字典整理 | [函数依赖分析](../week6/dependency_normalization.md)、[重构方案](../week6/redesign_decisions.md)、[迁移脚本](../sql/migration.sql)、[回归脚本](../sql/regression.sql)、[结果](../result/week6/README.md) | 前期版本已完成，由后续工作接续完善 |
+| 退款问题人工发现与需求核对、后续 v1.1 完善、目录整合和验证 | **阮依成** | 在询问并核对原 v1.1 退款逻辑时指出：仅有退款状态与基础校验，未完成返款金额、已消费 Token 的退款处理、退款流水及重复退款保护；明确要求补齐功能并统一目录 | [退款问题与处理记录](ai_usage_log.md)、[v1.1 退款规则](../week6/v11/README.md) 、[退款事务](../week6/v11/09_refund_workflow.sql) 和 [退款测试](../week6/v11/10_refund_regression.sql)。 | 人工提出问题和修复要求 |

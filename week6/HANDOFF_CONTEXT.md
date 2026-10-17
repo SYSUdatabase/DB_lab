@@ -97,7 +97,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\week6\reproduction\run_fro
 
 ## 5. 第五周 I01–I10 的 v1.1 后续修复状态
 
-实施范围仅 `TokenHubDB_v11_Issues_20261014`；细节和旧失败日志入口：[issue_fixes/README.md](issue_fixes/README.md)、[v1.1 数据字典](issue_fixes/data_dictionary_v11.md)、[正反例证据](../result/week6/issue_fixes/README.md)。
+实施范围仅 `TokenHubDB_v11_Issues_20261014`；细节和旧失败日志入口：[issue_fixes/README.md](v11/README.md)、[v1.1 数据字典](v11/data_dictionary_v11.md)、[正反例证据](../result/week6/issue_fixes/README.md)。
 
 | 编号 | 当前实际状态 | 接手需要注意 |
 |---|---|---|
@@ -112,9 +112,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\week6\reproduction\run_fro
 | I09 | 受控消费过程拒绝余额/额度不足，普通管理员直接改调用流水被阻止 | 旧逐事件负余额仍存在；余额/支付的其它直接写入入口未完全关闭 |
 | I10 | 应用 Roles 与 SQL Server `hub_*` 权限角色分别建模，R01–R12 和权限反例已检查 | 不能将可自由填写 user_id 的管理过程直接授权给会员 |
 
-v1.1 的 **13 个触发器、3 个过程** 仅在隔离副本安装，未纳入 [v0.1→v1.0 一键复现脚本](reproduction/run_from_snapshot.ps1)。如需端到端复现 v1.1，接手同事应先设计从**新 v1.0 迁移副本**分叉到新 v1.1 副本的幂等/目标名受限流程，再按 [issue_fixes 的 SQL 顺序](issue_fixes/README.md) 应用脚本，禁止在现有结果库上盲目重放。
+v1.1 的 **13 个触发器、3 个过程** 仅在隔离副本安装，未纳入 [v0.1→v1.0 一键复现脚本](reproduction/run_from_snapshot.ps1)。如需端到端复现 v1.1，接手同事应先设计从**新 v1.0 迁移副本**分叉到新 v1.1 副本的幂等/目标名受限流程，再按 [issue_fixes 的 SQL 顺序](v11/README.md) 应用脚本，禁止在现有结果库上盲目重放。
 
-v1.1 设计/代码：[approved_rules.sql](issue_fixes/approved_rules.sql)、[registered_order_workflow.sql](issue_fixes/registered_order_workflow.sql)、[record_usage.sql](issue_fixes/record_usage.sql)；可编辑模型：[ER v1.1](issue_fixes/er_diagram_v11.mmd)。
+v1.1 设计/代码：[approved_rules.sql](v11/approved_rules.sql)、[registered_order_workflow.sql](v11/registered_order_workflow.sql)、[record_usage.sql](v11/record_usage.sql)；可编辑模型：[ER v1.1](v11/er_diagram_v11.mmd)。
 
 ## 6. 未解决的问题：按优先级交接
 

@@ -1,0 +1,13 @@
+detail_id   order_id    product_id  quantity    subtotal     total_tokens        
+----------- ----------- ----------- ----------- ------------ --------------------
+        190         106           1           2         7.80               100000
+detail_id   order_id    product_id  quantity    subtotal     total_tokens        
+----------- ----------- ----------- ----------- ------------ --------------------
+        190         106           1           5        19.50               250000
+PASS I02 quantity merged; I03 registered paid order; rolled back
+PASS I03 direct and procedure unregistered order blocked
+PASS I04 new account automatically gets one matching Inventory (rollback)
+PASS I04 orphan inventory deletion rejected
+PASS I07 system NULL/manual employee defaults (rolled back)
+PASS I07 manual/system creator CHECK negative tests
+PASS I02 I03 I04 I07 APPROVED RULES REGRESSION

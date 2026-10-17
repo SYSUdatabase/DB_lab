@@ -1,0 +1,4 @@
+﻿accounts    inventories existing_tasks manual_tasks
+----------- ----------- -------------- ------------
+          8           8              8            8
+PASS I02 I03 I04 I07 metadata, source data and trusted constraints

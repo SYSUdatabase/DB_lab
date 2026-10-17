@@ -1,0 +1,4 @@
+﻿PASS manager direct event insert rejected; proc required
+PASS referenced order deletion rejected
+PASS referenced restock deletion rejected
+PASS V11 REFERENCE AND ROLE HARDENING

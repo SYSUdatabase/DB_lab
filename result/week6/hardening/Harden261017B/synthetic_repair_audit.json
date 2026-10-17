@@ -1,0 +1,1698 @@
+{
+  "dataset": "fixed-seed synthetic sample from tools/datagen.py",
+  "database": "TokenHubDB_v11_Harden261017B",
+  "before": [
+    20,
+    402,
+    225,
+    1
+  ],
+  "after": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "backup": "D:\\SQL\\MSSQL17.SQLEXPRESS\\MSSQL\\Backup\\TokenHubDB_v11_Harden261017B_PreReconcile_30ecac9240fc.bak",
+  "changes": {
+    "users": [
+      {
+        "user_id": 1,
+        "from_time": "2026-07-07T01:44:54",
+        "to_time": "2026-07-03T10:14:57"
+      },
+      {
+        "user_id": 4,
+        "from_time": "2026-08-04T20:19:34",
+        "to_time": "2026-07-03T16:43:53"
+      },
+      {
+        "user_id": 8,
+        "from_time": "2026-08-21T22:22:27",
+        "to_time": "2026-07-13T21:39:17"
+      },
+      {
+        "user_id": 12,
+        "from_time": "2026-08-17T14:55:36",
+        "to_time": "2026-07-03T17:55:47"
+      },
+      {
+        "user_id": 15,
+        "from_time": "2026-08-30T20:20:37",
+        "to_time": "2026-07-04T16:34:20"
+      },
+      {
+        "user_id": 17,
+        "from_time": "2026-07-04T14:36:59",
+        "to_time": "2026-07-01T21:38:27"
+      },
+      {
+        "user_id": 18,
+        "from_time": "2026-07-20T23:13:25",
+        "to_time": "2026-07-08T10:46:58"
+      },
+      {
+        "user_id": 21,
+        "from_time": "2026-08-07T14:11:47",
+        "to_time": "2026-07-13T15:42:11"
+      },
+      {
+        "user_id": 27,
+        "from_time": "2026-08-17T11:47:02",
+        "to_time": "2026-08-03T21:39:18"
+      },
+      {
+        "user_id": 30,
+        "from_time": "2026-08-24T03:07:09",
+        "to_time": "2026-08-13T09:46:13"
+      },
+      {
+        "user_id": 35,
+        "from_time": "2026-08-12T17:51:11",
+        "to_time": "2026-07-04T15:57:32"
+      }
+    ],
+    "usage": [
+      {
+        "log_id": 1648,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T03:33:33",
+        "to_time": "2026-09-01T03:33:33"
+      },
+      {
+        "log_id": 1655,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T08:47:32",
+        "to_time": "2026-09-01T08:47:32"
+      },
+      {
+        "log_id": 1658,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T09:38:25",
+        "to_time": "2026-09-01T09:38:25"
+      },
+      {
+        "log_id": 1659,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T10:01:49",
+        "to_time": "2026-09-01T10:01:49"
+      },
+      {
+        "log_id": 1665,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T12:30:38",
+        "to_time": "2026-09-01T12:30:38"
+      },
+      {
+        "log_id": 1668,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T15:24:56",
+        "to_time": "2026-09-01T15:24:56"
+      },
+      {
+        "log_id": 1679,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T20:49:30",
+        "to_time": "2026-09-01T20:49:30"
+      },
+      {
+        "log_id": 1684,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-01T22:17:27",
+        "to_time": "2026-09-01T22:17:27"
+      },
+      {
+        "log_id": 1685,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T00:08:48",
+        "to_time": "2026-09-02T00:08:48"
+      },
+      {
+        "log_id": 1693,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T04:48:35",
+        "to_time": "2026-09-02T04:48:35"
+      },
+      {
+        "log_id": 1696,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T05:27:45",
+        "to_time": "2026-09-02T05:27:45"
+      },
+      {
+        "log_id": 1700,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T06:42:28",
+        "to_time": "2026-09-02T06:42:28"
+      },
+      {
+        "log_id": 1711,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T11:14:48",
+        "to_time": "2026-09-02T11:14:48"
+      },
+      {
+        "log_id": 1720,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T14:05:27",
+        "to_time": "2026-09-02T14:05:27"
+      },
+      {
+        "log_id": 1723,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T15:27:38",
+        "to_time": "2026-09-02T15:27:38"
+      },
+      {
+        "log_id": 1730,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T16:50:56",
+        "to_time": "2026-09-02T16:50:56"
+      },
+      {
+        "log_id": 1733,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T18:18:46",
+        "to_time": "2026-09-02T18:18:46"
+      },
+      {
+        "log_id": 1735,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T19:07:28",
+        "to_time": "2026-09-02T19:07:28"
+      },
+      {
+        "log_id": 1740,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T20:01:22",
+        "to_time": "2026-09-02T20:01:22"
+      },
+      {
+        "log_id": 1744,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-02T23:56:19",
+        "to_time": "2026-09-02T23:56:19"
+      },
+      {
+        "log_id": 1746,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T00:40:23",
+        "to_time": "2026-09-03T00:40:23"
+      },
+      {
+        "log_id": 1747,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T00:46:12",
+        "to_time": "2026-09-03T00:46:12"
+      },
+      {
+        "log_id": 1751,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T02:05:11",
+        "to_time": "2026-09-03T02:05:11"
+      },
+      {
+        "log_id": 1756,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T04:28:16",
+        "to_time": "2026-09-03T04:28:16"
+      },
+      {
+        "log_id": 1757,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T04:46:52",
+        "to_time": "2026-09-03T04:46:52"
+      },
+      {
+        "log_id": 1759,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T05:58:01",
+        "to_time": "2026-09-03T05:58:01"
+      },
+      {
+        "log_id": 1760,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T06:58:31",
+        "to_time": "2026-09-03T06:58:31"
+      },
+      {
+        "log_id": 1761,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T07:05:27",
+        "to_time": "2026-09-03T07:05:27"
+      },
+      {
+        "log_id": 1763,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T08:39:33",
+        "to_time": "2026-09-03T08:39:33"
+      },
+      {
+        "log_id": 1768,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T10:32:51",
+        "to_time": "2026-09-03T10:32:51"
+      },
+      {
+        "log_id": 1773,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T13:09:14",
+        "to_time": "2026-09-03T13:09:14"
+      },
+      {
+        "log_id": 1782,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T16:48:06",
+        "to_time": "2026-09-03T16:48:06"
+      },
+      {
+        "log_id": 1783,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T16:53:02",
+        "to_time": "2026-09-03T16:53:02"
+      },
+      {
+        "log_id": 1785,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-03T19:22:08",
+        "to_time": "2026-09-03T19:22:08"
+      },
+      {
+        "log_id": 1794,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T02:13:42",
+        "to_time": "2026-09-04T02:13:42"
+      },
+      {
+        "log_id": 1795,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T02:20:12",
+        "to_time": "2026-09-04T02:20:12"
+      },
+      {
+        "log_id": 1797,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T02:51:53",
+        "to_time": "2026-09-04T02:51:53"
+      },
+      {
+        "log_id": 1799,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T03:53:43",
+        "to_time": "2026-09-04T03:53:43"
+      },
+      {
+        "log_id": 1811,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T08:24:37",
+        "to_time": "2026-09-04T08:24:37"
+      },
+      {
+        "log_id": 1813,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T08:37:38",
+        "to_time": "2026-09-04T08:37:38"
+      },
+      {
+        "log_id": 1823,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T17:01:17",
+        "to_time": "2026-09-04T17:01:17"
+      },
+      {
+        "log_id": 1828,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T18:08:40",
+        "to_time": "2026-09-04T18:08:40"
+      },
+      {
+        "log_id": 1831,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T18:36:53",
+        "to_time": "2026-09-04T18:36:53"
+      },
+      {
+        "log_id": 1839,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-04T21:04:29",
+        "to_time": "2026-09-04T21:04:29"
+      },
+      {
+        "log_id": 1868,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-05T13:22:14",
+        "to_time": "2026-09-05T13:22:14"
+      },
+      {
+        "log_id": 1872,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-05T15:42:02",
+        "to_time": "2026-09-05T15:42:02"
+      },
+      {
+        "log_id": 1883,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-05T20:36:04",
+        "to_time": "2026-09-05T20:36:04"
+      },
+      {
+        "log_id": 1891,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-05T22:59:57",
+        "to_time": "2026-09-05T22:59:57"
+      },
+      {
+        "log_id": 1892,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-05T23:13:14",
+        "to_time": "2026-09-05T23:13:14"
+      },
+      {
+        "log_id": 1899,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T01:35:08",
+        "to_time": "2026-09-06T01:35:08"
+      },
+      {
+        "log_id": 1902,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T02:31:20",
+        "to_time": "2026-09-06T02:31:20"
+      },
+      {
+        "log_id": 1906,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T04:02:24",
+        "to_time": "2026-09-06T04:02:24"
+      },
+      {
+        "log_id": 1912,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T06:15:58",
+        "to_time": "2026-09-06T06:15:58"
+      },
+      {
+        "log_id": 1921,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T12:55:02",
+        "to_time": "2026-09-06T12:55:02"
+      },
+      {
+        "log_id": 1924,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T13:47:29",
+        "to_time": "2026-09-06T13:47:29"
+      },
+      {
+        "log_id": 1931,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T15:32:51",
+        "to_time": "2026-09-06T15:32:51"
+      },
+      {
+        "log_id": 1932,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T15:33:14",
+        "to_time": "2026-09-06T15:33:14"
+      },
+      {
+        "log_id": 1940,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T18:44:17",
+        "to_time": "2026-09-06T18:44:17"
+      },
+      {
+        "log_id": 1942,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-06T19:35:19",
+        "to_time": "2026-09-06T19:35:19"
+      },
+      {
+        "log_id": 1952,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T02:24:09",
+        "to_time": "2026-09-07T02:24:09"
+      },
+      {
+        "log_id": 1953,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T02:30:36",
+        "to_time": "2026-09-07T02:30:36"
+      },
+      {
+        "log_id": 1961,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T04:48:08",
+        "to_time": "2026-09-07T04:48:08"
+      },
+      {
+        "log_id": 1970,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T09:14:02",
+        "to_time": "2026-09-07T09:14:02"
+      },
+      {
+        "log_id": 1972,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T10:38:57",
+        "to_time": "2026-09-07T10:38:57"
+      },
+      {
+        "log_id": 1979,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T15:28:38",
+        "to_time": "2026-09-07T15:28:38"
+      },
+      {
+        "log_id": 1980,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T15:39:35",
+        "to_time": "2026-09-07T15:39:35"
+      },
+      {
+        "log_id": 1989,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T19:31:51",
+        "to_time": "2026-09-07T19:31:51"
+      },
+      {
+        "log_id": 1992,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-07T20:23:36",
+        "to_time": "2026-09-07T20:23:36"
+      },
+      {
+        "log_id": 1997,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T00:41:52",
+        "to_time": "2026-09-08T00:41:52"
+      },
+      {
+        "log_id": 2011,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T06:09:37",
+        "to_time": "2026-09-08T06:09:37"
+      },
+      {
+        "log_id": 2018,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T09:48:26",
+        "to_time": "2026-09-08T09:48:26"
+      },
+      {
+        "log_id": 2029,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T13:30:49",
+        "to_time": "2026-09-08T13:30:49"
+      },
+      {
+        "log_id": 2044,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T17:07:49",
+        "to_time": "2026-09-08T17:07:49"
+      },
+      {
+        "log_id": 2061,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T22:35:00",
+        "to_time": "2026-09-08T22:35:00"
+      },
+      {
+        "log_id": 2063,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-08T22:40:03",
+        "to_time": "2026-09-08T22:40:03"
+      },
+      {
+        "log_id": 2068,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T01:39:20",
+        "to_time": "2026-09-09T01:39:20"
+      },
+      {
+        "log_id": 2069,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T01:49:59",
+        "to_time": "2026-09-09T01:49:59"
+      },
+      {
+        "log_id": 2071,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T02:36:29",
+        "to_time": "2026-09-09T02:36:29"
+      },
+      {
+        "log_id": 2074,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T03:09:27",
+        "to_time": "2026-09-09T03:09:27"
+      },
+      {
+        "log_id": 2077,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T04:13:48",
+        "to_time": "2026-09-09T04:13:48"
+      },
+      {
+        "log_id": 2080,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T06:04:16",
+        "to_time": "2026-09-09T06:04:16"
+      },
+      {
+        "log_id": 2086,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T07:04:35",
+        "to_time": "2026-09-09T07:04:35"
+      },
+      {
+        "log_id": 2087,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T07:07:36",
+        "to_time": "2026-09-09T07:07:36"
+      },
+      {
+        "log_id": 2088,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T08:41:46",
+        "to_time": "2026-09-09T08:41:46"
+      },
+      {
+        "log_id": 2092,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T09:44:43",
+        "to_time": "2026-09-09T09:44:43"
+      },
+      {
+        "log_id": 2099,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T12:00:35",
+        "to_time": "2026-09-09T12:00:35"
+      },
+      {
+        "log_id": 2108,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T15:35:19",
+        "to_time": "2026-09-09T15:35:19"
+      },
+      {
+        "log_id": 2112,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T16:32:24",
+        "to_time": "2026-09-09T16:32:24"
+      },
+      {
+        "log_id": 2117,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T18:42:01",
+        "to_time": "2026-09-09T18:42:01"
+      },
+      {
+        "log_id": 2124,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-09T20:35:10",
+        "to_time": "2026-09-09T20:35:10"
+      },
+      {
+        "log_id": 2144,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T05:13:06",
+        "to_time": "2026-09-10T05:13:06"
+      },
+      {
+        "log_id": 2145,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T05:23:37",
+        "to_time": "2026-09-10T05:23:37"
+      },
+      {
+        "log_id": 2148,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T06:51:44",
+        "to_time": "2026-09-10T06:51:44"
+      },
+      {
+        "log_id": 2156,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T10:53:10",
+        "to_time": "2026-09-10T10:53:10"
+      },
+      {
+        "log_id": 2157,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T11:23:16",
+        "to_time": "2026-09-10T11:23:16"
+      },
+      {
+        "log_id": 2161,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T14:10:53",
+        "to_time": "2026-09-10T14:10:53"
+      },
+      {
+        "log_id": 2164,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T15:17:27",
+        "to_time": "2026-09-10T15:17:27"
+      },
+      {
+        "log_id": 2166,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T15:46:26",
+        "to_time": "2026-09-10T15:46:26"
+      },
+      {
+        "log_id": 2179,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-10T21:55:43",
+        "to_time": "2026-09-10T21:55:43"
+      },
+      {
+        "log_id": 2182,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T00:08:29",
+        "to_time": "2026-09-11T00:08:29"
+      },
+      {
+        "log_id": 2184,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T01:16:38",
+        "to_time": "2026-09-11T01:16:38"
+      },
+      {
+        "log_id": 2187,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T03:45:28",
+        "to_time": "2026-09-11T03:45:28"
+      },
+      {
+        "log_id": 2197,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T07:54:20",
+        "to_time": "2026-09-11T07:54:20"
+      },
+      {
+        "log_id": 2203,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T09:34:10",
+        "to_time": "2026-09-11T09:34:10"
+      },
+      {
+        "log_id": 2212,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T13:36:46",
+        "to_time": "2026-09-11T13:36:46"
+      },
+      {
+        "log_id": 2236,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-11T23:25:10",
+        "to_time": "2026-09-11T23:25:10"
+      },
+      {
+        "log_id": 2240,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T01:56:39",
+        "to_time": "2026-09-12T01:56:39"
+      },
+      {
+        "log_id": 2243,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T02:45:02",
+        "to_time": "2026-09-12T02:45:02"
+      },
+      {
+        "log_id": 2246,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T03:24:47",
+        "to_time": "2026-09-12T03:24:47"
+      },
+      {
+        "log_id": 2257,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T09:42:57",
+        "to_time": "2026-09-12T09:42:57"
+      },
+      {
+        "log_id": 2263,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T11:47:41",
+        "to_time": "2026-09-12T11:47:41"
+      },
+      {
+        "log_id": 2264,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T11:56:53",
+        "to_time": "2026-09-12T11:56:53"
+      },
+      {
+        "log_id": 2265,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T12:14:43",
+        "to_time": "2026-09-12T12:14:43"
+      },
+      {
+        "log_id": 2279,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T20:31:02",
+        "to_time": "2026-09-12T20:31:02"
+      },
+      {
+        "log_id": 2283,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T21:02:03",
+        "to_time": "2026-09-12T21:02:03"
+      },
+      {
+        "log_id": 2285,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-12T22:05:28",
+        "to_time": "2026-09-12T22:05:28"
+      },
+      {
+        "log_id": 2288,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T00:03:26",
+        "to_time": "2026-09-13T00:03:26"
+      },
+      {
+        "log_id": 2301,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T06:32:50",
+        "to_time": "2026-09-13T06:32:50"
+      },
+      {
+        "log_id": 2308,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T07:52:13",
+        "to_time": "2026-09-13T07:52:13"
+      },
+      {
+        "log_id": 2310,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T08:18:31",
+        "to_time": "2026-09-13T08:18:31"
+      },
+      {
+        "log_id": 2320,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T12:15:42",
+        "to_time": "2026-09-13T12:15:42"
+      },
+      {
+        "log_id": 2323,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T13:45:40",
+        "to_time": "2026-09-13T13:45:40"
+      },
+      {
+        "log_id": 2325,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T15:24:38",
+        "to_time": "2026-09-13T15:24:38"
+      },
+      {
+        "log_id": 2326,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T16:28:08",
+        "to_time": "2026-09-13T16:28:08"
+      },
+      {
+        "log_id": 2337,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-13T20:19:45",
+        "to_time": "2026-09-13T20:19:45"
+      },
+      {
+        "log_id": 2356,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T03:29:33",
+        "to_time": "2026-09-14T03:29:33"
+      },
+      {
+        "log_id": 2357,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T04:32:59",
+        "to_time": "2026-09-14T04:32:59"
+      },
+      {
+        "log_id": 2370,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T09:57:26",
+        "to_time": "2026-09-14T09:57:26"
+      },
+      {
+        "log_id": 2371,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T10:10:48",
+        "to_time": "2026-09-14T10:10:48"
+      },
+      {
+        "log_id": 2407,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T22:55:04",
+        "to_time": "2026-09-14T22:55:04"
+      },
+      {
+        "log_id": 2410,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-14T23:54:08",
+        "to_time": "2026-09-14T23:54:08"
+      },
+      {
+        "log_id": 2417,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T02:11:04",
+        "to_time": "2026-09-15T02:11:04"
+      },
+      {
+        "log_id": 2434,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T08:44:37",
+        "to_time": "2026-09-15T08:44:37"
+      },
+      {
+        "log_id": 2436,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T11:01:18",
+        "to_time": "2026-09-15T11:01:18"
+      },
+      {
+        "log_id": 2440,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T12:28:12",
+        "to_time": "2026-09-15T12:28:12"
+      },
+      {
+        "log_id": 2442,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T12:56:22",
+        "to_time": "2026-09-15T12:56:22"
+      },
+      {
+        "log_id": 2452,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-15T17:45:55",
+        "to_time": "2026-09-15T17:45:55"
+      },
+      {
+        "log_id": 2469,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T01:08:51",
+        "to_time": "2026-09-16T01:08:51"
+      },
+      {
+        "log_id": 2471,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T02:31:01",
+        "to_time": "2026-09-16T02:31:01"
+      },
+      {
+        "log_id": 2478,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T07:39:22",
+        "to_time": "2026-09-16T07:39:22"
+      },
+      {
+        "log_id": 2479,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T09:17:39",
+        "to_time": "2026-09-16T09:17:39"
+      },
+      {
+        "log_id": 2488,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T14:43:15",
+        "to_time": "2026-09-16T14:43:15"
+      },
+      {
+        "log_id": 2495,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T16:40:52",
+        "to_time": "2026-09-16T16:40:52"
+      },
+      {
+        "log_id": 2512,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-16T23:39:26",
+        "to_time": "2026-09-16T23:39:26"
+      },
+      {
+        "log_id": 2518,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T03:07:05",
+        "to_time": "2026-09-17T03:07:05"
+      },
+      {
+        "log_id": 2519,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T03:17:18",
+        "to_time": "2026-09-17T03:17:18"
+      },
+      {
+        "log_id": 2522,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T03:56:20",
+        "to_time": "2026-09-17T03:56:20"
+      },
+      {
+        "log_id": 2525,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T04:54:47",
+        "to_time": "2026-09-17T04:54:47"
+      },
+      {
+        "log_id": 2528,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T05:53:48",
+        "to_time": "2026-09-17T05:53:48"
+      },
+      {
+        "log_id": 2531,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T07:26:07",
+        "to_time": "2026-09-17T07:26:07"
+      },
+      {
+        "log_id": 2534,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T07:58:00",
+        "to_time": "2026-09-17T07:58:00"
+      },
+      {
+        "log_id": 2538,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T09:38:51",
+        "to_time": "2026-09-17T09:38:51"
+      },
+      {
+        "log_id": 2546,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T12:35:57",
+        "to_time": "2026-09-17T12:35:57"
+      },
+      {
+        "log_id": 2548,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-17T14:12:48",
+        "to_time": "2026-09-17T14:12:48"
+      },
+      {
+        "log_id": 2568,
+        "from_account": 1,
+        "to_account": 1,
+        "from_time": "2026-09-17T20:28:34",
+        "to_time": "2026-09-17T20:56:34"
+      },
+      {
+        "log_id": 2585,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T01:32:09",
+        "to_time": "2026-09-18T01:32:09"
+      },
+      {
+        "log_id": 2586,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T01:51:20",
+        "to_time": "2026-09-18T01:51:20"
+      },
+      {
+        "log_id": 2587,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T02:06:09",
+        "to_time": "2026-09-18T02:06:09"
+      },
+      {
+        "log_id": 2595,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T04:21:33",
+        "to_time": "2026-09-18T04:21:33"
+      },
+      {
+        "log_id": 2596,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T04:22:47",
+        "to_time": "2026-09-18T04:22:47"
+      },
+      {
+        "log_id": 2597,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T04:26:05",
+        "to_time": "2026-09-18T04:26:05"
+      },
+      {
+        "log_id": 2608,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T06:36:38",
+        "to_time": "2026-09-18T06:36:38"
+      },
+      {
+        "log_id": 2611,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T07:43:17",
+        "to_time": "2026-09-18T07:43:17"
+      },
+      {
+        "log_id": 2623,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T10:02:53",
+        "to_time": "2026-09-18T10:02:53"
+      },
+      {
+        "log_id": 2625,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T10:42:08",
+        "to_time": "2026-09-18T10:42:08"
+      },
+      {
+        "log_id": 2660,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T21:02:12",
+        "to_time": "2026-09-18T21:02:12"
+      },
+      {
+        "log_id": 2663,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-18T21:51:01",
+        "to_time": "2026-09-18T21:51:01"
+      },
+      {
+        "log_id": 2673,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T00:58:42",
+        "to_time": "2026-09-19T00:58:42"
+      },
+      {
+        "log_id": 2676,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T01:17:32",
+        "to_time": "2026-09-19T01:17:32"
+      },
+      {
+        "log_id": 2698,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T06:48:23",
+        "to_time": "2026-09-19T06:48:23"
+      },
+      {
+        "log_id": 2700,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T07:02:22",
+        "to_time": "2026-09-19T07:02:22"
+      },
+      {
+        "log_id": 2706,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T08:56:37",
+        "to_time": "2026-09-19T08:56:37"
+      },
+      {
+        "log_id": 2710,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T09:58:25",
+        "to_time": "2026-09-19T09:58:25"
+      },
+      {
+        "log_id": 2715,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T12:51:28",
+        "to_time": "2026-09-19T12:51:28"
+      },
+      {
+        "log_id": 2718,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T13:47:48",
+        "to_time": "2026-09-19T13:47:48"
+      },
+      {
+        "log_id": 2722,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T16:17:35",
+        "to_time": "2026-09-19T16:17:35"
+      },
+      {
+        "log_id": 2728,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T17:57:54",
+        "to_time": "2026-09-19T17:57:54"
+      },
+      {
+        "log_id": 2729,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T18:07:32",
+        "to_time": "2026-09-19T18:07:32"
+      },
+      {
+        "log_id": 2732,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T18:38:40",
+        "to_time": "2026-09-19T18:38:40"
+      },
+      {
+        "log_id": 2733,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T18:50:15",
+        "to_time": "2026-09-19T18:50:15"
+      },
+      {
+        "log_id": 2734,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T19:27:47",
+        "to_time": "2026-09-19T19:27:47"
+      },
+      {
+        "log_id": 2736,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T20:14:43",
+        "to_time": "2026-09-19T20:14:43"
+      },
+      {
+        "log_id": 2743,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T22:04:08",
+        "to_time": "2026-09-19T22:04:08"
+      },
+      {
+        "log_id": 2746,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T22:51:08",
+        "to_time": "2026-09-19T22:51:08"
+      },
+      {
+        "log_id": 2748,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T23:00:15",
+        "to_time": "2026-09-19T23:00:15"
+      },
+      {
+        "log_id": 2750,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T23:29:28",
+        "to_time": "2026-09-19T23:29:28"
+      },
+      {
+        "log_id": 2751,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-19T23:48:58",
+        "to_time": "2026-09-19T23:48:58"
+      },
+      {
+        "log_id": 2758,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T01:05:14",
+        "to_time": "2026-09-20T01:05:14"
+      },
+      {
+        "log_id": 2764,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T02:25:41",
+        "to_time": "2026-09-20T02:25:41"
+      },
+      {
+        "log_id": 2780,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T08:45:56",
+        "to_time": "2026-09-20T08:45:56"
+      },
+      {
+        "log_id": 2785,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T10:03:31",
+        "to_time": "2026-09-20T10:03:31"
+      },
+      {
+        "log_id": 2788,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T10:11:48",
+        "to_time": "2026-09-20T10:11:48"
+      },
+      {
+        "log_id": 2792,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T10:48:25",
+        "to_time": "2026-09-20T10:48:25"
+      },
+      {
+        "log_id": 2794,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T12:04:17",
+        "to_time": "2026-09-20T12:04:17"
+      },
+      {
+        "log_id": 2804,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T15:59:54",
+        "to_time": "2026-09-20T15:59:54"
+      },
+      {
+        "log_id": 2812,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T19:36:12",
+        "to_time": "2026-09-20T19:36:12"
+      },
+      {
+        "log_id": 2813,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-20T19:54:15",
+        "to_time": "2026-09-20T19:54:15"
+      },
+      {
+        "log_id": 2842,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T03:06:41",
+        "to_time": "2026-09-21T03:06:41"
+      },
+      {
+        "log_id": 2852,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T06:41:37",
+        "to_time": "2026-09-21T06:41:37"
+      },
+      {
+        "log_id": 2857,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T07:45:10",
+        "to_time": "2026-09-21T07:45:10"
+      },
+      {
+        "log_id": 2858,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T08:32:36",
+        "to_time": "2026-09-21T08:32:36"
+      },
+      {
+        "log_id": 2868,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T11:02:57",
+        "to_time": "2026-09-21T11:02:57"
+      },
+      {
+        "log_id": 2877,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T13:12:39",
+        "to_time": "2026-09-21T13:12:39"
+      },
+      {
+        "log_id": 2878,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T13:26:05",
+        "to_time": "2026-09-21T13:26:05"
+      },
+      {
+        "log_id": 2884,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T14:43:10",
+        "to_time": "2026-09-21T14:43:10"
+      },
+      {
+        "log_id": 2885,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T14:43:16",
+        "to_time": "2026-09-21T14:43:16"
+      },
+      {
+        "log_id": 2892,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T18:13:48",
+        "to_time": "2026-09-21T18:13:48"
+      },
+      {
+        "log_id": 2894,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T18:49:52",
+        "to_time": "2026-09-21T18:49:52"
+      },
+      {
+        "log_id": 2898,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T19:54:17",
+        "to_time": "2026-09-21T19:54:17"
+      },
+      {
+        "log_id": 2904,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T21:05:04",
+        "to_time": "2026-09-21T21:05:04"
+      },
+      {
+        "log_id": 2913,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-21T23:09:34",
+        "to_time": "2026-09-21T23:09:34"
+      },
+      {
+        "log_id": 2930,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T04:41:44",
+        "to_time": "2026-09-22T04:41:44"
+      },
+      {
+        "log_id": 2931,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T04:51:39",
+        "to_time": "2026-09-22T04:51:39"
+      },
+      {
+        "log_id": 2932,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T05:07:36",
+        "to_time": "2026-09-22T05:07:36"
+      },
+      {
+        "log_id": 2933,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T05:09:34",
+        "to_time": "2026-09-22T05:09:34"
+      },
+      {
+        "log_id": 2948,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T10:37:31",
+        "to_time": "2026-09-22T10:37:31"
+      },
+      {
+        "log_id": 2949,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T10:46:10",
+        "to_time": "2026-09-22T10:46:10"
+      },
+      {
+        "log_id": 2955,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T13:09:12",
+        "to_time": "2026-09-22T13:09:12"
+      },
+      {
+        "log_id": 2961,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T15:00:51",
+        "to_time": "2026-09-22T15:00:51"
+      },
+      {
+        "log_id": 2966,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T15:41:06",
+        "to_time": "2026-09-22T15:41:06"
+      },
+      {
+        "log_id": 2967,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T15:50:56",
+        "to_time": "2026-09-22T15:50:56"
+      },
+      {
+        "log_id": 2973,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T17:32:40",
+        "to_time": "2026-09-22T17:32:40"
+      },
+      {
+        "log_id": 2975,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T18:07:58",
+        "to_time": "2026-09-22T18:07:58"
+      },
+      {
+        "log_id": 2986,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T19:55:04",
+        "to_time": "2026-09-22T19:55:04"
+      },
+      {
+        "log_id": 2994,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T22:02:55",
+        "to_time": "2026-09-22T22:02:55"
+      },
+      {
+        "log_id": 2997,
+        "from_account": 7,
+        "to_account": 8,
+        "from_time": "2026-09-22T23:01:57",
+        "to_time": "2026-09-22T23:01:57"
+      }
+    ],
+    "accounts": [
+      {
+        "account_id": 7,
+        "from_total": 1639720,
+        "from_used": 1239720,
+        "to_total": 1095880,
+        "to_used": 695880
+      },
+      {
+        "account_id": 8,
+        "from_total": 1185960,
+        "from_used": 1185960,
+        "to_total": 1729800,
+        "to_used": 1729800
+      }
+    ],
+    "opening": [
+      {
+        "log_id": 7,
+        "account_id": 7,
+        "from_amount": 1639720,
+        "to_amount": 1095880
+      },
+      {
+        "log_id": 8,
+        "account_id": 8,
+        "from_amount": 1185960,
+        "to_amount": 1729800
+      }
+    ],
+    "exceptions": [
+      {
+        "exception_id": 2,
+        "from_id": 7,
+        "to_id": 8
+      }
+    ]
+  },
+  "note": "Synthetic reconstruction, not an assertion of real-world occurrence times. v0.1 unchanged."
+}

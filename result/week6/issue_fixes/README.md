@@ -16,7 +16,7 @@
 | `regression_v11.log` | 原第六周核心 R01–R12 在 v1.1 副本全部 PASS |
 | `v11_semantics_after_tests.txt` | 与 v1.0 的 3763 条非权限业务记录差异为 0 |
 
-上述测试中的插入或更新正例均以事务回滚；测试过程中 IDENTITY 计数可能前进，但未写入额外业务行。详细状态与未解决业务选择见 [修复说明](../../../week6/issue_fixes/README.md)。历史异常仍与复制来源一致，不能当作已清洗。
+上述测试中的插入或更新正例均以事务回滚；测试过程中 IDENTITY 计数可能前进，但未写入额外业务行。详细状态与未解决业务选择见 [修复说明](../../../week6/v11/README.md)。历史异常仍与复制来源一致，不能当作已清洗。
 
 ## 用户批准 I02/I03/I04/I07 后的增量
 
@@ -27,8 +27,8 @@
 - `verify_approved_rules.log`：15 物理表、18 可信 FK、13 个新旧触发器、既有 8 个上游账号/8 条库存、8 条旧 manual 补货任务与新增约束的只读检查通过。
 - `test_guards_postapproval.log`、`test_managed_usage_postapproval.log`、`test_parent_and_role_postapproval.log`、`regression_v11_postapproval.log`：原有四组 v1.1/v1.0 正反例与 R01–R12 复测全部 PASS。
 - `approved_business_after.txt`：两侧各 3763 条非权限业务记录，相对于 v1.0 基准 **0 条差异**；所有模拟插入在测试事务中回滚。
-- [v1.1 业务规则与数据库差异](../../../week6/issue_fixes/data_dictionary_v11.md)、[可编辑 ER](../../../week6/issue_fixes/er_diagram_v11.mmd)。
+- [v1.1 业务规则与数据库差异](../../../week6/v11/data_dictionary_v11.md)、[可编辑 ER](../../../week6/v11/er_diagram_v11.mmd)。
 
 ## 最终自检
 
-`week6/issue_fixes/qa_approved_rules.py` 对照数据库 FK 导出记录，验证 15 张表、18 条实际 FK、最新基数和 v1.1 SVG/PNG 均通过；旧 week5/week6 ER QA 通过。最后文档自检检查 133 条相对链接，0 失效，`git diff --check` 通过。不会覆盖 v1.0 数据库或已经保存的失败日志。
+`week6/v11/qa_approved_rules.py` 对照数据库 FK 导出记录，验证 15 张表、18 条实际 FK、最新基数和 v1.1 SVG/PNG 均通过；旧 week5/week6 ER QA 通过。最后文档自检检查 133 条相对链接，0 失效，`git diff --check` 通过。不会覆盖 v1.0 数据库或已经保存的失败日志。
