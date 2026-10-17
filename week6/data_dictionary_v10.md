@@ -44,10 +44,10 @@
 
 ## 3. 兼容性和权限边界
 
-- 旧只读 SQL 的 `FROM dbo.UsageSummary` 仍能返回旧 10 列；`sql/query.sql` 中读周期的 Q11 和 `sql/verify.sql` 中 VFY10 的查询可以继续使用兼容视图。完整业务对账已用双向 `EXCEPT` 验证。
+- 旧只读 SQL 的 `FROM dbo.UsageSummary` 仍能返回旧 10 列；`sql/v01/query.sql` 中读周期的 Q11 和 `sql/v01/verify.sql` 中 VFY10 的查询可以继续使用兼容视图。完整业务对账已用双向 `EXCEPT` 验证。
 - **写入已变化**：旧的 `INSERT dbo.UsageSummary(...,period_end,...)` 和 `IDENTITY_INSERT dbo.UsageSummary ON` 不能再用于视图；新的合法路径是**先有 UsagePeriod 周期行，再向 UsageSummaryCore 插入/更新指标**。事务内用示例完成合法插入并回滚的证据见 `../result/week6/regression/regression_run_01.log` R05。v0.1 的生成器/旧正式 SQL **保持原样**，不能直接重新用于 v1.0 初始化数据。
-- `hub_manager` 保留所有 15 张物理业务表的 SELECT/INSERT/UPDATE/DELETE，并可读兼容视图；`hub_staff` 没有新表直接权限，能够按正式 `sql/view.sql` 读取 `v_CustomerService`；会员/游客没有新增业务表或汇总视图访问权。R09–R11 已核对有效许可和拒绝。
-- 源库 `v_CustomerService` 缺失，`v_InventoryStatus` 列不完整；v1.0 副本按正式 `sql/view.sql` 的已有定义补齐两者。修复只影响目标副本，不修改 v0.1。
+- `hub_manager` 保留所有 15 张物理业务表的 SELECT/INSERT/UPDATE/DELETE，并可读兼容视图；`hub_staff` 没有新表直接权限，能够按正式 `sql/v01/view.sql` 读取 `v_CustomerService`；会员/游客没有新增业务表或汇总视图访问权。R09–R11 已核对有效许可和拒绝。
+- 源库 `v_CustomerService` 缺失，`v_InventoryStatus` 列不完整；v1.0 副本按正式 `sql/v01/view.sql` 的已有定义补齐两者。修复只影响目标副本，不修改 v0.1。
 - `OrderDetails` 的历史单价/Token 快照、公式 CHECK 和存储冗余保持；`RestockTask.created_by` 与 `assigned_to` 仍为两条独立外码。其他未决业务规则没有擅自修改。
 
 ## 4. 变更后验证边界

@@ -72,7 +72,7 @@ UsageSummary(
 ## 三、对 OrderDetails 的存储计算列做受控保留
 
 - 当前 `CK_OrderDetails_subtotal_formula`、`CK_OrderDetails_tokens_formula` 在数据库写入时拒绝错误公式，因此**错误值不可能作为已通过 CHECK 的行留在表中**（前提是约束启用且可信）。
-- 因为 `sql/02_insert_data.sql`、`sql/03_crud_demo.sql` 等显式插入计算字段，将其改成 SQL Server GENERATED/PERSISTED 列虽能消除多值维护责任，但**不保持原 INSERT API**；按课程“迁移前后语义保持”，优先保留并记录为**有约束的、非 3NF 冗余**。
+- 因为 `sql/v01/02_insert_data.sql`、`sql/v01/03_crud_demo.sql` 等显式插入计算字段，将其改成 SQL Server GENERATED/PERSISTED 列虽能消除多值维护责任，但**不保持原 INSERT API**；按课程“迁移前后语义保持”，优先保留并记录为**有约束的、非 3NF 冗余**。
 - 若未来要迁移，先改生成器、CRUD 和数据库连接层；迁移顺序为基线/约束验证→保存旧数值→调整插入语句→删公式 CHECK/旧列→新增计算列→双向业务对账→权限和合法/非法写入测试。此方案不在本次预定的首批迁移范围。
 
 ## 四、决策关口
@@ -86,13 +86,13 @@ UsageSummary(
 
 ## 五、已有实现对周期业务规则的进一步佐证
 
-经只读审查，`tools/datagen.py` 以周一作为 weekly 起点、周日作为终点，以月首/月末作为 monthly 边界；`sql/verify.sql` VFY10 使用相同规则检查 `UsageSummary`。因此当前项目本身已经按“统一周期”生成并核对数据，业务 FD 有代码依据。副本包含 **3394 条汇总行 / 99 种周期定义**（daily 83、weekly 13、monthly 3），无周期结束日冲突。
+经只读审查，`tools/datagen.py` 以周一作为 weekly 起点、周日作为终点，以月首/月末作为 monthly 边界；`sql/v01/verify.sql` VFY10 使用相同规则检查 `UsageSummary`。因此当前项目本身已经按“统一周期”生成并核对数据，业务 FD 有代码依据。副本包含 **3394 条汇总行 / 99 种周期定义**（daily 83、weekly 13、monthly 3），无周期结束日冲突。
 
 这使 `UsagePeriod` 分解成为有根据的**优先候选**，但不等于用户已经批准影响写入接口的 DDL。仍需明确批准迁移后再实施 P3；未来若要引入自定义用户周期则需另外建模。
 
 ## 六、已批准并实施的决定（2026-10-14）
 
-用户先要求将 P0–P2 commit 后批准执行；实际本地提交 `43b5112`，其后才执行 P3。迁移选择本文第二节的 **UsagePeriod + UsageSummaryCore** 无损分解，保留名为 `dbo.UsageSummary` 的读兼容视图。物理表 **15 张、18 FK**；周期 99 种，汇总 3394 行。定义已在 `sql/migration.sql` 中实现（因具体源库缺失官方视图，追加补齐 `v_CustomerService` 与 `v_InventoryStatus` 的迁移保护步骤）。
+用户先要求将 P0–P2 commit 后批准执行；实际本地提交 `43b5112`，其后才执行 P3。迁移选择本文第二节的 **UsagePeriod + UsageSummaryCore** 无损分解，保留名为 `dbo.UsageSummary` 的读兼容视图。物理表 **15 张、18 FK**；周期 99 种，汇总 3394 行。定义已在 `sql/v10/migration.sql` 中实现（因具体源库缺失官方视图，追加补齐 `v_CustomerService` 与 `v_InventoryStatus` 的迁移保护步骤）。
 
 不实施 OrderDetails 的计算列转换；订单明细历史快照及两个公式 CHECK 保留。散客/一单同商品、库存参与、自动补货创建人等未决规则未擅改。真正的 v1.0 旧 INSERT 接口需要新写入程序适配，不能将保留旧字段读取的视图视为支持旧写入。
 

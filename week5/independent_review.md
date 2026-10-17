@@ -6,7 +6,7 @@
 
 - 正式模型：`week5/er_diagram.mmd`，清晰导出 `er_diagram.svg/png`，对照 `week5/data_dictionary.md`。
 - 数据库现状：`TokenHubDB_v01_A`（只读），原交付的 `result/week5/readonly_validation.sql/.log`；独立核对主码/唯一键/FK、可空性及弱引用使用 `result/week5/independent_review.sql/.log`。
-- 源 DDL：`sql/01_create_tables.sql`（14 表、17 个 FK）和 `sql/constraint.sql`（另 3 个公式/时间 CHECK）。
+- 源 DDL：`sql/v01/01_create_tables.sql`（14 表、17 个 FK）和 `sql/v01/constraint.sql`（另 3 个公式/时间 CHECK）。
 - 自动检查：`python week5/qa_week5.py`；除父表/子表一一比对外，还核对实际 **FK 列名**。已检查 SVG/PNG 可解析、相关文档链接有效。
 - 数据保密：只读取表结构、计数和非敏感的引用类型统计，不读取密码哈希或 API 凭据取值。
 

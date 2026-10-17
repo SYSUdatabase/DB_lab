@@ -41,17 +41,17 @@
 
 | ID | 业务规则及适用条件 | v0.1 保证方式 | 验证位置与已知边界 |
 |---|---|---|---|
-| B01 | 明细 `quantity > 0`、`unit_price > 0`、`total_tokens` 正确 | CHECK + 第四周 `CK_OrderDetails_subtotal_formula`、`CK_OrderDetails_tokens_formula` | `sql/constraint.sql` C08/C09；只保证同一行公式 |
-| B02 | `paid/refunded` 订单有付款时间，`pending/cancelled` 没付款时间 | `CK_Orders_payment_time` | `sql/constraint.sql` C10；不等于真正支付事务已实现 |
+| B01 | 明细 `quantity > 0`、`unit_price > 0`、`total_tokens` 正确 | CHECK + 第四周 `CK_OrderDetails_subtotal_formula`、`CK_OrderDetails_tokens_formula` | `sql/v01/constraint.sql` C08/C09；只保证同一行公式 |
+| B02 | `paid/refunded` 订单有付款时间，`pending/cancelled` 没付款时间 | `CK_Orders_payment_time` | `sql/v01/constraint.sql` C10；不等于真正支付事务已实现 |
 | B03 | **每张订单必须有至少一条明细** | 当前未用即时结构约束保证；样例 0 个无明细 | `readonly_validation.log` 的 `orders_without_details = 0`，只是样例状态 |
-| B04 | 订单总额与明细小计之和、总 Token 与明细之和一致 | 跨表对账（不是 FK/CHECK） | `sql/verify.sql` 的 VFY 对账；当前现场 `header_detail_mismatch=0` |
-| B05 | 上游账号与库存配额：`current_quota = total_quota - used_quota` | 分别的非负 CHECK + 跨表对账 | `sql/verify.sql`；现场 `inventory_quota_mismatches=0`，不能保证每次独立写入立刻一致 |
+| B04 | 订单总额与明细小计之和、总 Token 与明细之和一致 | 跨表对账（不是 FK/CHECK） | `sql/v01/verify.sql` 的 VFY 对账；当前现场 `header_detail_mismatch=0` |
+| B05 | 上游账号与库存配额：`current_quota = total_quota - used_quota` | 分别的非负 CHECK + 跨表对账 | `sql/v01/verify.sql`；现场 `inventory_quota_mismatches=0`，不能保证每次独立写入立刻一致 |
 | B06 | 每账号要求必有一库存快照 | DB 仅保证账号→库存 0..1；是否要求 1..1 待确认 | 当前现场 `accounts_without_inventory=0`；不能推出结构强制 |
-| B07 | 调用账号的 `provider` 必须与产品 provider 匹配且时间有效 | 目前三个非空 FK + 时间/匹配回归验证 | `sql/verify.sql` VFY12；现场 `provider_mismatched_usage=0`；未以复合 FK 即时强制 |
-| B08 | 历史任一事件时刻会员余额不得为负；充值按 `paid_at` 后可消费 | 余额行 `remaining_tokens >= 0` CHECK + 历史逐事件检查 | `sql/verify.sql` VFY13；存量余额非负不等于历史任意时刻非负 |
-| B09 | 补货额度、任务状态、库存流水 change_amount 的域合法 | CHECK；实际引用弱 FK 需要额外关联校验 | `sql/01_create_tables.sql`、`sql/constraint.sql` |
+| B07 | 调用账号的 `provider` 必须与产品 provider 匹配且时间有效 | 目前三个非空 FK + 时间/匹配回归验证 | `sql/v01/verify.sql` VFY12；现场 `provider_mismatched_usage=0`；未以复合 FK 即时强制 |
+| B08 | 历史任一事件时刻会员余额不得为负；充值按 `paid_at` 后可消费 | 余额行 `remaining_tokens >= 0` CHECK + 历史逐事件检查 | `sql/v01/verify.sql` VFY13；存量余额非负不等于历史任意时刻非负 |
+| B09 | 补货额度、任务状态、库存流水 change_amount 的域合法 | CHECK；实际引用弱 FK 需要额外关联校验 | `sql/v01/01_create_tables.sql`、`sql/v01/constraint.sql` |
 | B10 | 查询低库存（额度小于安全阈值） | `Inventory` 联 `UpstreamAccount`、库存视图 | 本周只读记录为 Gemini 账号 2 个；该口径**不要求账号当前可用** |
-| B11 | 员工/会员/游客的数据库读写权限不同 | SQL Server DATABASE ROLE / VIEW，与 ER 的 Roles 表不同 | `sql/role.sql` 和 `sql/verify.sql`；角色应用层的关联不等同 SQL 授权 |
+| B11 | 员工/会员/游客的数据库读写权限不同 | SQL Server DATABASE ROLE / VIEW，与 ER 的 Roles 表不同 | `sql/v01/role.sql` 和 `sql/v01/verify.sql`；角色应用层的关联不等同 SQL 授权 |
 
 ## D. 业务约束与结构约束的差异归纳
 

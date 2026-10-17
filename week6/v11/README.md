@@ -31,7 +31,7 @@ python -B .\week6\v11\run_full.py --suffix NewV11Run01
 1. [build_sandbox.py](build_sandbox.py)：备份（COPY_ONLY/CHECKSUM）、RESTORE VERIFYONLY、还原到新的 v1.0/v1.1，应用既有五周问题修复和原始回归。
 2. [repair_generated_history.py](repair_generated_history.py)：只针对验证过的合成样例再备份，原子更正时间/账号/库存流水，并保留逐条 JSON 审计。
 3. [deploy_extension.py](deploy_extension.py)：原有消费/库存/元数据保护、受控支付及补货。
-4. [install_refund.py](install_refund.py)：[退款表结构](07_refund_schema.sql) → [历史 Token 批次分配](seed_token_lots.py) → [批次化支付和调用](08_accounting_lots.sql) → [退款与凭证流程](09_refund_workflow.sql)。
+4. [install_refund.py](install_refund.py)：[退款表结构](../../sql/v11/07_refund_schema.sql) → [历史 Token 批次分配](seed_token_lots.py) → [批次化支付和调用](../../sql/v11/08_accounting_lots.sql) → [退款与凭证流程](../../sql/v11/09_refund_workflow.sql)。
 5. [validate_hardened.py](validate_hardened.py) 与 [qa_approved_rules.py](qa_approved_rules.py)：完整回归、图/结构检查。
 
 **全部测试通过：**原 v1.0 R01–R12、基础 v1.1 测试、VFY01–VFY14、加固 X01–X10、补货 Y01–Y04、退款 RF01–RF06，以及 17 表/20 FK ER 检查。日志见 [本轮一键复现记录](../../result/week6/v11/Full261017D/)；正反例在事务中回滚，退款样例不会形成对外支付。

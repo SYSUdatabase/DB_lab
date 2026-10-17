@@ -19,7 +19,7 @@ def run_sql(server:str,db:str,name:str,log_dir:Path)->None:
         if "PASS" not in target.read_text(encoding="utf-8-sig"):
             raise RuntimeError("Old failure log exists; do not overwrite "+str(target))
         print("ALREADY PASS",name);return
-    src=(ROOT/"week6/v11"/name).read_text(encoding="utf-8-sig")
+    src=(ROOT/"sql/v11"/name).read_text(encoding="utf-8-sig")
     if TEMPLATE not in src:raise RuntimeError("Template guard missing "+name)
     with tempfile.TemporaryDirectory(prefix="refund_sql_") as folder:
         p=Path(folder)/"task.sql"

@@ -8,7 +8,7 @@
 
 ## 一、已核对的项目基线
 
-1. 正式 DDL 为 `sql/01_create_tables.sql`，后续约束位于 `sql/constraint.sql`；另有 `sql/verify.sql`、`sql/role.sql`、`sql/view.sql` 和查询文件。正式阶段报告 `report/stage_report.md` 已嵌入一个 Mermaid ER 草图，**可作参考但不能直接视为第五周验收完成**。
+1. 正式 DDL 为 `sql/v01/01_create_tables.sql`，后续约束位于 `sql/v01/constraint.sql`；另有 `sql/v01/verify.sql`、`sql/v01/role.sql`、`sql/v01/view.sql` 和查询文件。正式阶段报告 `report/stage_report.md` 已嵌入一个 Mermaid ER 草图，**可作参考但不能直接视为第五周验收完成**。
 2. 当前 v0.1 共 **14 张表**，业务为 API Token 套餐购买、订单与明细、按 provider 余额、上游账号额度与库存流水、用量及补货异常。现有目录包括 `report/`、`docs/`、`result/`、`plan/`；旧周次材料位于 `archive/`。
 3. 当前实体及可核对的键（这里列的是 DDL 中的 PK、UNIQUE，不代表全部都适合作为业务主标识）：
 
@@ -60,7 +60,7 @@ DB_lab/
 ### P1｜整理数据字典和实体标识
 - [ ] 为每张表填写业务含义、为何需要独立保存、“一行代表什么”、主要属性、PK、所有 UNIQUE 候选码、复合候选码、FK、可空性、重要 CHECK/DEFAULT。
 - [ ] 标出关联/事件/汇总类实体：`OrderDetails`、`InventoryLog`、`TokenUsageLogs`、`UsageSummary`；不要把事件流水误看成普通的 M:N 直连。
-- [ ] 对照 `sql/01_create_tables.sql`，检查 `Employees.role_id`、`RestockTask.created_by/assigned_to`、`InventoryLog.operator_id`、`ExceptionLog.handled_by` 的 NULL 规则。
+- [ ] 对照 `sql/v01/01_create_tables.sql`，检查 `Employees.role_id`、`RestockTask.created_by/assigned_to`、`InventoryLog.operator_id`、`ExceptionLog.handled_by` 的 NULL 规则。
 - [ ] 不在图、截图或说明中输出任何凭证值；含敏感信息的字段仅记录用途和访问限制，不读值。
 
 ### P2｜整理联系、基数、参与约束与实现方式

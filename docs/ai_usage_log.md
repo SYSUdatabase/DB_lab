@@ -185,7 +185,7 @@
 **人工修改**：要求加一致性自检 `self_check()`，而且必须覆盖这几条断言：订单汇总等于明细之和、用户余额和库存均非负、库存当前值等于额度差、也等于流水净额、关键外键均命中、API Key 全是教学占位符。少了任何一条都不算生成器可用。
 
 #### 3. CRUD 脚本
-**AI输出**：AI生成 `sql/03_crud_demo.sql`，对Products、Inventory、Orders展示增删改查。
+**AI输出**：AI生成 `sql/v01/03_crud_demo.sql`，对Products、Inventory、Orders展示增删改查。
 **人工修改**：要求所有演示操作放进事务、结束前回滚。AI第一版是直接提交的，跑一次就污染样例数据，后面每次演示都得重新装载样例。
 
 #### 4. 约束与一致性验证脚本
@@ -350,7 +350,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 #### 4. 查询维度不够
 **评审意见**：查询缺少连接方式对照、汇总趋势和消耗分析。
 **AI输出**：补 Q10（INNER/LEFT JOIN 用同一份聚合结果对照）、Q11（`UsageSummary` 日/月两种粒度）、Q12（`InventoryLog` 消耗排名）。
-**人工修改**：三个都收进 `sql/query.sql`。Q10 的写法是关键——必须复用同一份聚合结果，否则两边的差异可能来自聚合逻辑而不是连接方式，就失去对照意义了。
+**人工修改**：三个都收进 `sql/v01/query.sql`。Q10 的写法是关键——必须复用同一份聚合结果，否则两边的差异可能来自聚合逻辑而不是连接方式，就失去对照意义了。
 
 #### 5. 完整性反例覆盖不足
 **评审意见**：反例只覆盖了CHECK和外键，候选码和JSON域没验证。
@@ -382,7 +382,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 ### 验证与确认
 本轮在本机 `localhost\SQLEXPRESS` 实际建了 `TokenHubDB_v01_A`、`TokenHubDB_v01_B`、`TokenHubDB_v01_C` 三个全新库，各跑一次完整流水线，全部PASS。三个库的 `signature.txt` 逐字节一致（各14行1129字节）。
 
-本轮**没有改动** `sql/01_create_tables.sql` 和 `sql/02_insert_data.sql`，只动了视图、查询、约束用例、权限和验收脚本，所以14张基础业务表的数据口径不变。
+本轮**没有改动** `sql/v01/01_create_tables.sql` 和 `sql/v01/02_insert_data.sql`，只动了视图、查询、约束用例、权限和验收脚本，所以14张基础业务表的数据口径不变。
 
 ### 2026-10-01 当时遗留问题（截图已于 2026-10-02 补齐）
 1. 新增的 Q09～Q12、C12～C14、R14～R17 目前只有 `result/run_*/` 原始日志，没有对应截图。`result/screenshots/` 的12张PNG是2026-09-30修改前脚本版本抓的，截图与当前脚本版本不对应，这点不能含糊。
@@ -521,7 +521,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 
 ## 2026-10-14 第六周规范化与迁移计划
 
-1. **输入与审查**：用户上传《第六周任务讲解.docx》及 AGENT 协作约定；AI 只读检查 sh 电脑 `D:\Desktop\DB\DB_lab` 下 `AGENT.md`、`week5/`、`sql/01_create_tables.sql`、`sql/README.md`、`tools/run_v01.ps1`、`README.md`、第五周复核记录。
+1. **输入与审查**：用户上传《第六周任务讲解.docx》及 AGENT 协作约定；AI 只读检查 sh 电脑 `D:\Desktop\DB\DB_lab` 下 `AGENT.md`、`week5/`、`sql/v01/01_create_tables.sql`、`sql/v01/README.md`、`tools/run_v01.ps1`、`README.md`、第五周复核记录。
 2. **识别的技术约束**：14 张表、17 条外码；`OrderDetails` 有 `detail_id` 与 `(order_id,product_id)` 两种标识，`Products.price` 不能替代成交快照，`Inventory` 和 `TokenBalances` 存在状态快照，`UsageSummary` 是周期汇总。范式分析必须覆盖全部候选码；是否调整须业务依据而非样例重复。
 3. **AI 形成方案**：写入 `plan/week6-normalization-migration-plan.md`，将工作分为 P0 基线副本与三类对账、P1 函数依赖与三种异常、P2 目标结构/无损与依赖保持、P3 副本迁移、P4 数据/完整性/权限回归、P5 第二阶段文档与证据。包含保留路径和实迁移路径两种可能，待 P1/P2 决策后确定。
 4. **执行边界**：目前仅形成计划，没有执行 SQL、备份、还原、迁移、数据修改或 commit/push；不存在迁移结果和新库回归结论，不能登记为已完成。用户未批准实际迁移之前保持 v0.1 不变。
@@ -548,7 +548,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 
 ### P2 代码级交叉核对
 
-只读查看 `tools/datagen.py` 的汇总周期生成逻辑及 `sql/verify.sql` VFY10：前者按周一到周日、自然月首末生成，后者按同一算法验收，因而固定周期 FD 有项目规则支持。对隔离副本只读查询：3394 行 UsageSummary、99 种 `(period_type,period_start)`（daily 83 / weekly 13 / monthly 3），同键不同 period_end 计数为 0。更新第六周依赖与设计说明，但仍不修改原库或副本结构；正式目标迁移范围尚待用户批准。
+只读查看 `tools/datagen.py` 的汇总周期生成逻辑及 `sql/v01/verify.sql` VFY10：前者按周一到周日、自然月首末生成，后者按同一算法验收，因而固定周期 FD 有项目规则支持。对隔离副本只读查询：3394 行 UsageSummary、99 种 `(period_type,period_start)`（daily 83 / weekly 13 / monthly 3），同键不同 period_end 计数为 0。更新第六周依赖与设计说明，但仍不修改原库或副本结构；正式目标迁移范围尚待用户批准。
 
 ### P2 文档自检与命令修正
 
@@ -559,17 +559,17 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 ## 2026-10-14：P3 获批准并设计迁移脚本
 - 用户要求“commit后批准执行”。已先提交 P0–P2 基线与设计：`43b5112 docs(week6): establish normalization analysis and copy baseline`；未 push。随后才开始迁移准备。
 - 为避免原有查询接口失效，最终实施路径选择将原 `dbo.UsageSummary` 改名为 `dbo.UsageSummaryCore`，把 `period_end` 提取至新表 `dbo.UsagePeriod`（周期复合主码），再以同名 `dbo.UsageSummary` 只读兼容视图还原旧 10 列读路径；原 CRUD 许可随实体表迁移，新增周期表由 manager 持有 CRUD，原同名视图授予 manager SELECT。旧 INSERT（含 IDENTITY_INSERT）不再通过视图写入，后续须使用 v1.0 写入路径，v0.1 生成器不改动。
-- 迁移脚本 `sql/migration.sql` 强制检查数据库名 `TokenHubDB_v10_W6_20261014`、原表/行数/17 FK、周期定义和权限状态；用单事务与 TRY/CATCH，失败回滚。脚本仅对隔离副本有效，绝不执行在 `TokenHubDB_v01_A`。
+- 迁移脚本 `sql/v10/migration.sql` 强制检查数据库名 `TokenHubDB_v10_W6_20261014`、原表/行数/17 FK、周期定义和权限状态；用单事务与 TRY/CATCH，失败回滚。脚本仅对隔离副本有效，绝不执行在 `TokenHubDB_v01_A`。
 
 ### P3 第一次执行失败及根因
-- 第一次在隔离副本运行 `sql/migration.sql` 报 51610（迁移后表/FK/视图数量检查不满足），`result/week6/migration/run.log` 保留失败输出。
-- 失败后只读核对发现副本回到旧 `UsageSummary` 表（14 表、17 FK、无 UsagePeriod/UsageSummaryCore），说明事务回滚生效。基线源库和副本都只有 **9 个视图**，而仓库 `sql/view.sql` 定义 **10 个**，缺失 `dbo.v_CustomerService`；因此迁移中新增兼容视图后只有 10 个而非预计 11 个。该源库比 README 描述的当前 v0.1 不完整。
-- 处理计划：**不修改源库**；将官方 `sql/view.sql` 已声明的 `v_CustomerService` 定义和原来角色应有的 manager/staff 只读权限作为隔离副本的显式修复步骤纳入迁移，并重新进行安全校验与回归。不会把 9 视图的源库冒充为 10 视图。
+- 第一次在隔离副本运行 `sql/v10/migration.sql` 报 51610（迁移后表/FK/视图数量检查不满足），`result/week6/migration/run.log` 保留失败输出。
+- 失败后只读核对发现副本回到旧 `UsageSummary` 表（14 表、17 FK、无 UsagePeriod/UsageSummaryCore），说明事务回滚生效。基线源库和副本都只有 **9 个视图**，而仓库 `sql/v01/view.sql` 定义 **10 个**，缺失 `dbo.v_CustomerService`；因此迁移中新增兼容视图后只有 10 个而非预计 11 个。该源库比 README 描述的当前 v0.1 不完整。
+- 处理计划：**不修改源库**；将官方 `sql/v01/view.sql` 已声明的 `v_CustomerService` 定义和原来角色应有的 manager/staff 只读权限作为隔离副本的显式修复步骤纳入迁移，并重新进行安全校验与回归。不会把 9 视图的源库冒充为 10 视图。
 
 ### P3/P4 完成与 v0.1 基线缺陷
-- `sql/migration.sql` 修订版第二次执行成功（`result/week6/migration/run_v2.log`）；得到 15 张表、18 个启用且可信外码、11 个视图、99 条周期定义、3394 条不丢失的 UsageSummary 明细。旧逻辑读接口以兼容视图还原，原写入接口调整为 `dbo.UsageSummaryCore` 与 `dbo.UsagePeriod`。
-- `sql/regression.sql` R01—R12 全部通过，包含与源库双向 EXCEPT、合法写入后回滚、候选码/检查约束/FK 反例、角色权限及原库未变。迁移前后 3763 条业务基准记录（排除有意新增的权限对象）差异为 0。
-- 从正式 `sql/verify.sql` 派生 `week6/verify_v10.sql`，仅适配目标库名、15 表/11 视图预期。第一次检查发现源库旧 `v_InventoryStatus` 缺少 `quota_headroom`；在副本执行 `week6/align_legacy_views.sql` 使用正式 `sql/view.sql` 的视图定义补齐，原 v0.1 不改。
+- `sql/v10/migration.sql` 修订版第二次执行成功（`result/week6/migration/run_v2.log`）；得到 15 张表、18 个启用且可信外码、11 个视图、99 条周期定义、3394 条不丢失的 UsageSummary 明细。旧逻辑读接口以兼容视图还原，原写入接口调整为 `dbo.UsageSummaryCore` 与 `dbo.UsagePeriod`。
+- `sql/v10/regression.sql` R01—R12 全部通过，包含与源库双向 EXCEPT、合法写入后回滚、候选码/检查约束/FK 反例、角色权限及原库未变。迁移前后 3763 条业务基准记录（排除有意新增的权限对象）差异为 0。
+- 从正式 `sql/v01/verify.sql` 派生 `week6/verify_v10.sql`，仅适配目标库名、15 表/11 视图预期。第一次检查发现源库旧 `v_InventoryStatus` 缺少 `quota_headroom`；在副本执行 `week6/align_legacy_views.sql` 使用正式 `sql/v01/view.sql` 的视图定义补齐，原 v0.1 不改。
 - 完整校验随后通过 VFY01—VFY11，但在 VFY12 报 51360。源/目标各自查询现存问题数完全一致：订单早于注册 20、调用早于注册 402、调用与上游有效期/provider 不符 225、逐事件历史负余额 1（`result/week6/regression/legacy_anomalies_{source,target}.log`）。属于复制的旧数据缺陷；未为掩盖错误而改写交易历史。VFY12/13 **不能记录为通过**，原库全量验收口径需另行纠正。
 
 ### 第六周 P5 最终交付与 QA
@@ -601,7 +601,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 
 - 第二批 `protect_parent_deletes.sql` 新增普通管理员不能直接插入/更新/删除 TokenUsageLogs 的触发器，以及对已知多态审计引用目标的删除保护。 `test_parent_and_role_01.log` 验证管理员直写事件被 51982 拒绝，Orders 和 RestockTask 被引用时删除分别被 51983/51985 拒绝。
 - 第一批原子化存储过程在第二批触发器部署后重新执行 `test_managed_usage.sql`：正例事务回滚、余额不足错误 51956，均通过，见 `test_managed_usage_02.log`。
-- `regression_v11.sql` 从正式 `sql/regression.sql` 仅更改 v1.1 目标库白名单，R01–R12 再次全部通过。用 `week6/baseline.sql` 提取副本业务数据，与原 v1.0 `copy_after.txt` 对照，排除有意新增的对象权限行后，两侧各 3763 行、差异 0。
+- `regression_v11.sql` 从正式 `sql/v10/regression.sql` 仅更改 v1.1 目标库白名单，R01–R12 再次全部通过。用 `week6/baseline.sql` 提取副本业务数据，与原 v1.0 `copy_after.txt` 对照，排除有意新增的对象权限行后，两侧各 3763 行、差异 0。
 - 以上成功不等于旧历史业务违规已清零：第五周 I02/I03/I04/I07 未确定业务选择，I05/I06/I08/I09 仍有直接父表/余额维护及不明 manual 参考编号等待闭环。
 
 ### 2026-10-14 I02/I03/I04/I07 用户明确决策
@@ -646,7 +646,7 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 ### 第六周完整代码复现：已运行的分步和自动测试（2026-10-14）
 
 1. 首次从冻结的 `c8d4e64` ZIP 解压 344 个文件到新的 `D:\Desktop\DB\DB_lab_replay_c8d4e64`；用快照自己的 `tools/run_v01.ps1` 创建新 `TokenHubDB_v01_W6Replay261014`，原建库、建表、数据、CRUD、view、query、constraint、role、verify、signature **全部 PASS**。
-2. 原代码构建的数据库为 14 表/17 FK/**10 视图**，UsageSummary 3394 行、99 个周期，与历史本地 v0.1_A 的 9 视图不同。修改现有 `sql/migration.sql` 的前置版本判断为严格允许 9 或 10 视图，只有缺 `v_CustomerService` 的 9 视图分支才补建；10 视图分支避免重复创建。其它未知状态继续 THROW。
+2. 原代码构建的数据库为 14 表/17 FK/**10 视图**，UsageSummary 3394 行、99 个周期，与历史本地 v0.1_A 的 9 视图不同。修改现有 `sql/v10/migration.sql` 的前置版本判断为严格允许 9 或 10 视图，只有缺 `v_CustomerService` 的 9 视图分支才补建；10 视图分支避免重复创建。其它未知状态继续 THROW。
 3. 用新备份 `BACKUP COPY_ONLY/CHECKSUM` / `RESTORE VERIFYONLY` / `RESTORE ... WITH MOVE` 复制新 v0.1 至 `TokenHubDB_v10_W6Replay261014`；迁移前源/副本基准 SHA-256 同为 `A12B5ED2FFD832C2DC5DDC7988446212E8D18695260A90382B94F060286C5FF5`。用当前迁移模板派生受新目标名限定的 SQL 文件，实际迁移成功，R01–R12 和全套 VFY01–VFY14 **PASS**。记录在 `result/week6/reproduction/`。
 4. 编写 `week6/reproduction/run_from_snapshot.ps1`，采用严格后缀验证、ZIP SHA-256、文件/数据库已存在即停止、SQL Server 默认数据/备份路径、仅新命名目标及独立复制出的 SQL 验收脚本。第二次完整调用 `-Suffix W6Auto261014`，19 秒左右实际完成，两套新的数据库及物理文件均独立，R01–R12、VFY01–VFY14 **PASS**，非权限业务记录 3763 条差异 0，日志含回放 manifest。
 5. 加入只读 `week6/reproduction/qa_reproduction.py`。首次 QA 尝试把 PowerShell UTF-16 转录作为 UTF-8 解码而失败；增加基于 BOM 的 UTF-16/UTF-8 识别后，又误认为 VFY01 也必须有 `PASS VFY01` 字符串，实际旧校验在 VFY01 输出每表计数和最终汇总 PASS；将 QA 改为检查 VFY01 表头及 VFY02–VFY14 PASS、完整最终 PASS。随后检查 ZIP、清单、R01–R12、VFY01–VFY14、源/副本对账及 3763 行全部通过，未篡改测试日志。
@@ -699,6 +699,18 @@ Q01～Q08、C01～C11、R01～R13 全部PASS。R01～R13覆盖访客/店员/会�
 -  在询问和核对 v1.1 的退款逻辑时，指出旧版主要只有订单 refunded 状态和相关明细约束，缺乏用户应退款金额、已消费 Token 的处理、退款流水及重复退款保护。随后明确要求补齐以上功能，并整合原先分散的两个 v1.1 代码目录。此处的“人工发现”指用户主动识别并提出功能缺口，不表示用户亲自执行了数据库测试。
 - **发现依据**：原设计允许订单 status 为 refunded，合成样例里已有 2 条退款状态订单，但当时不存在按原成交价计算返款、扣回未用 Token、记录现金退款责任并防止重复退款的完整受控事务。仅修改订单状态不能证明用户余额与现金退款已经同步。
 - **本轮采用的实现规则**：新增 OrderTokenLots 和 RefundLedger 两表及 2 条 PK/FK，已付款明细按购买顺序建立 Token 批次，消费按 FIFO 扣减。退款事务仅收回该订单未使用 Token，按订单明细成交小计乘以未消费比例、逐明细四舍五入计算应退款额；已消耗部分不退。每订单退款唯一，重复调用不重复扣减。应退款先记为 awaiting_transfer；外部支付实际成功且凭证经服务端/人工核实后才登记 settled。按未消费比例计算是本次系统采用的规则，不冒称其他组员已独立审批。
-- **文件修改与清理**：合并基础修复与加固代码到 [week6/v11](../week6/v11/README.md)；新增 [退款结构](../week6/v11/07_refund_schema.sql)、[Token 批次账务](../week6/v11/08_accounting_lots.sql)、[退款事务](../week6/v11/09_refund_workflow.sql) 和 [退款测试](../week6/v11/10_refund_regression.sql)。原 week6/issue_fixes、week6/hardening 代码目录在独立重建通过后删除；历史测试日志和备份保留。
+- **文件修改与清理**：合并基础修复与加固代码到 [week6/v11](../week6/v11/README.md)；新增 [退款结构](../sql/v11/07_refund_schema.sql)、[Token 批次账务](../sql/v11/08_accounting_lots.sql)、[退款事务](../sql/v11/09_refund_workflow.sql) 和 [退款测试](../sql/v11/10_refund_regression.sql)。原 week6/issue_fixes、week6/hardening 代码目录在独立重建通过后删除；历史测试日志和备份保留。
 - **验证结果**：在新建的 TokenHubDB_v11_Full261017D 从 v0.1 备份、还原、迁移、修订可追溯的合成历史数据，再安装完整 v1.1 并运行 R01–R12、VFY01–VFY14、X01–X10、Y01–Y04 及 RF01–RF06，全部通过。退款案例中，原价 6.90 的 100000 Token 已使用 20000 时，只收回剩余 80000，记录应退 5.52；完全未使用时记录应退 6.90。重复退款、重复凭证及直接伪造退款流水的反例已测试。[退款回归日志](../result/week6/v11/Full261017D/final_validation/validation_10_refund_regression.sql.log) 和 [总体验证日志](../result/week6/v11/Full261017D/final_validation/validation_verify_v11_full.sql.log) 均保留；测试交易回滚。
 - **未完成边界**：数据库不向用户直接转账，尚未接入支付渠道及验证实际资金到账；原 v0.1 和队友 sh 电脑的旧 v1.1 未更新；第二阶段报告暂不动。
+
+## 2026-10-17 SQL 按 v0.1/v1.0/v1.1 分版本整理
+
+- **用户问题与决定**：人工检查发现原 `sql/` 还是队友早期 v0.1 的建表和数据文件，要求按 `sql/v01`、`sql/v10`、`sql/v11` 整理；第六周目录保留分析、ER、数据字典和一键部署入口。保留迁移前基线，不把原 14 表脚本伪称最新版。
+- **实际文件操作**：移走原 `sql/` 的 v0.1 建库、数据、约束、查询、签名等 10 个 SQL 文件及 README 到 `sql/v01/`；移动 `migration.sql` 和 `regression.sql` 至 `sql/v10/`；原 `week6/v11/` 的 23 个业务、迁移增量及验证 SQL 统一移入 `sql/v11/`，原目录保留 Python 入口、ER 图、数据字典及 README。新增三个版本入口说明和根 `sql/README.md`。
+- **代码与引用**：更新 `tools/run_v01.ps1`、`tools/datagen.py`、`tests/test_sql_integration.py`、`week5/qa_week5.py`、`week6/reproduction/run_from_snapshot.ps1` 及 `week6/v11/` 的 SQL 文件读取路径；同步修复周次文档及相对链接。原归档 ZIP、其 344 文件清单和哈希不变；第二阶段报告仅把两条过时的 v0.1 SQL 链接改为新位置，没有修改正文。
+- **v1.1 实际部署测试**：在本机新库 `TokenHubDB_v11_SqlTree261017A` 从未修改的 `TokenHubDB_v01_A` COPY_ONLY + CHECKSUM 备份并校验、执行 v1.0 迁移、原 v1.1 规则、固定种子合成历史核对、账务保护及退款。17 表、20 个可信 FK，R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 全部通过；历史异常在新副本 20/402/225/1 → 0/0/0/0。证据位置：`result/week6/v11/SqlTree261017A/`。
+- **v0.1 签名失败与修正**：首次独立运行源 SQL 及 VFY 均通过，但 Windows PowerShell 在捕获 `sqlcmd` 14 行签名时读取为 0 行；改用 `sqlcmd -o` 原始 UTF-8 文件后仍遇到相同问题，两个失败用例及原始输出保留在 `result/sqltree_v01_261017*`。人工核对原始 SQL 输出确实有 14 行有效签名；新增 `tools/signature_from_log.py` 直接按 UTF-8 字节解析并验证 14 张预期表、输出 UTF-8 BOM + LF 格式。重新从头建 `TokenHubDB_v01_SqlDir261017C`，DDL/样例/CRUD/视图/查询/约束/权限/VFY/签名全部通过，结果 `result/sqltree_v01_261017c/`。
+- **历史独立复现**：新后缀 `SqlReorg261017A` 成功从未改动的第六周前 344 文件 ZIP 创建 v0.1 → 从 `sql/v10` 迁移到新副本 → R01–R12 / VFY01–VFY14 全部 PASS；迁移前后 3763 行非权限业务记录零差异。证据 `result/week6/reproduction/SqlReorg261017A/`。
+- **验收和边界**：第五周/第六周/v1.1 的 ER QA、历史归档 QA、Python AST 和 `git diff --check` 通过；遍历约 450 处非归档 Markdown 链接，修复 `week6/reproduction/README.md` 的一条旧 `issue_fixes` 链接后 0 失效。新数据库均为隔离测试库，原 v0.1、旧 v1.0/v1.1 未覆盖；未执行 Git commit/push。支付平台实际退款仍未接入，数据库只记录应退金额和外部确认凭证。
+
+- **补充单元测试**：`python -B -m unittest discover -s tests -v` 共 22 项，其中 12 PASS、10 因未设置独立 SQL 集成测试库而 skipped；没有把 skipped 记录为通过。独立 SQL Server 建库、规范化迁移及 v1.1 退款验证另以上述实际执行结果为准。

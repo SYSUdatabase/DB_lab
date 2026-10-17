@@ -16,14 +16,14 @@
 
 ## 业务流程
 
-流程中的规则均由 `sql/verify.sql`（VFY）、`sql/role.sql`（R）、`sql/constraint.sql`（C）和 `sql/query.sql`（Q）逐条验收，编号见 [当前验收](#当前验收)。
+流程中的规则均由 `sql/v01/verify.sql`（VFY）、`sql/v01/role.sql`（R）、`sql/v01/constraint.sql`（C）和 `sql/v01/query.sql`（Q）逐条验收，编号见 [当前验收](#当前验收)。
 
 ### 会员：购买与使用 Token
 
 1. **注册/登录**：写入 `Users`，记录 `created_at`。此后所有订单与调用都必须晚于该时间（VFY12）。
 2. **浏览商品**：读取 `v_ProductCatalog`，只暴露在售商品的价格、Token 档位和上游折算量。
 3. **选购下单**：写入 `Orders`（`status='pending'`，`paid_at` 必须为 NULL）与 `OrderDetails`（保存商品、单价、Token 数快照）。
-4. **支付**：状态改为 `paid` 并写入 `paid_at`。`CK_Orders_payment_time`（在 `sql/constraint.sql` 中补充创建）强制 paid/refunded 必须有 `paid_at` 且不早于 `created_at`，pending/cancelled 必须为 NULL。
+4. **支付**：状态改为 `paid` 并写入 `paid_at`。`CK_Orders_payment_time`（在 `sql/v01/constraint.sql` 中补充创建）强制 paid/refunded 必须有 `paid_at` 且不早于 `created_at`，pending/cancelled 必须为 NULL。
 5. **余额到账**：按用户 + provider 写入或累加 `TokenBalances.remaining_tokens`。同一秒内先到账、后扣款（VFY13）。
 6. **调用扣费**：写入 `TokenUsageLogs`，同时减少会员 `TokenBalances` 与上游账号 `Inventory.current_quota`。账号须在 `created_at`～`expires_at` 有效期内，且 `provider` 与商品匹配；到期边界当刻不可调用（VFY12）。
 7. **查看记录**：会员经 `v_MyOrders`、`v_MyBalances`、`v_MyUsage` 只读本人数据（R01～R17）。
@@ -49,7 +49,7 @@
 
 ### 系统约束
 
-余额按 provider 分账，充值只认 `paid_at`、只计 `paid` 订单。最终余额非负不足以证明过程正确，因此 `sql/verify.sql` 逐事件回放历史余额。同秒事件先到账后消费，保证任何时刻余额非负。
+余额按 provider 分账，充值只认 `paid_at`、只计 `paid` 订单。最终余额非负不足以证明过程正确，因此 `sql/v01/verify.sql` 逐事件回放历史余额。同秒事件先到账后消费，保证任何时刻余额非负。
 
 ## 角色与权限
 
@@ -132,7 +132,7 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 ## 课程与协作材料
 
 - [第四周原始任务书](docs/requirements/week4.docx) 与 [要求映射](docs/requirements/README.md)
-- [SQL 说明](sql/README.md)、[阶段报告](report/stage_report.md)、[角色流程](report/role_workflow.md)
+- [SQL 说明](sql/v01/README.md)、[阶段报告](report/stage_report.md)、[角色流程](report/role_workflow.md)
 - [结果证据](result/README.md)、[复现说明](docs/reproduction.md)
 - [ai使用文档（第四周提交正文）](docs/ai使用文档.md)、[AI 详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md)、[修复记录](ROADMAP.md)
 - [历史材料与迁移映射](archive/README.md)
@@ -148,15 +148,15 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 
 第六周入口：[规范化分析与迁移进度](week6/README.md)、[14 表函数依赖与范式判断](week6/dependency_normalization.md)、[有条件重构及无损/依赖保持](week6/redesign_decisions.md)、[当前证据](result/week6/README.md)、[执行计划](plan/week6-normalization-migration-plan.md)。
 
-已针对旧 `TokenHubDB_v01_A` 完成备份、校验和隔离还原；迁移前源/副本业务基准一致。周期规范化方案已批准，随后在隔离库实际执行 `sql/migration.sql` 与 `sql/regression.sql`，R01–R12 通过；详情及历史业务异常见下文。
+已针对旧 `TokenHubDB_v01_A` 完成备份、校验和隔离还原；迁移前源/副本业务基准一致。周期规范化方案已批准，随后在隔离库实际执行 `sql/v10/migration.sql` 与 `sql/v10/regression.sql`，R01–R12 通过；详情及历史业务异常见下文。
 
 ## 第六周执行结果补充（2026-10-14）
 
 已根据用户批准，在隔离副本 `TokenHubDB_v10_W6_20261014` 实施有依据的固定周期规范化：`UsagePeriod` 99 条，`UsageSummaryCore` 3394 条，物理表 15 张、真实外码 18 条，旧 `UsageSummary` 以只读兼容视图继续提供 10 列业务查询。原 `TokenHubDB_v01_A` 未修改，迁移前后源业务基准 SHA-256 一致。
 
-正式入口：[第六周 README](week6/README.md)、[依赖与范式分析](week6/dependency_normalization.md)、[重构决策](week6/redesign_decisions.md)、[v1.0 可编辑 ER 图](week6/er_diagram_v10.mmd)、[v1.0 数据字典](week6/data_dictionary_v10.md)、[迁移脚本](sql/migration.sql)、[回归脚本](sql/regression.sql)及[结果证据](result/week6/README.md)。
+正式入口：[第六周 README](week6/README.md)、[依赖与范式分析](week6/dependency_normalization.md)、[重构决策](week6/redesign_decisions.md)、[v1.0 可编辑 ER 图](week6/er_diagram_v10.mmd)、[v1.0 数据字典](week6/data_dictionary_v10.md)、[迁移脚本](sql/v10/migration.sql)、[回归脚本](sql/v10/regression.sql)及[结果证据](result/week6/README.md)。
 
-回归 R01–R12、权限 VFY14 均通过，非权限业务基准 3763 行零差异；源库自带订单/调用时间不一致及历史负余额问题使旧 VFY12/VFY13 **未通过**。完整异常计数见第六周报告，不能以迁移成功替代原始数据修复。原 `sql/02_insert_data.sql` 只适用于 v0.1，新 v1.0 写入应经 UsagePeriod/UsageSummaryCore。迁移与测试证据已进入第六周后续 Git 提交；以当前 `git log` 和 `git status` 为准。
+回归 R01–R12、权限 VFY14 均通过，非权限业务基准 3763 行零差异；源库自带订单/调用时间不一致及历史负余额问题使旧 VFY12/VFY13 **未通过**。完整异常计数见第六周报告，不能以迁移成功替代原始数据修复。原 `sql/v01/02_insert_data.sql` 只适用于 v0.1，新 v1.0 写入应经 UsagePeriod/UsageSummaryCore。迁移与测试证据已进入第六周后续 Git 提交；以当前 `git log` 和 `git status` 为准。
 
 ## 第五周问题修复试验（v1.1 隔离库，2026-10-14）
 

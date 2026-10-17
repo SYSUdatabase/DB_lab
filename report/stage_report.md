@@ -59,7 +59,7 @@
 
 ### 4. 实体关系图
 
-由 [`sql/01_create_tables.sql`](../sql/01_create_tables.sql) 生成，列出主码、外码与候选码，业务字段只保留代表性列。
+由 [`sql/01_create_tables.sql`](../sql/v01/01_create_tables.sql) 生成，列出主码、外码与候选码，业务字段只保留代表性列。
 
 ```mermaid
 erDiagram
@@ -218,7 +218,7 @@ erDiagram
 | `TOKENUSAGELOGS` | 多外码 | 一次调用同时关联会员、商品和提供服务的上游账号，是调用量与上游消耗对账的枢纽 |
 | `EMPLOYEES` → `INVENTORYLOG` / `RESTOCKTASK` / `EXCEPTIONLOG` | 1 : N | 员工操作留痕；`operator_id`、`created_by/assigned_to`、`handled_by` 均可为空，表示系统自动写入 |
 
-冗余与对账关系：`Orders.total_tokens = SUM(OrderDetails.total_tokens)`、`Orders.total_amount = SUM(OrderDetails.subtotal)`（同一订单内）、`Inventory.current_quota = UpstreamAccount.total_quota - used_quota = SUM(InventoryLog.change_amount)`。这三项由 [`sql/verify.sql`](../sql/verify.sql) 的 VFY02、VFY05、VFY09 逐条对账，任何一项不一致都会让流水线以非零退出码失败。
+冗余与对账关系：`Orders.total_tokens = SUM(OrderDetails.total_tokens)`、`Orders.total_amount = SUM(OrderDetails.subtotal)`（同一订单内）、`Inventory.current_quota = UpstreamAccount.total_quota - used_quota = SUM(InventoryLog.change_amount)`。这三项由 [`sql/verify.sql`](../sql/v01/verify.sql) 的 VFY02、VFY05、VFY09 逐条对账，任何一项不一致都会让流水线以非零退出码失败。
 
 ### 5. 完整性约束设计
 

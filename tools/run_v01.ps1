@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$Server = 'localhost\SQLEXPRESS',
     [ValidatePattern('^TokenHubDB_v01(?:_[A-Za-z0-9]+)?$')]
     [string]$DatabaseName = ('TokenHubDB_v01_' + [guid]::NewGuid().ToString('N').Substring(0,12)),
@@ -20,10 +20,10 @@ if ($DropExisting) {
 $files = @('00_create_database.sql','01_create_tables.sql','02_insert_data.sql',
            '03_crud_demo.sql','view.sql','query.sql','constraint.sql','role.sql','verify.sql')
 foreach ($name in $files) {
-    $inputFile = Join-Path $repoRoot "sql/$name"
+    $inputFile = Join-Path $repoRoot "sql/v01/$name"
     if (-not (Test-Path -LiteralPath $inputFile)) { throw "Missing script: $inputFile" }
 }
-if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'sql/signature.sql'))) {
+if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'sql/v01/signature.sql'))) {
     throw 'Missing script: sql/signature.sql'
 }
 Get-Command sqlcmd -ErrorAction Stop | Out-Null
@@ -31,7 +31,7 @@ New-Item -ItemType Directory -Path $outDir | Out-Null
 Start-Transcript -Path (Join-Path $outDir 'console.log') | Out-Null
 try {
     foreach ($name in $files) {
-        $inputFile = Join-Path $repoRoot "sql/$name"
+        $inputFile = Join-Path $repoRoot "sql/v01/$name"
         $logFile = Join-Path $outDir "$name.log"
         & sqlcmd -S $Server -d master -E -C -b -r 1 -f 65001 -u `
           -v "DatabaseName=$DatabaseName" -i $inputFile -o $logFile
@@ -41,17 +41,17 @@ try {
         Write-Output "PASS $name"
     }
     $signature = Join-Path $outDir 'signature.txt'
-    $rawSignature = & sqlcmd -S $Server -d $DatabaseName -E -C -b -f 65001 -h -1 -W `
+    # sqlcmd output decoded through nested PowerShell hosts may misread its code page.
+    # Write bytes to an explicit UTF-8 file before selecting the 14 signature rows.
+    $rawSignatureFile = Join-Path $outDir 'signature_sqlcmd_raw.txt'
+    & sqlcmd -S $Server -d $DatabaseName -E -C -b -f 65001 -h -1 -W `
       -v "DatabaseName=$DatabaseName" `
-      -i (Join-Path $repoRoot 'sql/signature.sql')
+      -i (Join-Path $repoRoot 'sql/v01/signature.sql') -o $rawSignatureFile
     if ($LASTEXITCODE -ne 0) { throw 'FAILED signature.sql' }
-    # 固定 LF 与 UTF-8 BOM：与仓库归档签名逐字节可比，避免 Windows CRLF 造成哈希差异。
-    $sigLinesOut = @($rawSignature | Where-Object { $_ -match '^[A-Za-z_]+\|\d+\|[0-9A-F]{64}$' })
-    $sigText = ($sigLinesOut -join "`n") + "`n"
-    [System.IO.File]::WriteAllText($signature, $sigText, (New-Object System.Text.UTF8Encoding($true)))
-    $sigLines = $sigLinesOut.Count
-    if ($sigLines -ne 14) { throw "signature.sql returned $sigLines signature lines, expected 14" }
-    Write-Output "PASS signature.sql"
+    # Use direct UTF-8 byte decoding for deterministic signature extraction.
+    # The parser validates 14 canonical table names and writes UTF-8 BOM + LF.
+    & python -B (Join-Path $repoRoot 'tools/signature_from_log.py') $rawSignatureFile $signature
+    if ($LASTEXITCODE -ne 0) { throw 'FAILED signature extraction; inspect signature_sqlcmd_raw.txt' }
     Write-Output "PASS v0.1 $DatabaseName"
 }
 finally {

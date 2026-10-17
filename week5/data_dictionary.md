@@ -1,6 +1,6 @@
 # 第五周数据字典与实体标识（v0.1）
 
-> 来源：`sql/01_create_tables.sql`（14 张实体表）、`sql/constraint.sql`（第四周后加 CHECK）、当前 `TokenHubDB_v01_A` 的只读目录查询。此文记录的是**建模事实**，不是结构修改提案。字段命名保留 DDL 原样，不读取凭证值。
+> 来源：`sql/v01/01_create_tables.sql`（14 张实体表）、`sql/v01/constraint.sql`（第四周后加 CHECK）、当前 `TokenHubDB_v01_A` 的只读目录查询。此文记录的是**建模事实**，不是结构修改提案。字段命名保留 DDL 原样，不读取凭证值。
 
 ## 1. 实体与行粒度
 
@@ -58,7 +58,7 @@
 
 ## 5. 证据与校验边界
 
-- DDL、候选码、NOT NULL 和 FK：`sql/01_create_tables.sql`；追加公式与支付 CHECK：`sql/constraint.sql`。
+- DDL、候选码、NOT NULL 和 FK：`sql/v01/01_create_tables.sql`；追加公式与支付 CHECK：`sql/v01/constraint.sql`。
 - 实际数据库：`result/week5/readonly_validation.sql`、`readonly_validation.log`，查询 `TokenHubDB_v01_A` 的结构计数为 14 表、17 FK、3 个追加 CHECK；各表定义仍以正式 DDL 为主要依据。
 - 字典不包含任何凭证取值；敏感列只允许记录字段存在及其目的。
 

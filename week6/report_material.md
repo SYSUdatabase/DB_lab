@@ -12,9 +12,9 @@
 
 ## P3 数据迁移与发现的旧版本差异
 
-- 第一次 `sql/migration.sql` 在结构计数检查时主动失败并回滚。核查确定源 v0.1_A 仅有 9 个视图，缺少正式 `sql/view.sql` 定义的 `v_CustomerService`。修正后第二次在副本成功：15 张表、18 条可信外码、11 视图；3,394 条汇总保留；99 种固定周期提取为独立表。
-- 旧库的 `v_InventoryStatus` 与正式脚本不一致（没有 `quota_headroom` 等列）。在目标副本执行 `week6/align_legacy_views.sql` 后，该视图与正式 `sql/view.sql` 一致；这一修复也整合进最新版 `sql/migration.sql`，供未来从未迁移副本重跑。
-- 迁移事务在 `sql/migration.sql` 中包含库名、原始表/FK/行数、固定周期规则、冲突数量前置检查和 TRY/CATCH 回滚。脚本会拒绝重复迁移，原 v0.1 库不在其允许目标内。无任何数据被当作“新版本样例”重新生成覆盖。
+- 第一次 `sql/v10/migration.sql` 在结构计数检查时主动失败并回滚。核查确定源 v0.1_A 仅有 9 个视图，缺少正式 `sql/v01/view.sql` 定义的 `v_CustomerService`。修正后第二次在副本成功：15 张表、18 条可信外码、11 视图；3,394 条汇总保留；99 种固定周期提取为独立表。
+- 旧库的 `v_InventoryStatus` 与正式脚本不一致（没有 `quota_headroom` 等列）。在目标副本执行 `week6/align_legacy_views.sql` 后，该视图与正式 `sql/v01/view.sql` 一致；这一修复也整合进最新版 `sql/v10/migration.sql`，供未来从未迁移副本重跑。
+- 迁移事务在 `sql/v10/migration.sql` 中包含库名、原始表/FK/行数、固定周期规则、冲突数量前置检查和 TRY/CATCH 回滚。脚本会拒绝重复迁移，原 v0.1 库不在其允许目标内。无任何数据被当作“新版本样例”重新生成覆盖。
 - 新写入路径须使用 `UsagePeriod` 与 `UsageSummaryCore`；旧的 dbo.UsageSummary 现在是查询兼容视图。历史生成器与 v0.1 `02_insert_data.sql` 保留给原版使用，不应假装已兼容新视图。
 
 ## P4 实际核验和结果

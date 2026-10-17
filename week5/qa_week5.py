@@ -31,7 +31,7 @@ assert er_pairs == sql_pairs, f"ER model does not match actual FK parent/child p
 
 # Verify each relation's exact child FK column against the authoritative v0.1 DDL.
 # Comparing parent/child pairs alone misses role swaps such as created_by vs assigned_to.
-ddl = (ROOT / "sql/01_create_tables.sql").read_text(encoding="utf-8-sig")
+ddl = (ROOT / "sql/v01/01_create_tables.sql").read_text(encoding="utf-8-sig")
 schema_fk: set[tuple[str, str, str]] = set()
 for block in re.finditer(r"CREATE TABLE dbo\.(\w+)\s*\((.*?)^\);", ddl, re.S | re.M):
     child, definition = block.groups()

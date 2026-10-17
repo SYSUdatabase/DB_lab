@@ -59,15 +59,15 @@
 | P0 | v0.1 备份与 CHECKSUM/VERIFYONLY，还原隔离副本；迁移前源/副本基准一致 | [基线证据](../result/week6/README.md) |
 | P1 | 逐表分析原 14 表的候选码、FD、1NF/2NF/3NF、三种更新异常 | [依赖与范式](dependency_normalization.md) |
 | P2 | 基于固定统计周期 FD 制定小范围分解、无损连接和依赖保持，保留其它必要业务快照 | [重构决策](redesign_decisions.md) |
-| P3 | 实施 `UsageSummary → UsagePeriod + UsageSummaryCore`，恢复旧名的**查询兼容视图**；99 周期/3394 汇总；无数据丢失 | [迁移 SQL](../sql/migration.sql)、[数据字典](data_dictionary_v10.md) |
-| P4 | 订单明细/销售/库存/余额/用量、约束、正反例、角色权限及基准比较 | [回归 SQL](../sql/regression.sql)、[回归日志](../result/week6/regression/regression_run_02.log) |
+| P3 | 实施 `UsageSummary → UsagePeriod + UsageSummaryCore`，恢复旧名的**查询兼容视图**；99 周期/3394 汇总；无数据丢失 | [迁移 SQL](../sql/v10/migration.sql)、[数据字典](data_dictionary_v10.md) |
+| P4 | 订单明细/销售/库存/余额/用量、约束、正反例、角色权限及基准比较 | [回归 SQL](../sql/v10/regression.sql)、[回归日志](../result/week6/regression/regression_run_02.log) |
 | P5 | ER 可编辑源/渲染、SVG/PNG、字典、README、报告和 AI 记录 | [第六周入口](README.md)、[报告材料](report_material.md)、[v1.0 ER](er_diagram_v10.mmd) |
 
 核心 FD：对于当前**统一统计周期**规则，`(period_type, period_start) → period_end`；原 `UsageSummary` 的四元业务候选码包含这两个属性，因此原表存在部分依赖。拆分后 `UsagePeriod` 以 `(period_type,period_start)` 为主码，`UsageSummaryCore` 使用这两列构成可信复合 FK。连接交集决定周期表，因而能够无损恢复旧 10 列。
 
-`dbo.UsageSummary` 在 v1.0 **是视图，不是物理表**：旧 SELECT 可用，但旧的 INSERT / `IDENTITY_INSERT` 不再可用。新数据写入需要先有 `UsagePeriod` 再写 `UsageSummaryCore`。旧版 `sql/02_insert_data.sql` 仍属于 v0.1，不应直接用于 v1.0 初始化。
+`dbo.UsageSummary` 在 v1.0 **是视图，不是物理表**：旧 SELECT 可用，但旧的 INSERT / `IDENTITY_INSERT` 不再可用。新数据写入需要先有 `UsagePeriod` 再写 `UsageSummaryCore`。旧版 `sql/v01/02_insert_data.sql` 仍属于 v0.1，不应直接用于 v1.0 初始化。
 
-**版本差异**：旧本地 `v01_A` 有 9 个视图且部分视图字段不完整；由 `c8d4e64` 快照重新创建的标准 v0.1 是 10 个视图。最新 `sql/migration.sql` 只接受这两种**已核实**的基线并按条件补齐缺失视图，不接受任意不匹配的结构。
+**版本差异**：旧本地 `v01_A` 有 9 个视图且部分视图字段不完整；由 `c8d4e64` 快照重新创建的标准 v0.1 是 10 个视图。最新 `sql/v10/migration.sql` 只接受这两种**已核实**的基线并按条件补齐缺失视图，不接受任意不匹配的结构。
 
 ## 4. 从零复现迁移（建议接手者首先做只读 QA）
 
@@ -114,7 +114,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\week6\reproduction\run_fro
 
 v1.1 的 **13 个触发器、3 个过程** 仅在隔离副本安装，未纳入 [v0.1→v1.0 一键复现脚本](reproduction/run_from_snapshot.ps1)。如需端到端复现 v1.1，接手同事应先设计从**新 v1.0 迁移副本**分叉到新 v1.1 副本的幂等/目标名受限流程，再按 [issue_fixes 的 SQL 顺序](v11/README.md) 应用脚本，禁止在现有结果库上盲目重放。
 
-v1.1 设计/代码：[approved_rules.sql](v11/approved_rules.sql)、[registered_order_workflow.sql](v11/registered_order_workflow.sql)、[record_usage.sql](v11/record_usage.sql)；可编辑模型：[ER v1.1](v11/er_diagram_v11.mmd)。
+v1.1 设计/代码：[approved_rules.sql](../sql/v11/approved_rules.sql)、[registered_order_workflow.sql](../sql/v11/registered_order_workflow.sql)、[record_usage.sql](../sql/v11/record_usage.sql)；可编辑模型：[ER v1.1](v11/er_diagram_v11.mmd)。
 
 ## 6. 未解决的问题：按优先级交接
 

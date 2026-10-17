@@ -158,7 +158,7 @@ AI 收到的要求变为：
 
 第五周需要从现有数据库 v0.1 反推 ER 模型，说明 14 张业务表、17 条真实外键联系以及主码、候选码、参与约束，并生成**可编辑源文件和清晰导出图**。
 
-AI 最初根据 `sql/01_create_tables.sql`、`sql/constraint.sql` 与仓库文档制作 `report/week5/er_diagram.mmd`，编写 `report/week5/render_er.py`，导出 `er_diagram.svg`、`er_diagram.png`。早期渲染使用近似规则网格和简单曲线，跨区域连线交叉较多；基数端点仍显示 Mermaid 风格符号，顶部还有冗余副标题和符号图例。虽然文件可生成，却不适合直接讲解。
+AI 最初根据 `sql/v01/01_create_tables.sql`、`sql/v01/constraint.sql` 与仓库文档制作 `report/week5/er_diagram.mmd`，编写 `report/week5/render_er.py`，导出 `er_diagram.svg`、`er_diagram.png`。早期渲染使用近似规则网格和简单曲线，跨区域连线交叉较多；基数端点仍显示 Mermaid 风格符号，顶部还有冗余副标题和符号图例。虽然文件可生成，却不适合直接讲解。
 
 ## 二、用户调整作图验收标准：可读性优先
 
@@ -200,7 +200,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 
 | 验证项 | 使用的文件 / 方法 | 实际情况 |
 |---|---|---|
-| 数据库关系来源 | `sql/01_create_tables.sql` 与本周先前只读 FK 元数据日志 | **14 张表、17 条真实 FK**；没有修改数据库 |
+| 数据库关系来源 | `sql/v01/01_create_tables.sql` 与本周先前只读 FK 元数据日志 | **14 张表、17 条真实 FK**；没有修改数据库 |
 | 图与数据库关系一致 | `report/week5/qa_week5.py` 对比 Mermaid 表/联系与 `result/week5/readonly_validation.log` | 匹配 **14 个实体、17 条 FK**；所有 17 条 FK 为非标识性关系 |
 | 图片重新生成 | `python report/week5/render_er.py` | 已实际生成 SVG / PNG，不是直接图像模型交付 |
 | 图像与说明 | 解析 SVG/PNG，检查基数标记、特殊注记以及去掉旧副标题，人工目视检查新图 | 自动检查通过，图像已目视检查；**不等于独立组员审查** |
@@ -243,7 +243,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 
 - 已完成 P0：`TokenHubDB_v01_A` COPY_ONLY/校验备份，隔离还原到 `TokenHubDB_v10_W6_20261014`；迁移前源/副本业务基准 3837 行完全一致。
 - 已完成 P1：`week6/dependency_normalization.md` 对 14 表逐一核对候选码、业务 FD、1NF/2NF/3NF、插入/修改/删除异常；`week6/fd_checks.sql` 返回明细公式、订单、库存零差异。
-- P2 方案：旧实现的 `tools/datagen.py` 和 `sql/verify.sql` 使用固定 daily/周一至周日/自然月周期，给出 `(period_type,period_start)→period_end` 的业务依据；3394 条 UsageSummary 对应 99 种周期定义，提出有条件分解 `UsagePeriod`。完整无损/依赖保持说明见 `week6/redesign_decisions.md`。
+- P2 方案：旧实现的 `tools/datagen.py` 和 `sql/v01/verify.sql` 使用固定 daily/周一至周日/自然月周期，给出 `(period_type,period_start)→period_end` 的业务依据；3394 条 UsageSummary 对应 99 种周期定义，提出有条件分解 `UsagePeriod`。完整无损/依赖保持说明见 `week6/redesign_decisions.md`。
 - 当前尚未获用户对“新增 UsagePeriod、移出 UsageSummary.period_end、同步原写入接口”这一具体重构的许可，未执行 P3/P4，不存在迁移后成功结论。
 
 ## 第六周 P3–P5：用户批准后的数据库规范化实施（2026-10-14）
@@ -251,9 +251,9 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 - **用户批准和先行提交**：用户明确要求“commit后批准执行”。先把 P0–P2 分析、隔离基准提交为 `43b5112`，之后才改动数据库副本；没有 push。
 - **采用的设计**：根据固定周期 FD，将原 `UsageSummary` 拆为 `UsagePeriod`（周期维度）与 `UsageSummaryCore`（汇总事实），保留旧名 `dbo.UsageSummary` 作为**只读兼容视图**。15 张物理表、18 条可信 FK、11 视图、99 种周期、3394 条原汇总；未修改源库或 OrderDetails 成交快照。
 - **失败与修正**：第一次迁移在验证最终视图数量时失败并回滚，发现选定 v0.1_A 源库只有 9 个视图，少正式定义的 `v_CustomerService`；在迁移脚本中补入官方视图及 manager/staff 权限。完整 VFY03 又查出源库 `v_InventoryStatus` 缺少官方的 `quota_headroom`，仅在目标副本对齐并整合至脚本。
-- **回归证据**：`sql/regression.sql` 的 R01–R12 通过；与旧库双向对账、合法插入回滚、重复键/CHECK/FK 负例、角色权限与单独 VFY14 均通过。迁移前后非权限业务行 3763 条差异为 0；源数据库前后 SHA-256 一致。
+- **回归证据**：`sql/v10/regression.sql` 的 R01–R12 通过；与旧库双向对账、合法插入回滚、重复键/CHECK/FK 负例、角色权限与单独 VFY14 均通过。迁移前后非权限业务行 3763 条差异为 0；源数据库前后 SHA-256 一致。
 - **明确的未通过事项**：旧库本来存在订单早于注册 20、调用早于注册 402、上游有效性/provider 问题 225、历史余额负值事件 1，迁移副本四项数量不变。旧 VFY12/VFY13 **未通过**，不把规范化成功表述成旧历史数据全量正确。
-- **交付**：[第六周 README](../week6/README.md)、[v1.0 数据字典](../week6/data_dictionary_v10.md)、[可编辑 ER](../week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../week6/report_material.md)、[迁移](../sql/migration.sql)、[回归](../sql/regression.sql)、[验证日志](../result/week6/README.md)。
+- **交付**：[第六周 README](../week6/README.md)、[v1.0 数据字典](../week6/data_dictionary_v10.md)、[可编辑 ER](../week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../week6/report_material.md)、[迁移](../sql/v10/migration.sql)、[回归](../sql/v10/regression.sql)、[验证日志](../result/week6/README.md)。
 - **Python 检验**：原项目 `unittest` 共 22 项，12 项 PASS、10 项因未指定专用集成测试库 skipped（不能冒称通过）；第五周与第六周 ER QA 均通过。后续若要修复旧历史数据或适配 v1.0 写入生成器，需要另行决定改动范围；本次未执行第二次 commit/push。
 
 ## 2026-10-14：第五周遗留问题的 v1.1 隔离修复
@@ -307,3 +307,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 ## 2026-10-17 v1.1 退款与统一交付
 
 用户要求整合原基础修复与加固目录，补齐退款金额、已消费 Token 的差额处理及退款流水防重复。采用每个支付明细对应一个 Token 批次、调用 FIFO 扣减、退款只回收未消费余额、每订单唯一退款账本和待外部付款凭证结清的机制。独立一键部署验证结果见 [v1.1 统一说明](../week6/v11/README.md) 与 [本轮回归](../result/week6/v11/Full261017D/)；R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过。对外退款网关未接入，因此结算状态不能在无外部凭证的情况下宣称到账。
+
+## 2026-10-17 SQL 三版本目录与独立重建
+
+用户指出原 `sql/` 目录仍以旧版 v0.1 为主，并要求将 SQL 拆为 `sql/v01`（原基线）、`sql/v10`（规范化迁移）、`sql/v11`（最新业务与退款），周次目录保留 ER、数据字典和 Python 部署入口。已执行文件迁移和所有引用更新，增加 [版本导航](../sql/README.md)。旧签名解析在 Windows PowerShell 中失败后，改用 `sqlcmd` 文件及 Python UTF-8 校验并复测。新隔离库中 v0.1、v1.0 历史复现及完整 v1.1 退款回归均通过；详细迭代、失败记录和结果见 [AI 操作日志](ai_usage_log.md) 与 [最终 v1.1 日志](../result/week6/v11/SqlTree261017A/)。原始数据库、归档及报告正文未修改，未提交或推送。

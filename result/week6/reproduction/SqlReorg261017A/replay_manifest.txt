@@ -1,0 +1,10 @@
+pre_week6_git_commit=c8d4e64
+source_archive_sha256=D2DFA2F23504050ACBA3F4BDE95A7946DCA72D29F6599A6D75A67C16DDE5743C
+source_database=TokenHubDB_v01_SqlReorg261017A
+migration_copy=TokenHubDB_v10_SqlReorg261017A
+reconstructed_source_baseline_sha256=B7D0B7AB8748399EB1EA74D6A7D74828796CEB134FD38FA0873177503A44E764
+business_rows=3763
+business_differences=0
+regression=R01-R12 PASS
+full_vfy=VFY01-VFY14 PASS
+legacy_code_worktree=C:\Users\ruanyicheng\Desktop\数据库\DB_lab_replay_SqlReorg261017A

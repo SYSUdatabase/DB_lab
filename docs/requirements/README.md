@@ -4,11 +4,11 @@
 
 | 原始要求 | 当前交付 |
 |---|---|
-| 多表连接回答业务问题 | [query.sql](../../sql/query.sql)，Q01～Q12 |
+| 多表连接回答业务问题 | [query.sql](../../sql/v01/query.sql)，Q01～Q12 |
 | 聚合、GROUP BY、HAVING、必要子查询 | Q02～Q05、Q07、Q10～Q12 |
-| 创建并查询不同统计视图 | [view.sql](../../sql/view.sql)，四经营视图及权限用途视图 |
-| 主码、外码、UNIQUE、CHECK、DEFAULT、NULL | [DDL](../../sql/01_create_tables.sql)、[constraint.sql](../../sql/constraint.sql)，合法/非法用例 |
-| 按第一周角色最小授权、越权测试 | [role.sql](../../sql/role.sql)、[角色流程](../../report/role_workflow.md) |
+| 创建并查询不同统计视图 | [view.sql](../../sql/v01/view.sql)，四经营视图及权限用途视图 |
+| 主码、外码、UNIQUE、CHECK、DEFAULT、NULL | [DDL](../../sql/v01/01_create_tables.sql)、[constraint.sql](../../sql/v01/constraint.sql)，合法/非法用例 |
+| 按第一周角色最小授权、越权测试 | [role.sql](../../sql/v01/role.sql)、[角色流程](../../report/role_workflow.md) |
 | 从空库复现 | [README](../../README.md)、[run_v01.ps1](../../tools/run_v01.ps1) |
 | 成功建库、CRUD、正常/非法/越权、查询与视图截图 | [result](../../result/README.md) |
 | 设计思路、实验过程、实验总结与键设计理由 | [阶段报告](../../report/stage_report.md) |
@@ -40,8 +40,8 @@
 |---|---|
 | FD、全部候选码、1NF/2NF/3NF、三类更新异常 | [14 表逐项分析](../../week6/dependency_normalization.md) |
 | 目标设计、保留和拆分理由、无损连接和依赖保持 | [重构决策](../../week6/redesign_decisions.md)、[v1.0 数据字典](../../week6/data_dictionary_v10.md) |
-| `migration.sql` + 实际副本迁移日志 | [迁移脚本](../../sql/migration.sql)、[迁移结果](../../result/week6/README.md) |
-| `regression.sql` + 原业务统计/合法性/权限回归 | [回归脚本](../../sql/regression.sql)、[执行日志索引](../../result/week6/README.md) |
+| `migration.sql` + 实际副本迁移日志 | [迁移脚本](../../sql/v10/migration.sql)、[迁移结果](../../result/week6/README.md) |
+| `regression.sql` + 原业务统计/合法性/权限回归 | [回归脚本](../../sql/v10/regression.sql)、[执行日志索引](../../result/week6/README.md) |
 | README、报告、ER 和 AI 使用文档 | [第六周交付入口](../../week6/README.md)、[报告素材](../../week6/report_material.md)、[可编辑 v1.0 ER](../../week6/er_diagram_v10.mmd)、[AI 使用记录](../ai使用文档.md) |
 
 **结果边界**：周期拆分和结构/角色回归已完成，但选用的 v0.1_A 源库原本存在 VFY12/VFY13 历史异常，因此不能把旧数据时间线完整性登记为全部通过。

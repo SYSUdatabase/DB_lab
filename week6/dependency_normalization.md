@@ -1,6 +1,6 @@
 # 第六周：函数依赖、候选码、1NF / 2NF / 3NF 及更新异常
 
-对象：`sql/01_create_tables.sql` 定义的 14 张表；追加跨列约束来自 `sql/constraint.sql`。实际数据检查：`week6/fd_checks.sql`、`result/week6/baseline/fd_checks.log`；数据库 `TokenHubDB_v10_W6_20261014`（v0.1 副本）。
+对象：`sql/v01/01_create_tables.sql` 定义的 14 张表；追加跨列约束来自 `sql/v01/constraint.sql`。实际数据检查：`week6/fd_checks.sql`、`result/week6/baseline/fd_checks.log`；数据库 `TokenHubDB_v10_W6_20261014`（v0.1 副本）。
 
 **判断原则**：所有候选码都参与 2NF / 3NF 检查，不只看自增主码。函数依赖由 **业务规则或 DDL** 推出，不能用样例没有冲突来证明。下文 `K → 其余属性` 表示候选码按键约束决定同一行剩余属性。唯一键均参见 `week5/data_dictionary.md`。当前数据库中的非空业务属性均为 SQL 标量；`Roles.permissions` 使用 JSON 存储，是否存在应拆开的重复授权项需要另外定义应用权限语义。
 
@@ -66,7 +66,7 @@
 
 ## 4. 源代码对固定周期 FD 的补充证据
 
-补查 `tools/datagen.py` 生成 `UsageSummary` 的逻辑：daily 的起点/终点均为调用日期；weekly 使用 `used_date.weekday()` 将起点对齐周一，终点为六日后；monthly 将起点对齐该月 1 日，终点为该月最后一天。`sql/verify.sql` 的 VFY10 使用同样的周一/自然月规则生成参照并做双向 EXCEPT 比较。因而对**现有项目明确采用的统计定义**，`(period_type,period_start)→period_end` 是有代码与验收规则支持的业务 FD，而不再只是样例观察。数据库 `CK_UsageSummary_dates` 仍仅保证 end≥start，不保证该 FD；模式调整需要批准。
+补查 `tools/datagen.py` 生成 `UsageSummary` 的逻辑：daily 的起点/终点均为调用日期；weekly 使用 `used_date.weekday()` 将起点对齐周一，终点为六日后；monthly 将起点对齐该月 1 日，终点为该月最后一天。`sql/v01/verify.sql` 的 VFY10 使用同样的周一/自然月规则生成参照并做双向 EXCEPT 比较。因而对**现有项目明确采用的统计定义**，`(period_type,period_start)→period_end` 是有代码与验收规则支持的业务 FD，而不再只是样例观察。数据库 `CK_UsageSummary_dates` 仍仅保证 end≥start，不保证该 FD；模式调整需要批准。
 
 隔离副本只读计数：`UsageSummary` **3394 行**，其中不同的 `(period_type,period_start)` 共 **99 个**（daily 83、weekly 13、monthly 3），同键不同结束日 **0**。按上述 FD 提取周期定义表可将重复的日期规则统一管理，但必须同步旧的 `query.sql`、`verify.sql`、生成器与已有插入接口。
 

@@ -112,14 +112,14 @@ if ($srcHash -ne $dstHash) { throw "Newly restored copy differs from historical 
 Write-Output "PASS v0.1 source/copy hash identical: $srcHash"
 
 # Create run-specific SQL copies; do not edit the original migration or regression.
-$migrationTemplate = [IO.File]::ReadAllText((Join-Path $root 'sql\migration.sql'))
+$migrationTemplate = [IO.File]::ReadAllText((Join-Path $root 'sql\v10\migration.sql'))
 if (-not($migrationTemplate.Contains($oldTargetLiteral))) { throw "Migration guard changed; review template" }
 $migration = $migrationTemplate.Replace($oldTargetLiteral, $targetDb)
 $migrationFile = Join-Path $evidence 'migration_replay.sql'
 Write-Text $migrationFile $migration
 Invoke-File $targetDb $migrationFile (Join-Path $evidence 'migration_replay.log')
 
-$regression = [IO.File]::ReadAllText((Join-Path $root 'sql\regression.sql'))
+$regression = [IO.File]::ReadAllText((Join-Path $root 'sql\v10\regression.sql'))
 $oldViewCheck = '(SELECT COUNT(*) FROM TokenHubDB_v01_A.sys.views WHERE is_ms_shipped=0)<>9'
 if (-not($regression.Contains($oldViewCheck))) { throw "Regression legacy source check changed; review template" }
 $regression = $regression.Replace($oldViewCheck,

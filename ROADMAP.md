@@ -16,7 +16,7 @@
 - Q01～Q12 在三份历史查询日志中均有执行结果；query.sql 本身没有为每个查询设置独立 PASS 断言，不能把“执行成功”描述成每项均有断言。
 - 三个 signature.txt 均为 14 行、1129 字节，文件 SHA-256 均为 `2979d58866fb2adcd8c7b2d0f2b53eb39ee455be24c3c7518adf63d70b29cb61`，逐字节一致。
 - 第三周数据生成器在内存中的 self_check() 通过，build_sql() 与历史样例 SQL 完全一致。正式 00～03 四个脚本等于历史脚本仅替换数据库名的结果。
-- 有 22 张 PNG、22 份证据日志、21 份独立证据 SQL。截图 21 使用正式 sql/verify.sql，缺少独立同名证据 SQL 是有说明的安排。
+- 有 22 张 PNG、22 份证据日志、21 份独立证据 SQL。截图 21 使用正式 sql/v01/verify.sql，缺少独立同名证据 SQL 是有说明的安排。
 - 检查范围内 Markdown 文件可按 UTF-8 解码，Markdown 本地链接均存在。
 - 初始 Git 工作区干净，当前 HEAD 为 4165257，存在 feat(week4) 交付提交。
 
@@ -31,7 +31,7 @@
 
 | 优先级 | 位置 | 问题与影响 | 建议 |
 |---|---|---|---|
-| P2 | sql/verify.sql:110～117 | 店长 CRUD 验收仅按 major_id 分组计数，不检查每组是否有四种权限。即使每表仅有 SELECT，也可能通过该断言。当前 role.sql 确实授予四种权限，此处属于验收漏检。 | 按预期 14 表 × 四种权限逐项核对，增加缺少某项权限的反例验证。 |
+| P2 | sql/v01/verify.sql:110～117 | 店长 CRUD 验收仅按 major_id 分组计数，不检查每组是否有四种权限。即使每表仅有 SELECT，也可能通过该断言。当前 role.sql 确实授予四种权限，此处属于验收漏检。 | 按预期 14 表 × 四种权限逐项核对，增加缺少某项权限的反例验证。 |
 | P2 | tools/capture_evidence.ps1:21～25 | sqlcmd 未使用 -b，工具未检查退出码；非空报错日志仍会进入截图流程，FAIL 计数只打印、不阻断。 | 对未预期 SQL 错误检查退出码并停止；已捕获的预期拒绝用例保留正常证据输出。 |
 | P2 | result/screenshots/21_verify_all_pass.png；result/README.md:50 | 图 21 从 Orders 开始，底部只到 VFY10 标题，未显示 VFY10 PASS、VFY11 PASS 和最终 PASS，不足以单图证明完整验收。 | 用真实执行结果重截摘要或分屏；保留完整原始日志。 |
 | P2 | DEMO_GUIDE.md 第 2 节；tools/run_v01.ps1:6～13 | 示例和默认参数使用 run_A，仓库已有 result/run_A，直接执行会首先因结果目录存在而中断。根 README 已给新标签示例，但入口不一致。 | 将主要复现示例统一为未占用库名和结果标签。 |
@@ -127,7 +127,7 @@
 - 换行与哈希：仓库无 `.gitattributes`，新生成的 `signature.txt` 为 CRLF 而归档版本为 LF，内容相同但文件哈希不同（1129 vs 1115 字节）。新增 `.gitattributes` 统一文本文件为 LF，并将 `.log`（sqlcmd 生成的 UTF-16LE）、`.png`、`.pdf`、`.docx` 标为binary避免换行转换。同时修改 `tools/run_v01.ps1`，签名改用 `WriteAllText` 固定 LF 与 UTF-8 BOM，不再依赖 `Set-Content`。复核 143 个文本文件的索引 blob 无意外变化。
 - 测试数口径：`tests_final.log` 名称暗示最终结论，实际是新增视图写权限反例之前的 21 项运行，易与 `tests_complete.log`（22 项）混淆。用 `git mv` 改名为 `tests_before_view_write_negative.log`，并在 `result/recheck/README.md` 明确 `tests_complete.log` 为唯一最终结论。未删除任何历史日志。
 - 业务流程：README 此前仅有业务范围散文。依据 `archive/coursework/week1-2/week1_deliverables.md` 第 2 节的历史流程，并对照当前 SQL 实现重写为四条流程加系统约束，会员购买使用、售后处理、店员运营、店长分析各自标注对应视图与表。
-- 核实方式：新建 `TokenHubDB_v01_Doc` 按当前 SQL 构建，确认 14 表、10 视图、0 存储过程、4 数据库角色，并逐项核对 README 引用的 21 个表/视图全部存在。`CK_Orders_payment_time` 实际在 `sql/constraint.sql` 补充创建而不在 `01_create_tables.sql`，README 已注明来源。85 paid / 4228.90 / 92950000 Token / 3000 调用与 README 既有数字一致。
+- 核实方式：新建 `TokenHubDB_v01_Doc` 按当前 SQL 构建，确认 14 表、10 视图、0 存储过程、4 数据库角色，并逐项核对 README 引用的 21 个表/视图全部存在。`CK_Orders_payment_time` 实际在 `sql/v01/constraint.sql` 补充创建而不在 `01_create_tables.sql`，README 已注明来源。85 paid / 4228.90 / 92950000 Token / 3000 调用与 README 既有数字一致。
 - 验证：`TokenHubDB_v01_Doc` 全流水线 10 步 PASS；另一次独立运行签名为 1115 字节 LF，与 `run_final_A/signature.txt` 逐字节相同。验证库与临时结果目录已清理。
 - 本轮未执行 commit/push。
 
@@ -208,3 +208,14 @@
 - [x] 按全新数据库后缀从 v0.1 重新生成 v1.1，完成备份校验、历史合成修正和 R01–R12/VFY01–VFY14/X01–X10/Y01–Y04/RF01–RF06 回归；原始库保持不变。
 - [ ] 与实际支付网关对接资金划转/回调并核实外部支付凭证（数据库目前只能生成应退款项，不自动转账）。
 - [ ] 队友 sh 电脑现有 v1.1 尚未升级。
+
+## 2026-10-17：SQL 版本目录正式整理
+
+- [x] 原 v0.1 建库、数据、CRUD、查询/视图/约束/角色、签名和验收 SQL 移至 `sql/v01/`；旧样例与 14 表/17 FK 语义保持不变。
+- [x] 第六周规范化迁移与回归移至 `sql/v10/`；v1.1 基础修复、交易保护、退款和测试 SQL 移至 `sql/v11/`。
+- [x] `week6/v11` 保留 Python 一键运行入口、ER、数据字典，更新 SQL 文件加载路径；`sql/README.md` 说明三个版本及最新入口。
+- [x] 新 v1.1 隔离库 `TokenHubDB_v11_SqlTree261017A` 从现有 v0.1 备份重建：17 表、20 FK，R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 均通过。
+- [x] `tools/run_v01.ps1` 指向 `sql/v01`，针对 Windows sqlcmd 输出编码增加 UTF-8 签名解析，新的 `TokenHubDB_v01_SqlDir261017C` 从头运行全部 PASS，14 张表签名成功。
+- [x] 归档历史源码独立复现脚本指向 `sql/v10`，新 `SqlReorg261017A` 复现中 3763 条业务记录零差异、VFY01–VFY14 PASS；历史 ZIP 内容与哈希不变。
+- [x] SQL 版本目录、代码引用及约 450 条非归档 Markdown 相对链接检查通过，修复旧报告中仅有的两条失效链接（报告正文不变）。
+- [ ] 既有队友 sh 电脑的数据库未因代码迁移自动更新，需另外备份与部署。

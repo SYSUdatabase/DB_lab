@@ -12,7 +12,7 @@ SERVER = os.environ.get("DB_LAB_TEST_SERVER", r"localhost\SQLEXPRESS")
 
 
 def section(start: str, end: str) -> str:
-    source = (ROOT / "sql/verify.sql").read_text(encoding="utf-8")
+    source = (ROOT / "sql/v01/verify.sql").read_text(encoding="utf-8")
     segment = source[source.index(start) : source.index(end)]
     return re.sub(r"^GO\s*$", "", segment, flags=re.MULTILINE)
 

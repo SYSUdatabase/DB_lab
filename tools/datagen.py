@@ -21,7 +21,7 @@ SEED = 20260923
 rng = random.Random(SEED)
 START = datetime(2026, 7, 1, 0, 0, 0)
 END = datetime(2026, 9, 22, 23, 59, 59)
-OUT_PATH = Path(__file__).resolve().parents[1] / "sql" / "02_insert_data.sql"
+OUT_PATH = Path(__file__).resolve().parents[1] / "sql" / "v01" / "02_insert_data.sql"
 
 
 @dataclass(frozen=True)

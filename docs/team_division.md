@@ -24,8 +24,8 @@
 | 经营场景、角色、流程、数据边界 | 阮依成 | 肖懿 |
 | 14 表关系模式与样例元组 | 陈诗瀚 | 肖懿 |
 | `sql/00`～`sql/03`（DDL、样例数据、CRUD） | 陈诗瀚 | 阮依成（复测）、肖懿（语义） |
-| `sql/query.sql`、`view.sql`、`constraint.sql`、`role.sql` | 陈诗瀚 | 阮依成（复测）、肖懿（口径与权限） |
-| `sql/verify.sql`、`signature.sql`、`tools/run_v01.ps1` | 陈诗瀚 | 阮依成 |
+| `sql/v01/query.sql`、`view.sql`、`constraint.sql`、`role.sql` | 陈诗瀚 | 阮依成（复测）、肖懿（口径与权限） |
+| `sql/v01/verify.sql`、`signature.sql`、`tools/run_v01.ps1` | 陈诗瀚 | 阮依成 |
 | `result/` 日志与签名 | 阮依成 | 陈诗瀚 |
 | `result/screenshots/` 真实截图 | 阮依成 | 肖懿 |
 | 阶段报告、ER 图、角色流程图、思维导图 | 阮依成 | 肖懿 |
@@ -62,5 +62,5 @@
 
 | 阶段 | 主责成员 | 工作内容 | 主要证据 | 状态 |
 |---|---|---|---|---|
-| 前期设计与实现 | **陈诗瀚** | 第六周初始工作：v0.1 基线与备份、函数依赖及范式分析、UsagePeriod 规范化方案、v1.0 迁移及回归，以及初版 v1.1 业务规则与 ER / 数据字典整理 | [函数依赖分析](../week6/dependency_normalization.md)、[重构方案](../week6/redesign_decisions.md)、[迁移脚本](../sql/migration.sql)、[回归脚本](../sql/regression.sql)、[结果](../result/week6/README.md) | 前期版本已完成，由后续工作接续完善 |
-| 退款问题人工发现与需求核对、后续 v1.1 完善、目录整合和验证 | **阮依成** | 在询问并核对原 v1.1 退款逻辑时指出：仅有退款状态与基础校验，未完成返款金额、已消费 Token 的退款处理、退款流水及重复退款保护；明确要求补齐功能并统一目录 | [退款问题与处理记录](ai_usage_log.md)、[v1.1 退款规则](../week6/v11/README.md) 、[退款事务](../week6/v11/09_refund_workflow.sql) 和 [退款测试](../week6/v11/10_refund_regression.sql)。 | 人工提出问题和修复要求 |
+| 前期设计与实现 | **陈诗瀚** | 第六周初始工作：v0.1 基线与备份、函数依赖及范式分析、UsagePeriod 规范化方案、v1.0 迁移及回归，以及初版 v1.1 业务规则与 ER / 数据字典整理 | [函数依赖分析](../week6/dependency_normalization.md)、[重构方案](../week6/redesign_decisions.md)、[迁移脚本](../sql/v10/migration.sql)、[回归脚本](../sql/v10/regression.sql)、[结果](../result/week6/README.md) | 前期版本已完成，由后续工作接续完善 |
+| 退款问题人工发现与需求核对、后续 v1.1 完善、目录整合和验证 | **阮依成** | 在询问并核对原 v1.1 退款逻辑时指出：仅有退款状态与基础校验，未完成返款金额、已消费 Token 的退款处理、退款流水及重复退款保护；明确要求补齐功能并统一目录 | [退款问题与处理记录](ai_usage_log.md)、[v1.1 退款规则](../week6/v11/README.md) 、[退款事务](../sql/v11/09_refund_workflow.sql) 和 [退款测试](../sql/v11/10_refund_regression.sql)。 | 人工提出问题和修复要求 |

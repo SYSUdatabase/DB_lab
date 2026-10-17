@@ -34,7 +34,7 @@ def main() -> None:
                 print("ALREADY PASS", filename)
                 continue
             raise RuntimeError("Existing failed evidence must not be overwritten: " + str(logfile))
-        content = (ROOT / "week6" / "v11" / filename).read_text(encoding="utf-8-sig")
+        content = (ROOT / "sql" / "v11" / filename).read_text(encoding="utf-8-sig")
         if TEMPLATE not in content:
             raise RuntimeError("Test target guard unexpectedly absent")
         content = content.replace(TEMPLATE, args.database)

@@ -13,7 +13,7 @@ FILES = ("01_typed_consumption_refs.sql", "02_managed_usage_v11.sql",
 
 
 def apply_sql(server: str, dbname: str, filename: str, output: Path) -> None:
-    source = (ROOT / "week6" / "v11" / filename).read_text(encoding="utf-8-sig")
+    source = (ROOT / "sql" / "v11" / filename).read_text(encoding="utf-8-sig")
     assert TEMPLATE in source, "Expected target-name safety guard is missing"
     adapted = source.replace(TEMPLATE, dbname)
     with tempfile.TemporaryDirectory(prefix="w6_hardening_") as tmp:

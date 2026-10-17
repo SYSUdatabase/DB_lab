@@ -111,7 +111,7 @@ def main() -> None:
         raise RuntimeError("Cannot determine SQL paths")
     evidence.mkdir(parents=True)
     backup_restore(cur, args.server, args.source, v10, bakdir, datadir, evidence / "copy_v01_to_v10.txt")
-    migr = (ROOT / "sql" / "migration.sql").read_text(encoding="utf-8-sig")
+    migr = (ROOT / "sql" / "v10" / "migration.sql").read_text(encoding="utf-8-sig")
     if "TokenHubDB_v10_W6_20261014" not in migr:
         raise RuntimeError("Migration whitelist was changed")
     migr = migr.replace("TokenHubDB_v10_W6_20261014", v10)
@@ -125,7 +125,7 @@ def main() -> None:
         "registered_order_workflow.sql",
     ]
     for fname in scripts:
-        sql = (ROOT / "week6" / "v11" / fname).read_text(encoding="utf-8-sig")
+        sql = (ROOT / "sql" / "v11" / fname).read_text(encoding="utf-8-sig")
         if "TokenHubDB_v11_Issues_20261014" not in sql:
             raise RuntimeError("v1.1 source whitelist changed: " + fname)
         sql = sql.replace("TokenHubDB_v11_Issues_20261014", v11)
@@ -136,7 +136,7 @@ def main() -> None:
         "test_approved_rules.sql",
         "regression_v11.sql",
     ):
-        sql = (ROOT / "week6" / "v11" / fname).read_text(encoding="utf-8-sig")
+        sql = (ROOT / "sql" / "v11" / fname).read_text(encoding="utf-8-sig")
         sql = sql.replace("TokenHubDB_v11_Issues_20261014", v11)
         run_sqlcmd(args.server, v11, sql, evidence / (fname + ".log"), fname)
     print("PASS original v0.1 protected; isolated v1.0 and v1.1 ready:", v11)
