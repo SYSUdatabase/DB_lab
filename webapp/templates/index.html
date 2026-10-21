@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf }}">
+  <title>TokenHub · Token 业务工作台</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}">
+  <script src="{{ url_for('static',filename='app.js') }}" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="TokenHub 首页"><span class="brand-icon">T</span><span>TokenHub<small>Token 业务工作台</small></span></a>
+  <div class="workspace-label">工作空间</div>
+  <nav id="navigation" aria-label="主导航"></nav>
+  <div class="sidebar-bottom"><span class="status-dot"></span> 本地模拟环境<p>支付与调用均为模拟操作</p></div>
+</aside>
+<div class="workspace">
+  <header class="topbar"><span>API Token 中转站 <span class="divider">/</span> <span id="breadcrumb">商品目录</span></span><div class="identity"><span id="identity">游客</span><button id="auth-button" class="button subtle">登录账户</button></div></header>
+  <main>
+    <div class="page-heading"><div><p class="section-context">业务工作台</p><h1 id="page-title">商品目录</h1><p id="page-description">选择适合你的模型套餐，购买后按实际调用消耗 Token。</p></div><button id="primary-action" class="button primary" hidden>新增</button></div>
+    <div class="notice"><span class="notice-symbol">i</span><span>下单保存套餐快照，支付后余额到账；模拟调用才会扣减余额与上游库存。</span></div>
+    <section class="data-panel" aria-label="业务数据">
+      <form id="search-form" class="toolbar"><div class="search-control"><span aria-hidden="true">⌕</span><input id="search" type="search" aria-label="搜索记录" placeholder="搜索商品名称或描述"><button class="button subtle" type="submit">搜索</button></div><span id="record-count">正在读取…</span></form>
+      <div id="feedback" role="status" aria-live="polite"></div>
+      <div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+      <div id="empty-state" class="empty-state" hidden><h2>还没有相关记录</h2><p>调整搜索条件，或从右上方开始一笔新操作。</p></div>
+      <footer class="pagination"><span id="page-indicator">第 1 页</span><div><button id="previous" class="button subtle">上一页</button><button id="next" class="button subtle">下一页</button></div></footer>
+    </section>
+    <p class="page-footnote">Token 按模型供应商分账 · 成交价格与套餐数量保留订单快照</p>
+  </main>
+</div>
+<dialog id="editor"><div class="dialog-heading"><div><p class="section-context">业务操作</p><h2 id="editor-title">操作</h2></div><button id="close-editor" class="icon-button" aria-label="关闭">×</button></div><div id="editor-content"></div></dialog>
+</body></html>
