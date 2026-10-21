@@ -1,0 +1,16 @@
+{
+  "copied_new_files": 214,
+  "updated_existing_files": 10,
+  "preserved_original_edits": 9,
+  "original_file_sha256": {
+    "README.md": "fa09cb41a96c69c0f02b1655dc2e5d93647c72c16dd002f306d90a22c98befc4",
+    "ROADMAP.md": "712a86ee3d0039741e712ef1934ec7b9f2384ae01c614e6c83bbe131ccebc912",
+    "docs/ai_usage_log.md": "6368d0cc61cf20a455da594b325855dea0a3cd56cec3f5ef3fefdfaaaf6a413a",
+    "docs/ai使用文档.md": "72176e330d0d333692f7562f92f3106f412bddd29abb35743ded66b7181acf72",
+    "report/overview_modules.html": "a89aaff232a545e1ef9ef4adf692d61812b55292ba777460a8d5415735eeb5c3",
+    "report/overview_modules.mmd": "06a7df341b349ad26d0060d9d87b0f466d71cd44085780a0e731232314e395b6",
+    "report/overview_modules.png": "1a7af39c6ab22e5265812b637fb3dcab5ee329f30dc18b175e9cb2dce2c29aec",
+    "report/overview_modules.svg": "477899500e67e9e9e630ae6c919e6f14a84fa4039468d6a01ae08f6bf3b61fe9",
+    "report/render_overview_modules.py": "6d99ab538d4b2434637e16739e771434ae3d4bbfbbcddf0762901496bed07a5f"
+  }
+}

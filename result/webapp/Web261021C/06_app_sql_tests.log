@@ -1,0 +1,55 @@
+test_customer_payload_cannot_elevate_role (tests.test_app_sql.AppSqlIntegrationTests.test_customer_payload_cannot_elevate_role) ... FAIL
+test_runtime_permissions_and_guest_catalog (tests.test_app_sql.AppSqlIntegrationTests.test_runtime_permissions_and_guest_catalog) ... FAIL
+test_guard_and_narrow_public_grants (tests.test_app_sql.AppSqlSourceTests.test_guard_and_narrow_public_grants) ... ok
+test_atomic_create_with_invalid_late_item (tests.test_app_sql.AppSqlWorkflowTests.test_atomic_create_with_invalid_late_item) ... ok
+test_cross_customer_cannot_modify_order (tests.test_app_sql.AppSqlWorkflowTests.test_cross_customer_cannot_modify_order) ... ok
+test_expired_revoked_and_inactive_sessions (tests.test_app_sql.AppSqlWorkflowTests.test_expired_revoked_and_inactive_sessions) ... ok
+test_multiple_pending_refunds_are_independent (tests.test_app_sql.AppSqlWorkflowTests.test_multiple_pending_refunds_are_independent) ... ok
+test_order_usage_refund_lifecycle_and_exact_ceiling (tests.test_app_sql.AppSqlWorkflowTests.test_order_usage_refund_lifecycle_and_exact_ceiling) ... ok
+test_product_and_account_crud_restock_cancel_delete (tests.test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete) ... ERROR
+test_runtime_all_table_dml_and_ddl_denied (tests.test_app_sql.AppSqlWorkflowTests.test_runtime_all_table_dml_and_ddl_denied) ... ok
+
+======================================================================
+ERROR: test_product_and_account_crud_restock_cancel_delete (tests.test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 231, in test_product_and_account_crud_restock_cancel_delete
+    guest = self.api(None, "products.list", {"q": "Created " + self.tag})
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 146, in api
+    result = json.loads(rows[0][0])
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python\Python312\Lib\json\__init__.py", line 339, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not NoneType
+
+======================================================================
+FAIL: test_customer_payload_cannot_elevate_role (tests.test_app_sql.AppSqlIntegrationTests.test_customer_payload_cannot_elevate_role)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 61, in test_customer_payload_cannot_elevate_role
+    self.run_sql("""
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 37, in run_sql
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : Sqlcmd:“name\":\"spoof\",\"role\":\"admin\",\"user_id\":1}'; END TRY BEGIN CATCH SET @got=ERROR_NUMBER(); END CATCH;
+IF @got<>55003 THROW 55990,'Customer elevated by JSON',1;
+IF XACT_STATE()<>0 ROLLBACK;
+"�\ufffd: 参数不�\ufffd�确。输�\ufffd "-?" �\ufffd查看�\ufffd助�\ufffd\ufffd
+
+
+======================================================================
+FAIL: test_runtime_permissions_and_guest_catalog (tests.test_app_sql.AppSqlIntegrationTests.test_runtime_permissions_and_guest_catalog)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 40, in test_runtime_permissions_and_guest_catalog
+    self.run_sql("""
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_sql.py", line 37, in run_sql
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : 消息 3930，级�\ufffd 16，状�\ufffd 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，�\ufffd\ufffd 17 �\ufffd
+当前事务无法提交，�\ufffd�且无法�\ufffd持写入日志文件的操作。�\ufffd�回滚�\ufffd�事务�\ufffd\ufffd
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.582s
+
+FAILED (failures=2, errors=1)

@@ -1,0 +1,168 @@
+test_app_faults (unittest.loader._FailedTest.test_app_faults) ... ERROR
+test_guard_and_narrow_public_grants (test_app_sql.AppSqlSourceTests.test_guard_and_narrow_public_grants) ... ok
+test_atomic_create_with_invalid_late_item (test_app_sql.AppSqlWorkflowTests.test_atomic_create_with_invalid_late_item) ... ERROR
+test_cross_customer_cannot_modify_order (test_app_sql.AppSqlWorkflowTests.test_cross_customer_cannot_modify_order) ... ERROR
+test_customer_payload_cannot_elevate_role (test_app_sql.AppSqlWorkflowTests.test_customer_payload_cannot_elevate_role) ... ERROR
+test_expired_revoked_and_inactive_sessions (test_app_sql.AppSqlWorkflowTests.test_expired_revoked_and_inactive_sessions) ... ERROR
+test_guest_catalog_and_authentication_boundary (test_app_sql.AppSqlWorkflowTests.test_guest_catalog_and_authentication_boundary) ... ERROR
+test_multiple_pending_refunds_are_independent (test_app_sql.AppSqlWorkflowTests.test_multiple_pending_refunds_are_independent) ... ERROR
+test_old_business_error_propagates_without_insert_exec_masking (test_app_sql.AppSqlWorkflowTests.test_old_business_error_propagates_without_insert_exec_masking) ... ERROR
+test_order_usage_refund_lifecycle_and_exact_ceiling (test_app_sql.AppSqlWorkflowTests.test_order_usage_refund_lifecycle_and_exact_ceiling) ... ERROR
+test_product_and_account_crud_restock_cancel_delete (test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete) ... ERROR
+test_runtime_all_table_dml_and_ddl_denied (test_app_sql.AppSqlWorkflowTests.test_runtime_all_table_dml_and_ddl_denied) ... ERROR
+test_fail_marker_prevents_capture_despite_pass_marker (test_evidence_tool.EvidenceToolTests.test_fail_marker_prevents_capture_despite_pass_marker) ... ok
+test_unexpected_sql_error_prevents_capture (test_evidence_tool.EvidenceToolTests.test_unexpected_sql_error_prevents_capture) ... ok
+test_direct_customer_view_write_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_customer_view_write_is_detected) ... ok
+test_direct_user_grant_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_user_grant_is_detected) ... ok
+test_expiry_equal_boundary (test_sql_integration.SqlIntegrationTests.test_expiry_equal_boundary) ... ok
+test_historical_overdraft_with_correct_final_totals (test_sql_integration.SqlIntegrationTests.test_historical_overdraft_with_correct_final_totals) ... ok
+test_missing_one_manager_permission (test_sql_integration.SqlIntegrationTests.test_missing_one_manager_permission) ... ok
+test_provider_mismatch (test_sql_integration.SqlIntegrationTests.test_provider_mismatch) ... ok
+test_registration_order (test_sql_integration.SqlIntegrationTests.test_registration_order) ... ok
+test_registration_usage (test_sql_integration.SqlIntegrationTests.test_registration_usage) ... ok
+test_business_totals_are_preserved (test_timeline.TimelineTests.test_business_totals_are_preserved) ... ok
+test_expired_usage_is_rejected (test_timeline.TimelineTests.test_expired_usage_is_rejected) ... ok
+test_expiry_is_exclusive_and_null_expiry_is_supported (test_timeline.TimelineTests.test_expiry_is_exclusive_and_null_expiry_is_supported) ... ok
+test_final_balance_cannot_hide_historical_overdraft (test_timeline.TimelineTests.test_final_balance_cannot_hide_historical_overdraft) ... ok
+test_fixed_dataset_and_serialized_sql (test_timeline.TimelineTests.test_fixed_dataset_and_serialized_sql) ... ok
+test_insufficient_credit_cannot_be_scheduled (test_timeline.TimelineTests.test_insufficient_credit_cannot_be_scheduled) ... ok
+test_missing_parent_is_rejected_before_serialization (test_timeline.TimelineTests.test_missing_parent_is_rejected_before_serialization) ... ok
+test_no_eligible_account_fails_explicitly (test_timeline.TimelineTests.test_no_eligible_account_fails_explicitly) ... ok
+test_order_before_registration_is_rejected (test_timeline.TimelineTests.test_order_before_registration_is_rejected) ... ok
+test_payment_at_same_second_precedes_consumption (test_timeline.TimelineTests.test_payment_at_same_second_precedes_consumption) ... ok
+test_provider_mismatch_is_rejected (test_timeline.TimelineTests.test_provider_mismatch_is_rejected) ... ok
+test_usage_before_registration_is_rejected (test_timeline.TimelineTests.test_usage_before_registration_is_rejected) ... ok
+test_web_integration (unittest.loader._FailedTest.test_web_integration) ... ERROR
+test_webapp (unittest.loader._FailedTest.test_webapp) ... ERROR
+
+======================================================================
+ERROR: test_app_faults (unittest.loader._FailedTest.test_app_faults)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_app_faults
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "D:\Desktop\DB\DB_lab\tests\test_app_faults.py", line 15, in <module>
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+
+======================================================================
+ERROR: test_atomic_create_with_invalid_late_item (test_app_sql.AppSqlWorkflowTests.test_atomic_create_with_invalid_late_item)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_cross_customer_cannot_modify_order (test_app_sql.AppSqlWorkflowTests.test_cross_customer_cannot_modify_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_customer_payload_cannot_elevate_role (test_app_sql.AppSqlWorkflowTests.test_customer_payload_cannot_elevate_role)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_expired_revoked_and_inactive_sessions (test_app_sql.AppSqlWorkflowTests.test_expired_revoked_and_inactive_sessions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_guest_catalog_and_authentication_boundary (test_app_sql.AppSqlWorkflowTests.test_guest_catalog_and_authentication_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_multiple_pending_refunds_are_independent (test_app_sql.AppSqlWorkflowTests.test_multiple_pending_refunds_are_independent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_old_business_error_propagates_without_insert_exec_masking (test_app_sql.AppSqlWorkflowTests.test_old_business_error_propagates_without_insert_exec_masking)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_order_usage_refund_lifecycle_and_exact_ceiling (test_app_sql.AppSqlWorkflowTests.test_order_usage_refund_lifecycle_and_exact_ceiling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_product_and_account_crud_restock_cancel_delete (test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_runtime_all_table_dml_and_ddl_denied (test_app_sql.AppSqlWorkflowTests.test_runtime_all_table_dml_and_ddl_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_app_sql.py", line 32, in setUp
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+======================================================================
+ERROR: test_web_integration (unittest.loader._FailedTest.test_web_integration)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_web_integration
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "D:\Desktop\DB\DB_lab\tests\test_web_integration.py", line 10, in <module>
+    from webapp import create_app
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 13, in <module>
+    from flask import Flask, Response, g, jsonify, render_template, request, session
+ModuleNotFoundError: No module named 'flask'
+
+
+======================================================================
+ERROR: test_webapp (unittest.loader._FailedTest.test_webapp)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_webapp
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python\Python312\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 6, in <module>
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'
+
+
+----------------------------------------------------------------------
+Ran 36 tests in 4.764s
+
+FAILED (errors=13)

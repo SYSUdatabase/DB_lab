@@ -1,0 +1,5 @@
+PASS 04_regression.sql
+PASS 06_restock_regression.sql
+PASS verify_v11_full.sql
+PASS 10_refund_regression.sql
+PASS final v1.1 metadata: 17 tables, 20 trusted FKs, 158 lots, 3000 typed refs, 11 W6 guards, refund ledgers clean

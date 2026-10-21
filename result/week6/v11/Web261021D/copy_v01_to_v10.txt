@@ -1,0 +1,4 @@
+BACKUP COPY_ONLY CHECKSUM + VERIFYONLY + RESTORE PASS
+source=TokenHubDB_v01_Web261021D
+target=TokenHubDB_v10_Web261021D
+backup=D:\Program Files\Microsoft SQL Server\MSSQL17.SQLEXPRESS\MSSQL\Backup\TokenHubDB_v01_Web261021D_W6_1695b2a55b5b.bak

@@ -1,0 +1,43 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261021105141
+Username: LAPTOP-3H5FCR3B\dulant
+RunAs User: LAPTOP-3H5FCR3B\dulant
+Configuration Name: 
+Machine: LAPTOP-3H5FCR3B (Microsoft Windows NT 10.0.22631.0)
+Host Application: powershell -NoProfile -ExecutionPolicy Bypass -File D:\Desktop\DB\DB_lab_webapp\tools\run_v01.ps1 -Server localhost\SQLEXPRESS -DatabaseName TokenHubDB_v01_Web261021A -RunLabel source_Web261021A
+Process ID: 23924
+PSVersion: 5.1.22621.4391
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.4391
+BuildVersion: 10.0.22621.4391
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+PASS 00_create_database.sql
+
+PASS 01_create_tables.sql
+
+PASS 02_insert_data.sql
+
+PASS 03_crud_demo.sql
+
+PASS view.sql
+
+PASS query.sql
+
+PASS constraint.sql
+
+PASS role.sql
+
+PASS verify.sql
+
+
+PASS v0.1 TokenHubDB_v01_Web261021A
+**********************
+Windows PowerShell transcript end
+End time: 20261021105244
+**********************

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\week6\v11\seed_token_lots.py", line 14, in <module>
+    import pyodbc
+ModuleNotFoundError: No module named 'pyodbc'

@@ -1,0 +1,50 @@
+test_payment_failure_after_balance_header_and_lot_writes (tests.test_app_faults.AppSqlFaultTests.test_payment_failure_after_balance_header_and_lot_writes) ... FAIL
+test_refund_failure_after_lot_balance_ledger_and_order_writes (tests.test_app_faults.AppSqlFaultTests.test_refund_failure_after_lot_balance_ledger_and_order_writes) ... FAIL
+test_restock_failure_after_quota_inventory_audit_and_task_writes (tests.test_app_faults.AppSqlFaultTests.test_restock_failure_after_quota_inventory_audit_and_task_writes) ... FAIL
+test_usage_failure_after_balance_account_inventory_and_log_writes (tests.test_app_faults.AppSqlFaultTests.test_usage_failure_after_balance_account_inventory_and_log_writes) ... FAIL
+test_refund_serializes_concurrent_usage_then_both_units_rollback (tests.test_app_faults.AppSqlRaceTests.test_refund_serializes_concurrent_usage_then_both_units_rollback) ... ok
+
+======================================================================
+FAIL: test_payment_failure_after_balance_header_and_lot_writes (tests.test_app_faults.AppSqlFaultTests.test_payment_failure_after_balance_header_and_lot_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 124, in test_payment_failure_after_balance_header_and_lot_writes
+    self.assert_rolled_back("orders.pay", order)
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 100, in assert_rolled_back
+    self.assertEqual(cursor.execute("SELECT @@TRANCOUNT").fetchone()[0], 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_refund_failure_after_lot_balance_ledger_and_order_writes (tests.test_app_faults.AppSqlFaultTests.test_refund_failure_after_lot_balance_ledger_and_order_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 154, in test_refund_failure_after_lot_balance_ledger_and_order_writes
+    self.assert_rolled_back("refunds.request", order)
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 100, in assert_rolled_back
+    self.assertEqual(cursor.execute("SELECT @@TRANCOUNT").fetchone()[0], 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_restock_failure_after_quota_inventory_audit_and_task_writes (tests.test_app_faults.AppSqlFaultTests.test_restock_failure_after_quota_inventory_audit_and_task_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 142, in test_restock_failure_after_quota_inventory_audit_and_task_writes
+    self.assert_rolled_back(
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 100, in assert_rolled_back
+    self.assertEqual(cursor.execute("SELECT @@TRANCOUNT").fetchone()[0], 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_usage_failure_after_balance_account_inventory_and_log_writes (tests.test_app_faults.AppSqlFaultTests.test_usage_failure_after_balance_account_inventory_and_log_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 133, in test_usage_failure_after_balance_account_inventory_and_log_writes
+    self.assert_rolled_back("usage.create", {"product_id": self.product_id, "tokens_used": 1})
+  File "D:\Desktop\DB\DB_lab_webapp\tests\test_app_faults.py", line 100, in assert_rolled_back
+    self.assertEqual(cursor.execute("SELECT @@TRANCOUNT").fetchone()[0], 0)
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.839s
+
+FAILED (failures=4)

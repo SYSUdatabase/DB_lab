@@ -1,0 +1,43 @@
+order_id   
+-----------
+        110
+detail_id   order_id    product_id  quantity    subtotal     total_tokens        
+----------- ----------- ----------- ----------- ------------ --------------------
+        190         110           2           1         6.90               100000
+order_id    paid_at                               
+----------- --------------------------------------
+        110                    2026-10-21 10:57:58
+log_id      model_provider                                     used_at                               
+----------- -------------------------------------------------- --------------------------------------
+       3005 OpenAI                                                                2026-10-21 10:57:58
+order_id    refund_id   refund_amount refundable_tokens    consumed_tokens      payout_state             external_payout_ref                                                                                                     
+----------- ----------- ------------- -------------------- -------------------- ------------------------ ------------------------------------------------------------------------------------------------------------------------
+        110           1          5.52                80000                20000 awaiting_transfer        NULL                                                                                                                    
+order_id    refund_id   refund_amount refundable_tokens    consumed_tokens      payout_state             external_payout_ref                                                                                                     
+----------- ----------- ------------- -------------------- -------------------- ------------------------ ------------------------------------------------------------------------------------------------------------------------
+        110           1          5.52                80000                20000 awaiting_transfer        NULL                                                                                                                    
+order_id    refund_amount payout_state             external_payout_ref                                                                                                     
+----------- ------------- ------------------------ ------------------------------------------------------------------------------------------------------------------------
+        110          5.52 settled                  TEST-GATEWAY-PAYOUT-REF-A                                                                                               
+order_id    refund_amount payout_state             external_payout_ref                                                                                                     
+----------- ------------- ------------------------ ------------------------------------------------------------------------------------------------------------------------
+        110          5.52 settled                  TEST-GATEWAY-PAYOUT-REF-A                                                                                               
+order_id   
+-----------
+        111
+detail_id   order_id    product_id  quantity    subtotal     total_tokens        
+----------- ----------- ----------- ----------- ------------ --------------------
+        191         111           2           1         6.90               100000
+order_id    paid_at                               
+----------- --------------------------------------
+        111                    2026-10-21 10:57:58
+order_id    refund_id   refund_amount refundable_tokens    consumed_tokens      payout_state             external_payout_ref                                                                                                     
+----------- ----------- ------------- -------------------- -------------------- ------------------------ ------------------------------------------------------------------------------------------------------------------------
+        111           2          6.90               100000                    0 awaiting_transfer        NULL                                                                                                                    
+PASS RF01 legacy paid lot balances match all live TokenBalances
+PASS RF02 partial consumption: 20k nonrefundable, 80k clawback, $5.52 pending refund; idempotent settlement
+PASS RF03 unused order refunds all 100k tokens and full $6.90 as transfer liability
+PASS RF04 old refunded order rejects duplicate refund, no invented payout
+PASS RF05 direct forged cash-refund record blocked
+PASS RF06 rollback, original history and balances preserved
+PASS V1.1 REFUND REGRESSION RF01-RF06

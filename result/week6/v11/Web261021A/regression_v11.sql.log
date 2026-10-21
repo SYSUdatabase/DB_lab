@@ -1,0 +1,7 @@
+R01 schema and constraint trust
+PASS R01 target schema 15 tables 18 FK 11 views
+R02 lossless join and source comparison
+PASS R02 reconstructed summary identical to source both EXCEPT directions
+R03 order details, paid product sales, inventory, balances, usage
+消息 51707，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，第 69 行
+Unrelated business semantics differ from source
