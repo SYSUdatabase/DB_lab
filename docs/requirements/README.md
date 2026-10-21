@@ -53,3 +53,20 @@
 ## 用户确认的第五周业务取舍（2026-10-14）
 
 I02 同商品合并数量、I03 必须先建 Users、I04 账号必配 Inventory、I07 manual/system 创建人规则已在独立 v1.1 副本实施并通过正反例。具体结构、可编辑 ER、兼容性及执行日志见 [v1.1 数据字典和验收](../../week6/v11/data_dictionary_v11.md)。第六周的原始规范化 v1.0 验证结果未被覆盖。
+
+## 第7–9周应用与第二阶段整合
+
+依据[用户任务书](week7-9.docx)；应用课程版本v1.0采用内部v1.1业务结构。任务书的通用下单扣库存例子映射为本项目下单保存快照、支付到账、调用扣上游库存；用户已明确批准此业务语义。
+
+| 要求 | 交付 |
+|---|---|
+| Web框架、页面→业务→DAO→SQL Server | webapp/；[结构和运行手册](../webapp.md) |
+| 登录、商品/库存/订单/明细操作 | 顾客/店员/管理员页面与/api/v1资源接口 |
+| 参数绑定、连接/事务管理 | webapp/dao.py；SQL应用过程复用旧交易边界 |
+| 角色界面、后端与数据库限制 | services策略、SQL会话验证及app_runtime指定过程权限 |
+| 统一异常、脱敏反馈与日志 | webapp/errors.py、统一HTTP边界、请求编号日志 |
+| 集成与异常、事务、并发测试 | tests/test_app_sql.py、test_app_faults.py、test_web_integration.py、test_webapp.py；[证据](../../result/webapp/README.md) |
+| 完整第5–9周成果与报告 | [第二阶段报告](../../report/stage2_report.md)、第5/6周原材料及迁移/回归原脚本 |
+| README、复现、AI日志和分工 | 根README、应用手册、现有AI文档和team_division增量 |
+
+原作业截止要求为第10周周二23:59；仓库没有课程开课日，不据当前日期推算日历截止日。普通Windows账户部署和组员独立复现仍需实际执行后登记。

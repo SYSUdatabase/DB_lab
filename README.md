@@ -195,3 +195,25 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 在 `xiao_ruan` 的新库 `TokenHubDB_v11_Full261017D`，独立一键复现及 VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 均已通过。旧合成样例时间/余额异常在新副本中全部归零，旧 v0.1 不变。退款只退订单尚未消费的 Token 对应的成交价金额，已使用部分不退；数据库建立**应退款项**，实际金额仍须支付系统退款后凭证结算。未接入支付平台，不表示资金已自动到账。
 
 原 `issue_fixes` 和 `hardening` 基础脚本将统一保存在 `week6/v11`，不再分成两套代码目录；历史日志/备份不清理。第二阶段报告未改动，队友 sh 原有 v1.1 尚未升级，本机新副本通过不代表远端已生效。
+
+## 第7–9周 Web应用（2026-10-21）
+
+第二阶段课程交付版本v1.0，数据库采用内部v1.1。新增Flask/Jinja/pyodbc应用，包含顾客/店员/管理员、商品与库存维护、订单明细、模拟支付/调用/补货/退款，业务规则仍为调用时扣库存。
+
+- [运行配置与角色操作手册](docs/webapp.md)
+- [第5–9周阶段报告](report/stage2_report.md)、[应用会话数据字典](docs/app_data_dictionary.md)
+- [实施计划](plan/week7-9-webapp-plan.md)、[应用证据](result/webapp/README.md)
+- [任务书](docs/requirements/week7-9.docx)
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-web.txt
+$env:PATH = "$pwd\.venv\Scripts;$env:PATH"
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本地样例密码，至少12字节'
+.\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebYourRun01
+# 管理员PowerShell中配置普通运行账户，配置后访问 http://127.0.0.1:5050/
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup_web_runtime.ps1 `
+  -DatabaseName TokenHubDB_v11_WebYourRun01 -AccountName TokenHubWeb
+```
+
+账户与数据库配置均拒绝覆盖。当前会话无Windows管理员权限，专用账户实际启动验收尚未执行；SQL降权与Web验证结果见证据索引。旧版本入口和结果保留。
