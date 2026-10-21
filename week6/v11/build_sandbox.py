@@ -53,13 +53,17 @@ def backup_restore(cur: pyodbc.Cursor, server_name: str, original: str, target: 
     # BACKUP / RESTORE produce progress result sets. sqlcmd waits for the
     # complete operation; closing a Python cursor early can cancel it.
     print("Backing up", original, "then restoring", target)
+    files = list(cur.execute("SELECT name,type FROM sys.master_files WHERE database_id=DB_ID(?) ORDER BY type", original))
+    if len(files) != 2 or [int(row[1]) for row in files] != [0, 1]:
+        raise RuntimeError("Expected exactly one data and one log file")
+    data_name, log_name = [str(row[0]).replace("'", "''") for row in files]
     operations = [
         ("BACKUP DATABASE [" + original + "] TO DISK=N'" + qbak
          + "' WITH COPY_ONLY,CHECKSUM", "backup"),
         ("RESTORE VERIFYONLY FROM DISK=N'" + qbak + "' WITH CHECKSUM", "verifyonly"),
         ("RESTORE DATABASE [" + target + "] FROM DISK=N'" + qbak
-         + "' WITH MOVE N'TokenHubDB_v01_A' TO N'" + qdata
-         + "', MOVE N'TokenHubDB_v01_A_log' TO N'" + qlog
+         + "' WITH MOVE N'" + data_name + "' TO N'" + qdata
+         + "', MOVE N'" + log_name + "' TO N'" + qlog
          + "', RECOVERY,CHECKSUM", "restore"),
     ]
     for sql, step in operations:
@@ -84,11 +88,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--server", default=r"localhost\SQLEXPRESS")
     ap.add_argument("--source", default="TokenHubDB_v01_A",
-                    choices=["TokenHubDB_v01_A"])
+                    help="Existing original A or freshly generated TokenHubDB_v01_Web* source")
     ap.add_argument("--suffix", required=True, help="new 6-16 alphanumeric characters")
     args = ap.parse_args()
     if not re.fullmatch(r"[A-Za-z][A-Za-z0-9]{5,15}", args.suffix):
         raise SystemExit("Invalid suffix")
+    if args.source != "TokenHubDB_v01_A" and not re.fullmatch(r"TokenHubDB_v01_Web[A-Za-z0-9]{3,16}", args.source):
+        raise SystemExit("Only original A or newly named Web source permitted")
     v10 = "TokenHubDB_v10_" + args.suffix
     v11 = "TokenHubDB_v11_" + args.suffix
     evidence = ROOT / "result" / "week6" / "v11" / args.suffix
@@ -129,6 +135,7 @@ def main() -> None:
         if "TokenHubDB_v11_Issues_20261014" not in sql:
             raise RuntimeError("v1.1 source whitelist changed: " + fname)
         sql = sql.replace("TokenHubDB_v11_Issues_20261014", v11)
+        sql = sql.replace("TokenHubDB_v01_A.dbo.", args.source + ".dbo.")
         run_sqlcmd(args.server, v11, sql, evidence / (fname + ".log"), fname)
     for fname in (
         "verify_approved_rules_baseline.sql", "test_guards.sql",
@@ -138,6 +145,7 @@ def main() -> None:
     ):
         sql = (ROOT / "sql" / "v11" / fname).read_text(encoding="utf-8-sig")
         sql = sql.replace("TokenHubDB_v11_Issues_20261014", v11)
+        sql = sql.replace("TokenHubDB_v01_A.dbo.", args.source + ".dbo.")
         run_sqlcmd(args.server, v11, sql, evidence / (fname + ".log"), fname)
     print("PASS original v0.1 protected; isolated v1.0 and v1.1 ready:", v11)
 

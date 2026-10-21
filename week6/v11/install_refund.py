@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 
 import pyodbc
@@ -48,7 +49,7 @@ def main()->None:
     manifest=log_dir/"lots_manifest.json"
     if not manifest.exists():
         result=subprocess.run(
-          ["python","-B",str(ROOT/"week6/v11/seed_token_lots.py"),
+          [sys.executable,"-B",str(ROOT/"week6/v11/seed_token_lots.py"),
            "--server",args.server,"--database",args.database,
            "--manifest",str(manifest)],
           capture_output=True,text=True,encoding="utf-8",errors="replace")
