@@ -2,6 +2,7 @@
 
 ## 正式入口
 
+- 直接在 `D:\Desktop\DB\DB_lab` 中开发；不另建 `DB_lab_webapp` 或其它项目副本、工作树，除非用户另行明确要求。
 - `sql/`、`tools/`、`tests/` 为当前实现；`report/`、`docs/` 为当前说明；`result/` 为当前证据。
 - `archive/` 保留旧周次材料与旧证据，不作为正式生成/运行依赖。历史文件内的路径按 archive/README.md 解释。
 - 修改核心逻辑前运行对应反例测试；不自动 commit、push，不删除既有数据库或历史结果。
