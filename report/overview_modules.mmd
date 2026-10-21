@@ -1,0 +1,30 @@
+%% API Token 中转站 · 模块导览（v1.0）
+%% 这是业务理解图，不是完整 FK 图；箭头代表主要信息关联/阅读顺序，非 SQL 执行顺序。
+%% 本源文件可在 Mermaid 编辑器修改，运行 render_overview_modules.py 由此生成 SVG/PNG。
+%% v1.0: 15 张物理表（3+3+2+4+2+1），UsageSummary 是只读兼容视图，不计算为物理表。
+flowchart LR
+    A["01 身份与权限<br/>谁在使用系统、谁能管理<br/>Users｜会员资料与状态<br/>Roles｜应用层角色<br/>Employees｜员工与角色"]
+    B["02 套餐与订单<br/>买什么、买了多少、何时支付<br/>Products｜套餐与 Token 档位<br/>Orders｜订单及支付状态<br/>OrderDetails｜购买数量与成交快照"]
+    C["03 余额与调用<br/>付款增加余额，调用消耗余额<br/>TokenBalances｜会员 × provider 余额<br/>TokenUsageLogs｜一次 API 调用记录"]
+    D["04 上游与库存<br/>调用哪家上游、剩余多少额度<br/>UpstreamAccount｜上游账号与总额度<br/>Inventory｜当前额度快照<br/>InventoryLog｜额度变动流水<br/>RestockTask｜低额度与补货任务"]
+    E["05 用量统计<br/>按会员、套餐、时间周期汇总<br/>UsagePeriod｜日 / 周 / 月周期定义<br/>UsageSummaryCore｜周期消费统计<br/>UsageSummary｜旧查询兼容视图（非表）"]
+    F["06 异常与经营处理<br/>运营人员处理异常与查看经营结果<br/>ExceptionLog｜API / 支付 / 库存等异常<br/>经营视图｜销售、库存及会员统计<br/>数据库角色｜经理 / 店员 / 会员 / 游客"]
+
+    A -->|用户身份| B
+    B -->|支付后入账| C
+    C -->|消耗上游额度| D
+    D -->|库存统计| E
+    E -->|经营查看| F
+
+    classDef identity fill:#E8F1FF,stroke:#3978CB,color:#203C68;
+    classDef commerce fill:#FFF1DA,stroke:#D39A37,color:#6D4B19;
+    classDef usage fill:#EBF9F3,stroke:#349F77,color:#1F644E;
+    classDef upstream fill:#E8F6F5,stroke:#289A95,color:#205E60;
+    classDef analytic fill:#F1EDFF,stroke:#8871CE,color:#5A478F;
+    classDef manage fill:#FFF0F0,stroke:#C57979,color:#7C4545;
+    class A identity;
+    class B commerce;
+    class C usage;
+    class D upstream;
+    class E analytic;
+    class F manage;

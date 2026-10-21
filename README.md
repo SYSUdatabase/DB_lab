@@ -166,6 +166,12 @@ $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_FinalA'
 
 在隔离库 `TokenHubDB_v11_Issues_20261014` 已实施：同单同商品通过 quantity 合并；散客先登记 Users 后下单；新增上游账号自动生成且必须保留唯一库存；补货任务按 manual/system 决定是否必须有创建人。新增两个受控订单过程、三个触发器和 `RestockTask.created_source`，并提供 [v1.1 数据字典](week6/v11/data_dictionary_v11.md)、[可编辑 ER 图](week6/v11/er_diagram_v11.mmd)、[测试和限制](week6/v11/README.md)。新规则与先前 R01–R12 回归全部通过；业务数据 3763 条零差异。原库和 v1.0 结果库均未改。旧历史数据异常及其它写入入口的后续完善仍需独立处理。
 
+## 交互式项目业务总览（2026-10-14）
+
+独立 HTML 页面：[按 6 个板块理解 API Token 中转站](report/overview_modules.html)（首选入口，直接双击即可在浏览器离线打开）。包含 15 张 v1.0 物理表分组、业务流程导航、搜索、点击表后查看 PK/候选码/FK/业务要点；页面不连接数据库，不展示凭据。
+
+适合先理解“用户 → 套餐订单 → 余额和 API 调用 → 上游库存 → 周期统计 → 运营处理”。其中 UsageSummary 是兼容视图而非第 16 张物理表；详细 18 条 FK 仍以 [第六周 ER 图](week6/er_diagram_v10.svg) 和 [目标数据字典](week6/data_dictionary_v10.md) 为准。备选静态总览保存在 [SVG](report/overview_modules.svg) 及 [Mermaid 源](report/overview_modules.mmd)；它们不覆盖第五/六周既有 ER 图。
+
 ## 第六周迁移前完整代码备份与独立复现（2026-10-14）
 
 [完整历史代码 ZIP 和校验](archive/week6-pre-migration/README.md) 保存第六周开始前 `c8d4e64` 的全部 344 个 Git 跟踪项目文件；[一键复现脚本和说明](week6/reproduction/README.md) 可从该快照全新建 v0.1、备份/还原另一个数据库、执行第六周 `migration.sql`、运行 R01–R12 与 VFY01–VFY14 并对比业务基准。[两轮实际复现结果](result/week6/reproduction/README.md) 均 PASS（第二轮由脚本端到端执行），3763 条非权限业务记录零差异。

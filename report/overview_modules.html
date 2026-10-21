@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>API Token 中转站｜交互式项目总览</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172a46;--muted:#61718a;--line:#dfe6ef;--blue:#4770ec;--shadow:0 10px 35px rgba(31,49,83,.075)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",system-ui,sans-serif;line-height:1.7}
+button,input{font:inherit}button{cursor:pointer}a{color:#2b61c4;text-decoration:none}a:hover{text-decoration:underline}
+.top{background:radial-gradient(circle at 85% 8%,rgba(96,170,255,.28),transparent 36%),linear-gradient(117deg,#102546,#153964 63%,#184976);color:#fff;padding:28px max(26px,calc((100vw - 1320px)/2)) 36px}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:#d1e4fd}
+.brand strong{letter-spacing:.2em;font-size:12px}.brand span:last-child{border:1px solid #718fb6;border-radius:40px;padding:5px 13px}
+.hero{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;margin-top:36px}
+.hero h1{font-size:clamp(27px,3.4vw,47px);line-height:1.22;margin:0 0 13px;font-weight:800;letter-spacing:-.7px}
+.hero p{max-width:720px;margin:0;color:#cbdaf0;font-size:15px;line-height:1.9}
+.stats{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}.stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:14px 16px;min-width:99px;text-align:center}
+.stat b{display:block;font-size:26px;line-height:1.3}.stat small{font-size:11px;color:#d4e5f6}
+.shell{max-width:1380px;padding:27px 28px 60px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px;align-items:start}
+.sidebar{position:sticky;top:20px;border-radius:17px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:17px 13px}
+.side-title{font-weight:800;color:#4d5d76;font-size:12px;letter-spacing:.12em;padding:8px 12px 13px}
+.side-btn{background:transparent;width:100%;text-align:left;display:flex;gap:11px;align-items:center;border:0;border-radius:11px;padding:10px 12px;color:#475771;font-size:13px;margin-bottom:4px}
+.side-btn.active{background:#ecf1ff;color:#2356bd;font-weight:800}.side-btn:hover{background:#f2f6fc}
+.side-btn .num{font-variant-numeric:tabular-nums;font-weight:800;opacity:.65}
+.side-btn .count{font-size:11px;margin-left:auto;opacity:.6;white-space:nowrap}
+.side-info{font-size:12px;color:#6e7c93;border-top:1px solid var(--line);padding:17px 10px 4px;margin-top:15px;line-height:1.85}
+.main{min-width:0}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:15px}
+h2{font-size:21px;margin:0;line-height:1.3;letter-spacing:-.2px}h3{margin:0}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;color:#57729e;margin-bottom:9px}
+.section-sub{font-size:13px;color:var(--muted);margin:7px 0 0}
+.white{background:white;border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}
+.intro{padding:21px 25px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.intro strong{color:#193f80}.intro p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.pill{background:#eef3ff;border:1px solid #d8e3ff;color:#3f62a1;font-size:12px;font-weight:700;padding:7px 12px;border-radius:40px;white-space:nowrap}
+.flow{display:flex;gap:5px;align-items:stretch;margin:22px 0 29px;overflow-x:auto;padding-bottom:6px}
+.flow-step{flex:1 0 125px;background:#fff;border:1px solid var(--line);border-radius:12px;min-width:0;padding:13px 12px;text-align:left;transition:.18s}
+.flow-step:hover{border-color:#9cb3ee;transform:translateY(-2px)}.flow-step b{display:block;font-size:13px}.flow-step small{display:block;font-size:11px;color:var(--muted);margin-top:5px}.flow-arrow{align-self:center;flex:0 0 15px;color:#92a5c2;text-align:center;font-size:20px}
+.map-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.search{min-width:240px;border:1px solid #d9e2ed;background:white;color:#243a58;padding:11px 14px;border-radius:11px;outline:0;width:min(320px,100%)}
+.search:focus{border-color:#7398ec;box-shadow:0 0 0 3px #e5ecfe}
+.map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:17px 0 16px}
+.mod{position:relative;min-width:0;background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px 18px 16px;text-align:left;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border-color .18s;min-height:215px}
+.mod:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--accent);border-radius:15px 15px 0 0}
+.mod:focus-visible,.mod:hover{outline:none;transform:translateY(-3px);box-shadow:0 14px 32px rgba(34,67,119,.14)}
+.mod.selected{border:2px solid var(--accent);padding:17px 17px 15px;box-shadow:0 0 0 3px var(--light)}
+.mod .tag{display:inline-block;color:var(--accent);background:var(--light);padding:3px 8px;font-size:10px;font-weight:800;border-radius:5px}
+.mod h3{font-size:17px;margin:10px 0 3px}.mod p{font-size:12px;color:var(--muted);min-height:38px;margin:2px 0 12px}
+.mod-tables{font-size:12px;color:#526782;display:flex;gap:5px;flex-wrap:wrap}
+.mod-tables span{padding:3px 7px;border-radius:5px;background:#f3f6fa}
+.mod .more{font-size:11px;color:var(--accent);font-weight:800;display:block;margin-top:13px}
+.mod[hidden]{display:none}.module-empty{display:none;padding:25px;color:#6b7891}
+.module-empty.show{display:block}.tip{font-size:12px;color:#6b7f98;margin:4px 0 29px}
+.detail{margin-top:22px;overflow:hidden;scroll-margin-top:22px}
+.detail-bar{padding:20px 24px;color:white;background:var(--current,#4770ec);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.detail-bar small{letter-spacing:.12em;font-size:10px;opacity:.9}.detail-bar h2{margin-top:5px;color:#fff;font-size:23px}
+.detail-bar .back{font-size:12px;opacity:.9;text-align:right}
+.detail-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:0}
+.detail-left{padding:25px;border-right:1px solid var(--line)}
+.detail-right{background:#fbfcfe;padding:25px}
+.label{font-size:11px;color:#7a8aa2;letter-spacing:.1em;font-weight:800;margin:0 0 10px}
+.plain{font-size:14px;color:#43536b;margin:0 0 23px}
+.table-rows{display:grid;gap:8px}
+.table-row{width:100%;display:flex;gap:12px;align-items:center;border:1px solid #e1e7f0;border-radius:10px;background:#fff;text-align:left;padding:11px 12px;transition:.15s}
+.table-row:hover,.table-row.on{background:#eef4ff;border-color:#93ace1}
+.table-name{font-size:12px;color:#263c59;font-weight:800;flex:1;word-break:break-word}.table-role{font-size:11px;color:#7b8aa0;min-width:80px;text-align:right}
+.doc-type{color:#4d66a6;font-size:10px;background:#edf2fe;padding:3px 6px;border-radius:6px;white-space:nowrap}
+.data{margin-top:0}.data b{font-size:17px;word-break:break-word}.data p{color:#52637b;font-size:13px;margin:9px 0 14px}.key{font-size:12px;margin:9px 0;border-left:3px solid #cfd9ea;padding-left:10px;color:#33465e}
+.key span{font-weight:800;color:#546f9a}
+.context{padding:13px 15px;margin:20px 0;border:1px solid #e2e9f2;background:#fff;border-radius:11px;color:#52627a;font-size:12px}
+.context strong{display:block;color:#273d5d;margin-bottom:4px}
+.examples{margin-top:25px}.example-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}
+.example{padding:18px 18px;border:1px solid var(--line);border-radius:14px;background:#fff;min-width:0}.example b{font-size:14px}.example p{font-size:12px;color:#5d6f87;margin:10px 0 0}
+.warning{background:#fffaf0;border:1px solid #f4dfac;color:#795927;border-radius:13px;margin-top:24px;padding:16px 20px;font-size:12px}
+.warning strong{display:block;margin-bottom:4px;font-size:13px}
+footer{border-top:1px solid #e0e6f0;font-size:12px;color:#8490a0;padding:20px 0;margin-top:28px}
+footer a{color:#596e91}
+@media(max-width:1030px){.shell{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap;gap:3px}.side-title{width:100%}.side-btn{width:auto}.side-info{display:none}.map{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr}.stats{margin-top:5px}}
+@media(max-width:660px){.shell{padding:17px 14px 40px;gap:17px}.top{padding:20px 18px 27px}.brand{flex-wrap:wrap}.hero{margin-top:22px}.hero p{font-size:13px}.map,.example-grid,.detail-body{grid-template-columns:1fr}.intro{grid-template-columns:1fr}.detail-left{border-right:0;border-bottom:1px solid var(--line)}.map-toolbar{align-items:stretch}.search{width:100%}.section-head{flex-direction:column;align-items:flex-start}.mod{min-height:unset}.detail-bar{padding:19px}.detail-left,.detail-right{padding:19px}.flow-step{flex-basis:135px}.stat{min-width:0}.sidebar{padding:12px 9px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><strong>DB LAB / BUSINESS ARCHITECTURE</strong><span>v1.0 数据库结构 · 离线交互图</span></div>
+  <div class="hero">
+    <div><h1>API Token 中转站<br>把数据库拆成 6 个板块</h1><p>先理解谁在用系统、怎么买 Token、如何消费，再看上游额度如何扣减、数据如何统计、员工如何管理。这里解释业务，而不是把 18 条外码一次性画在屏幕上。</p></div>
+    <div class="stats" aria-label="项目数据结构摘要">
+      <div class="stat"><b>6</b><small>业务板块</small></div><div class="stat"><b>15</b><small>物理表</small></div><div class="stat"><b>18</b><small>外码联系</small></div>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="sidebar" aria-label="板块导航">
+    <div class="side-title">快速跳转</div>
+    <button class="side-btn active" data-nav="identity"><span class="num">01</span>身份与权限<span class="count">3 表</span></button>
+    <button class="side-btn" data-nav="commerce"><span class="num">02</span>套餐与订单<span class="count">3 表</span></button>
+    <button class="side-btn" data-nav="balance"><span class="num">03</span>余额与调用<span class="count">2 表</span></button>
+    <button class="side-btn" data-nav="upstream"><span class="num">04</span>上游与库存<span class="count">4 表</span></button>
+    <button class="side-btn" data-nav="analytics"><span class="num">05</span>用量统计<span class="count">2 表</span></button>
+    <button class="side-btn" data-nav="operations"><span class="num">06</span>异常与运营<span class="count">1 表</span></button>
+    <div class="side-info">如何使用：<br>① 点击一个板块<br>② 查看其中有哪些表<br>③ 点表名，看主码、外码及作用<br>④ 沿上方业务流程理解关联</div>
+  </aside>
+  <main class="main">
+    <section class="intro white">
+      <div><strong>一句话看懂：这是“卖 Token、代用户调用上游 API、管理额度”的数据库。</strong><p>商品是 Token 套餐；客户付款获得按 provider 区分的余额；调用既消耗客户余额，也消耗平台的上游额度。</p></div>
+      <span class="pill">买 → 充 → 用 → 管</span>
+    </section>
+
+    <section id="walkthrough" style="margin-top:28px">
+      <div class="eyebrow">01 / 先看主流程</div>
+      <h2>一笔 Token 生意如何走完？</h2>
+      <p class="section-sub">点击任意一步，会跳到相关的业务板块。下方是业务关联顺序，不代表数据库已自动实现完整支付和扣费事务。</p>
+      <div class="flow" id="flow">
+        <button class="flow-step" data-step="identity"><b>① 注册用户</b><small>Users</small></button><span class="flow-arrow">→</span>
+        <button class="flow-step" data-step="commerce"><b>② 下单支付</b><small>Products / Orders / Details</small></button><span class="flow-arrow">→</span>
+        <button class="flow-step" data-step="balance"><b>③ 充值与调用</b><small>余额 + 调用流水</small></button><span class="flow-arrow">→</span>
+        <button class="flow-step" data-step="upstream"><b>④ 消耗上游额度</b><small>账号 / 库存 / 流水</small></button><span class="flow-arrow">→</span>
+        <button class="flow-step" data-step="analytics"><b>⑤ 统计与运营</b><small>周期汇总 / 补货 / 异常</small></button>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="eyebrow">02 / 按板块查看数据库</div>
+      <div class="section-head"><div><h2>六个业务板块</h2><p class="section-sub">每张物理表只归入一个主板块；其余板块可以通过外码或查询关联。</p></div><div class="map-toolbar"><input id="search" class="search" type="search" placeholder="搜索表名或业务概念..." aria-label="搜索板块与表"><span class="pill" id="search-count">6 个板块</span></div></div>
+      <div class="map" id="module-map" aria-label="可交互的业务板块图"></div>
+      <div class="white module-empty" id="empty">没有匹配的板块或表。试试“订单”“库存”“UsagePeriod”。</div>
+      <p class="tip">说明：这是一张业务分层图，不是完整 ER 图。完整表级关系可查看 <a href="../week6/er_diagram_v10.svg">第六周 ER 图</a>。</p>
+    </section>
+
+    <section id="detail" class="detail white" aria-live="polite">
+      <div class="detail-bar" id="detail-bar"><div><small id="detail-index">板块 01</small><h2 id="detail-title">身份与权限</h2></div><div class="back" id="detail-size">3 张物理表</div></div>
+      <div class="detail-body">
+        <div class="detail-left"><div class="label">这个板块解决什么问题？</div><p class="plain" id="detail-desc"></p>
+          <div class="label">点击一张表，查看结构与用途</div><div class="table-rows" id="table-list"></div></div>
+        <div class="detail-right"><div class="label">当前选中的表</div><div class="data" id="table-info"></div><div class="context" id="module-context"></div></div>
+      </div>
+    </section>
+
+    <section class="examples">
+      <div class="eyebrow">03 / 三个容易混淆的地方</div><h2>Token 的三种记录，不是一回事</h2>
+      <div class="example-grid">
+        <article class="example"><b>商品套餐（Products）</b><p>定义销售什么：例如一种 provider 的某档 Token 数和销售价格。它是商品目录，不是库存。</p></article>
+        <article class="example"><b>用户余额（TokenBalances）</b><p>记录用户在某个 provider 下还能使用多少 Token。支付入账和调用扣减属于业务事务规则。</p></article>
+        <article class="example"><b>上游额度（Inventory）</b><p>平台从上游账号获得的剩余配额。用户调用时，上游额度也会变化；它不等于用户余额。</p></article>
+      </div>
+      <div class="warning"><strong>v1.0 规范化的主要变化</strong>原来的 <code>UsageSummary</code> 拆为 <code>UsagePeriod</code> + <code>UsageSummaryCore</code>。旧名称 <code>UsageSummary</code> 现在是<b>只读兼容视图</b>，不是第 16 张物理表。数据库结构迁移与相应回归已完成，但源库继承的时间顺序与历史余额异常仍有未通过项。</div>
+    </section>
+    <footer>基于仓库的 <a href="../week6/data_dictionary_v10.md">v1.0 数据字典</a> 和 <a href="../week6/README.md">第六周实施说明</a> 整理。所有交互均在本地浏览器执行，无网络请求、不连接数据库、不读取账号凭据。<br>源文件：report/overview_modules.html · 详细 ER：week6/er_diagram_v10.mmd</footer>
+  </main>
+</div>
+<script>
+'use strict';
+const modules = [
+  {id:'identity',n:'01',name:'身份与权限',color:'#4779c6',light:'#eaf1ff',short:'谁是用户？哪些员工能做哪些事？',desc:'这个板块回答“谁在用系统、谁拥有何种业务身份”。用户和员工是不同对象；Roles 是应用数据里的角色，数据库真正的读写授权另由 SQL Server 数据库角色控制。',links:'会员身份关联 Orders、TokenBalances、TokenUsageLogs；员工可以创建/领取 RestockTask、操作 InventoryLog 和处理 ExceptionLog。',tables:[
+    {n:'Users',purpose:'一条记录代表一个注册会员；记录身份、状态和注册时间。',pk:'user_id',uk:'username；email',fk:'无',note:'用户不能晚于其订单和 API 调用注册；该跨表规则通过校验与业务逻辑检查。'},
+    {n:'Roles',purpose:'应用层角色定义，例如后台管理员、员工、会员。',pk:'role_id',uk:'role_name',fk:'无',note:'不是 SQL Server 的 hub_manager、hub_staff 等 DATABASE ROLE。'},
+    {n:'Employees',purpose:'一个运营员工，关联应用角色，并作为库存变动、补货或异常处理的执行人。',pk:'employee_id',uk:'account',fk:'role_id → Roles',note:'一个补货任务可能有两个不同员工：created_by 创建人、assigned_to 被指派人。'}
+  ]},
+  {id:'commerce',n:'02',name:'套餐与订单',color:'#bd8327',light:'#fff3df',short:'卖什么？用户买了几份？何时付款？',desc:'Products 是可售 Token 套餐目录；Orders 保存订单头与状态；OrderDetails 记录订单里各款套餐的数量、成交单价和 Token 数快照。一个订单可以拥有多个明细。',links:'Users → Orders → OrderDetails ← Products。只有 paid 订单计入当前商品销售统计；历史订单价格读取 OrderDetails.unit_price，而非当前 Products.price。',tables:[
+    {n:'Products',purpose:'一个套餐，绑定 provider、Token 档位、现售价格和上游消耗量。',pk:'product_id',uk:'name；(model_provider, token_amount)',fk:'无',note:'商品当前价格会变化，但既有订单的成交快照必须保持。'},
+    {n:'Orders',purpose:'一笔用户订单，记录总金额、总 Token、pending/paid/cancelled/refunded 状态和支付时间。',pk:'order_id',uk:'无',fk:'user_id → Users',note:'订单标成 paid 代表支付业务状态；到账必须在相应业务事务或数据中正确落实。'},
+    {n:'OrderDetails',purpose:'一项购买明细，保存套餐、购买数量、成交单价、小计与 Token 快照。',pk:'detail_id',uk:'(order_id, product_id)',fk:'order_id → Orders；product_id → Products',note:'当前 UNIQUE 限制一张订单内同一商品不能重复出现两行；它是关联实体而非严格的标识型弱实体。'}
+  ]},
+  {id:'balance',n:'03',name:'余额与调用',color:'#258b6c',light:'#e8f9f0',short:'用户支付后获得余额；每次调用产生消耗。',desc:'TokenBalances 负责会员按 provider 分开的余额快照；TokenUsageLogs 则保存每次 API 调用用了哪个套餐、哪个上游账号以及两类消耗量。',links:'Users → TokenBalances；Users / Products / UpstreamAccount → TokenUsageLogs。调用也关联上游额度与周期统计，但现有数据库并不因写入日志就天然完成全部扣费事务。',tables:[
+    {n:'TokenBalances',purpose:'一个用户在一种模型供应商下的当前剩余 Token。',pk:'balance_id',uk:'(user_id, model_provider)',fk:'user_id → Users',note:'充值按实际 paid_at 入账；检查历史任一时刻不能透支，而非只看最终非负。'},
+    {n:'TokenUsageLogs',purpose:'一次 API 调用事件，分别记录面向用户和面向上游的 Token 消耗。',pk:'log_id',uk:'无',fk:'user_id → Users；product_id → Products；account_id → UpstreamAccount',note:'上游账号必须与套餐 provider 匹配，调用时间必须落在账号有效区间。'}
+  ]},
+  {id:'upstream',n:'04',name:'上游与库存',color:'#238c96',light:'#e7f7f9',short:'平台向谁调用？额度还剩多少？何时补货？',desc:'上游账号保存 provider 与总配额；Inventory 是当前额度快照；InventoryLog 记录额度增减历史；RestockTask 安排低额度或计划性补货。',links:'UpstreamAccount → Inventory / InventoryLog / RestockTask。InventoryLog.operator_id 和 RestockTask 的 created_by / assigned_to 还关联 Employees。',tables:[
+    {n:'UpstreamAccount',purpose:'一套上游模型服务账号及总配额、已使用配额、阈值、状态和有效期。',pk:'account_id',uk:'(provider, account_name)',fk:'无',note:'上游账号可对应多个调用事件及库存流水。敏感 API Key 不在本页面展示。'},
+    {n:'Inventory',purpose:'某个上游账号的当前可用额度快照。',pk:'inventory_id',uk:'account_id',fk:'account_id → UpstreamAccount',note:'一个上游账号当前至多有一条 Inventory；是否必须有一条尚需业务层约束。'},
+    {n:'InventoryLog',purpose:'一次额度变化，保存账号、变动数量、事件原因、操作员工等。',pk:'log_id',uk:'无',fk:'account_id → UpstreamAccount；operator_id → Employees（可空）',note:'reference_type/reference_id 是逻辑弱引用，不是数据库保证的外码。'},
+    {n:'RestockTask',purpose:'一次补货任务，包含目标额度、进度、创建员工与可选被指派员工。',pk:'task_id',uk:'无',fk:'account_id → UpstreamAccount；created_by → Employees；assigned_to → Employees（可空）',note:'created_by 与 assigned_to 是两个不同的 FK，不能合并为一条关系。'}
+  ]},
+  {id:'analytics',n:'05',name:'用量统计',color:'#8162c2',light:'#f2ebff',short:'把调用日志按用户、套餐和周期汇总。',desc:'第六周将重复存储的周期结束日提取到 UsagePeriod，使周期定义统一；UsageSummaryCore 保存每位用户在每个套餐、每个周期里的用量指标。',links:'UsageSummaryCore.user_id → Users，product_id → Products，(period_type, period_start) → UsagePeriod。UsageSummary 视图 JOIN 两张表重建原来 10 列，只支持既有读取模式。',tables:[
+    {n:'UsagePeriod',purpose:'一个固定的日、周、月统计周期；一条记录定义起止日期。',pk:'(period_type, period_start)',uk:'无额外候选码',fk:'无',note:'daily 同日；weekly 周一至周日；monthly 月初至月末。'},
+    {n:'UsageSummaryCore',purpose:'一个用户×一个套餐×一个固定周期的 Token 消费统计。',pk:'summary_id',uk:'(user_id, product_id, period_type, period_start)',fk:'user_id → Users；product_id → Products；(period_type, period_start) → UsagePeriod',note:'period_end 不再重复存于此表；旧 UsageSummary 名称为只读兼容视图，不是表。'}
+  ]},
+  {id:'operations',n:'06',name:'异常与运营',color:'#bf6479',light:'#ffecf0',short:'发生错误如何记录？员工怎样处理与查询？',desc:'ExceptionLog 记录 API、支付、库存和系统异常及处理状态。销售统计、库存监控、会员消费和客服工作队列主要通过 SQL 视图进行查询，不需要为了报表再创建一张物理表。',links:'ExceptionLog.handled_by → Employees（可空）。经营查询包含 v_ProductSales、v_InventoryStatus、v_MemberSpending 等；店长、店员、会员、游客权限不同。',tables:[
+    {n:'ExceptionLog',purpose:'一次业务或系统异常及其处理情况，带可选处理员工。',pk:'exception_id',uk:'无',fk:'handled_by → Employees（可空）',note:'related_table/related_id 是逻辑引用，并非对所有目标表都有数据库 FK 保证。'}
+  ]}
+];
+const views = [{n:'UsageSummary',t:'只读兼容视图',m:'analytics'},{n:'v_ProductSales',t:'商品销量与收入',m:'operations'},{n:'v_InventoryStatus',t:'上游额度与库存状态',m:'operations'},{n:'v_MemberSpending',t:'会员消费汇总',m:'operations'}];
+let active = 'identity'; let activeTable = 'Users';
+const el = id => document.getElementById(id);
+const safe = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+function selectModule(id, tableName, scroll) {
+  const m = modules.find(x=>x.id===id); if(!m)return;
+  active=m.id;activeTable=tableName && m.tables.some(t=>t.n===tableName)?tableName:m.tables[0].n;
+  document.querySelectorAll('[data-nav]').forEach(x=>x.classList.toggle('active',x.dataset.nav===active));
+  document.querySelectorAll('.mod').forEach(x=>{x.classList.toggle('selected',x.dataset.module===active);x.setAttribute('aria-pressed',String(x.dataset.module===active));});
+  el('detail-bar').style.setProperty('--current',m.color);
+  el('detail-index').textContent='业务板块 '+m.n;
+  el('detail-title').textContent=m.name;el('detail-size').textContent=m.tables.length+' 张物理表';
+  el('detail-desc').textContent=m.desc;
+  const list=el('table-list');list.innerHTML='';
+  m.tables.forEach(t=>{
+    const b=document.createElement('button');b.className='table-row'+(t.n===activeTable?' on':'');
+    b.type='button';b.setAttribute('aria-pressed',String(t.n===activeTable));
+    b.innerHTML='<span class="doc-type">表</span><span class="table-name">'+safe(t.n)+'</span><span class="table-role">查看详情 →</span>';
+    b.addEventListener('click',()=>selectModule(active,t.n,false));list.append(b);
+  });
+  const t=m.tables.find(x=>x.n===activeTable);
+  el('table-info').innerHTML='<b>'+safe(t.n)+'</b><p>'+safe(t.purpose)+'</p>'+
+    '<div class="key"><span>主码 PK：</span>'+safe(t.pk)+'</div>'+
+    '<div class="key"><span>其它候选码：</span>'+safe(t.uk)+'</div>'+
+    '<div class="key"><span>外码 FK：</span>'+safe(t.fk)+'</div>'+
+    '<div class="context"><strong>需要特别记住</strong>'+safe(t.note)+'</div>';
+  el('module-context').innerHTML='<strong>这个板块与其他板块的关系</strong>'+safe(m.links);
+  if(scroll)el('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function drawMap() {
+  const map=el('module-map'); map.innerHTML='';
+  const q=el('search').value.trim().toLowerCase();
+  let count=0;
+  modules.forEach(m=>{
+    const searchable=[m.name,m.short,m.desc,m.links,...m.tables.flatMap(t=>[t.n,t.purpose,t.fk])].join(' ').toLowerCase();
+    if(!searchable.includes(q)) return;
+    count++;
+    const b=document.createElement('button'); b.type='button'; b.className='mod'+(m.id===active?' selected':'');
+    b.dataset.module=m.id;b.setAttribute('aria-pressed',String(m.id===active));
+    b.style.setProperty('--accent',m.color);b.style.setProperty('--light',m.light);
+    b.innerHTML='<span class="tag">板块 '+safe(m.n)+' · '+m.tables.length+' 张物理表</span><h3>'+safe(m.name)+'</h3>'+
+      '<p>'+safe(m.short)+'</p><div class="mod-tables">'+m.tables.map(t=>'<span>'+safe(t.n)+'</span>').join('')+
+      '</div><span class="more">点击展开字段与联系 →</span>';
+    b.addEventListener('click',()=>{selectModule(m.id,null,true);drawMap();});map.append(b);
+  });
+  el('search-count').textContent=count+' 个板块';
+  el('empty').classList.toggle('show',count===0);
+}
+document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>{
+  selectModule(b.dataset.nav,null,true);drawMap();
+}));
+document.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{
+  selectModule(b.dataset.step,null,true);drawMap();
+}));
+el('search').addEventListener('input',drawMap);
+selectModule('identity',null,false);drawMap();
+</script>
+</body>
+</html>

@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1408.32pt" height="889.92pt" viewBox="0 0 1408.32 889.92" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-14T16:06:10.538406</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.0, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 889.92
+L 1408.32 889.92
+L 1408.32 0
+L 0 0
+z
+" style="fill: #f7f9fc"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 39.255652 138.427826
+L 1367.937391 138.427826
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #d9e2ea; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 449.957155 308.786087
+Q 473.132969 308.786087 494.296322 308.786087
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 487.496322 305.386087
+L 494.296322 308.786087
+L 487.496322 312.186087
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #64748b; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 912.009329 308.786087
+Q 935.185143 308.786087 956.348496 308.786087
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 949.548496 305.386087
+L 956.348496 308.786087
+L 949.548496 312.186087
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #64748b; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 1166.212174 451.83748
+Q 1166.212174 469.379399 1166.212174 484.908858
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 1169.612174 478.108858
+L 1166.212174 484.908858
+L 1162.812174 478.108858
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #64748b; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 958.362845 629.968696
+Q 935.187031 629.968696 914.023678 629.968696
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 920.823678 633.368696
+L 914.023678 629.968696
+L 920.823678 626.568696
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #64748b; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 496.310671 629.968696
+Q 473.134857 629.968696 451.971504 629.968696
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 458.771504 633.368696
+L 451.971504 629.968696
+L 458.771504 626.568696
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #64748b; stroke: #64748b; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 23.5px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #183047" x="39.255652" y="70.533942" transform="rotate(-0 39.255652 70.533942)">API Token 中转站  |  按业务板块理解</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 12px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #67788d" x="40.382609" y="106.045557" transform="rotate(-0 40.382609 106.045557)">从注册、购买、充值与调用，到上游额度、数据统计和运营管理</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #556781" x="1366.810435" y="66.409305" transform="rotate(-0 1366.810435 66.409305)">v1.0  ·  6 板块  ·  15 张物理表</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 46.768696 446.838261
+L 437.446957 446.838261
+Q 444.96 446.838261 444.96 439.325217
+L 444.96 178.246957
+Q 444.96 170.733913 437.446957 170.733913
+L 46.768696 170.733913
+Q 39.255652 170.733913 39.255652 178.246957
+L 39.255652 439.325217
+Q 39.255652 446.838261 46.768696 446.838261
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 508.82087 446.838261
+L 899.49913 446.838261
+Q 907.012174 446.838261 907.012174 439.325217
+L 907.012174 178.246957
+Q 907.012174 170.733913 899.49913 170.733913
+L 508.82087 170.733913
+Q 501.307826 170.733913 501.307826 178.246957
+L 501.307826 439.325217
+Q 501.307826 446.838261 508.82087 446.838261
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 970.873043 446.838261
+L 1361.551304 446.838261
+Q 1369.064348 446.838261 1369.064348 439.325217
+L 1369.064348 178.246957
+Q 1369.064348 170.733913 1361.551304 170.733913
+L 970.873043 170.733913
+Q 963.36 170.733913 963.36 178.246957
+L 963.36 439.325217
+Q 963.36 446.838261 970.873043 446.838261
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 970.873043 768.02087
+L 1361.551304 768.02087
+Q 1369.064348 768.02087 1369.064348 760.507826
+L 1369.064348 499.429565
+Q 1369.064348 491.916522 1361.551304 491.916522
+L 970.873043 491.916522
+Q 963.36 491.916522 963.36 499.429565
+L 963.36 760.507826
+Q 963.36 768.02087 970.873043 768.02087
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 508.82087 768.02087
+L 899.49913 768.02087
+Q 907.012174 768.02087 907.012174 760.507826
+L 907.012174 499.429565
+Q 907.012174 491.916522 899.49913 491.916522
+L 508.82087 491.916522
+Q 501.307826 491.916522 501.307826 499.429565
+L 501.307826 760.507826
+Q 501.307826 768.02087 508.82087 768.02087
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 46.768696 768.02087
+L 437.446957 768.02087
+Q 444.96 768.02087 444.96 760.507826
+L 444.96 499.429565
+Q 444.96 491.916522 437.446957 491.916522
+L 46.768696 491.916522
+Q 39.255652 491.916522 39.255652 499.429565
+L 39.255652 760.507826
+Q 39.255652 768.02087 46.768696 768.02087
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #ffffff; stroke: #d5dfe7; stroke-width: 1.25; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #32485e" x="40.006957" y="814.601739" transform="rotate(-0 40.006957 814.601739)">阅读方向：上排从左到右 → 右侧向下 → 下排从右向左。</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 9.8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #6c7b8a" x="40.006957" y="839.394783" transform="rotate(-0 40.006957 839.394783)">箭头仅表示主要业务关联，不是完整外码图或强制执行顺序。实际用量统计直接来自调用数据；异常/补货也可独立触发。</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #6c7b8a" x="40.006957" y="861.182609" transform="rotate(-0 40.006957 861.182609)">说明：本图按已迁移的 v1.0 绘制；v1.1 问题修补在另一隔离副本内。实体级关系另见 week6/er_diagram_v10.mmd。</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 46.768696 214.685217
+L 437.446957 214.685217
+Q 444.96 214.685217 444.96 207.172174
+L 444.96 178.246957
+Q 444.96 170.733913 437.446957 170.733913
+L 46.768696 170.733913
+Q 39.255652 170.733913 39.255652 178.246957
+L 39.255652 207.172174
+Q 39.255652 214.685217 46.768696 214.685217
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #3776ca"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 39.255652 214.685217
+L 444.96 214.685217
+L 444.96 202.664348
+L 39.255652 202.664348
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #3776ca"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 508.82087 214.685217
+L 899.49913 214.685217
+Q 907.012174 214.685217 907.012174 207.172174
+L 907.012174 178.246957
+Q 907.012174 170.733913 899.49913 170.733913
+L 508.82087 170.733913
+Q 501.307826 170.733913 501.307826 178.246957
+L 501.307826 207.172174
+Q 501.307826 214.685217 508.82087 214.685217
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #c78a28"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 501.307826 214.685217
+L 907.012174 214.685217
+L 907.012174 202.664348
+L 501.307826 202.664348
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #c78a28"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 970.873043 214.685217
+L 1361.551304 214.685217
+Q 1369.064348 214.685217 1369.064348 207.172174
+L 1369.064348 178.246957
+Q 1369.064348 170.733913 1361.551304 170.733913
+L 970.873043 170.733913
+Q 963.36 170.733913 963.36 178.246957
+L 963.36 207.172174
+Q 963.36 214.685217 970.873043 214.685217
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #268e69"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 963.36 214.685217
+L 1369.064348 214.685217
+L 1369.064348 202.664348
+L 963.36 202.664348
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #268e69"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 970.873043 535.867826
+L 1361.551304 535.867826
+Q 1369.064348 535.867826 1369.064348 528.354783
+L 1369.064348 499.429565
+Q 1369.064348 491.916522 1361.551304 491.916522
+L 970.873043 491.916522
+Q 963.36 491.916522 963.36 499.429565
+L 963.36 528.354783
+Q 963.36 535.867826 970.873043 535.867826
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #268f91"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 963.36 535.867826
+L 1369.064348 535.867826
+L 1369.064348 523.846957
+L 963.36 523.846957
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #268f91"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 508.82087 535.867826
+L 899.49913 535.867826
+Q 907.012174 535.867826 907.012174 528.354783
+L 907.012174 499.429565
+Q 907.012174 491.916522 899.49913 491.916522
+L 508.82087 491.916522
+Q 501.307826 491.916522 501.307826 499.429565
+L 501.307826 528.354783
+Q 501.307826 535.867826 508.82087 535.867826
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #7c64c2"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 501.307826 535.867826
+L 907.012174 535.867826
+L 907.012174 523.846957
+L 501.307826 523.846957
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #7c64c2"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 46.768696 535.867826
+L 437.446957 535.867826
+Q 444.96 535.867826 444.96 528.354783
+L 444.96 499.429565
+Q 444.96 491.916522 437.446957 491.916522
+L 46.768696 491.916522
+Q 39.255652 491.916522 39.255652 499.429565
+L 39.255652 528.354783
+Q 39.255652 535.867826 46.768696 535.867826
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #be666b"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 39.255652 535.867826
+L 444.96 535.867826
+L 444.96 523.846957
+L 39.255652 523.846957
+z
+" clip-path="url(#pb06d9a53e8)" style="fill: #be666b"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="50.525217" y="196.75286" transform="rotate(-0 50.525217 196.75286)">01</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="82.455652" y="196.835477" transform="rotate(-0 82.455652 196.835477)">身份与权限</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="432.93913" y="195.651298" transform="rotate(-0 432.93913 195.651298)">3 张表</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="52.027826" y="237.513923" transform="rotate(-0 52.027826 237.513923)">谁在使用系统、谁能管理</text>
+   </g>
+   <g id="line2d_2">
+    <path d="M 50.525217 249.62087
+L 433.690435 249.62087
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_11">
+    <g id="patch_25">
+     <path d="M 52.027826 279.011976
+L 60.227826 279.011976
+Q 62.031826 279.011976 62.031826 277.207976
+L 62.031826 268.614632
+Q 62.031826 266.810632 60.227826 266.810632
+L 52.027826 266.810632
+Q 50.223826 266.810632 50.223826 268.614632
+L 50.223826 277.207976
+Q 50.223826 279.011976 52.027826 279.011976
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #3776ca" x="52.027826" y="275.169507" transform="rotate(-0 52.027826 275.169507)">表</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="275.665211" transform="rotate(-0 85.836522 275.665211)">Users</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="275.40359" transform="rotate(-0 433.314783 275.40359)">会员资料与状态</text>
+   </g>
+   <g id="text_14">
+    <g id="patch_26">
+     <path d="M 52.027826 310.566759
+L 60.227826 310.566759
+Q 62.031826 310.566759 62.031826 308.762759
+L 62.031826 300.169415
+Q 62.031826 298.365415 60.227826 298.365415
+L 52.027826 298.365415
+Q 50.223826 298.365415 50.223826 300.169415
+L 50.223826 308.762759
+Q 50.223826 310.566759 52.027826 310.566759
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #3776ca" x="52.027826" y="306.72429" transform="rotate(-0 52.027826 306.72429)">表</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="307.219993" transform="rotate(-0 85.836522 307.219993)">Roles</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="306.958372" transform="rotate(-0 433.314783 306.958372)">应用层角色</text>
+   </g>
+   <g id="text_17">
+    <g id="patch_27">
+     <path d="M 52.027826 342.121541
+L 60.227826 342.121541
+Q 62.031826 342.121541 62.031826 340.317541
+L 62.031826 331.724198
+Q 62.031826 329.920198 60.227826 329.920198
+L 52.027826 329.920198
+Q 50.223826 329.920198 50.223826 331.724198
+L 50.223826 340.317541
+Q 50.223826 342.121541 52.027826 342.121541
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #3776ca" x="52.027826" y="338.279073" transform="rotate(-0 52.027826 338.279073)">表</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="338.750557" transform="rotate(-0 85.836522 338.750557)">Employees</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="338.513155" transform="rotate(-0 433.314783 338.513155)">员工与角色</text>
+   </g>
+   <g id="line2d_3">
+    <path d="M 50.525217 413.029565
+L 433.690435 413.029565
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="51.652174" y="431.92662" transform="rotate(-0 51.652174 431.92662)">应用角色 Roles 与 SQL Server 数据库角色是两回事</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="512.577391" y="196.75286" transform="rotate(-0 512.577391 196.75286)">02</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="544.507826" y="196.835477" transform="rotate(-0 544.507826 196.835477)">套餐与订单</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="894.991304" y="195.651298" transform="rotate(-0 894.991304 195.651298)">3 张表</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="514.08" y="237.513923" transform="rotate(-0 514.08 237.513923)">买什么、买了多少、何时支付</text>
+   </g>
+   <g id="line2d_4">
+    <path d="M 512.577391 249.62087
+L 895.742609 249.62087
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_25">
+    <g id="patch_28">
+     <path d="M 514.08 279.011976
+L 522.28 279.011976
+Q 524.084 279.011976 524.084 277.207976
+L 524.084 268.614632
+Q 524.084 266.810632 522.28 266.810632
+L 514.08 266.810632
+Q 512.276 266.810632 512.276 268.614632
+L 512.276 277.207976
+Q 512.276 279.011976 514.08 279.011976
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #c78a28" x="514.08" y="275.169507" transform="rotate(-0 514.08 275.169507)">表</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="275.665211" transform="rotate(-0 547.888696 275.665211)">Products</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="275.40359" transform="rotate(-0 895.366957 275.40359)">套餐与 Token 档位</text>
+   </g>
+   <g id="text_28">
+    <g id="patch_29">
+     <path d="M 514.08 310.566759
+L 522.28 310.566759
+Q 524.084 310.566759 524.084 308.762759
+L 524.084 300.169415
+Q 524.084 298.365415 522.28 298.365415
+L 514.08 298.365415
+Q 512.276 298.365415 512.276 300.169415
+L 512.276 308.762759
+Q 512.276 310.566759 514.08 310.566759
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #c78a28" x="514.08" y="306.72429" transform="rotate(-0 514.08 306.72429)">表</text>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="307.219993" transform="rotate(-0 547.888696 307.219993)">Orders</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="306.958372" transform="rotate(-0 895.366957 306.958372)">订单及支付状态</text>
+   </g>
+   <g id="text_31">
+    <g id="patch_30">
+     <path d="M 514.08 342.121541
+L 522.28 342.121541
+Q 524.084 342.121541 524.084 340.317541
+L 524.084 331.724198
+Q 524.084 329.920198 522.28 329.920198
+L 514.08 329.920198
+Q 512.276 329.920198 512.276 331.724198
+L 512.276 340.317541
+Q 512.276 342.121541 514.08 342.121541
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #c78a28" x="514.08" y="338.279073" transform="rotate(-0 514.08 338.279073)">表</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="338.774776" transform="rotate(-0 547.888696 338.774776)">OrderDetails</text>
+   </g>
+   <g id="text_33">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="338.513155" transform="rotate(-0 895.366957 338.513155)">购买数量与成交快照</text>
+   </g>
+   <g id="line2d_5">
+    <path d="M 512.577391 413.029565
+L 895.742609 413.029565
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_34">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="513.704348" y="431.92662" transform="rotate(-0 513.704348 431.92662)">明细保存下单时的价格和 Token 快照</text>
+   </g>
+   <g id="text_35">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="974.629565" y="196.75286" transform="rotate(-0 974.629565 196.75286)">03</text>
+   </g>
+   <g id="text_36">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="1006.56" y="196.835477" transform="rotate(-0 1006.56 196.835477)">余额与调用</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="1357.043478" y="195.651298" transform="rotate(-0 1357.043478 195.651298)">2 张表</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="976.132174" y="237.513923" transform="rotate(-0 976.132174 237.513923)">付款增加余额，调用消耗余额</text>
+   </g>
+   <g id="line2d_6">
+    <path d="M 974.629565 249.62087
+L 1357.794783 249.62087
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_39">
+    <g id="patch_31">
+     <path d="M 976.132174 279.011976
+L 984.332174 279.011976
+Q 986.136174 279.011976 986.136174 277.207976
+L 986.136174 268.614632
+Q 986.136174 266.810632 984.332174 266.810632
+L 976.132174 266.810632
+Q 974.328174 266.810632 974.328174 268.614632
+L 974.328174 277.207976
+Q 974.328174 279.011976 976.132174 279.011976
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268e69" x="976.132174" y="275.169507" transform="rotate(-0 976.132174 275.169507)">表</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="275.665211" transform="rotate(-0 1009.94087 275.665211)">TokenBalances</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="275.566914" transform="rotate(-0 1357.41913 275.566914)">会员 × provider 余额</text>
+   </g>
+   <g id="text_42">
+    <g id="patch_32">
+     <path d="M 976.132174 310.566759
+L 984.332174 310.566759
+Q 986.136174 310.566759 986.136174 308.762759
+L 986.136174 300.169415
+Q 986.136174 298.365415 984.332174 298.365415
+L 976.132174 298.365415
+Q 974.328174 298.365415 974.328174 300.169415
+L 974.328174 308.762759
+Q 974.328174 310.566759 976.132174 310.566759
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268e69" x="976.132174" y="306.72429" transform="rotate(-0 976.132174 306.72429)">表</text>
+   </g>
+   <g id="text_43">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="307.195774" transform="rotate(-0 1009.94087 307.195774)">TokenUsageLogs</text>
+   </g>
+   <g id="text_44">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="306.958372" transform="rotate(-0 1357.41913 306.958372)">一次 API 调用记录</text>
+   </g>
+   <g id="line2d_7">
+    <path d="M 974.629565 413.029565
+L 1357.794783 413.029565
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_45">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="975.756522" y="432.132214" transform="rotate(-0 975.756522 432.132214)">按 provider 管理会员余额；一次调用记一条流水</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="974.629565" y="517.935469" transform="rotate(-0 974.629565 517.935469)">04</text>
+   </g>
+   <g id="text_47">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="1006.56" y="518.018086" transform="rotate(-0 1006.56 518.018086)">上游与库存</text>
+   </g>
+   <g id="text_48">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="1357.043478" y="516.833906" transform="rotate(-0 1357.043478 516.833906)">4 张表</text>
+   </g>
+   <g id="text_49">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="976.132174" y="558.696532" transform="rotate(-0 976.132174 558.696532)">调用哪家上游、剩余多少额度</text>
+   </g>
+   <g id="line2d_8">
+    <path d="M 974.629565 570.803478
+L 1357.794783 570.803478
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_50">
+    <g id="patch_33">
+     <path d="M 976.132174 600.194585
+L 984.332174 600.194585
+Q 986.136174 600.194585 986.136174 598.390585
+L 986.136174 589.797241
+Q 986.136174 587.993241 984.332174 587.993241
+L 976.132174 587.993241
+Q 974.328174 587.993241 974.328174 589.797241
+L 974.328174 598.390585
+Q 974.328174 600.194585 976.132174 600.194585
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268f91" x="976.132174" y="596.352116" transform="rotate(-0 976.132174 596.352116)">表</text>
+   </g>
+   <g id="text_51">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="596.847819" transform="rotate(-0 1009.94087 596.847819)">UpstreamAccount</text>
+   </g>
+   <g id="text_52">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="596.586198" transform="rotate(-0 1357.41913 596.586198)">上游账号与总额度</text>
+   </g>
+   <g id="text_53">
+    <g id="patch_34">
+     <path d="M 976.132174 631.749368
+L 984.332174 631.749368
+Q 986.136174 631.749368 986.136174 629.945368
+L 986.136174 621.352024
+Q 986.136174 619.548024 984.332174 619.548024
+L 976.132174 619.548024
+Q 974.328174 619.548024 974.328174 621.352024
+L 974.328174 629.945368
+Q 974.328174 631.749368 976.132174 631.749368
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268f91" x="976.132174" y="627.906899" transform="rotate(-0 976.132174 627.906899)">表</text>
+   </g>
+   <g id="text_54">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="628.354164" transform="rotate(-0 1009.94087 628.354164)">Inventory</text>
+   </g>
+   <g id="text_55">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="628.140981" transform="rotate(-0 1357.41913 628.140981)">当前额度快照</text>
+   </g>
+   <g id="text_56">
+    <g id="patch_35">
+     <path d="M 976.132174 663.30415
+L 984.332174 663.30415
+Q 986.136174 663.30415 986.136174 661.50015
+L 986.136174 652.906806
+Q 986.136174 651.102806 984.332174 651.102806
+L 976.132174 651.102806
+Q 974.328174 651.102806 974.328174 652.906806
+L 974.328174 661.50015
+Q 974.328174 663.30415 976.132174 663.30415
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268f91" x="976.132174" y="659.461681" transform="rotate(-0 976.132174 659.461681)">表</text>
+   </g>
+   <g id="text_57">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="659.908947" transform="rotate(-0 1009.94087 659.908947)">InventoryLog</text>
+   </g>
+   <g id="text_58">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="659.695763" transform="rotate(-0 1357.41913 659.695763)">额度变动流水</text>
+   </g>
+   <g id="text_59">
+    <g id="patch_36">
+     <path d="M 976.132174 694.858933
+L 984.332174 694.858933
+Q 986.136174 694.858933 986.136174 693.054933
+L 986.136174 684.461589
+Q 986.136174 682.657589 984.332174 682.657589
+L 976.132174 682.657589
+Q 974.328174 682.657589 974.328174 684.461589
+L 974.328174 693.054933
+Q 974.328174 694.858933 976.132174 694.858933
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #268f91" x="976.132174" y="691.016464" transform="rotate(-0 976.132174 691.016464)">表</text>
+   </g>
+   <g id="text_60">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="1009.94087" y="691.512167" transform="rotate(-0 1009.94087 691.512167)">RestockTask</text>
+   </g>
+   <g id="text_61">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="1357.41913" y="691.250546" transform="rotate(-0 1357.41913 691.250546)">低额度与补货任务</text>
+   </g>
+   <g id="line2d_9">
+    <path d="M 974.629565 734.212174
+L 1357.794783 734.212174
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_62">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="975.756522" y="753.109229" transform="rotate(-0 975.756522 753.109229)">库存表示上游 Token 配额，不是实体商品数量</text>
+   </g>
+   <g id="text_63">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="512.577391" y="517.935469" transform="rotate(-0 512.577391 517.935469)">05</text>
+   </g>
+   <g id="text_64">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="544.507826" y="518.018086" transform="rotate(-0 544.507826 518.018086)">用量统计</text>
+   </g>
+   <g id="text_65">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="894.991304" y="516.833906" transform="rotate(-0 894.991304 516.833906)">2 张表</text>
+   </g>
+   <g id="text_66">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="514.08" y="558.696532" transform="rotate(-0 514.08 558.696532)">按会员、套餐、时间周期汇总</text>
+   </g>
+   <g id="line2d_10">
+    <path d="M 512.577391 570.803478
+L 895.742609 570.803478
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_67">
+    <g id="patch_37">
+     <path d="M 514.08 600.194585
+L 522.28 600.194585
+Q 524.084 600.194585 524.084 598.390585
+L 524.084 589.797241
+Q 524.084 587.993241 522.28 587.993241
+L 514.08 587.993241
+Q 512.276 587.993241 512.276 589.797241
+L 512.276 598.390585
+Q 512.276 600.194585 514.08 600.194585
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #7c64c2" x="514.08" y="596.352116" transform="rotate(-0 514.08 596.352116)">表</text>
+   </g>
+   <g id="text_68">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="596.823601" transform="rotate(-0 547.888696 596.823601)">UsagePeriod</text>
+   </g>
+   <g id="text_69">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="596.586198" transform="rotate(-0 895.366957 596.586198)">日 / 周 / 月周期定义</text>
+   </g>
+   <g id="text_70">
+    <g id="patch_38">
+     <path d="M 514.08 631.749368
+L 522.28 631.749368
+Q 524.084 631.749368 524.084 629.945368
+L 524.084 621.352024
+Q 524.084 619.548024 522.28 619.548024
+L 514.08 619.548024
+Q 512.276 619.548024 512.276 621.352024
+L 512.276 629.945368
+Q 512.276 631.749368 514.08 631.749368
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #7c64c2" x="514.08" y="627.906899" transform="rotate(-0 514.08 627.906899)">表</text>
+   </g>
+   <g id="text_71">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="628.354164" transform="rotate(-0 547.888696 628.354164)">UsageSummaryCore</text>
+   </g>
+   <g id="text_72">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="628.140981" transform="rotate(-0 895.366957 628.140981)">周期消费统计</text>
+   </g>
+   <g id="text_73">
+    <g id="patch_39">
+     <path d="M 514.08 663.30415
+L 530.48 663.30415
+Q 532.284 663.30415 532.284 661.50015
+L 532.284 652.906806
+Q 532.284 651.102806 530.48 651.102806
+L 514.08 651.102806
+Q 512.276 651.102806 512.276 652.906806
+L 512.276 661.50015
+Q 512.276 663.30415 514.08 663.30415
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #7c64c2" x="514.08" y="659.461681" transform="rotate(-0 514.08 659.461681)">视图</text>
+   </g>
+   <g id="text_74">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="547.888696" y="659.908947" transform="rotate(-0 547.888696 659.908947)">UsageSummary</text>
+   </g>
+   <g id="text_75">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="895.366957" y="659.695763" transform="rotate(-0 895.366957 659.695763)">旧查询兼容视图（非表）</text>
+   </g>
+   <g id="line2d_11">
+    <path d="M 512.577391 734.212174
+L 895.742609 734.212174
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_76">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="513.704348" y="753.252338" transform="rotate(-0 513.704348 753.252338)">UsageSummary 是兼容视图，不是第 16 张表</text>
+   </g>
+   <g id="text_77">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="50.525217" y="517.935469" transform="rotate(-0 50.525217 517.935469)">06</text>
+   </g>
+   <g id="text_78">
+    <text style="font-weight: 700; font-size: 14.3px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #ffffff" x="82.455652" y="518.018086" transform="rotate(-0 82.455652 518.018086)">异常与经营处理</text>
+   </g>
+   <g id="text_79">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #ffffff; opacity: 0.9" x="432.93913" y="516.833906" transform="rotate(-0 432.93913 516.833906)">1 张表</text>
+   </g>
+   <g id="text_80">
+    <text style="font-size: 10.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #475569" x="52.027826" y="558.696532" transform="rotate(-0 52.027826 558.696532)">运营人员处理异常与查看经营结果</text>
+   </g>
+   <g id="line2d_12">
+    <path d="M 50.525217 570.803478
+L 433.690435 570.803478
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-linecap: square"/>
+   </g>
+   <g id="text_81">
+    <g id="patch_40">
+     <path d="M 52.027826 600.194585
+L 60.227826 600.194585
+Q 62.031826 600.194585 62.031826 598.390585
+L 62.031826 589.797241
+Q 62.031826 587.993241 60.227826 587.993241
+L 52.027826 587.993241
+Q 50.223826 587.993241 50.223826 589.797241
+L 50.223826 598.390585
+Q 50.223826 600.194585 52.027826 600.194585
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #be666b" x="52.027826" y="596.352116" transform="rotate(-0 52.027826 596.352116)">表</text>
+   </g>
+   <g id="text_82">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="596.806413" transform="rotate(-0 85.836522 596.806413)">ExceptionLog</text>
+   </g>
+   <g id="text_83">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="596.586198" transform="rotate(-0 433.314783 596.586198)">API / 支付 / 库存等异常</text>
+   </g>
+   <g id="text_84">
+    <g id="patch_41">
+     <path d="M 52.027826 631.749368
+L 68.427826 631.749368
+Q 70.231826 631.749368 70.231826 629.945368
+L 70.231826 621.352024
+Q 70.231826 619.548024 68.427826 619.548024
+L 52.027826 619.548024
+Q 50.223826 619.548024 50.223826 621.352024
+L 50.223826 629.945368
+Q 50.223826 631.749368 52.027826 631.749368
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #be666b" x="52.027826" y="627.906899" transform="rotate(-0 52.027826 627.906899)">机制</text>
+   </g>
+   <g id="text_85">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="628.402602" transform="rotate(-0 85.836522 628.402602)">经营视图</text>
+   </g>
+   <g id="text_86">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="628.140981" transform="rotate(-0 433.314783 628.140981)">销售、库存及会员统计</text>
+   </g>
+   <g id="text_87">
+    <g id="patch_42">
+     <path d="M 52.027826 663.30415
+L 68.427826 663.30415
+Q 70.231826 663.30415 70.231826 661.50015
+L 70.231826 652.906806
+Q 70.231826 651.102806 68.427826 651.102806
+L 52.027826 651.102806
+Q 50.223826 651.102806 50.223826 652.906806
+L 50.223826 661.50015
+Q 50.223826 663.30415 52.027826 663.30415
+z
+" style="fill: #f0f4f8"/>
+    </g>
+    <text style="font-size: 8.2px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #be666b" x="52.027826" y="659.461681" transform="rotate(-0 52.027826 659.461681)">机制</text>
+   </g>
+   <g id="text_88">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #203044" x="85.836522" y="659.957385" transform="rotate(-0 85.836522 659.957385)">数据库角色</text>
+   </g>
+   <g id="text_89">
+    <text style="font-size: 9.05px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: end; fill: #56657a" x="433.314783" y="659.695763" transform="rotate(-0 433.314783 659.695763)">经理 / 店员 / 会员 / 游客</text>
+   </g>
+   <g id="line2d_13">
+    <path d="M 50.525217 734.212174
+L 433.690435 734.212174
+" clip-path="url(#pb06d9a53e8)" style="fill: none; stroke: #e9eef2; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_90">
+    <text style="font-size: 8.6px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: start; fill: #64748b" x="51.652174" y="753.109229" transform="rotate(-0 51.652174 753.109229)">实际权限由数据库角色与授权视图控制</text>
+   </g>
+   <g id="text_91">
+    <g id="patch_43">
+     <path d="M 455.773913 295.931005
+L 490.493913 295.931005
+L 490.493913 284.827255
+L 455.773913 284.827255
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: middle; fill: #50647b" x="473.133913" y="292.582255" transform="rotate(-0 473.133913 292.582255)">用户身份</text>
+   </g>
+   <g id="text_92">
+    <g id="patch_44">
+     <path d="M 913.826087 295.931005
+L 956.546087 295.931005
+L 956.546087 284.827255
+L 913.826087 284.827255
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: middle; fill: #50647b" x="935.186087" y="292.582255" transform="rotate(-0 935.186087 292.582255)">支付后入账</text>
+   </g>
+   <g id="text_93">
+    <g id="patch_45">
+     <path d="M 1172.782609 474.929266
+L 1223.502609 474.929266
+L 1223.502609 463.825516
+L 1172.782609 463.825516
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: middle; fill: #50647b" x="1198.142609" y="471.580516" transform="rotate(-0 1198.142609 471.580516)">消耗上游额度</text>
+   </g>
+   <g id="text_94">
+    <g id="patch_46">
+     <path d="M 917.826087 617.113614
+L 952.546087 617.113614
+L 952.546087 606.009864
+L 917.826087 606.009864
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: middle; fill: #50647b" x="935.186087" y="613.764864" transform="rotate(-0 935.186087 613.764864)">库存统计</text>
+   </g>
+   <g id="text_95">
+    <g id="patch_47">
+     <path d="M 455.773913 617.113614
+L 490.493913 617.113614
+L 490.493913 606.009864
+L 455.773913 606.009864
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 8px; font-family: 'Microsoft YaHei', 'DejaVu Sans'; text-anchor: middle; fill: #50647b" x="473.133913" y="613.764864" transform="rotate(-0 473.133913 613.764864)">经营查看</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb06d9a53e8">
+   <rect x="12.96" y="12.96" width="1382.4" height="864"/>
+  </clipPath>
+ </defs>
+</svg>
