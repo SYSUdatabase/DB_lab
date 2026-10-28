@@ -30,3 +30,7 @@ erDiagram
 公共过程为AuthLookup、StartSession、ResolveSession、EndSession和[Execute]，仅app_runtime获得指定执行权限；查询返回白名单字段，不包含上游密钥或用户密码哈希。AuthLookup仅供后端密码验证使用，结果不返回浏览器。
 
 应用迁移将退款外部凭证的可空UNIQUE改为非空过滤唯一索引，允许多个awaiting_transfer记录同时存在，非空凭证仍不得重复。配对库存删除仅允许owner事务中受控账号删除路径，不关闭触发器。
+
+期初库存由 `trg_App_OpeningInventory` 在新增上游账号时登记到既有 `InventoryLog`：`change_type=purchase`、`reference_type=manual`、`reference_id=NULL`、`reason=APP_INITIAL_QUOTA_V1`，数量为创建时 `total_quota-used_quota`，时间取账号 `created_at`。唯一过滤索引 `UX_App_OpeningInventory` 限定每个账号最多一笔此标记。未新增表、列或外键，仍为18张物理表、22个外键。
+
+`trg_W6_InventoryLogWrite` 保留流水不可修改/删除约束，仅允许owner事务通过受控账号删除入口，删除无调用、无补货、无其它流水账号的系统期初记录。业务流水仍阻止账号删除；任意调用者设置同名会话标志不获得基表权限。

@@ -354,3 +354,7 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 ## 2026-10-28 数据库与分页补验
 
 故障回滚、锁竞争及应用 SQL 测试通过，分页和逐事件余额重算已执行。发现应用创建上游账号未登记期初库存流水，5 个账号不满足全量库存流水对账；详情及未完成的普通 Windows 账户验收见 [Web 证据索引](result/webapp/README.md)。
+
+## 2026-10-28 期初流水缺口已修复
+
+新增账号统一登记期初库存流水；受控删除仍兼容未使用账号。当前Web261021D已备份并补记5笔，重复迁移0笔，全量库存流水对账通过；20项针对性测试通过。证据见[result/webapp/opening_inventory_20261028](result/webapp/opening_inventory_20261028/README.md)。普通Windows账户启动和组员复现仍另行验收。

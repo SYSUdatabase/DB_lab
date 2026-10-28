@@ -193,6 +193,17 @@ class AppSqlWorkflowTests(unittest.TestCase):
             "expires_at": None,
         }
         account = self.api("admin", "accounts.save", fields)
+        opening = (
+            self.connection.cursor()
+            .execute(
+                "SELECT change_amount, change_type, reference_type, reference_id "
+                "FROM dbo.InventoryLog WHERE account_id=?",
+                account["account_id"],
+            )
+            .fetchall()
+        )
+        self.assertEqual(len(opening), 1)
+        self.assertEqual(tuple(opening[0]), (500, "purchase", "manual", None))
         del fields["total_quota"]
         fields.update(account)
         fields["safety_threshold"] = "30"
@@ -227,6 +238,30 @@ class AppSqlWorkflowTests(unittest.TestCase):
         )
         self.api("staff", "orders.cancel", order)
         self.api("admin", "orders.delete", order)
+
+    def test_opening_repair_plan_is_idempotent_and_rejects_unapproved_delta(self) -> None:
+        import json
+
+        from tools.repair_opening_inventory import planned_rows
+
+        manifest = json.loads(
+            (ROOT / "sql/app/opening_inventory_Web261021D.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(planned_rows(self.connection, manifest), [])
+        self.connection.execute(
+            "INSERT dbo.InventoryLog(account_id,change_type,change_amount,reference_type,reason) "
+            "VALUES(?,'adjustment',1,'manual','test discrepancy')",
+            self.account_id,
+        )
+        with self.assertRaisesRegex(ValueError, "Unapproved inventory discrepancy"):
+            planned_rows(self.connection, manifest)
+
+    def test_restock_reference_still_blocks_account_deletion(self) -> None:
+        import pyodbc
+
+        self.api("staff", "restocks.create", {"account_id": self.account_id, "planned_amount": "1"})
+        with self.assertRaisesRegex(pyodbc.Error, "55009"):
+            self.api("admin", "accounts.delete", {"account_id": self.account_id})
 
     def test_atomic_create_with_invalid_late_item(self) -> None:
         import pyodbc

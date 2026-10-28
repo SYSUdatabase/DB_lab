@@ -1,0 +1,10 @@
+{
+  "database": "TokenHubDB_v11_Web261021D",
+  "accounts": [
+    {"account_id": 14, "provider": "OpenAI", "account_name": "Web OpenAI", "opening_amount": 100000000},
+    {"account_id": 15, "provider": "Claude", "account_name": "Web Claude", "opening_amount": 100000000},
+    {"account_id": 16, "provider": "Gemini", "account_name": "Web Gemini", "opening_amount": 100000000},
+    {"account_id": 17, "provider": "Other", "account_name": "Web Other", "opening_amount": 100000000},
+    {"account_id": 63, "provider": "Other", "account_name": "人工验收A-1028", "opening_amount": 1000000}
+  ]
+}

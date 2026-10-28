@@ -87,6 +87,17 @@ $env:DB_LAB_PREVIEW = '1'
 
 ## 测试与故障定位
 
+新账号创建会在同一事务中自动登记初始可用额度的 `purchase/manual` 流水，标记为 `APP_INITIAL_QUOTA_V1`；样例准备工具也经过同一数据库触发器。只有这笔系统期初流水的未使用账号可受控删除；存在调用、补货或其它流水时拒绝删除。应用表数及外键数不变，新增一个账号插入触发器和一个期初流水唯一索引。
+
+旧应用库的期初差额使用 `tools/repair_opening_inventory.py` 与人工核实清单修复。默认只预检；`--apply` 在 `COPY_ONLY/CHECKSUM` 备份及 `RESTORE VERIFYONLY` 成功后，事务内更新过程、触发器并补记流水。当前清单仅适用于 `TokenHubDB_v11_Web261021D`；库名、账号名称、供应商或差额不符时拒绝修复，不自动把未知差额当作期初额度。重复执行不会重复补记。
+
+```powershell
+.\.venv\Scripts\python.exe tools/repair_opening_inventory.py --database TokenHubDB_v11_Web261021D --manifest sql/app/opening_inventory_Web261021D.json
+# 仅在核对清单和预检结果后执行修复
+.\.venv\Scripts\python.exe tools/repair_opening_inventory.py --database TokenHubDB_v11_Web261021D --manifest sql/app/opening_inventory_Web261021D.json --apply
+sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_Web261021D -E -C -b -i sql/app/verify_opening_inventory.sql
+```
+
 ```powershell
 $env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_WebYourRun01'
 $env:DB_LAB_APP_DATABASE = 'TokenHubDB_v11_WebYourRun01'

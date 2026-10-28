@@ -128,6 +128,24 @@ class AppSqlFaultTests(unittest.TestCase):
         self.inject("OrderTokenLots", "INSERT", "EXISTS(SELECT 1 FROM inserted)")
         self.assert_rolled_back("orders.pay", order)
 
+    def test_account_creation_failure_rolls_back_account_inventory_and_opening(self) -> None:
+        self.inject(
+            "InventoryLog",
+            "INSERT",
+            "EXISTS(SELECT 1 FROM inserted WHERE reason=N'APP_INITIAL_QUOTA_V1')",
+        )
+        self.assert_rolled_back(
+            "accounts.save",
+            {
+                "provider": "Other",
+                "account_name": "Fault " + self.tag,
+                "total_quota": "500",
+                "safety_threshold": "10",
+                "status": "active",
+            },
+            "admin",
+        )
+
     def test_usage_failure_after_balance_account_inventory_and_log_writes(self) -> None:
         self.api("customer", "orders.pay", self.draft())
         self.inject(

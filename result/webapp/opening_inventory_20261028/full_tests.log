@@ -1,0 +1,76 @@
+test_account_creation_failure_rolls_back_account_inventory_and_opening (test_app_faults.AppSqlFaultTests.test_account_creation_failure_rolls_back_account_inventory_and_opening) ... ok
+test_payment_failure_after_balance_header_and_lot_writes (test_app_faults.AppSqlFaultTests.test_payment_failure_after_balance_header_and_lot_writes) ... ok
+test_refund_failure_after_lot_balance_ledger_and_order_writes (test_app_faults.AppSqlFaultTests.test_refund_failure_after_lot_balance_ledger_and_order_writes) ... ok
+test_restock_failure_after_quota_inventory_audit_and_task_writes (test_app_faults.AppSqlFaultTests.test_restock_failure_after_quota_inventory_audit_and_task_writes) ... ok
+test_usage_failure_after_balance_account_inventory_and_log_writes (test_app_faults.AppSqlFaultTests.test_usage_failure_after_balance_account_inventory_and_log_writes) ... ok
+test_refund_serializes_concurrent_usage_then_both_units_rollback (test_app_faults.AppSqlRaceTests.test_refund_serializes_concurrent_usage_then_both_units_rollback) ... ok
+test_guard_and_narrow_public_grants (test_app_sql.AppSqlSourceTests.test_guard_and_narrow_public_grants) ... ok
+test_atomic_create_with_invalid_late_item (test_app_sql.AppSqlWorkflowTests.test_atomic_create_with_invalid_late_item) ... ok
+test_cross_customer_cannot_modify_order (test_app_sql.AppSqlWorkflowTests.test_cross_customer_cannot_modify_order) ... ok
+test_customer_payload_cannot_elevate_role (test_app_sql.AppSqlWorkflowTests.test_customer_payload_cannot_elevate_role) ... ok
+test_expired_revoked_and_inactive_sessions (test_app_sql.AppSqlWorkflowTests.test_expired_revoked_and_inactive_sessions) ... ok
+test_guest_catalog_and_authentication_boundary (test_app_sql.AppSqlWorkflowTests.test_guest_catalog_and_authentication_boundary) ... ok
+test_multiple_pending_refunds_are_independent (test_app_sql.AppSqlWorkflowTests.test_multiple_pending_refunds_are_independent) ... ok
+test_old_business_error_propagates_without_insert_exec_masking (test_app_sql.AppSqlWorkflowTests.test_old_business_error_propagates_without_insert_exec_masking) ... ok
+test_opening_repair_plan_is_idempotent_and_rejects_unapproved_delta (test_app_sql.AppSqlWorkflowTests.test_opening_repair_plan_is_idempotent_and_rejects_unapproved_delta) ... ok
+test_order_usage_refund_lifecycle_and_exact_ceiling (test_app_sql.AppSqlWorkflowTests.test_order_usage_refund_lifecycle_and_exact_ceiling) ... ok
+test_product_and_account_crud_restock_cancel_delete (test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete) ... ok
+test_restock_reference_still_blocks_account_deletion (test_app_sql.AppSqlWorkflowTests.test_restock_reference_still_blocks_account_deletion) ... ok
+test_runtime_all_table_dml_and_ddl_denied (test_app_sql.AppSqlWorkflowTests.test_runtime_all_table_dml_and_ddl_denied) ... ok
+test_fail_marker_prevents_capture_despite_pass_marker (test_evidence_tool.EvidenceToolTests.test_fail_marker_prevents_capture_despite_pass_marker) ... skipped 'Set DB_LAB_TEST_DATABASE for evidence tool integration'
+test_unexpected_sql_error_prevents_capture (test_evidence_tool.EvidenceToolTests.test_unexpected_sql_error_prevents_capture) ... skipped 'Set DB_LAB_TEST_DATABASE for evidence tool integration'
+test_execute_procedure_is_standalone_and_owner_controlled (test_opening_inventory.OpeningInventorySourceTests.test_execute_procedure_is_standalone_and_owner_controlled) ... ok
+test_direct_customer_view_write_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_customer_view_write_is_detected) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_direct_user_grant_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_user_grant_is_detected) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_expiry_equal_boundary (test_sql_integration.SqlIntegrationTests.test_expiry_equal_boundary) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_historical_overdraft_with_correct_final_totals (test_sql_integration.SqlIntegrationTests.test_historical_overdraft_with_correct_final_totals) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_missing_one_manager_permission (test_sql_integration.SqlIntegrationTests.test_missing_one_manager_permission) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_provider_mismatch (test_sql_integration.SqlIntegrationTests.test_provider_mismatch) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_registration_order (test_sql_integration.SqlIntegrationTests.test_registration_order) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_registration_usage (test_sql_integration.SqlIntegrationTests.test_registration_usage) ... skipped 'Set DB_LAB_TEST_DATABASE to a fresh experiment database'
+test_business_totals_are_preserved (test_timeline.TimelineTests.test_business_totals_are_preserved) ... ok
+test_expired_usage_is_rejected (test_timeline.TimelineTests.test_expired_usage_is_rejected) ... ok
+test_expiry_is_exclusive_and_null_expiry_is_supported (test_timeline.TimelineTests.test_expiry_is_exclusive_and_null_expiry_is_supported) ... ok
+test_final_balance_cannot_hide_historical_overdraft (test_timeline.TimelineTests.test_final_balance_cannot_hide_historical_overdraft) ... ok
+test_fixed_dataset_and_serialized_sql (test_timeline.TimelineTests.test_fixed_dataset_and_serialized_sql) ... ok
+test_insufficient_credit_cannot_be_scheduled (test_timeline.TimelineTests.test_insufficient_credit_cannot_be_scheduled) ... ok
+test_missing_parent_is_rejected_before_serialization (test_timeline.TimelineTests.test_missing_parent_is_rejected_before_serialization) ... ok
+test_no_eligible_account_fails_explicitly (test_timeline.TimelineTests.test_no_eligible_account_fails_explicitly) ... ok
+test_order_before_registration_is_rejected (test_timeline.TimelineTests.test_order_before_registration_is_rejected) ... ok
+test_payment_at_same_second_precedes_consumption (test_timeline.TimelineTests.test_payment_at_same_second_precedes_consumption) ... ok
+test_provider_mismatch_is_rejected (test_timeline.TimelineTests.test_provider_mismatch_is_rejected) ... ok
+test_usage_before_registration_is_rejected (test_timeline.TimelineTests.test_usage_before_registration_is_rejected) ... ok
+test_01_purchase_usage_partial_refund_and_idempotence (test_web_integration.WebIntegrationTests.test_01_purchase_usage_partial_refund_and_idempotence) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_02_detail_update_delete_and_empty_payment (test_web_integration.WebIntegrationTests.test_02_detail_update_delete_and_empty_payment) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_03_cross_customer_and_role_bypass (test_web_integration.WebIntegrationTests.test_03_cross_customer_and_role_bypass) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_04_bad_input_and_injection_are_not_sql (test_web_integration.WebIntegrationTests.test_04_bad_input_and_injection_are_not_sql) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_05_logout_revokes_database_session (test_web_integration.WebIntegrationTests.test_05_logout_revokes_database_session) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_06_atomic_create_rejects_second_invalid_item (test_web_integration.WebIntegrationTests.test_06_atomic_create_rejects_second_invalid_item) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_07_concurrent_payment_only_credits_once (test_web_integration.WebIntegrationTests.test_07_concurrent_payment_only_credits_once) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_08_token_values_are_wire_strings (test_web_integration.WebIntegrationTests.test_08_token_values_are_wire_strings) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_09_connection_failure_is_safe (test_web_integration.WebIntegrationTests.test_09_connection_failure_is_safe) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_10_concurrent_consumption_cannot_overdraw (test_web_integration.WebIntegrationTests.test_10_concurrent_consumption_cannot_overdraw) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_11_refund_and_consumption_compete_for_same_tokens (test_web_integration.WebIntegrationTests.test_11_refund_and_consumption_compete_for_same_tokens) ... skipped 'Set isolated DB_LAB_APP_DATABASE and DB_LAB_DEMO_PASSWORD'
+test_database_unavailable_is_sanitized (test_webapp.HttpBoundaryTests.test_database_unavailable_is_sanitized) ... [2026-10-28 13:43:51,198] ERROR in dao: database_failure request_id=18c862f57e3e4350b3dbc40e1a64bd70 operation=products.list role=guest sqlstate=OS_IO native_codes=
+[2026-10-28 13:43:51,199] INFO in __init__: request_id=18c862f57e3e4350b3dbc40e1a64bd70 operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+ok
+test_disconnect_cleanup_does_not_mask_service_unavailable (test_webapp.HttpBoundaryTests.test_disconnect_cleanup_does_not_mask_service_unavailable) ... [2026-10-28 13:43:51,209] ERROR in dao: database_failure request_id=4aaffac39a46432885eb9e26c836053f operation=products.list role=guest sqlstate=08S01 native_codes=
+[2026-10-28 13:43:51,210] WARNING in dao: connection_cleanup_failed request_id=4aaffac39a46432885eb9e26c836053f operation=products.list
+[2026-10-28 13:43:51,210] INFO in __init__: request_id=4aaffac39a46432885eb9e26c836053f operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+ok
+test_invalid_operation_not_exposed (test_webapp.HttpBoundaryTests.test_invalid_operation_not_exposed) ... [2026-10-28 13:43:51,221] INFO in __init__: request_id=6094c580693444feb631a5184d60d29b operation=unknown role=guest code=NOT_FOUND result=404
+ok
+test_login_rejects_structured_kind (test_webapp.HttpBoundaryTests.test_login_rejects_structured_kind) ... [2026-10-28 13:43:51,231] INFO in __init__: request_id=bdb8e2f78a4c4f3e9071321d005686c3 operation=current_identity role=guest code=OK result=200
+[2026-10-28 13:43:51,233] INFO in __init__: request_id=b93567a34a754d86bf60b5ea5784c9a6 operation=login role=guest code=INVALID_INPUT result=400
+ok
+test_mutation_requires_csrf_before_database (test_webapp.HttpBoundaryTests.test_mutation_requires_csrf_before_database) ... [2026-10-28 13:43:51,243] INFO in __init__: request_id=825c7f8df8a44547a7d2f271598417ac operation=orders.create_5 role=guest code=CSRF_REJECTED result=403
+ok
+test_shell_and_security_headers (test_webapp.HttpBoundaryTests.test_shell_and_security_headers) ... [2026-10-28 13:43:51,274] INFO in __init__: request_id=d1787da5e3ab4294b702a52462f3d00e operation=index role=guest code=OK result=200
+ok
+test_unknown_api_is_json (test_webapp.HttpBoundaryTests.test_unknown_api_is_json) ... [2026-10-28 13:43:51,285] INFO in __init__: request_id=d14b25fc539e490993d06625b075e651 operation=unknown role=guest code=NOT_FOUND result=404
+ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 10.682s
+
+OK (skipped=21)

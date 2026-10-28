@@ -20,6 +20,7 @@ GO
 CREATE SCHEMA app AUTHORIZATION dbo;
 GO
 CREATE ROLE app_runtime AUTHORIZATION dbo;
+:r sql/app/opening_inventory.sql
 -- SQL Server UNIQUE constraints include NULL, so pending liabilities require a filtered index.
 ALTER TABLE dbo.RefundLedger DROP CONSTRAINT UQ_Refund_external_ref;
 CREATE UNIQUE INDEX UX_Refund_external_ref ON dbo.RefundLedger(external_payout_ref) WHERE external_payout_ref IS NOT NULL;
@@ -356,9 +357,11 @@ SET NOCOUNT ON;
   BEGIN
    IF @aid IS NULL OR @aid<=0 THROW 55000,'Account required',1;
    IF NOT EXISTS(SELECT 1 FROM dbo.UpstreamAccount WITH(UPDLOCK,HOLDLOCK) WHERE account_id=@aid) THROW 55004,'Account missing',1;
-   IF EXISTS(SELECT 1 FROM dbo.TokenUsageLogs WHERE account_id=@aid) OR EXISTS(SELECT 1 FROM dbo.InventoryLog WHERE account_id=@aid)
+   IF EXISTS(SELECT 1 FROM dbo.TokenUsageLogs WHERE account_id=@aid) OR EXISTS(SELECT 1 FROM dbo.InventoryLog WHERE account_id=@aid
+    AND (reason IS NULL OR reason<>N'APP_INITIAL_QUOTA_V1' OR change_type<>'purchase' OR reference_type IS NULL OR reference_type<>'manual' OR reference_id IS NOT NULL))
     OR EXISTS(SELECT 1 FROM dbo.RestockTask WHERE account_id=@aid) THROW 55009,'Referenced account cannot be deleted',1;
    EXEC sys.sp_set_session_context @key=N'app_account_delete',@value=1;
+   DELETE dbo.InventoryLog WHERE account_id=@aid AND reason=N'APP_INITIAL_QUOTA_V1';
    DELETE dbo.Inventory WHERE account_id=@aid;
    DELETE dbo.UpstreamAccount WHERE account_id=@aid;
    EXEC sys.sp_set_session_context @key=N'app_account_delete',@value=NULL;
