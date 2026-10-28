@@ -220,9 +220,88 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup_web_runtime.ps1 
 
 ## Web 全角色人工验收流程
 
-按“游客 → 管理员准备 → 顾客交易 → 店员运营 → 管理员收尾”的顺序操作。每一步都列出预期结果；结果不符时记录订单/账号/任务编号和页面请求编号，不把下列预期直接登记成已通过。运行配置见[应用手册](docs/webapp.md)，此前自动测试结果见[证据索引](result/webapp/README.md)。
+按“启动服务器 → 游客 → 管理员准备 → 顾客交易 → 店员运营 → 管理员收尾 → 关闭服务器”的顺序操作。每一步都列出预期结果；结果不符时记录订单/账号/任务编号和页面请求编号，不把下列预期直接登记成已通过。运行配置见[应用手册](docs/webapp.md)，此前自动测试结果见[证据索引](result/webapp/README.md)。
 
 ### 0. 准备环境和记录表
+
+#### 0.1 启动前检查
+
+打开 PowerShell，进入**原项目目录**。以下命令仅检查，不创建数据库、不修改样例数据：
+
+```powershell
+Set-Location -LiteralPath 'D:\Desktop\DB\DB_lab'
+if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe')) {
+    throw '缺少项目虚拟环境，请先按上方运行说明安装环境和 requirements-web.txt'
+}
+& .\.venv\Scripts\python.exe -c "import flask, pyodbc, bcrypt, waitress; print('Web依赖可用')"
+if ($LASTEXITCODE -ne 0) { throw '缺少Web依赖，请先安装 requirements-web.txt' }
+Get-Service -Name 'MSSQL$SQLEXPRESS'
+Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue |
+    Select-Object LocalAddress, LocalPort, OwningProcess
+```
+
+SQL Server 服务应为 `Running`。若未运行，由有权限的人员启动对应实例；自定义实例名称按实际配置替换。5050端口有监听时，先确认是否为本项目已经运行的服务器，不要再启动第二份，也不要按“所有Python进程”批量结束程序。原来的前台服务器应回原终端按 `Ctrl+C`；计划任务服务器按第9.2节关闭，然后继续。
+
+首次验收尚未准备数据库时，先按上方建库说明或[应用手册](docs/webapp.md)完成准备。`app_prepare.py` 是一次性建库入口，**不是每次启动服务器的命令**；每次验收都重建库会改变样例和编号。
+
+#### 0.2 方式一 前台启动开发预览
+
+没有配置专用 Windows 运行账户时，先用此方式检验页面及业务。保留这个 PowerShell 窗口，称为“终端A”，验收完成后在同一窗口停止服务器。预览使用数据库受限用户，不替代专用 Windows 账户的权限验收。
+
+```powershell
+Set-Location -LiteralPath 'D:\Desktop\DB\DB_lab'
+$env:DB_LAB_SERVER = 'localhost\SQLEXPRESS'
+# 本机已有库的启动示例；检验下文精确数值时，换成自己准备的干净应用库名。
+$env:DB_LAB_APP_DATABASE = 'TokenHubDB_v11_Web261021D'
+$env:DB_LAB_PORT = '5050'
+$env:DB_LAB_PREVIEW = '1'
+$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
+Remove-Item Env:DB_LAB_HTTPS -ErrorAction SilentlyContinue
+
+# 使用现有 Windows 身份只读检查指定库及应用入口是否存在。
+& sqlcmd -S $env:DB_LAB_SERVER -d $env:DB_LAB_APP_DATABASE -E -C -b `
+    -Q "SET NOCOUNT ON; IF OBJECT_ID(N'app.Execute', N'P') IS NULL THROW 55000, 'Application schema missing', 1; SELECT DB_NAME() AS application_database;"
+if ($LASTEXITCODE -ne 0) { throw '数据库或应用结构未准备好，请先检查配置，暂不启动服务器' }
+
+# 保持前台运行；没有持续输出也可能是正常状态，按下一节检查是否已就绪。
+& .\.venv\Scripts\python.exe -m webapp
+```
+
+启动后终端A暂时不返回命令提示符是正常现象，不要把这一状态当成程序卡住，也不要继续在终端A粘贴其他验收命令。另开“终端B”执行第0.4节。启动失败会返回终端并显示错误；常见原因是实例/库名不符、依赖缺失或端口被占用，修正后重新启动。每次生成新的运行密钥会使旧浏览器登录失效，重新登录即可；不要把运行密钥复制到验收记录。
+
+#### 0.3 方式二 启动已配置的普通账户计划任务
+
+**与方式一二选一，不能同时占用5050端口。** 已按应用手册运行过 `setup_web_runtime.ps1`、专用账户及计划任务均已配置时，才使用此方式。不要为了日常启动反复执行账户安装脚本。
+
+在有权限管理该任务的 PowerShell 中执行；以下按默认账户 `TokenHubWeb`、默认端口5050举例，自定义账户时任务名为 `TokenHub-<账户名>`：
+
+```powershell
+Set-Location -LiteralPath 'D:\Desktop\DB\DB_lab'
+$taskName = 'TokenHub-TokenHubWeb'
+Get-ScheduledTask -TaskName $taskName -ErrorAction Stop | Out-Null
+Enable-ScheduledTask -TaskName $taskName | Out-Null
+Start-ScheduledTask -TaskName $taskName
+Get-ScheduledTask -TaskName $taskName | Select-Object TaskName, State
+```
+
+该方式按本地 `instance/runtime.json` 的配置运行，不能通过设置当前终端的 `DB_LAB_APP_DATABASE` 改变任务使用的数据库。任务启动时先以其 Windows 身份运行权限检查，再启动Web服务。接着执行第0.4节；未就绪时检查本地 `instance/runtime_identity.log` 和 `instance/runtime.log`，不要直接显示或提交包含密钥的运行配置。单独在当前管理员身份下执行 `run_web.ps1` 不等于以普通账户运行计划任务。
+
+#### 0.4 确认服务器就绪
+
+在另一个 PowerShell（终端B）执行。默认地址如下；自定义了端口时同时替换URL和后续端口检查中的数字。
+
+```powershell
+$baseUrl = 'http://127.0.0.1:5050'
+$homeResponse = Invoke-WebRequest -Uri "$baseUrl/" -UseBasicParsing -TimeoutSec 10
+if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
+$catalog = Invoke-RestMethod -Uri "$baseUrl/api/v1/products" -TimeoutSec 10
+if ($catalog.code -ne 'OK') { throw '商品接口尚未就绪，请检查数据库连接和运行身份' }
+'首页与商品查询已就绪，可以开始人工验收'
+```
+
+首页与商品接口均成功后，再在浏览器打开 [TokenHub](http://127.0.0.1:5050/)，执行下列角色操作。首页能打开而商品查询失败时，不能视为服务已可验收。
+
+#### 0.5 记录本轮环境与账户
 
 1. 打开 [TokenHub](http://127.0.0.1:5050/)。页面已经登录时先点“退出登录”。
 2. 为获得下文的确定数值，使用按应用手册创建的**全新实验库**；`web_customer` 的 `Other` 余额应为零，且没有该 provider 尚未消费的历史购买批次。已有数据不满足时另用新后缀准备库，不删除旧库或清空历史记录。仅换商品名称不能隔离同 provider 的 FIFO 批次。
@@ -419,3 +498,53 @@ async function checkApi(path, method = 'GET', payload = {}) {
 - [ ] 店员创建/完成补货、管理员继承这些职责，以及必要删除的成功/拒绝路径已核对。
 - [ ] 页面隐藏按钮与直接API权限一致；CSRF、非法输入和失败反馈均已核对。
 - [ ] 截图、对象编号、操作前后值及失败请求编号已记录；普通Windows账户的部署验收按应用手册另外记录，不能由本流程代替。
+
+### 9. 验收后关闭服务器
+
+先保存验收记录、截图、对象编号和失败请求编号，并点“退出登录”。**退出账号或关闭浏览器标签页不会停止服务器**，还需要按本次采用的启动方式执行下面步骤。
+
+#### 9.1 关闭前台预览服务器
+
+回到第0.2节启动服务的终端A，按一次 `Ctrl+C`，等待 Python/Waitress 退出并返回 PowerShell 命令提示符，再执行第9.3节。不要在终端B按 `Ctrl+C` 后就认为终端A的服务器已关闭。结束后可在终端A清除本轮运行环境变量：
+
+```powershell
+Remove-Item Env:DB_LAB_PREVIEW -ErrorAction SilentlyContinue
+Remove-Item Env:DB_LAB_SECRET -ErrorAction SilentlyContinue
+Remove-Item Env:DB_LAB_APP_DATABASE -ErrorAction SilentlyContinue
+Remove-Item Env:DB_LAB_SERVER -ErrorAction SilentlyContinue
+Remove-Item Env:DB_LAB_PORT -ErrorAction SilentlyContinue
+```
+
+#### 9.2 关闭普通账户计划任务服务器
+
+仅用于第0.3节的启动方式。在有权限管理该任务的 PowerShell 中执行：
+
+```powershell
+$taskName = 'TokenHub-TokenHubWeb'
+# 禁用以防验收后重启电脑又自动启动；下次按0.3节启用并启动即可。
+Disable-ScheduledTask -TaskName $taskName | Out-Null
+Stop-ScheduledTask -TaskName $taskName
+Get-ScheduledTask -TaskName $taskName | Select-Object TaskName, State
+```
+
+任务预期为 `Disabled`。停止任务后仍需确认端口已释放，不能只根据任务状态断言子进程已经退出。这里不删除任务、账户或数据库，保留下次验收所需配置。
+
+#### 9.3 确认端口释放并保留记录
+
+停止后稍等片刻，在终端B执行：
+
+```powershell
+$listeners = Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue
+if ($listeners) {
+    $listeners | Select-Object LocalAddress, LocalPort, OwningProcess
+    throw '5050仍有监听，请核对本轮服务器进程，尚不能登记为已关闭'
+}
+'5050端口已释放，Web服务器已关闭'
+```
+
+正常结果是没有监听记录，并输出关闭提示；重新访问页面或商品接口应无法连接，不能仅根据浏览器保留的旧画面判断服务器仍在运行。如果仍有监听，核对 `OwningProcess` 及对应的启动终端/计划任务，只处理本轮服务器，不批量终止Python或其它服务。关闭Web应用**不需要停止SQL Server服务**，不删除或回滚本轮已保存的订单、调用、退款和补货数据。
+
+- [ ] 已记录启动方式、实际数据库、端口和验收时的Git提交。
+- [ ] 已退出登录，保存人工检查结果及必要证据。
+- [ ] 已停止本轮前台进程或计划任务，并确认5050无监听。
+- [ ] 验收记录注明“服务已关闭”；数据库、日志和样例账户继续保留。
