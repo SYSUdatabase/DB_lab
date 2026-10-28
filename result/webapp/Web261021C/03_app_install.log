@@ -1,3 +1,0 @@
-已将数据库上下文更改为 "TokenHubDB_v11_Web261021C"。
-消息 1934，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，第 4 行
-CREATE INDEX 失败，因为下列 SET 选项的设置不正确: 'QUOTED_IDENTIFIER'。请确保 SET 选项正确无误，可以用于 计算列上的索引视图和/或索引和/或筛选的索引和/或查询通知和/或 XML 数据类型方法和/或空间索引操作。。

@@ -23,7 +23,7 @@
 
 库存快照固定为 2026-09-22T23:59:59。Q06 的可用账号筛选与 stock_state 的纯额度判定不同。跨表不变量当前由独立验收检查，真实写事务的即时维护留给后续阶段。
 
-课程要求映射见 [任务书索引](../../docs/requirements/README.md)，历史周次材料见 [archive](../../archive/README.md)。
+课程要求映射见 [任务书索引](../../archive/coursework/week4/requirements/README.md)，历史周次材料见 [archive](../../archive/README.md)。
 
 ## 第六周 v1.0 副本迁移
 

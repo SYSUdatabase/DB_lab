@@ -2,7 +2,7 @@
 
 - **范围**：API Token 中转站 v0.1，2026-10-10 的第五周 ER 模型与业务解释。
 - **核对内容**：实体、属性、主码与候选码、联系基数、参与约束，以及它们与 SQL 结构的对应关系。
-- **资料**：第五周任务书；`sql/v01/01_create_tables.sql`、`sql/v01/constraint.sql`、`sql/v01/verify.sql`、`report/stage_report.md`。
+- **资料**：第五周任务书；`sql/v01/01_create_tables.sql`、`sql/v01/constraint.sql`、`sql/v01/verify.sql`、`archive/coursework/week4/stage_report.md`。
 - **只读验证环境**：`LAPTOP-3H5FCR3B`，SQL Server `localhost\SQLEXPRESS`，数据库 `TokenHubDB_v01_A`。运行 `result/week5/readonly_validation.sql`；**全部为 SELECT/系统目录只读查询**。查询输出：`result/week5/readonly_validation.log`。
 - **修改范围**：仅本周报告、ER 图及只读证据。未修改 v0.1 结构、数据、历史证据，也未运行迁移。
 

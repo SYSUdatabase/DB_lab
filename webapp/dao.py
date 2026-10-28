@@ -84,6 +84,7 @@ def rows(cursor: pyodbc.Cursor) -> list[JsonObject]:
 
 PROCEDURES = {
     "lookup": "EXEC app.AuthLookup @kind=?, @account=?",
+    "register": "EXEC app.RegisterCustomer @username=?, @email=?, @password_hash=?",
     "start": "EXEC app.StartSession @kind=?, @identity_id=?, @token_hash=?",
     "resolve": "EXEC app.ResolveSession @token_hash=?",
     "end": "EXEC app.EndSession @token_hash=?",

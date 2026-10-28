@@ -1,8 +1,9 @@
-# Python environment
-# Requires Python >= 3.11
-#
-# Runtime dependencies:
-# None. week3/tools/datagen.py uses only the Python standard library.
-#
-# Development / code quality
+# Python >= 3.11
+# Web application runtime (Flask + SQL Server)
+Flask>=3.1,<4
+pyodbc>=5.2,<6
+bcrypt>=4.2,<6
+waitress>=3,<4
+
+# Development / code quality (not needed to start the website)
 ruff>=0.6,<1.0

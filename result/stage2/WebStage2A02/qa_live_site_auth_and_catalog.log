@@ -1,0 +1,5 @@
+PASS homepage and public products: 10
+PASS account login: web_customer customer
+PASS account login: web_staff staff
+PASS account login: web_admin admin
+PASS website ready http://127.0.0.1:5050

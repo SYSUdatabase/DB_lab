@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-28T18:14:53",
+  "operation": "prune redundant results and archive earlier-stage outputs",
+  "removed": [
+    {
+      "action": "delete",
+      "path": "result/source_Web261021A",
+      "files": 12,
+      "bytes": 1346073
+    },
+    {
+      "action": "delete",
+      "path": "result/source_Web261021B",
+      "files": 12,
+      "bytes": 1346072
+    },
+    {
+      "action": "delete",
+      "path": "result/source_Web261021C",
+      "files": 12,
+      "bytes": 1346073
+    },
+    {
+      "action": "delete",
+      "path": "result/source_WebAudit28A",
+      "files": 12,
+      "bytes": 1346118
+    },
+    {
+      "action": "delete",
+      "path": "result/source_WebAudit28B",
+      "files": 12,
+      "bytes": 1346118
+    },
+    {
+      "action": "delete",
+      "path": "result/source_WebStage2A01",
+      "files": 12,
+      "bytes": 1346137
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/Web261021A",
+      "files": 2,
+      "bytes": 1394
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/Web261021B",
+      "files": 4,
+      "bytes": 1650
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/Web261021C",
+      "files": 25,
+      "bytes": 254519
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/WebAudit28A",
+      "files": 7,
+      "bytes": 1963
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/WebAudit28B",
+      "files": 13,
+      "bytes": 24961
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/WebStage2A01",
+      "files": 7,
+      "bytes": 2041
+    },
+    {
+      "action": "delete",
+      "path": "result/webapp/temporary_workspace_logs",
+      "files": 2,
+      "bytes": 92616
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/Web261021A",
+      "files": 14,
+      "bytes": 3457
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/Web261021B",
+      "files": 20,
+      "bytes": 4829
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/Web261021C",
+      "files": 27,
+      "bytes": 20583
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/WebAudit28A",
+      "files": 27,
+      "bytes": 20548
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/WebAudit28B",
+      "files": 27,
+      "bytes": 20548
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/WebStage2A01",
+      "files": 27,
+      "bytes": 20557
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/Unified261017A",
+      "files": 10,
+      "bytes": 15804
+    },
+    {
+      "action": "delete",
+      "path": "result/week6/v11/Unified261017B",
+      "files": 14,
+      "bytes": 4306
+    },
+    {
+      "action": "delete",
+      "path": "result/stage2/WebStage2A01",
+      "files": 8,
+      "bytes": 771516
+    },
+    {
+      "action": "archive",
+      "path": "result/recheck",
+      "files": 43,
+      "bytes": 2129094
+    },
+    {
+      "action": "archive",
+      "path": "result/sqltree_v01_261017",
+      "files": 11,
+      "bytes": 1343777
+    },
+    {
+      "action": "archive",
+      "path": "result/sqltree_v01_261017b",
+      "files": 13,
+      "bytes": 1346093
+    }
+  ],
+  "preserved": [
+    "stage2/WebStage2A02",
+    "webapp/WebStage2A02",
+    "webapp/WebSign28A",
+    "webapp/WebManualA01",
+    "webapp/Web261021D",
+    "webapp/opening_inventory_20261028",
+    "source_WebStage2A02",
+    "source_WebSign28A",
+    "source_WebManualA01",
+    "source_Web261021D",
+    "week5",
+    "week6/reproduction",
+    "week6/v11/WebStage2A02",
+    "week6/v11/WebSign28A",
+    "week6/v11/WebManualA01",
+    "week6/v11/Web261021D",
+    "week6/v11/SqlTree261017A",
+    "week6/v11/Full261017D",
+    "sqltree_v01_261017c"
+  ],
+  "note": "Only files/logs removed; SQL Server databases untouched."
+}

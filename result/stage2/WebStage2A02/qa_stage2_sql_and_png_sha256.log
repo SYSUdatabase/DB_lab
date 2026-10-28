@@ -1,0 +1,28 @@
+PASS screenshot SHA256 22 SQL reconciliations 25
+{
+  "customer_signup_unique": 1,
+  "rejected_duplicate_never_created": 1,
+  "order_id": 112,
+  "order_status": "partially_refunded",
+  "order_amount": "12.00",
+  "order_tokens": 135791,
+  "order_item_count": 1,
+  "refund_amount": "7.58",
+  "refundable_tokens": 85791,
+  "consumed_tokens": 50000,
+  "refund_state": "settled",
+  "usage_count": 1,
+  "usage_tokens": 50000,
+  "actual_usage_account_id": 17,
+  "actual_usage_account_name": "Web Other",
+  "actual_usage_account_current_quota": 99950000,
+  "balance_after_refund": 0,
+  "upstream_account_id": 18,
+  "initial_account_quota": 1000000,
+  "restock_actual": 8000,
+  "upstream_total_quota": 1008000,
+  "upstream_remaining_quota": 1008000,
+  "inventory_log_sum": 1008000,
+  "tables": 18,
+  "trusted_foreign_keys": 22
+}

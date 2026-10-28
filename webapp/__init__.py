@@ -178,6 +178,17 @@ def install_routes(app: Flask) -> None:
         g.role = principal["role"]
         return success({**principal, "csrf": session["csrf"]})
 
+    @app.post("/api/v1/auth/register")
+    def register_customer() -> Response:
+        g.operation = "register_customer"
+        if session.get("token"):
+            raise AppError("INVALID_REQUEST", "请先退出当前账户后注册", 409)
+        token, principal = services.register(json_body())
+        session.clear()
+        session.update(token=token, csrf=secrets.token_urlsafe(32))
+        g.role = principal["role"]
+        return success({**principal, "csrf": session["csrf"]})
+
     @app.post("/api/v1/auth/logout")
     def logout() -> Response:
         if session.get("token"):

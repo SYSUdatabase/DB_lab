@@ -1,0 +1,69 @@
+{
+  "run_date": "2026-10-28T18:01:02",
+  "machine": "xiao_ruan",
+  "database": "TokenHubDB_v11_WebStage2A02",
+  "scope": "Code/static/links/current browser and SQL read-only QA; not a second member's manual review",
+  "entries": [
+    {
+      "name": "root_current_links",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_root_current_links.log"
+    },
+    {
+      "name": "week5_er_and_links",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_week5_er_and_links.log"
+    },
+    {
+      "name": "week6_diagram_and_links",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_week6_diagram_and_links.log"
+    },
+    {
+      "name": "migration_reproduction_archive",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_migration_reproduction_archive.log"
+    },
+    {
+      "name": "ruff_code_check",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_ruff_code_check.log"
+    },
+    {
+      "name": "ruff_format_check",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_ruff_format_check.log"
+    },
+    {
+      "name": "live_site_auth_and_catalog",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_live_site_auth_and_catalog.log"
+    },
+    {
+      "name": "stage2_sql_and_png_sha256",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_stage2_sql_and_png_sha256.log"
+    },
+    {
+      "name": "git_diff_whitespace",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_git_diff_whitespace.log"
+    },
+    {
+      "name": "frontend_javascript_syntax",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "qa_frontend_javascript_syntax.log"
+    }
+  ],
+  "result": "PASS"
+}

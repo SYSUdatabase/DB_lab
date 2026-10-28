@@ -1,0 +1,14 @@
+{
+  "server": "localhost\\SQLEXPRESS",
+  "database": "TokenHubDB_v11_WebStage2A02",
+  "source": "TokenHubDB_v01_WebStage2A02",
+  "history_repair": "skipped: fresh v01 passed VFY12/13; hardened verification passed",
+  "business_tables": 17,
+  "app_tables": 1,
+  "accounts": [
+    "web_customer",
+    "web_other",
+    "web_staff",
+    "web_admin"
+  ]
+}

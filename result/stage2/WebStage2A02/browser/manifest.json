@@ -1,0 +1,296 @@
+{
+  "database": "TokenHubDB_v11_WebStage2A02",
+  "url": "http://127.0.0.1:5051",
+  "timestamp": "2026-10-28T17:47:52",
+  "browser": "Microsoft Edge headless / Playwright, real live HTTP",
+  "mode": "automatic browser execution; NOT human review",
+  "order_id": 112,
+  "product_id": 18,
+  "account_id": 18,
+  "events": [
+    {
+      "check": "Guest catalog",
+      "count": 10
+    },
+    {
+      "check": "Register new customer auto-login"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Duplicate username rejected without account creation"
+    },
+    {
+      "check": "Invalid login rejected"
+    },
+    {
+      "check": "Login web_admin",
+      "role": "employee"
+    },
+    {
+      "check": "HTTP GET /products",
+      "status": 200,
+      "code": "OK",
+      "request_id": "e010df7accd543c9b43bd77fb5df5922"
+    },
+    {
+      "check": "New product ID",
+      "product_id": 18
+    },
+    {
+      "check": "Duplicate provider plus Token rejected"
+    },
+    {
+      "check": "HTTP GET /inventory",
+      "status": 200,
+      "code": "OK",
+      "request_id": "ad3c013c54b94cc6a6cf814a3ec73acd"
+    },
+    {
+      "check": "New upstream inventory",
+      "account_id": 18,
+      "initial_quota": "1000000"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_customer",
+      "role": "customer"
+    },
+    {
+      "check": "HTTP GET /orders",
+      "status": 200,
+      "code": "OK",
+      "request_id": "8bbc66ed085846edbc97c16755096c00"
+    },
+    {
+      "check": "Created draft",
+      "order_id": 112
+    },
+    {
+      "check": "HTTP GET /usage",
+      "status": 200,
+      "code": "OK",
+      "request_id": "b418f7bb42384c0a8613d4219dfd8ceb"
+    },
+    {
+      "check": "Successful usage",
+      "used": 50000
+    },
+    {
+      "check": "HTTP POST /usage",
+      "status": 400,
+      "code": "INVALID_INPUT",
+      "request_id": "46a2c3b8ef12438aaefd0215f34c6ce1"
+    },
+    {
+      "check": "HTTP GET /products",
+      "status": 200,
+      "code": "OK",
+      "request_id": "9c3e4c4f204b423588ec3057c4bac7d3"
+    },
+    {
+      "check": "Input rejection and SQL injection-as-search are safe"
+    },
+    {
+      "check": "HTTP GET /refunds",
+      "status": 200,
+      "code": "OK",
+      "request_id": "4081651734ac44f085fe49c55e868e4f"
+    },
+    {
+      "check": "Refund recorded",
+      "order_id": 112,
+      "amount": "7.58",
+      "refunded_tokens": "85791",
+      "consumed_tokens": "50000"
+    },
+    {
+      "check": "HTTP POST /orders/112/refund",
+      "status": 200,
+      "code": "OK",
+      "request_id": "4800041457c64ee39e2df79ae7833855"
+    },
+    {
+      "check": "HTTP POST /orders/112/refund",
+      "status": 200,
+      "code": "OK",
+      "request_id": "e9d1c449f60a4989ae5ad90f2242bd2c"
+    },
+    {
+      "check": "Repeated refund idempotent"
+    },
+    {
+      "check": "HTTP POST /usage",
+      "status": 409,
+      "code": "BUSINESS_RULE",
+      "request_id": "70bfe773251e4a5285eac632c079aab2"
+    },
+    {
+      "check": "Spent/refunded balance cannot be reused"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_other",
+      "role": "customer"
+    },
+    {
+      "check": "HTTP GET /orders/112",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "0b8a48de0b184266942755ec4ea51c17"
+    },
+    {
+      "check": "Cross-customer order blocked",
+      "order_id": 112,
+      "code": "FORBIDDEN",
+      "request_id": "0b8a48de0b184266942755ec4ea51c17"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_staff",
+      "role": "employee"
+    },
+    {
+      "check": "HTTP POST /products",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "502cee9f963a4d8cbe14043ba0958c57"
+    },
+    {
+      "check": "Staff cannot create products",
+      "code": "FORBIDDEN",
+      "request_id": "502cee9f963a4d8cbe14043ba0958c57"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_admin",
+      "role": "employee"
+    },
+    {
+      "check": "Administrator registered simulated settlement"
+    },
+    {
+      "check": "HTTP DELETE /orders/112",
+      "status": 409,
+      "code": "BUSINESS_RULE",
+      "request_id": "82d201cc42994771ad60e1cd0e20f218"
+    },
+    {
+      "check": "Paid/refunded orders cannot be deleted",
+      "code": "BUSINESS_RULE",
+      "request_id": "82d201cc42994771ad60e1cd0e20f218"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Unauthenticated API blocked",
+      "status": 401
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_游客商品目录.png",
+      "sha256": "d1695091dc7eb10f0ef7ef1ada4e195b946587555eaa47dfc8193734b06503a4"
+    },
+    {
+      "file": "02_登录入口.png",
+      "sha256": "decefc598d0dfee423c8cffd7b0d8c44571e5560dffedb8556f12e4fe7ff194f"
+    },
+    {
+      "file": "03_顾客注册表单.png",
+      "sha256": "a403edd564aef16298c97e19fa285178a1988801af47ffa90b2843a13e22b9d1"
+    },
+    {
+      "file": "04_注册成功自动登录.png",
+      "sha256": "e3b595a3da2f7ebaa122db3b7051294546e5a6a23f1f49e8090ad18db3a25cf7"
+    },
+    {
+      "file": "05_重复账号拒绝.png",
+      "sha256": "ba903b7da5fba442f822765e8b57799ce610c297f42a3fe7d8500b1845528939"
+    },
+    {
+      "file": "06_错误密码拒绝.png",
+      "sha256": "bd58f6fb2a0441880b266070ed84500381aae267de1c71e5a38c9a651504e6c1"
+    },
+    {
+      "file": "07_管理员新增商品.png",
+      "sha256": "da6f7e18e905b30912b8f71fbfaa2399a9c07e18a1b651fe62b9369ffc675069"
+    },
+    {
+      "file": "08_商品唯一约束拒绝.png",
+      "sha256": "90038103dd2eb6610d6e6aee85043f395a88b140d53931b630b333641be65ab6"
+    },
+    {
+      "file": "09_管理员新增库存账号.png",
+      "sha256": "0493db9ed9bc9966059b2286162311c79166aab85f192f0761ceb833ce5ec95d"
+    },
+    {
+      "file": "10_顾客订单表单.png",
+      "sha256": "2449da109c84affd9c26ef7033a53a10963aa90e11723c6ccbc1f8de7f5edd50"
+    },
+    {
+      "file": "11_顾客待支付订单.png",
+      "sha256": "a6d8913ea9b104ef9160f46686fe6d514fc29e478308a4769f22a1f0f0132239"
+    },
+    {
+      "file": "12_订单模拟支付成功.png",
+      "sha256": "33aad86e207e2b8498cf5f5f90137c1fa4ac1326621cb79e2f6051c117c35870"
+    },
+    {
+      "file": "13_支付后余额.png",
+      "sha256": "3b637c3d9e37cf386f4d934a2496044601d2dc4ef701076a3694771c278a6be7"
+    },
+    {
+      "file": "14_Token调用扣减.png",
+      "sha256": "dbc68244e896e9f8684ab38b5fc0e65fde7bff6bb4bc5b765a5067e92d420ec5"
+    },
+    {
+      "file": "15_顾客部分退款订单.png",
+      "sha256": "27b560ebdedb7fe13fc86fa9607d825e1ba7621c32bcb06ee9639779cc8a03f9"
+    },
+    {
+      "file": "16_退款金额待结算.png",
+      "sha256": "693c5b087e897c58e408064121c4cbd2ca109689e40dd2ac0c14046215c2836c"
+    },
+    {
+      "file": "17_第二顾客数据隔离.png",
+      "sha256": "5569564c64a064961043a0429e21acac4650441d34583dd6f795706383a04e64"
+    },
+    {
+      "file": "18_店员补货完成.png",
+      "sha256": "3adef95457f67564dc80fb629d376e7eb82905cce555789c55ca6d44b3359fa7"
+    },
+    {
+      "file": "19_店员无商品管理权限.png",
+      "sha256": "3adef95457f67564dc80fb629d376e7eb82905cce555789c55ca6d44b3359fa7"
+    },
+    {
+      "file": "20_管理员模拟退款结算.png",
+      "sha256": "de9297bcddbe3334e057a97129df7a7c4f2ba61ba1ec658483a9cf2f7a59a0b1"
+    },
+    {
+      "file": "21_游客访问订单401.png",
+      "sha256": "680d67bab7230f9c04c2844da1d5acefb108587e1bcd2dffaa9bfc5b6f05db41"
+    },
+    {
+      "file": "22_验收结束游客界面.png",
+      "sha256": "7fb1caf40d324d31811f42955917b9be6ec2036a97ad5df602f1da2ec650abf6"
+    }
+  ],
+  "result": "PASS",
+  "not_tested": [
+    "real card payouts",
+    "independent group member review",
+    "real restricted Windows service account"
+  ]
+}

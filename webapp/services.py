@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import secrets
 from decimal import Decimal, InvalidOperation
 
@@ -96,6 +97,38 @@ def login(payload: JsonObject) -> tuple[str, JsonObject]:
         raise AppError("LOGIN_FAILED", "账号或密码不正确", 401)
     token = secrets.token_urlsafe(32)
     principal = dao.authentication("start", kind, records[0]["identity_id"], digest(token))
+    return token, principal[0]
+
+
+def register(payload: JsonObject) -> tuple[str, JsonObject]:
+    """Public self-service registration creates only an ordinary customer."""
+    if set(payload) != {"account", "email", "password", "password_confirm"}:
+        raise AppError("INVALID_INPUT", "请填写注册账号、邮箱和两次密码", 400)
+    account, email, password, confirmation = (
+        payload.get(name) for name in ("account", "email", "password", "password_confirm")
+    )
+    if not isinstance(account, str) or not re.fullmatch(r"[A-Za-z0-9_]{3,50}", account):
+        raise AppError("INVALID_INPUT", "账号须为3至50位英文字母、数字或下划线", 400)
+    if (
+        not isinstance(email, str)
+        or not 5 <= len(email) <= 100
+        or not re.fullmatch(r"[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", email)
+    ):
+        raise AppError("INVALID_INPUT", "邮箱格式不正确", 400)
+    if not isinstance(password, str) or not isinstance(confirmation, str):
+        raise AppError("INVALID_INPUT", "请输入并确认密码", 400)
+    if not 12 <= len(password.encode("utf-8")) <= 72:
+        raise AppError("INVALID_INPUT", "密码长度须为12至72字节", 400)
+    if password != confirmation:
+        raise AppError("INVALID_INPUT", "两次输入的密码不一致", 400)
+    hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("ascii")
+    records = dao.authentication("register", account, email, hashed_password)
+    if not records or not isinstance(records[0].get("identity_id"), int):
+        raise AppError("DATABASE_PROTOCOL", "注册暂时不可用，请稍后重试", 500)
+    token = secrets.token_urlsafe(32)
+    principal = dao.authentication("start", "customer", records[0]["identity_id"], digest(token))
+    if not principal:
+        raise AppError("DATABASE_PROTOCOL", "注册成功，请使用新账号登录", 500)
     return token, principal[0]
 
 

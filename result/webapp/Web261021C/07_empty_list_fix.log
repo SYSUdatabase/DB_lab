@@ -1,1 +1,0 @@
-PASS: CREATE OR ALTER app.[Execute] with explicit list-operation envelope and COALESCE empty JSON items. No data modified.

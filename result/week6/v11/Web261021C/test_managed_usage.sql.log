@@ -1,6 +1,0 @@
-log_id      model_provider                                     used_at                               
------------ -------------------------------------------------- --------------------------------------
-       3002 OpenAI                                                                2026-10-21 10:57:51
-PASS I06/I09 managed usage: balance, quota, logs, summaries and rollback
-PASS I09 insufficient balance rejected with no writes
-PASS V11 MANAGED USAGE REGRESSION

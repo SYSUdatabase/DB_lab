@@ -1,0 +1,23 @@
+order_id   
+-----------
+        108
+detail_id   order_id    product_id  quantity    subtotal     total_tokens        
+----------- ----------- ----------- ----------- ------------ --------------------
+        189         108           1           1         3.90                50000
+order_id    paid_at                               
+----------- --------------------------------------
+        108                    2026-10-28 17:35:51
+log_id      model_provider                                     used_at                               
+----------- -------------------------------------------------- --------------------------------------
+       3004 OpenAI                                                                2026-10-28 17:35:51
+PASS X01 all historical usage audit links match account, time and amount
+PASS X02 manager-managed payment credits exactly once and rolls back
+PASS X03 new controlled usage has exact typed audit link and rollback
+PASS X04 invalid manual reference denied with 53007
+PASS X05 usage event is append-only
+PASS X06 manager direct balance adjustment denied
+PASS X07 manager direct quota adjustment denied
+PASS X08 user history cannot be made inconsistent
+PASS X09 upstream account provider cannot invalidate usage
+PASS X10 manager direct order finalization blocked
+PASS V1.1 HARDENED REGRESSION X01-X10

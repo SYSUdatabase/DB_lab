@@ -1,0 +1,97 @@
+[
+  {
+    "source": "README.md",
+    "archived_copy": "archive/coursework/week4/README_combined_before_stage2.md",
+    "sha256": "c312ad1df4e3789d88294ee54232320cabec411310222faa1d0b48b5732a3570"
+  },
+  {
+    "source": "ROADMAP.md",
+    "archived_copy": "archive/coursework/week4/ROADMAP_combined_before_stage2.md",
+    "sha256": "f7a14b9029223f99ecba4d7282c9d32dfdf71daa20eb2dadac9aa3ee57e4cf4a"
+  },
+  {
+    "source": "agent.md",
+    "archived_copy": "archive/coursework/week4/agent_combined_before_stage2.md",
+    "sha256": "d63f52bd6e704491fd875bd0f42257cf032fab6a89e259b0eac700916b7e86ae"
+  },
+  {
+    "source": "docs/team_division.md",
+    "archived_copy": "archive/coursework/week4/team_division_full_history.md",
+    "sha256": "3e6197c7de02cc036235a5feee4517925527c533431a61b98a37faa1ade1bec3"
+  },
+  {
+    "source": "docs/ai_usage_log.md",
+    "archived_copy": "archive/coursework/week4/ai_usage_log_full_history.md",
+    "sha256": "1ed11bcdd4f0a0b2cf2e6b03272a6891073f55f444633372606fe1cf022b5609"
+  },
+  {
+    "source": "docs/ai使用文档.md",
+    "archived_copy": "archive/coursework/week4/ai使用文档_full_history.md",
+    "sha256": "114fbf75663fdb705f01cac710e76dc8d3d3c78f97ed49e387b1c6aa46d9ac96"
+  },
+  {
+    "source": "PRODUCT.md",
+    "archived": "archive/coursework/week4/PRODUCT.md",
+    "sha256": "8a8fea893ea34d809aa468eb19e6be382b195dee08323858219e35128b40a06b"
+  },
+  {
+    "source": "report/stage_report.md",
+    "archived": "archive/coursework/week4/stage_report.md",
+    "sha256": "2cdaf4e02280468df9783f777ac6acb569466b56e3cbedf11251b85265702afc"
+  },
+  {
+    "source": "report/role_workflow.md",
+    "archived": "archive/coursework/week4/role_workflow.md",
+    "sha256": "269a811c5ee45d3e54a36920af7eac849610de0516889b8da0e9036b4f41bdcc"
+  },
+  {
+    "source": "docs/reproduction.md",
+    "archived": "archive/coursework/week4/reproduction.md",
+    "sha256": "dc35273921df304fe7869faf06074940177380f0607d9cf1fe72b355b1facdd4"
+  },
+  {
+    "source": "docs/requirements",
+    "archived": "archive/coursework/week4/requirements",
+    "files": "3"
+  },
+  {
+    "source": "plan/week4-ai-document.md",
+    "archived": "archive/coursework/week4/week4-ai-document.md",
+    "sha256": "32b165a8087dcb193e4e35c618ebe58da66080aa6a338f55c2198332ffa587a0"
+  },
+  {
+    "source": "plan/week4-fixes-and-reorganization.md",
+    "archived": "archive/coursework/week4/week4-fixes-and-reorganization.md",
+    "sha256": "77b83e1243714b3c15d3a7e1040718f2d346b49c7105a6b7807e2c00e3db1730"
+  },
+  {
+    "source": "result/run_final_A",
+    "archived": "archive/evidence/stage1-legacy/run_final_A",
+    "files": "11"
+  },
+  {
+    "source": "result/run_final_B",
+    "archived": "archive/evidence/stage1-legacy/run_final_B",
+    "files": "11"
+  },
+  {
+    "source": "result/evidence_logs",
+    "archived": "archive/evidence/stage1-legacy/evidence_logs",
+    "files": "22"
+  },
+  {
+    "source": "result/evidence_sql",
+    "archived": "archive/evidence/stage1-legacy/evidence_sql",
+    "files": "22"
+  },
+  {
+    "source": "result/screenshots",
+    "archived": "archive/evidence/stage1-legacy/screenshots",
+    "files": "27"
+  },
+  {
+    "source": "result/README.md",
+    "archived_copy": "archive/evidence/stage1-legacy/result_README_before_stage2.md",
+    "sha256": "5a3fc038c2a48db283346679df2a835ace62e9db187ce5fcad073b27bd8d48ea"
+  }
+]

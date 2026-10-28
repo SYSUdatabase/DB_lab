@@ -14,7 +14,7 @@ webapp/
   services.py         业务授权、身份与输入检查
   dao.py              唯一数据库访问层、参数化调用、连接工作单元
   errors.py           HTTP与SQL错误分类
-sql/app/              会话与权限、应用过程、兼容交易适配
+sql/app/              会话与权限、应用过程、受限顾客注册、兼容交易适配
 tools/app_prepare.py  全新数据库准备
 tools/setup_web_runtime.ps1  普通账户与计划任务配置
 tests/test_app_*.py / test_web*.py  SQL与HTTP集成检查
@@ -28,13 +28,15 @@ tests/test_app_*.py / test_web*.py  SQL与HTTP集成检查
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-web.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 $env:PATH = "$pwd\.venv\Scripts;$env:PATH"
 $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本地样例密码，至少12字节'
 .\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebYourRun01
 ```
 
-密码仅用于本地合成样例，勿输入已有个人密码。四个样例账户使用该密码：顾客 `web_customer`、`web_other`；员工入口中店员 `web_staff`、管理员 `web_admin`。原占位密码账户不用于Web登录，不提供注册与密码找回。
+密码仅用于本地合成样例，勿输入已有个人密码。网站登录弹窗可点击“还没有账号？注册顾客账户”，自行填写用户名、邮箱及两次相同的12–72字节密码；注册后自动以普通顾客登录。数据库以 bcrypt 哈希保存密码；用户名/邮箱不得重复，员工和管理员不能自助注册。本地模拟环境不发送邮箱验证邮件。
+
+四个样例账户使用该密码：顾客 `web_customer`、`web_other`；员工入口中店员 `web_staff`、管理员 `web_admin`。原占位密码账户不用于Web登录，暂未实现邮箱验证和密码找回。
 
 准备工具先执行全部 v0.1 验收和14表签名，再新建 v1.0/v1.1 副本、CHECKSUM备份及VERIFYONLY，运行基础规则、加固、FIFO账本与退款回归，最后安装应用扩展和当前有效账号。干净源库已通过时间与历史余额检查，不调用针对旧异常数据的修复程序。旧源库与既有副本不修改。
 
@@ -111,7 +113,7 @@ SQL反例在事务中回滚；HTTP业务流程测试会在指定新实验库增�
 
 浏览器测试使用已安装的Tabbit CLI、[场景脚本](../tools/browser_qa.js)和[执行器](../tools/browser_qa.py)，验证三角色流程；不要求运行应用的普通用户安装Tabbit。前端提示失败时保存请求编号，按日志定位；不复制内部异常到页面。
 
-最终原目录56项自动测试全部通过，无skipped；完整结果见[证据索引](../result/webapp/README.md)。第二名成员独立复现和普通Windows账户最终启动尚未登记；现有自动检查不代表这些事项完成。
+最终原目录56项自动测试全部通过，无skipped；完整结果见[证据索引](../result/webapp/README.md)。第一名测试组员陈诗翰先在其环境测试；第二名组员阮依成已亲自检查本机登录及订单并指出缺少注册入口。后续注册功能已补齐；独立66项测试和22张Edge截图为补充自动化证据。另一个新Windows环境从零部署及真实普通Windows受限账户启动待验证。
 
 
 应用ER重导出需要可选的matplotlib依赖：安装 "matplotlib>=3.8,<4" 后执行 python report/render_app_er.py。已有SVG/PNG可直接查阅。

@@ -1,0 +1,8 @@
+task_id     account_id  added_quota          completed_at                          
+----------- ----------- -------------------- --------------------------------------
+          5           5                 5000                    2026-10-28 17:35:52
+PASS Y01 managed restock atomic state, quota and audit; rollback
+PASS Y02 zero restock rejected
+PASS Y03 double-restock rejected
+PASS Y04 direct inventory updates rejected
+PASS V1.1 CONTROLLED RESTOCK TESTS Y01-Y04

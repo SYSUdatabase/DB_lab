@@ -451,3 +451,4 @@ GO
 
 COMMIT TRANSACTION;
 GO
+:r sql/app/register.sql

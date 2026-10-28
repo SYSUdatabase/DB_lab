@@ -1,9 +1,0 @@
-PASS 07_refund_schema.sql
-Traceback (most recent call last):
-  File "D:\Desktop\DB\DB_lab_webapp\week6\v11\install_refund.py", line 62, in <module>
-    if __name__=="__main__":main()
-                            ^^^^^^
-  File "D:\Desktop\DB\DB_lab_webapp\week6\v11\install_refund.py", line 56, in main
-    if result.returncode:raise RuntimeError("Historical lot seeding failed; see log")
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: Historical lot seeding failed; see log

@@ -8,7 +8,7 @@
 
 ## 一、已核对的项目基线
 
-1. 正式 DDL 为 `sql/v01/01_create_tables.sql`，后续约束位于 `sql/v01/constraint.sql`；另有 `sql/v01/verify.sql`、`sql/v01/role.sql`、`sql/v01/view.sql` 和查询文件。正式阶段报告 `report/stage_report.md` 已嵌入一个 Mermaid ER 草图，**可作参考但不能直接视为第五周验收完成**。
+1. 正式 DDL 为 `sql/v01/01_create_tables.sql`，后续约束位于 `sql/v01/constraint.sql`；另有 `sql/v01/verify.sql`、`sql/v01/role.sql`、`sql/v01/view.sql` 和查询文件。正式阶段报告 `archive/coursework/week4/stage_report.md` 已嵌入一个 Mermaid ER 草图，**可作参考但不能直接视为第五周验收完成**。
 2. 当前 v0.1 共 **14 张表**，业务为 API Token 套餐购买、订单与明细、按 provider 余额、上游账号额度与库存流水、用量及补货异常。现有目录包括 `report/`、`docs/`、`result/`、`plan/`；旧周次材料位于 `archive/`。
 3. 当前实体及可核对的键（这里列的是 DDL 中的 PK、UNIQUE，不代表全部都适合作为业务主标识）：
 
@@ -30,7 +30,7 @@
 | ExceptionLog | exception_id | 暂无额外 UNIQUE |
 
 4. `Roles` 是业务数据表，`hub_manager / hub_staff / hub_customer / hub_guest` 是 SQL Server 数据库角色；不能将二者混为一种 ER 实体。`Products` 表示销售套餐，`Inventory` 表示上游账号剩余额度；**不能凭表名假设商品与库存直接存在 FK**。
-5. `report/stage_report.md` 的图中有业务意图陈述；第五周需对照真实 DDL 区分“业务上应当成立”和“现有 PK/UNIQUE/FK/CHECK 真正保证了什么”。此前保存的日志只能证明当时执行，不等同于当前数据库现场状态。
+5. `archive/coursework/week4/stage_report.md` 的图中有业务意图陈述；第五周需对照真实 DDL 区分“业务上应当成立”和“现有 PK/UNIQUE/FK/CHECK 真正保证了什么”。此前保存的日志只能证明当时执行，不等同于当前数据库现场状态。
 
 ## 二、交付文件布局（执行时创建，不在制定计划时创建）
 

@@ -64,8 +64,8 @@ with Image.open(bitmap) as image:
 
 checks = [
     ROOT / "README.md",
-    ROOT / "docs/requirements/README.md",
-    ROOT / "report/stage_report.md",
+    ROOT / "docs/stage2_acceptance.md",
+    ROOT / "report/stage2_report.md",
     ROOT / "plan/week5-er-model-plan.md",
     ROOT / "result/week5/README.md",
     *HERE.glob("*.md"),
