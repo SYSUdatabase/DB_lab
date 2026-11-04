@@ -6,3 +6,6 @@ __pycache__/
 instance/
 .env
 .env.local
+.ruff_cache/
+result/recheck/rejected_*.log
+result/source_*/console.log

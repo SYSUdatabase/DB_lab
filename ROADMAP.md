@@ -26,3 +26,20 @@
 - [ ] 截图、报告、组内分工在最终提交前由小组成员人工核对、确认版本与姓名，并按要求完成提交。
 
 不执行真实支付、资金退款或真实供应商 API 调用。第 5—9 周提交说明见[根 README](README.md)，不要对既有数据库做 DropExisting 或在历史证据中覆盖数据。
+
+
+## 2026-11-04 本地临时复现资源清理
+
+- [x] 按精确白名单删除第六周 4 个 W6Replay/W6Auto 数据库、两个仓库外解压目录、两个临时 recheck 日志、3 个 Python 缓存目录及 Ruff 缓存；保留其它 15 个历史/Web 数据库、正式验收证据、迁移 ZIP、.venv 和 instance。
+- [x] 根 README 最后一节新增可重复的安全清理流程；四个数据库删除后核验不存在，保留数据库仍 ONLINE；PowerShell Parser、README 链接及 git diff --check 均通过。
+
+
+## 2026-11-04 WebNewRun01 从空库复现
+
+- [x] 新后缀 `WebNewRun01` 从空 v0.1 创建源库，建库、表、样例数据、CRUD、视图、查询、约束、角色和验证脚本全部 PASS。
+- [x] v1.0 迁移 PASS：3394 条汇总、99 个周期键、15 张表、18 条外键、11 个视图。
+- [x] v1.1 加固与账务验证 PASS：17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用、11 个 W6 guards，退款账本核验通过。
+- [x] Web 数据库安装完成：17 张业务表 + 1 张 Sessions 表；历史修复步骤因新建源库已通过 VFY12/13 且加固验证通过而按设计跳过。
+- [ ] 本轮未重新执行 Edge 浏览器 E2E 或普通 Windows 受限账户启动；既有浏览器证据仍以 WebStage2A02 为准。
+
+证据：[源库签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。

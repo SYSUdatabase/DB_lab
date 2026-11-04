@@ -76,6 +76,8 @@ $env:DB_LAB_SECRET = "仅本地测试使用的随机密钥"
 
 本次第二阶段独立浏览器证据以 `TokenHubDB_v11_WebStage2A02` 为对象：**22 张 Edge 真页面截图、42 项操作/API 记录、25 项只读 SQL 对账检查全部通过**。另有新库 `WebSign28A` 的 **66 项完整单元与集成测试通过**；详细范围、异常结果和局限见[阶段报告](report/stage2_report.md)与[证据索引](result/stage2/WebStage2A02/README.md)。截图为自动化浏览器执行，并非组员手工签收。
 
+2026-11-04 使用新后缀 `WebNewRun01` 从空 v0.1 完整构建至 Web：v0.1 建库及脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 张表、18 条外键和 11 个视图；v1.1 验证为 17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用和 11 个 W6 guards，退款账本核验通过。Web 清单记录 17 张业务表及 1 张 Sessions 表；历史数据修复步骤按设计跳过，因为新建 v0.1 已通过 VFY12/13，且加固验证通过。本轮是空库构建和数据库验证，不包含新的浏览器 E2E。证据：[v0.1 数据签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。
+
 **两名组员已经实际参与网站验收**：陈诗翰第一名先在其环境测试；阮依成第二名亲自测试本机网站登录和订单显示，发现缺少注册入口并推动修复。22张Edge截图为补充自动化证据；[全角色手动验收清单](docs/stage2_acceptance.md)供可选的独立环境复现。真实受限Windows账户启动仍待验证。
 
 ## 目录概览
@@ -95,3 +97,109 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 ```
 
 所有可编辑图源及 `report/render_app_er.py`、`report/render_overview_modules.py` **保留**。项目运行不依赖它们，但后续修改图像时可以重新导出；旧材料归档映射见 [archive/README.md](archive/README.md)。
+
+## 一次性清理此前固定复现残留（2026-11-04 已执行）
+
+> **破坏性操作。** 只清理本项目已确认的第六周复现残留；SQL Server 数据库会被永久删除，执行前确认数据库名称和本地实例。请从项目根目录运行。脚本使用 Windows 集成身份连接 `localhost\SQLEXPRESS`，不读取或保存 SQL 密码。
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$repo = (Resolve-Path '.').Path
+if ((Split-Path $repo -Leaf) -ne 'DB_lab' -or
+    -not (Test-Path (Join-Path $repo '.git')) -or
+    -not (Test-Path (Join-Path $repo 'AGENT.md'))) {
+    throw '请在 DB_lab Git 仓库根目录运行'
+}
+$parent = Split-Path $repo -Parent
+
+# 1. 只删除明确列出的四个第六周复现数据库；不会匹配或删除其它 TokenHubDB。
+$databases = @(
+    'TokenHubDB_v01_W6Replay261014',
+    'TokenHubDB_v10_W6Replay261014',
+    'TokenHubDB_v01_W6Auto261014',
+    'TokenHubDB_v10_W6Auto261014'
+)
+if (-not (Get-Command sqlcmd -ErrorAction SilentlyContinue)) {
+    throw '未找到 sqlcmd；未执行数据库删除'
+}
+foreach ($name in $databases) {
+    if ($name -notmatch '^TokenHubDB_v(01|10)_W6(Replay|Auto)261014$') {
+        throw "数据库名称不在允许清理的白名单中：$name"
+    }
+    $quoted = '[' + $name.Replace(']', ']]') + ']'
+    $sql = "IF DB_ID(N'$name') IS NOT NULL BEGIN ALTER DATABASE $quoted SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE $quoted; PRINT N'Dropped $name'; END ELSE PRINT N'Already absent $name';"
+    & sqlcmd -S 'localhost\SQLEXPRESS' -d master -E -C -b -V 11 -Q $sql
+    if ($LASTEXITCODE -ne 0) { throw "删除数据库失败：$name；停止后续清理" }
+}
+
+# 2. 删除两个仓库外、可由迁移前 ZIP 重新生成的旧代码解压目录。
+$replayDirs = @(
+    (Join-Path $parent 'DB_lab_replay_c8d4e64'),
+    (Join-Path $parent 'DB_lab_replay_W6Auto261014')
+)
+foreach ($path in $replayDirs) {
+    if ((Split-Path $path -Leaf) -notin @('DB_lab_replay_c8d4e64', 'DB_lab_replay_W6Auto261014')) {
+        throw "目录不在允许清理的白名单中：$path"
+    }
+    if (Test-Path -LiteralPath $path -PathType Container) {
+        Remove-Item -LiteralPath $path -Recurse -Force
+    }
+}
+
+# 3. 只删除明确列出的四个临时 recheck 日志，不清空 result/recheck 或其它结果目录。
+$logs = @(
+    (Join-Path $repo 'result\recheck\rejected_2ea751285847.log'),
+    (Join-Path $repo 'result\recheck\rejected_5b4dc02a60f2.log'),
+    (Join-Path $repo 'result\recheck\rejected_7019cd7c43b0.log'),
+    (Join-Path $repo 'result\recheck\rejected_77d17b7d3e43.log')
+)
+foreach ($path in $logs) {
+    if (Test-Path -LiteralPath $path -PathType Leaf) {
+        Remove-Item -LiteralPath $path -Force
+    }
+}
+
+# 4. 删除项目源码中的 Python 字节码缓存和 Ruff 缓存。
+#    保留 .venv、instance、.git、sql/.vs 及所有正式结果/归档。
+$excluded = @(
+    (Join-Path $repo '.git'),
+    (Join-Path $repo '.venv'),
+    (Join-Path $repo 'instance')
+) | ForEach-Object { [IO.Path]::GetFullPath($_).TrimEnd('\') + '\' }
+$pythonCaches = @(Get-ChildItem -LiteralPath $repo -Directory -Recurse -Force -Filter '__pycache__' |
+    Where-Object {
+        $full = [IO.Path]::GetFullPath($_.FullName)
+        -not ($excluded | Where-Object { $full.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) })
+    })
+foreach ($dir in ($pythonCaches | Sort-Object { $_.FullName.Length } -Descending)) {
+    if (Test-Path -LiteralPath $dir.FullName -PathType Container) {
+        Remove-Item -LiteralPath $dir.FullName -Recurse -Force
+    }
+}
+$ruffCache = Join-Path $repo '.ruff_cache'
+if (Test-Path -LiteralPath $ruffCache -PathType Container) {
+    Remove-Item -LiteralPath $ruffCache -Recurse -Force
+}
+
+# 5. 核对：四个数据库、两个目录、两个日志和缓存均不存在。
+foreach ($name in $databases) {
+    $check = "IF DB_ID(N'$name') IS NOT NULL THROW 51000, 'Cleanup verification failed: $name', 1;"
+    & sqlcmd -S 'localhost\SQLEXPRESS' -d master -E -C -b -V 11 -Q $check
+    if ($LASTEXITCODE -ne 0) { throw "数据库清理核对失败：$name" }
+}
+foreach ($path in ($replayDirs + $logs + @($ruffCache))) {
+    if (Test-Path -LiteralPath $path) { throw "清理核对失败，路径仍存在：$path" }
+}
+$remainingCaches = @(Get-ChildItem -LiteralPath $repo -Directory -Recurse -Force -Filter '__pycache__' |
+    Where-Object {
+        $full = [IO.Path]::GetFullPath($_.FullName)
+        -not ($excluded | Where-Object { $full.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) })
+    })
+if ($remainingCaches.Count -gt 0) { throw '仍存在项目 Python __pycache__' }
+if (-not (Test-Path (Join-Path $repo '.venv')) -or -not (Test-Path (Join-Path $repo 'instance'))) {
+    throw '.venv 或 instance 意外缺失，请检查清理范围'
+}
+'Cleanup verification PASS'
+```
+
+本清理流程**不会**删除 `TokenHubDB_v01_A`、`TokenHubDB_v10_W6_20261014`、`TokenHubDB_v11_Issues_20261014`、`TokenHubDB_v01/v10/v11_Web261021A-D` 及本轮 `WebNewRun01` 系列实验库；不会删除 SQL Server 备份文件、迁移前 ZIP、`archive/`、`result/stage2/`、`result/webapp/`、`result/week6/`、`.venv/` 或 `instance/`。若后续增加新的复现后缀，先核实其用途，再将精确数据库名加入白名单，禁止使用 `LIKE 'TokenHubDB%'` 或通配符批量删除。

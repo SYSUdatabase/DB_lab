@@ -328,3 +328,25 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 **统一异常机制核对。** webapp/dao.py 负责 pyodbc异常转换和事务/连接清理；webapp/errors.py 将数据库错误映射为安全的错误码和HTTP状态；webapp/__init__.py 使用全局异常处理器统一返回 code、message、data、request_id，并记录请求号、角色、操作和结果；webapp/static/app.js 仅展示安全的用户提示和请求号。已有登录失败、跨顾客403、约束409、无登录401、非法参数400及数据库故障测试证据。不需要重新实现。
 
 **尚待验证。** 真正受限的普通Windows运行账户和在全新电脑从零部署属于额外环境复现检查；不再将第二名组员网站验收记为未完成。本轮未进行Git提交或推送。
+
+## 2026-11-04 第六周临时复现资源清理
+
+用户明确批准删除四个 W6Replay/W6Auto 数据库、两个仓库外解压目录、两个 result/recheck 临时日志及项目 Python/Ruff 缓存。其余历史/Web 数据库、正式测试结果、SQL 备份、迁移前 ZIP、.venv、instance 和其它未跟踪文件均保留。根 README 最后新增精确白名单清理流程，含 SQL 数据库 DROP、文件/缓存清理及清理后核对；不使用 Git clean 或数据库通配符。执行结果和保留项待完成后补记。
+
+### 2026-11-04 清理第六周临时复现残留
+
+按用户明确授权删除四个 W6Replay/W6Auto 数据库、两个仓库外旧代码解压目录、两个指定 recheck 日志、3 个源码 Python 缓存目录和 Ruff 缓存。保留全部其它历史/Web 数据库（15 个仍 ONLINE）、SQL 备份、迁移前 ZIP、正式测试证据、.venv、instance 和其它未跟踪内容。README 最后新增精确白名单清理流程。清理后逐项核对四个数据库与文件路径均不存在；README PowerShell 代码块解析通过、27 条链接无失效、git diff --check 通过。仅文档修改，未 commit/push。
+
+
+## 2026-11-04 WebNewRun01 复现证据与 Git 清理
+
+用户要求提交当前进度并清理无用文件、补充 ignore。核对 `AGENT.md`、Git 差异和未跟踪文件后，保留 `result/source_WebNewRun01/`、`result/week6/v11/WebNewRun01/`、`result/webapp/WebNewRun01/` 全套建库/迁移/验证日志：v0.1 脚本全部通过；v1.0 3394 条汇总、99 个周期键、15 表/18 FK/11 视图；v1.1 17 业务表/20 可信 FK、158 个 Token 批次、3000 条消费引用、11 个 W6 guards，退款账本核验通过；Web 为 17 业务表 + 1 Sessions 表。历史数据修复按设计跳过，因为新源库已通过 VFY12/13 和加固验证。
+
+`result/recheck/rejected_7019cd7c43b0.log`、`rejected_77d17b7d3e43.log` 是无活动引用的故意失败回归输入，清理这两份文件，不清空结果目录。`.gitignore` 增加 `.ruff_cache/` 与 `result/recheck/rejected_*.log`，不全局忽略日志。README 和 ROADMAP 补充本次构建证据及精确清理白名单。缓存清理、最终检查和本地 commit 结果待补记；不 push、不修改数据库。
+
+
+### 最终核对
+
+已删除两份无引用的故意失败回归输入、三个源码 `__pycache__` 目录和 `.ruff_cache/`；ignore 规则验证通过。README、ROADMAP、两份 AI 文档共 80 条相对链接无失效，README 4 个 PowerShell 代码块解析通过，`git diff --check` 通过。WebNewRun01 全套结果日志保留，未操作 SQL Server 数据库；本地暂存和 commit 尚待执行，未 push。
+
+另外删除 `result/source_WebNewRun01/console.log`：该 PowerShell transcript 与逐步骤日志重复，并包含本机用户名及进程环境；忽略后续 `result/source_*/console.log`，保留具体 SQL 日志和数据签名。

@@ -447,3 +447,40 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 用户确认陈诗翰是第一名测试组员，在他自己的环境测试；阮依成是第二名测试组员且亲自进行了登录与订单可见性验收，其实测发现注册缺失并要求补齐。更新分工、README、ROADMAP、阶段报告和AI使用文档，第二名组员验收状态改为已参与、已完成相应网站实测，自动化全流程另列。避免把未亲手执行的22张自动截图误写为成员手工截图或编造陈诗翰的具体现场证据。
 
 原agent.md经archive/coursework/week4/agent_combined_before_stage2.md恢复，SHA-256两者一致为D63F52BD6E704491FD875BD0F42257CF032FAB6A89E259B0EAC700916B7E86AE；当前git diff中不再修改agent.md。检查后端统一异常边界、SQL错误安全归类、请求编号日志与前端友好提示，机制原本已存在，不另行改动业务代码。
+
+## 2026-11-04 清理第六周复现残留
+
+- **用户明确授权范围**：删除 TokenHubDB_v01_W6Replay261014、TokenHubDB_v10_W6Replay261014、TokenHubDB_v01_W6Auto261014、TokenHubDB_v10_W6Auto261014 四个数据库；删除仓库外 DB_lab_replay_c8d4e64、DB_lab_replay_W6Auto261014 两个解压目录；删除 result/recheck/rejected_2ea751285847.log、rejected_5b4dc02a60f2.log；删除源码 __pycache__ 与 .ruff_cache。
+- **明确保留**：其它历史/Web 数据库、SQL 备份、迁移前 ZIP、正式验收证据、.venv、instance、sql/.vs、其它未跟踪文件；不运行 git clean。
+- **README**：新增最后一节“清理本地临时复现残留”，提供精确数据库白名单、目录/日志清单、缓存清理和删除后核对步骤；禁止通配符删除数据库。
+- **执行前盘点**：四个目标数据库均 ONLINE；两个解压目录存在；两个临时日志各 392 字节；源码缓存目录为 tests/__pycache__、tools/__pycache__、webapp/__pycache__，Ruff 缓存为 .ruff_cache。没有读取任何密钥、密码或密码哈希。
+- **验证状态**：清理操作尚未执行；待执行后补充数据库不存在、路径不存在、缓存清零、保留项存在和 Git 状态结果。
+
+### 清理执行与验收结果（2026-11-04）
+
+- **数据库删除成功**：SQL Server 返回并删除四个白名单库：`TokenHubDB_v01_W6Replay261014`、`TokenHubDB_v10_W6Replay261014`、`TokenHubDB_v01_W6Auto261014`、`TokenHubDB_v10_W6Auto261014`。随后逐库查询 `DB_ID`，四库全部不存在。
+- **文件删除成功**：两个仓库外解压目录、两个指定临时日志均已删除；项目内 3 个 Python `__pycache__` 目录和 `.ruff_cache` 已删除。
+- **保留项核验**：`TokenHubDB_v01_A`、`TokenHubDB_v10_W6_20261014`、`TokenHubDB_v11_Issues_20261014` 及 Web A/B/C/D 共 12 个数据库仍全部 ONLINE；`.venv`、`instance`、迁移前 ZIP、WebStage2A02、WebSign28A 均存在。
+- **README 流程检查**：最后一节 PowerShell 代码块经 PowerShell Parser 解析通过（622 tokens）；README 27 条相对链接 / 0 失效；`git diff --check` 通过。
+- **Git**：仅 README、两份 AI 使用记录和 ROADMAP 有本轮文档改动；没有运行 `git clean`，没有 commit/push。其它未跟踪内容未被删除。
+
+
+## 2026-11-04 提交 WebNewRun01 复现证据与工作区整理
+
+- **用户要求**：提交当前进度，并清理应删除的临时文件、补充应有的 ignore 规则。
+- **仓库检查**：先读取 `AGENT.md`、`.gitignore`、当前 Git 差异及未跟踪文件清单；确认工作区原有 README、ROADMAP 和两份 AI 文档修改均为本轮清理记录，不覆盖其它用户内容。
+- **保留的复现证据**：`result/source_WebNewRun01/`、`result/week6/v11/WebNewRun01/`、`result/webapp/WebNewRun01/` 是 2026-11-04 新后缀空库构建及验证输出，不是缓存。v0.1 脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 表/18 FK/11 视图；v1.1 为 17 业务表/20 可信 FK、158 个 Token 批次、3000 条消费引用、11 个 W6 guards，退款账本验证通过；Web 清单为 17 业务表 + 1 Sessions 表。历史修复按设计跳过，因为新源库已通过 VFY12/13 且加固验证通过。
+- **清理**：`result/recheck/rejected_7019cd7c43b0.log` 与 `rejected_77d17b7d3e43.log` 是故意制造失败的断言/截图回归输入，无活动代码或文档引用；删除这两份临时日志，不删除 `result/recheck/` 目录或其它结果。
+- **ignore**：根 `.gitignore` 新增 `.ruff_cache/` 与 `result/recheck/rejected_*.log`；不全局忽略 `*.log`，以免屏蔽正式验收证据。
+- **文档**：README 增加 WebNewRun01 构建结果与证据链接，更新精确清理日志白名单并标明本轮实验库受保护；ROADMAP 增加本次空库复现记录。
+- **验证/提交**：待完成缓存清理、文档链接与 diff 检查、Git 暂存清单复核及本地提交后补记结果；不 push，不修改数据库。
+
+
+### 最终核对
+
+- 已删除 `result/recheck/` 中两份无引用的故意失败回归输入，以及 `tests/`、`tools/`、`webapp/` 的 `__pycache__` 和根 `.ruff_cache/`；逐路径核对均不存在。
+- `.gitignore` 规则核验：`.ruff_cache/` 与 `result/recheck/rejected_*.log` 均命中预期规则；不忽略正式 `.log` 文件。
+- README、ROADMAP、两份 AI 文档共检查 80 条相对链接，0 失效；README 4 个 PowerShell 代码块经 Parser 解析通过；`git diff --check` 通过。
+- `WebNewRun01` 三个结果目录完整保留，未修改或删除任何 SQL Server 数据库；本地暂存与 commit 尚待执行，未 push。
+
+- 额外清理：删除 `result/source_WebNewRun01/console.log`，该 PowerShell transcript 只重复各步骤日志且包含本机用户名/进程环境；`.gitignore` 增加 `result/source_*/console.log`，保留逐脚本日志和数据签名作为可追溯证据。
