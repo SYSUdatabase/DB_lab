@@ -360,3 +360,33 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 **实际验证及困难处理。** 在 WebEmp26A01 隔离库重新执行22张旧业务截图及25项SQL对账均通过。新员工管理页面首次自动截图时，测试脚本的“新密码”选择器与“确认新密码”重复匹配，脚本中断并保留失败现场；改为精确标签后，在另一个测试账号上完成11张有效员工管理截图。完整Python测试第一次72项中有一个断言错将 DELETE 的405预计为404，实际没有开放硬删除路由，修正测试断言后72项全通过，原失败日志和新通过日志均保存。以上AI自动截图和测试不是组员本人逐张点击，但功能缺口确由阮依成在实际测试中发现。
 
 **交付更新。** 按上述事实更新第二阶段报告、ROADMAP、docs/team_division.md、操作手册和有效结果索引。第9周陈诗翰负责后续测试及更新；阮依成负责员工管理补全及本轮测试组织、截图、文档整理。不伪造陈诗翰未直接提供的原始测试资料。
+
+## 2026-11-04 通用复现批次清理流程
+
+用户要求每次复现都可按批次清除全部产物并写入 README。采用唯一 `Web...` 后缀作为 RunId，新增 `tools/cleanup_reproduction.ps1`，精确处理 v0.1/v1.0/v1.1 数据库、两份 SQL 备份、三个结果目录和可再生缓存；先 `-WhatIf`、再 `-Confirm`。默认删除证据，可用 `-KeepEvidence` 保留；失败中断批次用 `-AllowIncomplete`；运行时账户/任务/SQL 登录仅在明确提供 `-RemoveRuntime -RuntimeAccountName` 时处理，且不读取运行密钥文件。`build_sandbox.py` 增加 BACKUP 前路径记录，保证失败中断后仍可定位备份。当前 PowerShell Parser 与 Python AST 通过；Ruff 发现并修正原有 import 顺序，最终测试待执行。未执行真实清理或数据库删除。
+
+
+### 备份目录权限验证
+
+确认默认 `Program Files` 备份目录不允许当前项目用户访问。临时目录探测验证：由当前用户创建目录并通过 `icacls` 授予 `NT Service\\MSSQL$SQLEXPRESS` 修改权限后，SQL Server 可成功执行 COPY_ONLY/CHECKSUM 备份及 RESTORE VERIFYONLY，当前用户可删除 `.bak` 和目录。决定改用 `result/sql_backups/<RunId>/` 独立目录，不再扫描 SQL Server 默认备份目录。
+
+
+### RunId 独立备份目录实现
+
+修改 `week6/v11/build_sandbox.py`，查询本机 SQL Server 服务身份，为 `result/sql_backups/<RunId>/` 授予该身份 Modify，两个 `.bak` 均写入该批次目录。`tools/cleanup_reproduction.ps1` 新增精确目录清理与旧批次兼容；只清理匹配当前 RunId 的备份，旧默认目录无权限时提前中止。新增 `tests/test_backup_directory.py` 覆盖 ACL 命令及失败分支。文档、ignore 和测试待完成。
+
+- 首轮 Ruff 检查发现主机名校验缺少 `os` 导入（F821），已补充导入；该轮未执行数据库操作，后续重跑验证。
+
+- Python AST、Ruff、3 项备份 ACL 单元测试通过；PowerShell Parser 发现 `$Suffix:` 插值语法错误，已修正，待复查。
+
+
+### 旧批次清理预览与历史记录筛选
+
+首次 `-WhatIf` 因 SQL Server `msdb` 仍保留已删除权限探测文件的历史记录而误报，未删除任何内容。已将本批次日志路径与 `msdb` 候选分开，历史记录仅接受匹配当前 RunId 文件名的绝对路径。第二次预览准确定位到 `WebNewRun01` 的 `.bak`，但普通 PowerShell 无权读取默认 `Program Files` 备份目录，因此安全中止。核对三个数据库均为 `ONLINE/MULTI_USER`，manifest 与结果目录存在，未运行 `python -m webapp`。当前用户属于本机 Administrators 组但进程未提升；管理员权限只读预览等待本机确认。Python AST、Ruff、3 项单元测试、PowerShell Parser（2754 tokens）通过；未执行任何数据库/文件删除，未 commit/push。
+
+### WebNewRun01 清理结果复核
+按 RunId 清理后只读核对：三个目标数据库不在 sys.databases 中，三个证据目录和批次备份目录均不存在；msdb 历史记录对应的两份批次备份、两份旧默认目录备份及一份 ACL 探测备份文件路径均不存在。SQL Server 备份历史元数据仍保留。其它数据库、备份、RunId、共享运行账户和 instance 未操作。
+
+## 2026-11-04 README 后续修改合并
+
+用户要求保留 README 后续修改并将当前工作区全部内容本地 commit，不 push。合并 README、ROADMAP 和两份 AI 文档的冲突，保留 RunId 清理流程及第9周员工管理记录；删除指向已清理 WebNewRun01 证据文件的失效链接，更新清理状态。只读核验确认三个目标数据库、三个结果目录、批次备份目录及五个精确备份文件路径均不存在，msdb 历史元数据保留。Python AST、Ruff、3 项备份目录单元测试、PowerShell Parser、README 7 个 PowerShell 代码块和四份文档 77 条相对链接通过。53 个文件变更已提交到本地 main，工作区干净，未 push。

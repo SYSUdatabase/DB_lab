@@ -9,3 +9,4 @@ instance/
 .ruff_cache/
 result/recheck/rejected_*.log
 result/source_*/console.log
+result/sql_backups/

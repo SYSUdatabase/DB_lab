@@ -494,3 +494,54 @@ AI新增 app.ManageEmployees（独立 EXECUTE AS OWNER 存储过程，独立验�
 独立新库 TokenHubDB_v11_WebEmp26A01 从 v0.1 构建到 Web 成功；原22张Edge业务截图及25项SQL只读核对全通过，新增11张员工管理真实页面截图、重复账号409及普通店员403、游客401、伪造角色400。首次员工自动截图因标签选择器非唯一报错，保留原失败 JSON 与现场后修正；首次72项测试因 DELETE 路由实际405而错误期望404失败1项，修正后72项完整PASS，全部保留对应日志。前后证据详见 result/stage2/WebEmp26A01/README.md。新报告引用最新图片。
 
 第9周组内任务分工按用户明确确认：陈诗翰完成其负责版本的后续测试与更新；阮依成发现并组织新增员工管理及测试和交付整理。AI自动执行记录不冒充组员亲自操作，未修改原先 agent.md 或其它组员独立数据库。
+
+## 2026-11-04 通用复现批次清理流程
+
+- **用户要求**：每次复现完成后都能删除该次复现产生的全部数据，并将流程写入根 README。
+- **方案**：使用 `app_prepare.py --suffix Web...` 的唯一后缀作为 RunId；新增 `tools/cleanup_reproduction.ps1`，只根据该后缀定位 v0.1/v1.0/v1.1 三个数据库、三个结果目录和对应的两份 SQL 备份。先清点、`-WhatIf` 预览，再通过 `-Confirm` 执行；默认删除本次证据目录，可用 `-KeepEvidence` 保留；未完成批次必须显式 `-AllowIncomplete`。共享 `.venv`、Git、SQL 源文件和历史结果不删除。
+- **备份追踪**：`build_sandbox.py` 在执行 BACKUP 前写入对应 `.backup_path.txt`，避免备份或还原中断时只剩未登记的 `.bak`；清理脚本同时读取路径记录、成功日志、SQL Server 备份历史及当前默认备份目录，并校验文件名与批次后缀。
+- **可选 Web 运行时**：仅在显式提供 `-RemoveRuntime -RuntimeAccountName <名称>` 时，才停止/删除该仓库的计划任务、对应 SQL 登录、本地运行账户及 `instance` 中指定运行文件；不读取 `instance/runtime.json` 内容。
+- **当前验证**：清理脚本 PowerShell Parser 已通过（2155 tokens）；Python AST 通过。首次 Ruff 检查发现 `build_sandbox.py` 原有 import 排序问题，已按 Ruff 要求整理；后续 WhatIf、链接、README 代码块及差异检查待执行。未执行实际删除、数据库操作或 commit/push。
+
+
+### 备份目录权限探测
+
+- 只读查询确认 SQL Server 实例服务身份为 `NT Service\\MSSQL$SQLEXPRESS`，当前 PowerShell 进程未提升权限，默认 `Program Files` 备份目录对该进程拒绝访问。后续组成员核对确认当前账户属于本机 Administrators 组。
+- 在新建的临时 `result/.backup_acl_probe/` 上验证：当前用户作为目录所有者可用 `icacls` 精确授予 SQL Server 服务身份 `(OI)(CI)M`；SQL Server 对 `TokenHubDB_v01_WebNewRun01` 执行 COPY_ONLY/CHECKSUM 备份与 RESTORE VERIFYONLY 均成功；随后由当前用户删除探测 `.bak` 和临时目录，核对不存在。
+- 结论：不需要每次以管理员身份清理，也不必继续依赖 SQL Server 默认备份目录。后续将备份写入 `result/sql_backups/<RunId>/`，目录仅向对应 SQL Server 服务身份授予修改权限，当前项目用户保留正常管理权限；清理程序只处理该 RunId 的隔离目录。
+
+
+### 按 RunId 隔离 SQL 备份的实现
+
+- `week6/v11/build_sandbox.py`：新增本机 SQL Server 主机校验、服务身份查询及 `icacls` 授权；每个后缀单独创建 `result/sql_backups/<RunId>/`，只向当前 SQL Server 服务账户授予继承的 Modify 权限。两个 `.bak` 与路径记录都属于该批次，BACKUP/VERIFYONLY/RESTORE 顺序不变。
+- `tools/cleanup_reproduction.ps1`：新批次只检查其唯一备份目录，拒绝目录外路径、reparse point、子目录和不符合该 RunId 命名规则的文件；清理时删除备份文件及空目录，`-KeepEvidence` 也不会保留 `.bak`。旧批次保留精确路径兼容逻辑，不再扫描整个默认备份目录；无权限时在任何删除动作前明确中止。
+- 新增 `tests/test_backup_directory.py`，覆盖精确服务账户 ACL 参数、非法控制字符和 icacls 失败关闭行为。`.gitignore`、README、ROADMAP 与最终验证仍待更新。
+
+- **首轮静态检查失败**：Ruff 报 `F821 Undefined name os`，原因是新增主机名校验使用 `os.environ`，但文件未导入 `os`。已补充标准库 `import os`；该轮测试在 Ruff 阶段停止，未执行数据库操作。
+
+- **第二轮静态检查**：Python AST、Ruff 和 3 个新增单元测试全部通过；PowerShell Parser 在第 179 行发现字符串 `$Suffix:` 被解释为作用域变量。已改为 `$($Suffix):`，需要重新解析后再执行 WhatIf。
+
+
+### 历史备份记录筛选与旧批次预览
+
+- 首轮 `-WhatIf` 因 SQL Server `msdb` 仍保留已删除权限探测文件的历史行而误报；未执行任何删除。
+- 已将本批次日志路径与 `msdb` 候选分开；日志记录仍严格验证，历史记录仅接受绝对路径且文件名匹配当前 RunId 的精确正则，避免旧记录扩大清理范围。
+- 第二轮 `-WhatIf` 消除了历史记录误报，并准确定位到 `WebNewRun01` 的精确 `.bak`；当前 PowerShell 未提升权限，无法读取 SQL Server 默认 `Program Files` 备份目录，脚本按设计中止，未删除数据库、备份或证据。
+- 核对三个 `WebNewRun01` 数据库均为 `ONLINE/MULTI_USER`；Web manifest 与三个结果目录存在；未发现 `python -m webapp` 进程。当前登录账户属于本机 Administrators 组，但当前进程未提升权限。
+- 已启动管理员权限的只读 `-WhatIf` 预览，等待本机确认；该步骤只列出拟清理对象。第一次启动方式的输出参数组合不受 PowerShell 支持，已改用临时辅助脚本，预览结束后自动清理临时文件。
+- Python AST、Ruff、3 项备份 ACL 单元测试、PowerShell Parser（2754 tokens）通过；修正后的最终 `git diff --check` 待重跑。未 commit/push。
+
+### WebNewRun01 清理后的只读复核
+- 只读查询 sys.databases，三个目标库均无返回行。
+- result/source_WebNewRun01/、result/week6/v11/WebNewRun01/、result/webapp/WebNewRun01/ 和 result/sql_backups/WebNewRun01/ 均不存在。
+- 对 msdb 历史记录中的两份批次备份、两份旧默认目录备份及一份 ACL 探测备份逐一检查精确路径，五个 .bak 文件均不存在；历史元数据行仍保留。
+- 未读取任何运行配置或密钥，未操作其它数据库、备份和 RunId。
+
+## 2026-11-04 README 后续修改合并与提交准备
+
+- **用户要求**：保留 README 后续修改，并将当前工作区全部内容本地 commit；不 push。
+- **冲突处理**：合并 README、ROADMAP、docs/ai_usage_log.md、docs/ai使用文档.md 的 stash 冲突，保留 RunId 清理说明和第9周员工管理记录；README 的运行账户参数名统一为脚本实际参数 RuntimeAccountName。
+- **文档一致性**：WebNewRun01 的数据库、备份和结果目录已清理，因此移除 README/ROADMAP 中指向已删除证据文件的链接，保留构建与验证摘要，并将清理任务状态更新为完成。
+- **只读复核**：三个目标数据库不在 sys.databases 中；三个证据目录、批次备份目录及两份批次备份、两份旧默认目录备份、一份 ACL 探测备份的精确文件路径均不存在。msdb 备份历史元数据仍保留。
+- **静态验证**：Python AST 通过；Ruff 全项目目标目录检查通过；新增备份目录测试 3/3 通过；清理脚本 PowerShell Parser 通过（2754 tokens）；README 7 个 PowerShell 代码块通过；四份文档 77 条相对链接通过。
+- **Git**：已完成最终暂存清单复核与 git diff --cached --check；53 个文件变更已提交到本地 main，工作区干净，未 push。

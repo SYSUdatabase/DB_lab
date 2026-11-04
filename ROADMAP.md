@@ -43,7 +43,7 @@
 - [x] Web 数据库安装完成：17 张业务表 + 1 张 Sessions 表；历史修复步骤因新建源库已通过 VFY12/13 且加固验证通过而按设计跳过。
 - [ ] 本轮未重新执行 Edge 浏览器 E2E 或普通 Windows 受限账户启动；既有浏览器证据仍以 WebStage2A02 为准。
 
-证据：[源库签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。
+本轮三个实验数据库、两份批次备份和三个复现证据目录已按 RunId 清理；本节保留构建与验证结果摘要。
 
 
 ## 2026-11-04 第9周新增员工管理
@@ -52,3 +52,15 @@
 - 阮依成发现管理端缺少员工管理；新增仅管理员可用的员工列表、创建/改名/重置密码、停用/启用。员工的业务历史通过软停用保存，不允许物理删除。
 - 真 Edge 对旧业务重新截图22张，新增员工管理真实截图11张；SQL只读对账25项通过。浏览器操作为AI辅助自动化，区别于组员人工测试。
 - 独立测试、日志、异常结果及截图位于 [WebEmp26A01](result/stage2/WebEmp26A01/README.md)。
+
+## 2026-11-04 每次复现按 RunId 清理
+
+- [x] 新增 `tools/cleanup_reproduction.ps1`，以 `Web...` 后缀精确清理 v0.1/v1.0/v1.1 三个数据库、两份 SQL 备份、三个批次结果目录及可再生成缓存；支持 `-WhatIf`、`-Confirm`、`-KeepEvidence`、`-AllowIncomplete`。
+- [x] `build_sandbox.py` 在 BACKUP 前记录 `.backup_path.txt`，使中断批次也能找到已创建或部分创建的备份文件。
+- [x] README 增加每批次完整清理说明，区分可选受限运行账户/计划任务/SQL 登录/用户配置目录清理；保留 `.venv`、Git、SQL 源码和其他 RunId。
+- [x] 新批次备份改为 `result/sql_backups/<RunId>/`，仅向 SQL Server 服务身份授予 Modify；新增 3 项 ACL 单元测试并加入 `.gitignore`。
+- [x] 清理脚本区分本批次路径记录与 `msdb` 历史候选，历史候选只接受当前 RunId 的精确文件名，避免已删除的探测备份历史行造成误报。
+- [x] Python AST、Ruff、3 项单元测试、PowerShell Parser 通过；三个 `WebNewRun01` 数据库均为 `ONLINE/MULTI_USER`，未发现运行中的 `python -m webapp`。
+- [x] 在提升 PowerShell 中完成 WebNewRun01 -WhatIf 盘点并核对数据库、备份和三个结果目录；清单仅包含本批次三个数据库、两份旧格式 .bak 和三个结果子目录。
+- [x] 预览清单确认后清理 `WebNewRun01` 三个数据库、两份备份和三个结果目录，逐项核验不存在；保留共享环境、源码、Git 和其它 RunId。
+- [x] 清理后只读复核：sys.databases 中已无三个目标库；三个证据目录、批次备份目录、两份新批次备份、两份旧默认目录备份及一份 ACL 探测备份文件均不存在。msdb 保留的备份历史记录仅为元数据。

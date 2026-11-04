@@ -76,7 +76,7 @@ $env:DB_LAB_SECRET = "仅本地测试使用的随机密钥"
 
 此前第二阶段独立浏览器证据以 `TokenHubDB_v11_WebStage2A02` 为对象：**22 张 Edge 真页面截图、42 项操作/API 记录、25 项只读 SQL 对账检查全部通过**。另有新库 `WebSign28A` 的 **66 项完整单元与集成测试通过**；详细范围、异常结果和局限见[阶段报告](report/stage2_report.md)与[证据索引](result/stage2/WebStage2A02/README.md)。截图为自动化浏览器执行，并非组员手工签收。
 
-2026-11-04 使用新后缀 `WebNewRun01` 从空 v0.1 完整构建至 Web：v0.1 建库及脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 张表、18 条外键和 11 个视图；v1.1 验证为 17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用和 11 个 W6 guards，退款账本核验通过。Web 清单记录 17 张业务表及 1 张 Sessions 表；历史数据修复步骤按设计跳过，因为新建 v0.1 已通过 VFY12/13，且加固验证通过。本轮是空库构建和数据库验证，不包含新的浏览器 E2E。证据：[v0.1 数据签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。
+2026-11-04 使用新后缀 WebNewRun01 从空 v0.1 完整构建至 Web：v0.1 建库及脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 张表、18 条外键和 11 个视图；v1.1 验证为 17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用和 11 个 W6 guards，退款账本核验通过。Web 清单记录 17 张业务表及 1 张 Sessions 表；历史数据修复步骤按设计跳过，因为新建 v0.1 已通过 VFY12/13，且加固验证通过。本轮是空库构建和数据库验证，不包含新的浏览器 E2E。三个实验数据库、两份批次备份和三个复现证据目录随后已按 RunId 清理，本节保留构建与验证结果摘要。
 
 **两名组员已经实际参与网站验收**：陈诗翰第一名先在其环境测试；阮依成第二名亲自测试本机网站登录和订单显示，发现缺少注册入口并推动修复。22张Edge截图为补充自动化证据；[全角色手动验收清单](docs/stage2_acceptance.md)供可选的独立环境复现。真实受限Windows账户启动仍待验证。
 
@@ -98,111 +98,70 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 
 所有可编辑图源及 `report/render_app_er.py`、`report/render_overview_modules.py` **保留**。项目运行不依赖它们，但后续修改图像时可以重新导出；旧材料归档映射见 [archive/README.md](archive/README.md)。
 
-## 一次性清理此前固定复现残留（2026-11-04 已执行）
 
-> **破坏性操作。** 只清理本项目已确认的第六周复现残留；SQL Server 数据库会被永久删除，执行前确认数据库名称和本地实例。请从项目根目录运行。脚本使用 Windows 集成身份连接 `localhost\SQLEXPRESS`，不读取或保存 SQL 密码。
+## 每次复现后的完整清理（按 RunId）
+
+每次执行 tools/app_prepare.py --suffix Web... 时使用一个从未使用过的后缀；这个后缀就是本次复现的 **RunId**。例如 WebNewRun01。不要复用旧后缀。
+
+该流程会为一个 RunId 创建：
+
+- SQL Server 数据库：TokenHubDB_v01_<RunId>、TokenHubDB_v10_<RunId>、TokenHubDB_v11_<RunId>。
+- SQL 备份：v0.1→v1.0、v1.0→v1.1 两份 `.bak`，统一放在 `result/sql_backups/<RunId>/`。构建脚本查询当前 SQL Server 服务账户，并用 `icacls` 只向该账户授予此批次目录的 Modify 权限；当前项目用户保留目录管理权限。确切备份路径在执行 BACKUP 前写入 `result/week6/v11/<RunId>/copy_*.backup_path.txt`，即使备份或还原中断也能定位部分文件。
+- 本次证据目录：result/source_<RunId>/、result/week6/v11/<RunId>/、result/webapp/<RunId>/。
+- 可再生成的 Python/Ruff 测试缓存。
+
+### 先预览，再执行
+
+先停止本次手动启动的 python -m webapp（在运行窗口按 Ctrl+C）。从仓库根目录执行：
 
 ```powershell
-$ErrorActionPreference = 'Stop'
-$repo = (Resolve-Path '.').Path
-if ((Split-Path $repo -Leaf) -ne 'DB_lab' -or
-    -not (Test-Path (Join-Path $repo '.git')) -or
-    -not (Test-Path (Join-Path $repo 'AGENT.md'))) {
-    throw '请在 DB_lab Git 仓库根目录运行'
-}
-$parent = Split-Path $repo -Parent
+$Suffix = 'WebNewRun01'
 
-# 1. 只删除明确列出的四个第六周复现数据库；不会匹配或删除其它 TokenHubDB。
-$databases = @(
-    'TokenHubDB_v01_W6Replay261014',
-    'TokenHubDB_v10_W6Replay261014',
-    'TokenHubDB_v01_W6Auto261014',
-    'TokenHubDB_v10_W6Auto261014'
-)
-if (-not (Get-Command sqlcmd -ErrorAction SilentlyContinue)) {
-    throw '未找到 sqlcmd；未执行数据库删除'
-}
-foreach ($name in $databases) {
-    if ($name -notmatch '^TokenHubDB_v(01|10)_W6(Replay|Auto)261014$') {
-        throw "数据库名称不在允许清理的白名单中：$name"
-    }
-    $quoted = '[' + $name.Replace(']', ']]') + ']'
-    $sql = "IF DB_ID(N'$name') IS NOT NULL BEGIN ALTER DATABASE $quoted SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE $quoted; PRINT N'Dropped $name'; END ELSE PRINT N'Already absent $name';"
-    & sqlcmd -S 'localhost\SQLEXPRESS' -d master -E -C -b -V 11 -Q $sql
-    if ($LASTEXITCODE -ne 0) { throw "删除数据库失败：$name；停止后续清理" }
-}
+# 只盘点，不删除；检查输出中的数据库、备份文件和目录是否都属于本次 RunId。
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -WhatIf
 
-# 2. 删除两个仓库外、可由迁移前 ZIP 重新生成的旧代码解压目录。
-$replayDirs = @(
-    (Join-Path $parent 'DB_lab_replay_c8d4e64'),
-    (Join-Path $parent 'DB_lab_replay_W6Auto261014')
-)
-foreach ($path in $replayDirs) {
-    if ((Split-Path $path -Leaf) -notin @('DB_lab_replay_c8d4e64', 'DB_lab_replay_W6Auto261014')) {
-        throw "目录不在允许清理的白名单中：$path"
-    }
-    if (Test-Path -LiteralPath $path -PathType Container) {
-        Remove-Item -LiteralPath $path -Recurse -Force
-    }
-}
-
-# 3. 只删除明确列出的四个临时 recheck 日志，不清空 result/recheck 或其它结果目录。
-$logs = @(
-    (Join-Path $repo 'result\recheck\rejected_2ea751285847.log'),
-    (Join-Path $repo 'result\recheck\rejected_5b4dc02a60f2.log'),
-    (Join-Path $repo 'result\recheck\rejected_7019cd7c43b0.log'),
-    (Join-Path $repo 'result\recheck\rejected_77d17b7d3e43.log')
-)
-foreach ($path in $logs) {
-    if (Test-Path -LiteralPath $path -PathType Leaf) {
-        Remove-Item -LiteralPath $path -Force
-    }
-}
-
-# 4. 删除项目源码中的 Python 字节码缓存和 Ruff 缓存。
-#    保留 .venv、instance、.git、sql/.vs 及所有正式结果/归档。
-$excluded = @(
-    (Join-Path $repo '.git'),
-    (Join-Path $repo '.venv'),
-    (Join-Path $repo 'instance')
-) | ForEach-Object { [IO.Path]::GetFullPath($_).TrimEnd('\') + '\' }
-$pythonCaches = @(Get-ChildItem -LiteralPath $repo -Directory -Recurse -Force -Filter '__pycache__' |
-    Where-Object {
-        $full = [IO.Path]::GetFullPath($_.FullName)
-        -not ($excluded | Where-Object { $full.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) })
-    })
-foreach ($dir in ($pythonCaches | Sort-Object { $_.FullName.Length } -Descending)) {
-    if (Test-Path -LiteralPath $dir.FullName -PathType Container) {
-        Remove-Item -LiteralPath $dir.FullName -Recurse -Force
-    }
-}
-$ruffCache = Join-Path $repo '.ruff_cache'
-if (Test-Path -LiteralPath $ruffCache -PathType Container) {
-    Remove-Item -LiteralPath $ruffCache -Recurse -Force
-}
-
-# 5. 核对：四个数据库、两个目录、两个日志和缓存均不存在。
-foreach ($name in $databases) {
-    $check = "IF DB_ID(N'$name') IS NOT NULL THROW 51000, 'Cleanup verification failed: $name', 1;"
-    & sqlcmd -S 'localhost\SQLEXPRESS' -d master -E -C -b -V 11 -Q $check
-    if ($LASTEXITCODE -ne 0) { throw "数据库清理核对失败：$name" }
-}
-foreach ($path in ($replayDirs + $logs + @($ruffCache))) {
-    if (Test-Path -LiteralPath $path) { throw "清理核对失败，路径仍存在：$path" }
-}
-$remainingCaches = @(Get-ChildItem -LiteralPath $repo -Directory -Recurse -Force -Filter '__pycache__' |
-    Where-Object {
-        $full = [IO.Path]::GetFullPath($_.FullName)
-        -not ($excluded | Where-Object { $full.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) })
-    })
-if ($remainingCaches.Count -gt 0) { throw '仍存在项目 Python __pycache__' }
-if (-not (Test-Path (Join-Path $repo '.venv')) -or -not (Test-Path (Join-Path $repo 'instance'))) {
-    throw '.venv 或 instance 意外缺失，请检查清理范围'
-}
-'Cleanup verification PASS'
+# 确认上一步清单无误后执行；会在开始前再次询问确认。
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Confirm
 ```
 
-本清理流程**不会**删除 `TokenHubDB_v01_A`、`TokenHubDB_v10_W6_20261014`、`TokenHubDB_v11_Issues_20261014`、`TokenHubDB_v01/v10/v11_Web261021A-D` 及本轮 `WebNewRun01` 系列实验库；不会删除 SQL Server 备份文件、迁移前 ZIP、`archive/`、`result/stage2/`、`result/webapp/`、`result/week6/`、`.venv/` 或 `instance/`。若后续增加新的复现后缀，先核实其用途，再将精确数据库名加入白名单，禁止使用 `LIKE 'TokenHubDB%'` 或通配符批量删除。
+`-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
+
+默认会删除本次三个证据目录。如果要删除数据库、备份和缓存，但保留本次日志/清单供归档，预览和执行时都加 -KeepEvidence：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -KeepEvidence -WhatIf
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -KeepEvidence -Confirm
+```
+
+如果复现中途失败，尚未生成 manifest.json，清理程序默认拒绝猜测。确认该后缀是本次新建且三个目标数据库确实属于本次复现后，才加 -AllowIncomplete：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -AllowIncomplete -WhatIf
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -AllowIncomplete -Confirm
+```
+
+### 可选：同时删除受限 Web 运行账户
+
+只有执行过 tools/setup_web_runtime.ps1 并且要一并撤销该次专用运行环境时才使用。必须提供当时的准确 -RuntimeAccountName；默认账户名是 TokenHubWeb。该选项会停止并删除指向本仓库 tools/run_web.ps1 的计划任务、删除对应 SQL 登录、带有 TokenHub 专用描述的本地账户及其未加载的用户配置目录，并删除 instance/runtime.json、运行日志等指定文件。它不会读取运行配置中的密钥。请确认该账户/任务没有被其它项目或复现共用，并在管理员 PowerShell 中执行：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -RemoveRuntime -RuntimeAccountName TokenHubWeb -WhatIf
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -RemoveRuntime -RuntimeAccountName TokenHubWeb -Confirm
+```
+
+如果没有配置受限运行账户，不要加 `-RemoveRuntime`；开发预览的环境变量随终端关闭，不需要额外清理。**旧批次兼容**：在此备份目录改造前创建的批次（包括本轮 `WebNewRun01`）把 `.bak` 放在 SQL Server 的默认 `Program Files` 目录。若当前账户无权访问，脚本会在任何删除动作前中止；只需对这种旧批次在具有对应 NTFS 权限的提升 PowerShell 中执行同一条清理命令。新批次的备份隔离在仓库内，不需要管理员权限清理。
+
+清理程序位置：`tools/cleanup_reproduction.ps1`。它会在末尾核对三个数据库、备份文件、`result/sql_backups/<RunId>/` 和证据目录是否按选项清除。`.venv/`、`.git/`、SQL 源文件、`archive/`、其它 RunId 的数据库/结果、历史验收证据均保留；Python 临时 SQL 文件夹由 `TemporaryDirectory` 自动清理。
+
+清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。当前保留的其它实验库包括 TokenHubDB_v01_A、TokenHubDB_v10_W6_20261014、TokenHubDB_v11_Issues_20261014 及 TokenHubDB_v01/v10/v11_Web261021A-D；迁移前 ZIP、archive/、result/stage2/、.venv/、instance/ 和 .git/ 均保留。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
 
 ## 第9周员工管理增补（2026-11-04）
 

@@ -4,11 +4,13 @@ The original v0.1, existing v1.0/v1.1, and all older log files remain untouched.
 The script uses a caller-supplied NEW suffix and rejects target name collisions.
 """
 from __future__ import annotations
+
 import argparse
-from pathlib import Path
+import os
 import re
 import subprocess
 import tempfile
+from pathlib import Path
 from uuid import uuid4
 
 import pyodbc
@@ -22,6 +24,54 @@ def connection(server: str, db: str = "master") -> pyodbc.Connection:
         + ";DATABASE=" + db + ";Trusted_Connection=yes;TrustServerCertificate=yes;",
         autocommit=True,
     )
+
+
+def grant_sql_service_access(directory: Path, service_account: str) -> None:
+    if not service_account or any(char in service_account for char in "\r\n"):
+        raise RuntimeError("SQL Server returned an invalid service account")
+    command = subprocess.run(
+        ["icacls", str(directory), "/grant", f"{service_account}:(OI)(CI)M"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    if command.returncode:
+        raise RuntimeError(
+            "Could not grant the SQL Server service account access to the run backup directory: "
+            + command.stdout[-500:] + command.stderr[-500:]
+        )
+
+
+def prepare_backup_directory(server: str, suffix: str) -> Path:
+    master = connection(server)
+    try:
+        cur = master.cursor()
+        machine = cur.execute(
+            "SELECT CONVERT(nvarchar(128), SERVERPROPERTY('MachineName'))"
+        ).fetchval()
+        local_machine = os.environ.get("COMPUTERNAME", "")
+        if not machine or machine.casefold() != local_machine.casefold():
+            raise RuntimeError("The run-specific backup directory must be on the SQL Server host")
+        service_account = cur.execute(
+            "SELECT service_account FROM sys.dm_server_services "
+            "WHERE servicename = N'SQL Server (' + CONVERT(nvarchar(128), @@SERVICENAME) + N')' "
+            "AND status_desc = N'Running'"
+        ).fetchval()
+    finally:
+        master.close()
+    if not service_account:
+        raise RuntimeError("Cannot identify the running SQL Server service account")
+
+    backup_dir = ROOT / "result" / "sql_backups" / suffix
+    backup_dir.mkdir(parents=True, exist_ok=False)
+    try:
+        grant_sql_service_access(backup_dir, str(service_account))
+    except BaseException:
+        backup_dir.rmdir()
+        raise
+    print("PASS isolated SQL backup directory", backup_dir)
+    return backup_dir
 
 
 def run_sqlcmd(server: str, database: str, sql: str, log: Path, note: str) -> None:
@@ -42,11 +92,16 @@ def run_sqlcmd(server: str, database: str, sql: str, log: Path, note: str) -> No
 
 
 def backup_restore(cur: pyodbc.Cursor, server_name: str, original: str, target: str,
-                   bak_dir: str, data_dir: str, log_file: Path) -> None:
+                   bak_dir: Path, data_dir: str, log_file: Path) -> None:
     if cur.execute("SELECT DB_ID(?)", target).fetchval() is not None:
         raise RuntimeError("Refusing to overwrite existing DB: " + target)
     token = uuid4().hex[:12]
-    bak = str(Path(bak_dir) / (original + "_W6_" + token + ".bak"))
+    bak = str(bak_dir / (original + "_W6_" + token + ".bak"))
+    path_record = log_file.with_name(log_file.stem + ".backup_path.txt")
+    if path_record.exists():
+        raise RuntimeError("Refusing to overwrite backup path record: " + str(path_record))
+    # Persist the exact path before BACKUP starts so interrupted runs remain cleanable.
+    path_record.write_text(bak + "\n", encoding="utf-8")
     qbak = bak.replace("'", "''")
     qdata = str(Path(data_dir) / (target + ".mdf")).replace("'", "''")
     qlog = str(Path(data_dir) / (target + "_log.ldf")).replace("'", "''")
@@ -107,22 +162,20 @@ def main() -> None:
     if any(cur.execute("SELECT DB_ID(?)", name).fetchval() is not None
            for name in (v10, v11)):
         raise RuntimeError("Isolated databases already exist")
-    bakdir = cur.execute(
-        "SELECT CONVERT(NVARCHAR(400),SERVERPROPERTY('InstanceDefaultBackupPath'))"
-    ).fetchval()
     datadir = cur.execute(
         "SELECT CONVERT(NVARCHAR(400),SERVERPROPERTY('InstanceDefaultDataPath'))"
     ).fetchval()
-    if not bakdir or not datadir:
-        raise RuntimeError("Cannot determine SQL paths")
+    if not datadir:
+        raise RuntimeError("Cannot determine SQL data path")
     evidence.mkdir(parents=True)
-    backup_restore(cur, args.server, args.source, v10, bakdir, datadir, evidence / "copy_v01_to_v10.txt")
+    backup_dir = prepare_backup_directory(args.server, args.suffix)
+    backup_restore(cur, args.server, args.source, v10, backup_dir, datadir, evidence / "copy_v01_to_v10.txt")
     migr = (ROOT / "sql" / "v10" / "migration.sql").read_text(encoding="utf-8-sig")
     if "TokenHubDB_v10_W6_20261014" not in migr:
         raise RuntimeError("Migration whitelist was changed")
     migr = migr.replace("TokenHubDB_v10_W6_20261014", v10)
     run_sqlcmd(args.server, v10, migr, evidence / "migration.log", "v1.0 migration")
-    backup_restore(cur, args.server, v10, v11, bakdir, datadir, evidence / "copy_v10_to_v11.txt")
+    backup_restore(cur, args.server, v10, v11, backup_dir, datadir, evidence / "copy_v10_to_v11.txt")
     scripts = [
         "enforce_known_rules.sql",
         "record_usage.sql",
