@@ -111,6 +111,22 @@ def execute(token_hash: bytes | None, operation: str, payload: JsonObject) -> Js
         return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
 
 
+def employees(token_hash: bytes, operation: str, payload: JsonObject) -> JsonObject:
+    """Dedicated SQL procedure rechecks the admin role and returns only public staff data."""
+    with unit_of_work() as connection:
+        result = rows(
+            connection.cursor().execute(
+                "EXEC app.ManageEmployees @token_hash=?, @operation=?, @payload=?",
+                token_hash,
+                operation,
+                json.dumps(payload, ensure_ascii=False),
+            )
+        )
+        if not result or "data" not in result[0]:
+            raise AppError("DATABASE_PROTOCOL", "员工管理暂时不可用", 500)
+        return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
+
+
 def wire_values(value: object, key: str = "") -> object:
     if isinstance(value, dict):
         return {name: wire_values(item, name) for name, item in value.items()}

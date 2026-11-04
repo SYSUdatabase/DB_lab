@@ -2,9 +2,9 @@
 
 **项目名称：** TokenHub——API Token 套餐销售、库存与订单管理系统
 **课程交付版本：** v1.0（规范化迁移）＋ v1.1（业务规则补充）＋ Web 应用
-**验收日期：** 2026 年 10 月 28 日
+**验收日期：** 2026 年 11 月 4 日
 **验收环境：** Windows、SQL Server Express（`localhost\SQLEXPRESS`）、Python 3.12、Flask、pyodbc、Edge/Playwright
-**独立验收数据库：** `TokenHubDB_v11_WebStage2A02`，原始来源 `TokenHubDB_v01_WebStage2A02`
+**独立验收数据库：** `TokenHubDB_v11_WebEmp26A01`，原始来源 `TokenHubDB_v01_WebEmp26A01`
 
 > **证据边界：** 本报告中的截图由本机 Microsoft Edge 通过 Playwright 访问真实 Flask 网站自动采集，SQL 查询来自真实隔离数据库，不是绘制的界面样图。支付、Token 调用和结算均为模拟。**两名组员已实际参与测试：陈诗翰第一名在其环境先行测试（据阮依成确认），阮依成第二名亲自在当前网站测试登录和订单显示、发现注册缺失并推动修复。** 22张Edge全流程截图为自动化补充证据；真实受限Windows服务身份和新电脑从零部署仍待额外核验。
 
@@ -44,7 +44,7 @@ v0.1 旧结构及固定样例
               └→ Web：app.Sessions、鉴权过程、受限顾客注册
 ```
 
-核心课程脚本保留在 **[`sql/v10/migration.sql`](../sql/v10/migration.sql)** 和 **[`sql/v10/regression.sql`](../sql/v10/regression.sql)**；第六周其它业务更新在 [`sql/v11/`](../sql/v11/README.md)。迁移采用新建数据库副本，不覆盖原 v0.1；回归比较订单、金额、商品销量、库存、余额及汇总等关键查询，并检验权限和外键。完整构建可执行 `tools/app_prepare.py --suffix WebNewRun01`，逐阶段日志可在 [WebStage2A02 构建证据](../result/webapp/WebStage2A02/)中查看。
+核心课程脚本保留在 **[`sql/v10/migration.sql`](../sql/v10/migration.sql)** 和 **[`sql/v10/regression.sql`](../sql/v10/regression.sql)**；第六周其它业务更新在 [`sql/v11/`](../sql/v11/README.md)。迁移采用新建数据库副本，不覆盖原 v0.1；回归比较订单、金额、商品销量、库存、余额及汇总等关键查询，并检验权限和外键。完整构建可执行 `tools/app_prepare.py --suffix WebNewRun01`，逐阶段日志可在 [WebEmp26A01 构建证据](../result/webapp/WebEmp26A01/)中查看。
 
 最终在本轮隔离库实测：**18 张表、22 条启用且可信的外键**（包含 17 张业务表及 1 张 Web 会话表；v1.1 业务层 20 条外键）。第 1—4 周的 v0.1 SQL 作为**迁移依赖**继续放在 `sql/v01/`，历史报告与证据归档在 [archive](../archive/README.md)。
 
@@ -88,11 +88,11 @@ v0.1 旧结构及固定样例
 
 ## 3. 实际实验环境与验收方法
 
-2026 年 10 月 28 日，以新后缀 `WebStage2A02` 从空 v0.1 构建完整系统，启用本机 **5051** 的独立预览网站，以 Edge + Playwright 真实浏览器操作采集屏幕；原供人工测试的 **5050 / `WebManualA01`** 数据库未用于本次验收。录制结果、每一张 PNG 的 SHA-256、HTTP 请求编号和最终读库检查保存在：
+2026 年 11 月 4 日，以新后缀 `WebEmp26A01` 从空 v0.1 构建完整系统，启用本机 **5051** 的独立预览网站，以 Edge + Playwright 真实浏览器操作采集屏幕；原供人工测试的 **5050 / `WebManualA01`** 数据库未用于本次验收。录制结果、每一张 PNG 的 SHA-256、HTTP 请求编号和最终读库检查保存在：
 
-- [浏览器执行清单（42 条）](../result/stage2/WebStage2A02/browser/manifest.json)
-- [截图清单与实际图像（22 张）](../result/stage2/WebStage2A02/README.md)
-- [SQL 只读对账结果](../result/stage2/WebStage2A02/database_reconciliation.json)
+- [浏览器执行清单（42 条）](../result/stage2/WebEmp26A01/browser/manifest.json)
+- [截图清单与实际图像（22 张）](../result/stage2/WebEmp26A01/README.md)
+- [SQL 只读对账结果](../result/stage2/WebEmp26A01/database_reconciliation.json)
 - [66 项单元和集成测试日志](../result/webapp/WebSign28A/registration_unit_stderr.log)
 
 浏览器脚本为 [`tools/stage2_browser_e2e.py`](../tools/stage2_browser_e2e.py)，只读对账脚本为 [`tools/stage2_reconcile.py`](../tools/stage2_reconcile.py)；其他测试覆盖连接失败、约束冲突、事务回滚、跨顾客访问、并发扣费/退款、CSRF 与接口参数化。
@@ -101,41 +101,41 @@ v0.1 旧结构及固定样例
 
 ### 4.1 注册与商品维护
 
-![图3 顾客注册页面](../result/stage2/WebStage2A02/browser/screenshots/03_顾客注册表单.png)
+![图3 顾客注册页面](../result/stage2/WebEmp26A01/browser/screenshots/03_顾客注册表单.png)
 
 *图 3：实际 Edge 页面中的顾客注册表单。新建 `stage2_new_A01` 后自动成为顾客，可退出并再次登录。*
 
-![图4 管理员新增商品](../result/stage2/WebStage2A02/browser/screenshots/07_管理员新增商品.png)
+![图4 管理员新增商品](../result/stage2/WebEmp26A01/browser/screenshots/07_管理员新增商品.png)
 
 *图 4：管理员创建 Other 供应商商品 `Stage2验收套餐P_A01`，单价 12.00 元、135,791 Token；数据库生成商品 #18。随后创建上游账号 #18，初始库存 1,000,000 Token。*
 
 ### 4.2 顾客订单与支付
 
-![图5 顾客待支付订单](../result/stage2/WebStage2A02/browser/screenshots/11_顾客待支付订单.png)
+![图5 顾客待支付订单](../result/stage2/WebEmp26A01/browser/screenshots/11_顾客待支付订单.png)
 
 *图 5：顾客 `web_customer` 新建订单 #112，状态 pending，金额 12.00 元、135,791 Token。*
 
-![图6 订单支付成功](../result/stage2/WebStage2A02/browser/screenshots/12_订单模拟支付成功.png)
+![图6 订单支付成功](../result/stage2/WebEmp26A01/browser/screenshots/12_订单模拟支付成功.png)
 
 *图 6：点击模拟支付后，订单改为 paid，Token 进入顾客的 Other 供应商余额与购买批次；支付时不扣上游库存。*
 
 ### 4.3 Token 消费与退款结算
 
-![图7 模拟 API 调用及余额变动](../result/stage2/WebStage2A02/browser/screenshots/14_Token调用扣减.png)
+![图7 模拟 API 调用及余额变动](../result/stage2/WebEmp26A01/browser/screenshots/14_Token调用扣减.png)
 
 *图 7：消费 50,000 Token，剩余 85,791 Token。系统自动选中已有的 Other 上游账号 #17（而非本轮新建 #18），在该账号扣费并形成调用和库存流水。*
 
-![图8 部分退款账本](../result/stage2/WebStage2A02/browser/screenshots/16_退款金额待结算.png)
+![图8 部分退款账本](../result/stage2/WebEmp26A01/browser/screenshots/16_退款金额待结算.png)
 
 *图 8：顾客对订单 #112 申请退款，收回未消费的 85,791 Token，已消费 50,000 Token 不退款；账本给出应退 **7.58 元**，等待模拟结算。*
 
-![图9 管理员模拟结算结果](../result/stage2/WebStage2A02/browser/screenshots/20_管理员模拟退款结算.png)
+![图9 管理员模拟结算结果](../result/stage2/WebEmp26A01/browser/screenshots/20_管理员模拟退款结算.png)
 
 *图 9：管理员将该笔退款登记为 `settled`，生成 `SIM-` 开头的本地演示编号，**不代表实际资金已划转**。*
 
 ### 4.4 店员受控补货
 
-![图10 店员完成补货](../result/stage2/WebStage2A02/browser/screenshots/18_店员补货完成.png)
+![图10 店员完成补货](../result/stage2/WebEmp26A01/browser/screenshots/18_店员补货完成.png)
 
 *图 10：店员对新建账号 #18 提交计划 10,000 Token、实际完成 8,000 Token 的补货任务；库存从 1,000,000 变为 1,008,000。*
 
@@ -143,19 +143,19 @@ v0.1 旧结构及固定样例
 
 所有请求统一返回 `code`、`message`、`data`、`request_id`，前端只显示简明提示和请求编号，不输出 SQL、服务器路径、密码或原始异常堆栈。后端记录时间、操作名、角色、错误分类和 HTTP 状态。
 
-![图11 重复用户名拒绝](../result/stage2/WebStage2A02/browser/screenshots/05_重复账号拒绝.png)
+![图11 重复用户名拒绝](../result/stage2/WebEmp26A01/browser/screenshots/05_重复账号拒绝.png)
 
 *图 11：注册使用已存在的用户名，被唯一性约束拒绝；读库确认注册用户仅 1 行，失败注册没有产生第二条账号。*
 
-![图12 错误密码拒绝](../result/stage2/WebStage2A02/browser/screenshots/06_错误密码拒绝.png)
+![图12 错误密码拒绝](../result/stage2/WebEmp26A01/browser/screenshots/06_错误密码拒绝.png)
 
 *图 12：错误密码返回统一的登录失败提示，不暴露密码哈希。*
 
-![图13 商品重复档位拒绝](../result/stage2/WebStage2A02/browser/screenshots/08_商品唯一约束拒绝.png)
+![图13 商品重复档位拒绝](../result/stage2/WebEmp26A01/browser/screenshots/08_商品唯一约束拒绝.png)
 
 *图 13：管理员尝试创建相同供应商与 Token 档位商品，触发数据库 UNIQUE 约束，由 HTTP 错误边界转换为友好提示。*
 
-![图14 第二顾客隔离](../result/stage2/WebStage2A02/browser/screenshots/17_第二顾客数据隔离.png)
+![图14 第二顾客隔离](../result/stage2/WebEmp26A01/browser/screenshots/17_第二顾客数据隔离.png)
 
 *图 14：`web_other` 的订单列表与第一位顾客隔离；同时直接通过 `GET /api/v1/orders/112` 发起越权访问，返回 403。此截图展示角色列表；403 的精确返回码见浏览器执行清单。*
 
@@ -168,12 +168,12 @@ v0.1 旧结构及固定样例
 | 第二位顾客获取订单 #112 | HTTP 403，`FORBIDDEN` | 请求 `0b8a48de0b184266942755ec4ea51c17` |
 | 店员尝试新建商品 | HTTP 403，`FORBIDDEN` | 请求 `502cee9f963a4d8cbe14043ba0958c57` |
 | 退款后继续消费已回收余额 | HTTP 409，`BUSINESS_RULE` | 请求 `70bfe773251e4a5285eac632c079aab2` |
-| 重复两次申请同笔退款 | 两次 HTTP 200，返回原退款数据 | 请求编号在 [执行清单](../result/stage2/WebStage2A02/browser/manifest.json) |
+| 重复两次申请同笔退款 | 两次 HTTP 200，返回原退款数据 | 请求编号在 [执行清单](../result/stage2/WebEmp26A01/browser/manifest.json) |
 | 管理员删除已支付/已退款订单 | HTTP 409，`BUSINESS_RULE` | 请求 `82d201cc42994771ad60e1cd0e20f218` |
-| 游客直接访问订单接口 | HTTP 401，未登录 | [真实接口页面截图](../result/stage2/WebStage2A02/browser/screenshots/21_游客访问订单401.png) |
+| 游客直接访问订单接口 | HTTP 401，未登录 | [真实接口页面截图](../result/stage2/WebEmp26A01/browser/screenshots/21_游客访问订单401.png) |
 | SQL 注入样式字符串作为商品搜索词 | HTTP 200，按普通文本处理，未执行 DDL | 执行清单及 18 表结构仍存在 |
 
-![图15 未登录订单 API 拒绝](../result/stage2/WebStage2A02/browser/screenshots/21_游客访问订单401.png)
+![图15 未登录订单 API 拒绝](../result/stage2/WebEmp26A01/browser/screenshots/21_游客访问订单401.png)
 
 *图 15：游客在 Edge 地址栏直接访问受限 API，网站实际返回 401 JSON 错误，而非由测试脚本伪造的错误图。*
 
@@ -181,7 +181,7 @@ v0.1 旧结构及固定样例
 
 ## 6. 只读 SQL 对账及自动化测试结果
 
-对浏览器流程结束后的 `WebStage2A02` 数据库进行真实 SQL 查询，独立脚本执行 **25 项关键数据核验**；同时检查 22 张 PNG 的签名、尺寸和 SHA-256。结果均通过。
+对浏览器流程结束后的 `WebEmp26A01` 数据库进行真实 SQL 查询，独立脚本执行 **25 项关键数据核验**；同时检查 22 张 PNG 的签名、尺寸和 SHA-256。结果均通过。
 
 | 核对项目 | 浏览器前后业务事实及 SQL 查询结果 |
 |---|---|
@@ -195,9 +195,9 @@ v0.1 旧结构及固定样例
 | 当前数据库结构 | 18 张表、22 条启用可信外键 |
 | 截图真实性 | 22 张由 Edge 生成的 PNG 均存在、尺寸有效、SHA-256 与执行清单一致 |
 
-完整 JSON：[`database_reconciliation.json`](../result/stage2/WebStage2A02/database_reconciliation.json)。
+完整 JSON：[`database_reconciliation.json`](../result/stage2/WebEmp26A01/database_reconciliation.json)。
 
-另一套独立环境 `TokenHubDB_v11_WebSign28A` 的 **66 项 Python 测试全部通过（0 失败、0 跳过）**，包含旧数据库基础回归、Web SQL、HTTP 业务、登录与注册、安全边界、锁竞争和异常回滚。浏览器与数据库核对的证据是本轮新建的 `WebStage2A02`，不将不同数据库的结果混在同一“执行场次”中。交付前另执行了 [10 项最终 QA](../result/stage2/WebStage2A02/final_qa_manifest.json)，包括第5/6周图与链接、历史迁移回放核对、Ruff、实际网站 HTTP 登录、JS 语法、SQL 与截图哈希核验、Git diff 空白字符检查，全部通过。
+另一套独立环境 `TokenHubDB_v11_WebSign28A` 的 **66 项 Python 测试全部通过（0 失败、0 跳过）**，包含旧数据库基础回归、Web SQL、HTTP 业务、登录与注册、安全边界、锁竞争和异常回滚。浏览器与数据库核对的证据是本轮新建的 `WebEmp26A01`，不将不同数据库的结果混在同一“执行场次”中。此前第8周另执行过 [10 项最终 QA](../result/stage2/WebStage2A02/final_qa_manifest.json)，包括第5/6周图与链接、迁移回放、Ruff、网站登录和截图哈希检查。第9周另在 WebEmp26A01 运行新增员工管理后的 **72 项完整 unittest，全部通过**，其[原始日志](../result/stage2/WebEmp26A01/unittest_rerun_stderr.log)单独保存；截图结束时的25项数据库核对保存在[独立 JSON](../result/stage2/WebEmp26A01/database_reconciliation.json)，之后完整测试会继续写入独立库，因此不将最终库的动态业务值与截图时间点混为同一快照。
 
 ## 7. 实验总结与交付边界
 
@@ -205,4 +205,60 @@ v0.1 旧结构及固定样例
 
 **成员网站验收已完成：** 第一名测试组员陈诗翰在其环境先行测试（据阮依成确认）；第二名阮依成亲自在网站检查登录和订单显示，发现并要求修复缺失的注册功能。自动化22张浏览器截图与25项SQL对账另行记录，不冒充组员逐项手动截图。仍可补充在第二台全新Windows环境从零部署，以及使用真正受限Windows普通账户启动网站并核对权限。
 
-本报告不声称验证了真实支付网关、真实上游模型 API 或真实退款到账。具体软件版本、操作手册、错误码与日志位置见[根 README](../README.md)、[Web 手册](../docs/webapp.md)、[第二阶段证据总览](../result/stage2/WebStage2A02/README.md)，任务归属见[小组分工](../docs/team_division.md)，AI 辅助过程见[AI 使用文档](../docs/ai使用文档.md)和[详细日志](../docs/ai_usage_log.md)。
+本报告不声称验证了真实支付网关、真实上游模型 API 或真实退款到账。具体软件版本、操作手册、错误码与日志位置见[根 README](../README.md)、[Web 手册](../docs/webapp.md)、[第二阶段证据总览](../result/stage2/WebEmp26A01/README.md)，任务归属见[小组分工](../docs/team_division.md)，AI 辅助过程见[AI 使用文档](../docs/ai使用文档.md)和[详细日志](../docs/ai_usage_log.md)。
+
+## 8. 第9周：员工管理补充与新一轮实际截图
+
+第9周分工：陈诗翰继续完成其负责版本的测试与更新（据阮依成提供的分工说明登记）；阮依成作为第二名测试组员，在实际操作时发现管理员缺少管理店员的页面和操作按钮，提出新增员工管理功能，并组织测试、截图与交付更新。
+
+### 8.1 设计与实现
+
+数据库 Employees 已具备 staff/admin 角色、用户名唯一约束及 active/inactive 状态。InventoryLog、RestockTask 和 Sessions 会引用员工，因此不采用直接物理删除；新增管理界面采用停用和重新启用，保留历史操作的可追溯性。
+
+管理员可查看普通店员列表、新增店员、修改姓名、重置密码、停用与重新启用。创建员工时后端只分配 staff 角色，不能通过用户提交 role 来提升权限；管理员账号不能通过普通店员管理接口修改或停用。重置密码和停用时，员工的旧会话会立即撤销。员工列表不返回密码或密码哈希。前端按角色隐藏入口，后端业务权限表与 SQL 过程又分别验证当前管理员身份。没有员工 DELETE 路由，避免破坏业务引用。
+
+实现位置：[SQL 存储过程](../sql/app/employees.sql)、[Web 页面](../webapp/static/app.js)、[路由](../webapp/__init__.py)、[服务层](../webapp/services.py)、[参数化 DAO](../webapp/dao.py)、[测试](../tests/test_employee_management.py)。新库经 SQL 安装脚本自动包含此扩展，旧数据库无需重建即可单独安装新增存储过程。
+
+### 8.2 实际 Edge 正常与异常截图
+
+本轮在全新隔离库 TokenHubDB_v11_WebEmp26A01 重新执行并截图前面22个顾客/管理员/店员业务场景，此外重新截图员工管理的11个场景。以下图像均为真实浏览器操作生成的 PNG，而非绘制的示意界面。
+
+![图16 管理员查看员工列表](../result/stage2/WebEmp26A01/employees_verified/screenshots/01_管理员员工列表.png)
+
+*图16：只有管理员看到员工管理栏目，可查看普通店员及其状态。*
+
+![图17 管理员新增店员](../result/stage2/WebEmp26A01/employees_verified/screenshots/03_新增店员成功.png)
+
+*图17：新增普通店员成功，页面没有管理员角色选项。*
+
+![图18 员工账号唯一约束错误](../result/stage2/WebEmp26A01/employees_verified/screenshots/04_重复店员账号被拒.png)
+
+*图18：重复账号由数据库唯一约束与统一异常处理返回409及友好提示。*
+
+![图19 管理员修改员工姓名](../result/stage2/WebEmp26A01/employees_verified/screenshots/05_管理员修改店员姓名.png)
+
+*图19：员工姓名修改成功，原员工编号与已有业务引用保留。*
+
+![图20 停用员工](../result/stage2/WebEmp26A01/employees_verified/screenshots/07_店员停用保留记录.png)
+
+*图20：员工停用后不可继续登录，旧会话被撤销，历史员工记录仍然存在。*
+
+![图21 重新启用员工](../result/stage2/WebEmp26A01/employees_verified/screenshots/08_店员重新启用.png)
+
+*图21：重新启用员工；更新后的密码可用于登录。*
+
+![图22 普通店员权限拒绝](../result/stage2/WebEmp26A01/employees_verified/screenshots/09_普通店员没有员工管理入口.png)
+
+*图22：普通店员无员工管理导航项；直接请求该 API 返回403 FORBIDDEN。*
+
+![图23 新店员登录](../result/stage2/WebEmp26A01/employees_verified/screenshots/11_新店员可登录但无管理权限.png)
+
+*图23：新建店员成功登录，却不能管理其他员工。*
+
+异常还包括：游客查询员工信息返回401、恶意提交 role=admin 被400拒绝、重复员工账号409、没有员工 DELETE 路由（请求返回405）。上述真实 HTTP 代码、request_id、截图哈希见[第9周员工管理截图与事件记录](../result/stage2/WebEmp26A01/README.md)。
+
+首次员工管理自动化脚本在“新密码”与“确认新密码”定位重叠处报错。保留原失败记录、修正 Playwright 标签定位后使用新测试账号完成11张截图；该错误属于测试脚本定位问题，不是后端员工业务错误。
+
+### 8.3 回归验证与人员分工
+
+新库上重新执行原始完整业务流程的22张截图和42条请求，25项订单金额、库存及退款 SQL 数据核对全部通过；独立员工管理的11张新图亦通过。自动化截图由AI辅助执行，不能说成组员逐张手动操作。陈诗翰负责第9周后续测试及更新，阮依成负责第9周员工管理增补、测试组织、截图和第二阶段文档更新。

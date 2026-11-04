@@ -1,0 +1,470 @@
+{
+  "date": "2026-11-04T11:49:21",
+  "scope": "result/ old/redundant test files only; databases unmodified",
+  "removed_or_archived": [
+    {
+      "action": "archive",
+      "path": "source_WebSign28A",
+      "files": [
+        {
+          "relative": "result/source_WebSign28A/00_create_database.sql.log",
+          "bytes": 48,
+          "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+        },
+        {
+          "relative": "result/source_WebSign28A/01_create_tables.sql.log",
+          "bytes": 86,
+          "sha256": "ef43eba1138e88143a275a766bd3938792480750d1a4894c14ede823368f6403"
+        },
+        {
+          "relative": "result/source_WebSign28A/02_insert_data.sql.log",
+          "bytes": 212,
+          "sha256": "2ce0b1d2df126464e7ef75b454afda3e3aea81e484c3aefeb00253abd2ca999b"
+        },
+        {
+          "relative": "result/source_WebSign28A/03_crud_demo.sql.log",
+          "bytes": 20106,
+          "sha256": "ae640c48e7bd8be1da745edb6929a434fa665981baef7a1c654312556b01eef8"
+        },
+        {
+          "relative": "result/source_WebSign28A/console.log",
+          "bytes": 1126,
+          "sha256": "48f15f9528b9bb2e703e5b13966685a69e39ff8f66ff7873a64db976c9dd74e2"
+        },
+        {
+          "relative": "result/source_WebSign28A/constraint.sql.log",
+          "bytes": 507996,
+          "sha256": "e6a11c98e3f4c2ca520118c0f61efb5954fbcaacf38db27c4f89887c48efe8c4"
+        },
+        {
+          "relative": "result/source_WebSign28A/query.sql.log",
+          "bytes": 160354,
+          "sha256": "c58abd6e28d6d9a312e08ac6a93ab2c41f2b49f1fbac28a41333d9a6828b89ef"
+        },
+        {
+          "relative": "result/source_WebSign28A/role.sql.log",
+          "bytes": 452906,
+          "sha256": "ee6dd4b69b866cb620273b2250210a8f39a8a129efe8a6a8bee5c4a2928aa8f1"
+        },
+        {
+          "relative": "result/source_WebSign28A/signature.txt",
+          "bytes": 1115,
+          "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+        },
+        {
+          "relative": "result/source_WebSign28A/signature_sqlcmd_raw.txt",
+          "bytes": 1195,
+          "sha256": "2029686a5d7ef0113d355f8ae2c4f3791347cfc13c84d22601fae786551cec1f"
+        },
+        {
+          "relative": "result/source_WebSign28A/verify.sql.log",
+          "bytes": 16570,
+          "sha256": "3b7e46ae6e0789a8fb537605d7fdffc5ca237a85d6c112fef5f75b2177e5968c"
+        },
+        {
+          "relative": "result/source_WebSign28A/view.sql.log",
+          "bytes": 184384,
+          "sha256": "525f4662ce79f41ea890cbffe547f8b105cc535b6194dcd3258a01ebc568a579"
+        }
+      ]
+    },
+    {
+      "action": "archive",
+      "path": "source_WebStage2A02",
+      "files": [
+        {
+          "relative": "result/source_WebStage2A02/00_create_database.sql.log",
+          "bytes": 48,
+          "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+        },
+        {
+          "relative": "result/source_WebStage2A02/01_create_tables.sql.log",
+          "bytes": 90,
+          "sha256": "345e1b3ac626ed9536b677fabe87f6c6fa4fe244ccf11ec944d7e62b0d825c54"
+        },
+        {
+          "relative": "result/source_WebStage2A02/02_insert_data.sql.log",
+          "bytes": 216,
+          "sha256": "451b9ad0b5936eb78e7a55afef0fb63322ba9f427541f60c98d97f40d3905ab4"
+        },
+        {
+          "relative": "result/source_WebStage2A02/03_crud_demo.sql.log",
+          "bytes": 20110,
+          "sha256": "4d4d676b9744abad37135c53b34a92621f833044db00ae7fb8cabb9a8a20596d"
+        },
+        {
+          "relative": "result/source_WebStage2A02/console.log",
+          "bytes": 1132,
+          "sha256": "ee11980895b46a6bd0da6cc43f1f04d55c9e58dd242f459fc574473fee40b685"
+        },
+        {
+          "relative": "result/source_WebStage2A02/constraint.sql.log",
+          "bytes": 508000,
+          "sha256": "3d50d397424d0da621ab912ed9f04db4642d7dc9c2d2a2d3ca5f7a3610b15b6a"
+        },
+        {
+          "relative": "result/source_WebStage2A02/query.sql.log",
+          "bytes": 160358,
+          "sha256": "395deeaa6e917f08b405568ba4e247efcee8233aab053042132dd9647a2d0776"
+        },
+        {
+          "relative": "result/source_WebStage2A02/role.sql.log",
+          "bytes": 452910,
+          "sha256": "baa2bfd4094996b43a1a350ec812716aa450f6a287d84024a2ab42dc5537db76"
+        },
+        {
+          "relative": "result/source_WebStage2A02/signature.txt",
+          "bytes": 1115,
+          "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+        },
+        {
+          "relative": "result/source_WebStage2A02/signature_sqlcmd_raw.txt",
+          "bytes": 1197,
+          "sha256": "911434cd354a496c3817543ce8cfa4e03187e695e52d12c7e1944bdb7084cf73"
+        },
+        {
+          "relative": "result/source_WebStage2A02/verify.sql.log",
+          "bytes": 16574,
+          "sha256": "6535f1df76b58da74c9a90ede04928f0eb207dbadc8f05ba90ae53c21bcbb5c6"
+        },
+        {
+          "relative": "result/source_WebStage2A02/view.sql.log",
+          "bytes": 184388,
+          "sha256": "f0e9161dae0c5a5ef03c0253f198b9208c8a4a3a9ba1ad1691366e217bb89898"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "week6/v11/Unified261017C",
+      "files": [
+        {
+          "relative": "result/week6/v11/Unified261017C/01_typed_consumption_refs.sql.log",
+          "bytes": 69,
+          "sha256": "4b33df5390e56db4500e2081cd0037ee71bea792447a757181cb723b731d4f62"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/02_managed_usage_v11.sql.log",
+          "bytes": 62,
+          "sha256": "37be3d9a9f15f39c56463d2b742b8d5336d9dd9aa7ded18c44e7c966332ba7ab"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/03_close_write_paths.sql.log",
+          "bytes": 93,
+          "sha256": "668fb5c29d821e53d69ff642a884ac240120735351bd57d97246d7b256c05834"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/05_managed_restock.sql.log",
+          "bytes": 44,
+          "sha256": "337202b2e4c4fd9c91c5f692cc194a8239ce7a814b79782bd469ae71e060cea2"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/07_refund_schema.sql.log",
+          "bytes": 69,
+          "sha256": "e3de0c3861637c7584492d4725346e952aecdf58e1902805633f5b1ad6197f53"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/08_accounting_lots.sql.log",
+          "bytes": 51,
+          "sha256": "50622980e5c8f08ad9658214418be806a7350c73778981358d2850bed8c7a712"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/09_refund_workflow.sql.log",
+          "bytes": 93,
+          "sha256": "c09c6b801aae285123e681c9a39c329bcc246829e3b6d1e9521bf15630e1c919"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/approved_rules.sql.log",
+          "bytes": 62,
+          "sha256": "54745193dcd156e9c10f1f6fb8fc96468a7707805eb748369cdc6bd274541831"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/copy_v01_to_v10.txt",
+          "bytes": 202,
+          "sha256": "bcfd6274d5ecb81ee809552c688a1d36dc7dbc0cf70a66b19086147b8acb1628"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/copy_v10_to_v11.txt",
+          "bytes": 228,
+          "sha256": "5b2c3d633c755d2f5082b90cf3559bbb5f78ffbf65493d48cfcfb462fa9408d8"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/enforce_known_rules.sql.log",
+          "bytes": 64,
+          "sha256": "edb96b9930cf42115031f90ba7c32fb807b246d7cbc27552c4acc635e9758809"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/lots_manifest.json",
+          "bytes": 411,
+          "sha256": "bfe275c67e53261df108970f2dbcf22516ba65fd7f49217996f30da0c21c6cc8"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/migration.log",
+          "bytes": 208,
+          "sha256": "d288766f0b2429d10d992080a0b86488fd225048a9910e01e11a019d76322403"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/protect_parent_deletes.sql.log",
+          "bytes": 59,
+          "sha256": "8b76dcbe5f23157719ad1cd62322b06b68a7b428dd42300ee595dafac246bdfd"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/record_usage.sql.log",
+          "bytes": 68,
+          "sha256": "c7af0a41db75ac0a6bf8552acc091fbe2e053ef020bfa031d1ca5443933dcee0"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/registered_order_workflow.sql.log",
+          "bytes": 58,
+          "sha256": "9340c5cab7e33bd21b9df0a581b33b5073497f924c8426c9b569f7e4b9f77a81"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/regression_v11.sql.log",
+          "bytes": 1247,
+          "sha256": "cac58a27f885a05eb791ad414ba82584a7f824e27d3cfb28241681db14a9dbe2"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/seed_token_lots.log",
+          "bytes": 453,
+          "sha256": "a141ebac0e14524c73883c9d133cfd59c3e63942518f91f3bfb10e2cfa639c13"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/synthetic_repair_audit.json",
+          "bytes": 44517,
+          "sha256": "7da38525db634494f4838cc05188eb1013b72a990cd05173e4f860d290eb8780"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/test_approved_rules.sql.log",
+          "bytes": 904,
+          "sha256": "327b206f1ffaf8aff694095601b517a8a18d1e8c9a7c9810b60d3acba6161f2b"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/test_guards.sql.log",
+          "bytes": 300,
+          "sha256": "2ae90b73569aece505e45768bdab72589e4b2e538cf9eba04fcd5742c5a44fa3"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/test_managed_usage.sql.log",
+          "bytes": 473,
+          "sha256": "0e994e2dcb7cfc7d71997677a2a3ac7ce5e8cc6aa7e3ddc9c9b408883a718574"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/test_parent_and_role.sql.log",
+          "bytes": 181,
+          "sha256": "005d086637ad88a5ac73cf909d8e7e0808e730fb2894d3489af2cab66682b164"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_04_regression.sql.log",
+          "bytes": 1360,
+          "sha256": "dcb2080a8de0f6bbdcf09e164f6ffdafb495e319881abf127251a0721831aa92"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_06_restock_regression.sql.log",
+          "bytes": 475,
+          "sha256": "7cbc619aab65601bdbe4ed76adbba074065d71f0058d31efa5eba6851aab44a6"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_verify_v11_full.sql.log",
+          "bytes": 7533,
+          "sha256": "76fb296afcdbf792cabb208d64299d10c8cb2b8df0ef716b279e63c1fdeb1f63"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/verify_approved_rules_baseline.sql.log",
+          "bytes": 227,
+          "sha256": "fa72103461b9d845ec745af8af116da6c744f1a361a49e29f3bd6d82da4e15e8"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_fixed/validation_04_regression.sql.log",
+          "bytes": 1360,
+          "sha256": "dfee34fbbe7ea6da77707fb6da8a5905e9dd1e61152645416323bba99baeeaf5"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_fixed/validation_06_restock_regression.sql.log",
+          "bytes": 475,
+          "sha256": "f6e702d25c7895b5f33f76e5723560375a075abcc52e0f0e23f8d38627eb8960"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_fixed/validation_10_refund_regression.sql.log",
+          "bytes": 4764,
+          "sha256": "275713388b19eb393b6c1676264830a8b2686697765d05ad7e32f081f2a683cc"
+        },
+        {
+          "relative": "result/week6/v11/Unified261017C/validation_fixed/validation_verify_v11_full.sql.log",
+          "bytes": 8360,
+          "sha256": "89685a876a13117bf1843c13a31d8fe8a417e119e6ed8e4ddff5384eb40184ab"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "week6/hardening/Harden261017A",
+      "files": [
+        {
+          "relative": "result/week6/hardening/Harden261017A/copy_v01_to_v10.txt",
+          "bytes": 201,
+          "sha256": "0bdf8e32b3a39d5c124c90b796c70fb57a132ca90466cb61b7446dc4c5d4ff28"
+        },
+        {
+          "relative": "result/week6/hardening/Harden261017A/migration.log",
+          "bytes": 305,
+          "sha256": "881030cc52f772f72d3123cdf6a86949fe4f99420b09da9ee458640854ff9b94"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "recheck/rejected_102190fcd16c.log",
+      "files": [
+        {
+          "relative": "result/recheck/rejected_102190fcd16c.log",
+          "bytes": 166,
+          "sha256": "7f02effee91b4bf8c65f4754426c64fdd533895453647a5be668e5c86614589b"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "recheck/rejected_35168f0ad0d4.log",
+      "files": [
+        {
+          "relative": "result/recheck/rejected_35168f0ad0d4.log",
+          "bytes": 192,
+          "sha256": "2f6d4ef9ca1f7e557432d06323e783c61b64e2eafadebc8a3dde7f242fc87316"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "recheck/rejected_8b31d729a151.log",
+      "files": [
+        {
+          "relative": "result/recheck/rejected_8b31d729a151.log",
+          "bytes": 192,
+          "sha256": "2f6d4ef9ca1f7e557432d06323e783c61b64e2eafadebc8a3dde7f242fc87316"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "recheck/rejected_93e00e9f60c4.log",
+      "files": [
+        {
+          "relative": "result/recheck/rejected_93e00e9f60c4.log",
+          "bytes": 166,
+          "sha256": "7f02effee91b4bf8c65f4754426c64fdd533895453647a5be668e5c86614589b"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/unittest_stdout.log",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/unittest_stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/unittest_rerun_stdout.log",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/unittest_rerun_stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/employees/screenshots/01_管理员员工列表.png",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/employees/screenshots/01_管理员员工列表.png",
+          "bytes": 46522,
+          "sha256": "d4e2bd8f596be615a5222b28471c2bac1ce140f9f3c34033f1df273cc2f64e5e"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/employees/screenshots/02_新增店员表单.png",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/employees/screenshots/02_新增店员表单.png",
+          "bytes": 52353,
+          "sha256": "b1ee62192f9a22ba477f70687b6bf03f80fa74305c00ff0eb34ec31c205d2993"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/employees/screenshots/03_新增店员成功.png",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/employees/screenshots/03_新增店员成功.png",
+          "bytes": 89096,
+          "sha256": "29fb273a7b4e014fbd78b3e02d1660331ccae08a3f45322b7c056831f9eb30c6"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/employees/screenshots/04_重复店员账号被拒.png",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/employees/screenshots/04_重复店员账号被拒.png",
+          "bytes": 90887,
+          "sha256": "545f7809ba69f960c1b792959c5e25dd568ba25f35d300b73ad7ab26ba21061f"
+        }
+      ]
+    },
+    {
+      "action": "remove",
+      "path": "stage2/WebEmp26A01/employees/screenshots/05_管理员修改店员姓名.png",
+      "files": [
+        {
+          "relative": "result/stage2/WebEmp26A01/employees/screenshots/05_管理员修改店员姓名.png",
+          "bytes": 89658,
+          "sha256": "81416ce3c634b4290165b51f3d556a126056b71a0b60fa87ab394894e2672e45"
+        }
+      ]
+    }
+  ],
+  "protected_evidence": [
+    "stage2/WebEmp26A01/README.md",
+    "stage2/WebEmp26A01/browser/manifest.json",
+    "stage2/WebEmp26A01/employees_verified/manifest.json",
+    "stage2/WebEmp26A01/employees/failure.json",
+    "stage2/WebEmp26A01/employees/screenshots/99_失败现场.png",
+    "stage2/WebEmp26A01/unittest_stderr.log",
+    "stage2/WebEmp26A01/unittest_rerun_stderr.log",
+    "stage2/WebEmp26A01/database_reconciliation.json",
+    "stage2/WebStage2A02/browser/manifest.json",
+    "webapp/WebSign28A/registration_unit_stderr.log",
+    "webapp/Web261021D/manifest.json",
+    "webapp/WebNewRun01/manifest.json",
+    "source_WebNewRun01/signature.txt",
+    "source_WebEmp26A01/signature.txt",
+    "source_WebManualA01/signature.txt",
+    "source_Web261021D/signature.txt",
+    "week6/v11/Full261017D",
+    "week6/hardening/Harden261017B",
+    "week6/v11/WebEmp26A01",
+    "week6/v11/WebNewRun01",
+    "week5",
+    "week6/regression",
+    "week6/reproduction"
+  ],
+  "archive_source_dir": "archive\\evidence\\stage2-legacy",
+  "notes": "Old complete Stage2A02 screenshots, 66-test logs and current 72-test logs retained. Stage9 first-failure JSON and screenshot 99 retained. Recheck directory remains for later tests.",
+  "redacted_after_archive": {
+    "reason": "Discard redundant PowerShell console transcripts containing local Windows username/device path; per-SQL logs and signatures are preserved",
+    "files": [
+      "archive\\evidence\\stage2-legacy\\source_WebSign28A\\console.log",
+      "archive\\evidence\\stage2-legacy\\source_WebStage2A02\\console.log"
+    ]
+  }
+}

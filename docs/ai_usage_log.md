@@ -484,3 +484,13 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 - `WebNewRun01` 三个结果目录完整保留，未修改或删除任何 SQL Server 数据库；本地暂存与 commit 尚待执行，未 push。
 
 - 额外清理：删除 `result/source_WebNewRun01/console.log`，该 PowerShell transcript 只重复各步骤日志且包含本机用户名/进程环境；`.gitignore` 增加 `result/source_*/console.log`，保留逐脚本日志和数据签名作为可追溯证据。
+
+## 2026-11-04 第9周员工管理实施与重测日志
+
+第二名组员阮依成在实际网站上发现管理员无员工管理、无删除/停用入口，要求第9周完成管理员工，并再次截图报告。约定沿用 Employees.status 将 active/inactive 作为软停用，不做物理 DELETE，保留库存、补货及会话外键关联。
+
+AI新增 app.ManageEmployees（独立 EXECUTE AS OWNER 存储过程，独立验证 active admin token）、Flask 路由、services 的字段白名单与bcrypt哈希、DAO参数化执行，以及只对管理员可见的员工列表、新建、改名、重置密码、停用和启用按钮。停用及重置密码均撤销该员工旧会话。新数据库通过 sql/app/install.sql 自动加载，可对既有Web v1.1库单独安装此扩展。本机原 WebManualA01 安装新增过程、重新启动5050，旧数据未重建。
+
+独立新库 TokenHubDB_v11_WebEmp26A01 从 v0.1 构建到 Web 成功；原22张Edge业务截图及25项SQL只读核对全通过，新增11张员工管理真实页面截图、重复账号409及普通店员403、游客401、伪造角色400。首次员工自动截图因标签选择器非唯一报错，保留原失败 JSON 与现场后修正；首次72项测试因 DELETE 路由实际405而错误期望404失败1项，修正后72项完整PASS，全部保留对应日志。前后证据详见 result/stage2/WebEmp26A01/README.md。新报告引用最新图片。
+
+第9周组内任务分工按用户明确确认：陈诗翰完成其负责版本的后续测试与更新；阮依成发现并组织新增员工管理及测试和交付整理。AI自动执行记录不冒充组员亲自操作，未修改原先 agent.md 或其它组员独立数据库。

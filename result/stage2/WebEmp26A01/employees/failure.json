@@ -1,0 +1,19 @@
+{
+  "type": "Error",
+  "message": "Locator.fill: Error: strict mode violation: get_by_label(\"新密码\") resolved to 2 elements:\n    1) <input required=\"\" name=\"password\" type=\"password\" aria-label=\"新密码（至少12字节）\" autocomplete=\"current-password\"/> aka get_by_role(\"textbox\", name=\"新密码（至少12字节）\")\n    2) <input required=\"\" type=\"password\" aria-label=\"确认新密码\" name=\"password_confirm\" autocomplete=\"current-password\"/> aka get_by_role(\"textbox\", name=\"确认新密码\")\n\nCall log:\n  - waiting for get_by_label(\"新密码\")\n",
+  "events": [
+    {
+      "event": "Administrator sees employee management"
+    },
+    {
+      "event": "HTTP GET /employees?page=1&q=",
+      "status": 200,
+      "code": "OK",
+      "request_id": "71416e9819434a4486dffa4ab418f947"
+    },
+    {
+      "event": "Staff is exclusively staff and no hash exposed",
+      "employee_id": 9
+    }
+  ]
+}

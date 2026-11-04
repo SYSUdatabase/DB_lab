@@ -34,3 +34,9 @@ erDiagram
 期初库存由 `trg_App_OpeningInventory` 在新增上游账号时登记到既有 `InventoryLog`：`change_type=purchase`、`reference_type=manual`、`reference_id=NULL`、`reason=APP_INITIAL_QUOTA_V1`，数量为创建时 `total_quota-used_quota`，时间取账号 `created_at`。唯一过滤索引 `UX_App_OpeningInventory` 限定每个账号最多一笔此标记。未新增表、列或外键，仍为18张物理表、22个外键。
 
 `trg_W6_InventoryLogWrite` 保留流水不可修改/删除约束，仅允许owner事务通过受控账号删除入口，删除无调用、无补货、无其它流水账号的系统期初记录。业务流水仍阻止账号删除；任意调用者设置同名会话标志不获得基表权限。
+
+## 第9周 Web 扩展：受限员工管理过程
+
+新增 app.ManageEmployees，参数为会话token哈希、明确操作名和JSON参数。过程以 app_runtime 授权执行，但内部重新确认会话属于 active 的 admin。仅支持普通 staff 的分页列表、新建、修改姓名、重置密码、状态变更，不允许修改管理员。读取字段为 employee_id、name、account、status、hire_date、role，不返回 password_hash；创建时由SQL固定查找 staff 角色，不能由用户提供 role_id。停用与重置密码会撤销 app.Sessions 中对应员工的旧会话。
+
+复用 dbo.Employees.status 的 active/inactive，不增加实体表或外键，员工物理删除 API 不存在，维持 RestockTask/InventoryLog/ExceptionLog 和员工之间的历史引用。新脚本 sql/app/employees.sql，在 sql/app/install.sql 后执行；新建数据库由 app_prepare 自动安装。

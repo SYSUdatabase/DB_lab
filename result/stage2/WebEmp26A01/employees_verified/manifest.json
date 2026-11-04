@@ -1,0 +1,96 @@
+{
+  "database": "TokenHubDB_v11_WebEmp26A01",
+  "date": "2026-11-04T11:28:21",
+  "browser": "Microsoft Edge / Playwright (real web UI, automatic)",
+  "execution": "automated browser, not participant manually clicking screenshots",
+  "employee_id": 11,
+  "events": [
+    {
+      "event": "Administrator sees employee management"
+    },
+    {
+      "event": "HTTP GET /employees?page=1&q=",
+      "status": 200,
+      "code": "OK",
+      "request_id": "0e41052bc17a43b09379ed1aad9d0ab2"
+    },
+    {
+      "event": "Staff is exclusively staff and no hash exposed",
+      "employee_id": 11
+    },
+    {
+      "event": "Password reset completed"
+    },
+    {
+      "event": "HTTP POST /employees",
+      "status": 400,
+      "code": "INVALID_INPUT",
+      "request_id": "b5cc4b3607ec4364a55690a32b64fdd5"
+    },
+    {
+      "event": "Client admin-role injection rejected"
+    },
+    {
+      "event": "HTTP GET /employees?page=1&q=",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "2da6f6c18b16442eacf114e3ab4994d6"
+    },
+    {
+      "event": "Staff forbidden on admin page and API"
+    },
+    {
+      "event": "Guest access rejected"
+    },
+    {
+      "event": "New staff login succeeded after password reset"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_管理员员工列表.png",
+      "sha256": "d4e2bd8f596be615a5222b28471c2bac1ce140f9f3c34033f1df273cc2f64e5e"
+    },
+    {
+      "file": "02_新增店员表单.png",
+      "sha256": "b1ee62192f9a22ba477f70687b6bf03f80fa74305c00ff0eb34ec31c205d2993"
+    },
+    {
+      "file": "03_新增店员成功.png",
+      "sha256": "54aaa03ccfb97582598e004c1fd5c1447e11441f657aea6ae13f568603422225"
+    },
+    {
+      "file": "04_重复店员账号被拒.png",
+      "sha256": "6a6e942b237cd10b1cbe82a5bdbca9148ef61ec120944904ea966ce6b7b79bf2"
+    },
+    {
+      "file": "05_管理员修改店员姓名.png",
+      "sha256": "513ef3dde09c9302884e252fc06e943df81478b4ad0679e5925955010d74a1b4"
+    },
+    {
+      "file": "06_管理员重置密码后.png",
+      "sha256": "8be01e135081c5705e9a4fbc3a301098603ac89c994a630c735c23f866fd296f"
+    },
+    {
+      "file": "07_店员停用保留记录.png",
+      "sha256": "50a542aa4281ea76f097cdcdc00e05ab9c7d3908a2a322100a81e80e05cc6db6"
+    },
+    {
+      "file": "08_店员重新启用.png",
+      "sha256": "513ef3dde09c9302884e252fc06e943df81478b4ad0679e5925955010d74a1b4"
+    },
+    {
+      "file": "09_普通店员没有员工管理入口.png",
+      "sha256": "fdfc39cfc6765ff24599c3599cec2844d5f89860ac047d4eae4c8e656698d9df"
+    },
+    {
+      "file": "10_游客不能查看员工列表.png",
+      "sha256": "b8c798f0ee1f4d8cc8bd9efa65738209d957749719b8ba0ec5ee01ba26bd1b4f"
+    },
+    {
+      "file": "11_新店员可登录但无管理权限.png",
+      "sha256": "c9f19d849e2584deef245ed2245f5a8d2d7d40d2fb80416f95a07c87e9ef73b4"
+    }
+  ],
+  "status": "PASS"
+}

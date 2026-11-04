@@ -10,7 +10,7 @@
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](week6/dependency_normalization.md)、[重构方案](week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[应用测试](tests/)、[Web SQL](sql/app/) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
-| 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第二阶段证据](result/stage2/WebStage2A02/README.md)**、[原有测试记录](result/webapp/README.md) |
+| 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第9周最新证据](result/stage2/WebEmp26A01/README.md)**、[原有测试记录](result/webapp/README.md) |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
 
 ## 系统架构
@@ -29,7 +29,7 @@ SQL Server（sql/v01、sql/v10、sql/v11、sql/app）
 
 [应用 ER 图](report/er_diagram_app.png) · [可编辑 ER 源码](report/er_diagram_app.mmd) · [模块结构图](report/overview_modules.png) · [模块可编辑源码](report/overview_modules.mmd) · [数据字典](docs/app_data_dictionary.md)。
 
-顾客可注册、创建订单、模拟支付、查询余额、模拟 Token 消费、申请部分退款；店员查询订单/库存、受控补货及取消待支付单；管理员另可维护商品/上游账号、处理符合规则的删除及模拟退款结算。**页面“待处理（pending）”表示等待顾客支付，不是等待店员审核。** 真实支付、真实 API 计费和真实资金结算不在本演示范围。
+顾客可注册、创建订单、模拟支付、查询余额、模拟 Token 消费、申请部分退款；店员查询订单/库存、受控补货及取消待支付单；管理员另可维护商品/上游账号、处理符合规则的删除及模拟退款结算，并从新增的员工管理页面创建、修改、重置密码、停用和启用普通店员；停用代替物理删除，历史流水保留。**页面“待处理（pending）”表示等待顾客支付，不是等待店员审核。** 真实支付、真实 API 计费和真实资金结算不在本演示范围。
 
 ## 环境及从空库复现
 
@@ -74,7 +74,7 @@ $env:DB_LAB_SECRET = "仅本地测试使用的随机密钥"
 .\.venv\Scripts\ruff.exe check webapp tests tools
 ```
 
-本次第二阶段独立浏览器证据以 `TokenHubDB_v11_WebStage2A02` 为对象：**22 张 Edge 真页面截图、42 项操作/API 记录、25 项只读 SQL 对账检查全部通过**。另有新库 `WebSign28A` 的 **66 项完整单元与集成测试通过**；详细范围、异常结果和局限见[阶段报告](report/stage2_report.md)与[证据索引](result/stage2/WebStage2A02/README.md)。截图为自动化浏览器执行，并非组员手工签收。
+此前第二阶段独立浏览器证据以 `TokenHubDB_v11_WebStage2A02` 为对象：**22 张 Edge 真页面截图、42 项操作/API 记录、25 项只读 SQL 对账检查全部通过**。另有新库 `WebSign28A` 的 **66 项完整单元与集成测试通过**；详细范围、异常结果和局限见[阶段报告](report/stage2_report.md)与[证据索引](result/stage2/WebStage2A02/README.md)。截图为自动化浏览器执行，并非组员手工签收。
 
 2026-11-04 使用新后缀 `WebNewRun01` 从空 v0.1 完整构建至 Web：v0.1 建库及脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 张表、18 条外键和 11 个视图；v1.1 验证为 17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用和 11 个 W6 guards，退款账本核验通过。Web 清单记录 17 张业务表及 1 张 Sessions 表；历史数据修复步骤按设计跳过，因为新建 v0.1 已通过 VFY12/13，且加固验证通过。本轮是空库构建和数据库验证，不包含新的浏览器 E2E。证据：[v0.1 数据签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。
 
@@ -203,3 +203,15 @@ if (-not (Test-Path (Join-Path $repo '.venv')) -or -not (Test-Path (Join-Path $r
 ```
 
 本清理流程**不会**删除 `TokenHubDB_v01_A`、`TokenHubDB_v10_W6_20261014`、`TokenHubDB_v11_Issues_20261014`、`TokenHubDB_v01/v10/v11_Web261021A-D` 及本轮 `WebNewRun01` 系列实验库；不会删除 SQL Server 备份文件、迁移前 ZIP、`archive/`、`result/stage2/`、`result/webapp/`、`result/week6/`、`.venv/` 或 `instance/`。若后续增加新的复现后缀，先核实其用途，再将精确数据库名加入白名单，禁止使用 `LIKE 'TokenHubDB%'` 或通配符批量删除。
+
+## 第9周员工管理增补（2026-11-04）
+
+店长（管理员）登录后在左侧选择“员工管理”，可以查看普通店员、新增店员、修改姓名、重置密码、停用或重新启用；没有物理删除按钮，原因是员工与补货/库存操作的历史外键应保留。店员不能通过管理页面创建管理员或管理其他员工；停用和密码重置均会撤销旧会话。
+
+第9周新建隔离数据库 WebEmp26A01 的最新验证：[正常与异常截图索引](result/stage2/WebEmp26A01/README.md)，包含重新截图22张原有业务画面和新增11张员工管理画面、25项SQL对账、72项完整测试全部通过。原有 WebStage2A02 证据保留供审计。陈诗翰负责第9周追加测试及更新，阮依成负责新增员工管理和本轮测试/截图/文档整理。
+
+**已有 Web 实验数据库更新时不需要重建旧库**：在具备数据库安装权限的 PowerShell、项目根目录执行下方 SQLCMD，然后重启 Flask 以加载新路由；务必核对目标库名，不对原始旧库执行。
+
+    sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_WebYourRun01 -E -C -b -f 65001 -v DatabaseName=TokenHubDB_v11_WebYourRun01 -i sql/app/employees.sql
+
+全新使用 app_prepare.py 构建的 Web 后缀库则自动包含员工管理过程。

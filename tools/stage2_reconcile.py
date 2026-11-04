@@ -17,7 +17,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--suffix", required=True)
     args = parser.parse_args()
-    if args.suffix != "WebStage2A02":
+    if args.suffix not in {"WebStage2A02", "WebEmp26A01"}:
         raise SystemExit("Refuse unapproved database / evidence suffix")
     directory = ROOT / "result" / "stage2" / args.suffix
     manifest = json.loads((directory / "browser" / "manifest.json").read_text(encoding="utf-8"))
@@ -33,7 +33,7 @@ def main() -> None:
     conn = pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};"
         r"SERVER=localhost\SQLEXPRESS;"
-        "DATABASE=TokenHubDB_v11_WebStage2A02;"
+        f"DATABASE=TokenHubDB_v11_{args.suffix};"
         "Trusted_Connection=yes;Encrypt=yes;TrustServerCertificate=yes;"
     )
     try:

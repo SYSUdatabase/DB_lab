@@ -117,3 +117,15 @@ SQL反例在事务中回滚；HTTP业务流程测试会在指定新实验库增�
 
 
 应用ER重导出需要可选的matplotlib依赖：安装 "matplotlib>=3.8,<4" 后执行 python report/render_app_er.py。已有SVG/PNG可直接查阅。
+
+## 第9周新增：管理员工与复现注意事项
+
+管理员登录后点击左侧“员工管理”，可查看仅 staff 的员工列表、新增员工、修改姓名、重置密码、停用和重新启用。新员工密码至少12字节，重复账号会报约束冲突；员工密码哈希永不返回浏览器。停用/密码重置撤销员工的所有现有会话；重新启用后可用有效密码登录。因为库存流水、补货任务、会话与员工存在关联，不提供物理删除。员工列表不会显示管理员，管理员不能用此接口创建或操作另一个管理员。
+
+全新从空库创建时，无需额外执行 SQL；sql/app/install.sql 已自动安装 sql/app/employees.sql。若队友电脑上已经运行了旧版 Web 实验库，不能对同名数据库重做 app_prepare.py。先从最新 Git 拉取代码，在具有安装权限的终端中以具体 Web v1.1 数据库名执行一次新增过程脚本即可，然后重启网站：
+
+    sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_WebYourRun01 -E -C -b -f 65001 -v DatabaseName=TokenHubDB_v11_WebYourRun01 -i sql/app/employees.sql
+
+只安装员工管理过程，不删除旧员工、订单或库存记录。注意端口、DB_LAB_APP_DATABASE 和浏览器缓存对应同一站点。不要将脚本运行在原始 TokenHubDB_v01 数据库上。
+
+新测试：[员工管理集成测试](../tests/test_employee_management.py)、[第9周截图（22张业务复测+11张员工管理）及异常请求编号](../result/stage2/WebEmp26A01/README.md)。72项完整 unittest 测试全部通过。本轮截图是 Edge 自动化真实页面操作，阮依成则是实际发现并提出该功能缺失的第二名测试组员；陈诗翰负责第9周原版本继续测试与更新。

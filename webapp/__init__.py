@@ -102,6 +102,11 @@ def install_boundaries(app: Flask) -> None:
 
 
 ROUTES = (
+    ("/employees", "GET", "employees.list"),
+    ("/employees", "POST", "employees.create"),
+    ("/employees/<int:employee_id>", "PUT", "employees.update"),
+    ("/employees/<int:employee_id>/password", "POST", "employees.password"),
+    ("/employees/<int:employee_id>/status", "POST", "employees.status"),
     ("/products", "GET", "products.list"),
     ("/products", "POST", "products.save"),
     ("/products/<int:product_id>", "PUT", "products.save"),

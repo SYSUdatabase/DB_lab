@@ -14,6 +14,7 @@ from .errors import AppError
 
 JsonObject = dict[str, object]
 INTEGER_FIELDS = {
+    "employee_id",
     "product_id",
     "order_id",
     "detail_id",
@@ -30,6 +31,11 @@ INTEGER_FIELDS = {
     "page",
 }
 ALLOWED = {
+    "employees.list": {"admin"},
+    "employees.create": {"admin"},
+    "employees.update": {"admin"},
+    "employees.password": {"admin"},
+    "employees.status": {"admin"},
     "products.list": {"guest", "customer", "staff", "admin"},
     "products.save": {"admin"},
     "products.delete": {"admin"},
@@ -178,6 +184,62 @@ def validate(payload: JsonObject) -> JsonObject:
     return payload
 
 
+def employee_payload(operation: str, payload: JsonObject) -> JsonObject:
+    """Whitelist every writable field; never accept client-supplied role or hashes."""
+    expected = {
+        "employees.list": {"page", "q"},
+        "employees.create": {"name", "account", "password", "password_confirm"},
+        "employees.update": {"employee_id", "name"},
+        "employees.password": {"employee_id", "password", "password_confirm"},
+        "employees.status": {"employee_id", "status"},
+    }[operation]
+    if set(payload) != expected:
+        raise AppError("INVALID_INPUT", "员工操作包含缺失或不允许的字段", 400)
+    if operation == "employees.list":
+        page = payload["page"]
+        if not isinstance(page, str) or not page.isdecimal() or not 1 <= int(page) <= 100000:
+            raise AppError("INVALID_INPUT", "分页参数无效", 400)
+        if payload.get("q") not in ("", None):
+            raise AppError("INVALID_INPUT", "员工列表不支持搜索参数", 400)
+        return {"page": int(page)}
+    if operation != "employees.create":
+        identifier = payload.get("employee_id")
+        if isinstance(identifier, bool) or not isinstance(identifier, int) or identifier <= 0:
+            raise AppError("INVALID_INPUT", "员工编号无效", 400)
+    if operation in {"employees.create", "employees.update"}:
+        name = payload.get("name")
+        if not isinstance(name, str) or not 1 <= len(name.strip()) <= 50:
+            raise AppError("INVALID_INPUT", "姓名须为1至50个字符", 400)
+    if operation == "employees.create":
+        account = payload.get("account")
+        if not isinstance(account, str) or not re.fullmatch(r"[A-Za-z0-9_]{3,50}", account):
+            raise AppError("INVALID_INPUT", "员工账号须为3至50位英文、数字或下划线", 400)
+    output: JsonObject = {}
+    if "name" in expected:
+        output["name"] = str(payload["name"]).strip()
+    if "account" in expected:
+        output["account"] = payload["account"]
+    if "employee_id" in expected:
+        output["employee_id"] = payload["employee_id"]
+    if operation in {"employees.create", "employees.password"}:
+        password = payload.get("password")
+        confirmation = payload.get("password_confirm")
+        if not isinstance(password, str) or not isinstance(confirmation, str):
+            raise AppError("INVALID_INPUT", "请输入并确认员工密码", 400)
+        if not 12 <= len(password.encode("utf-8")) <= 72:
+            raise AppError("INVALID_INPUT", "员工密码长度须为12至72字节", 400)
+        if password != confirmation:
+            raise AppError("INVALID_INPUT", "两次输入的密码不一致", 400)
+        output["password_hash"] = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode(
+            "ascii"
+        )
+    if operation == "employees.status":
+        if payload["status"] not in {"active", "inactive"}:
+            raise AppError("INVALID_INPUT", "只能启用或停用店员", 400)
+        output["status"] = payload["status"]
+    return output
+
+
 def perform(operation: str, payload: JsonObject, token: str | None) -> JsonObject:
     principal = identity(token)
     role = str(principal["role"])
@@ -185,6 +247,8 @@ def perform(operation: str, payload: JsonObject, token: str | None) -> JsonObjec
         if role == "guest":
             raise AppError("UNAUTHENTICATED", "请先登录", 401)
         raise AppError("FORBIDDEN", "当前身份没有此操作权限", 403)
+    if operation.startswith("employees."):
+        return dao.employees(digest(token), operation, employee_payload(operation, payload))
     validated = validate(payload)
     hashed = digest(token) if token else None
     if role == "customer" and "order_id" in validated:

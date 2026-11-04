@@ -8,7 +8,8 @@
 | 第 6 周 | 函数依赖/范式分析、UsagePeriod/UsageSummaryCore 迁移、回归及后续 v1.1 修复 | [week6](week6/README.md)、[v1.0 迁移](sql/v10/migration.sql) |
 | 第 7 周 | 数据库基础代码（陈诗翰）、Web 四层结构和受控业务入口 | [sql/app](sql/app/)、[Web 代码](webapp/) |
 | 第 8 周 | 顾客注册与输入/角色检查、Web 完整测试、交付整理（阮依成） | [注册](sql/app/register.sql)、[集成测试](tests/test_registration.py)、[组内分工](docs/team_division.md) |
-| 第 9 周集成成果 | Edge 真浏览器、正常和异常流程、SQL 只读对账、截图及报告 | [最终验收索引](result/stage2/WebStage2A02/README.md)、[报告](report/stage2_report.md) |
+| 第9周：陈诗翰 | 完成负责版本的后续测试与更新（按组内确认记录） | [分工](docs/team_division.md) |
+| 第9周：阮依成 | 补齐管理员工：新增、改名、密码重置、停用/启用、权限检查；重截业务与员工管理页面并更新报告 | [第9周新证据](result/stage2/WebEmp26A01/README.md)、[报告](report/stage2_report.md) |
 
 ## 2026-10-28 当前自动化验收结果
 
@@ -43,3 +44,11 @@
 - [ ] 本轮未重新执行 Edge 浏览器 E2E 或普通 Windows 受限账户启动；既有浏览器证据仍以 WebStage2A02 为准。
 
 证据：[源库签名](result/source_WebNewRun01/signature.txt)、[v1.1 完整验证](result/week6/v11/WebNewRun01/validation_verify_v11_full.sql.log)、[Web 构建清单](result/webapp/WebNewRun01/manifest.json)。
+
+
+## 2026-11-04 第9周新增员工管理
+
+- 陈诗翰继续进行其负责部分的测试和更新。
+- 阮依成发现管理端缺少员工管理；新增仅管理员可用的员工列表、创建/改名/重置密码、停用/启用。员工的业务历史通过软停用保存，不允许物理删除。
+- 真 Edge 对旧业务重新截图22张，新增员工管理真实截图11张；SQL只读对账25项通过。浏览器操作为AI辅助自动化，区别于组员人工测试。
+- 独立测试、日志、异常结果及截图位于 [WebEmp26A01](result/stage2/WebEmp26A01/README.md)。

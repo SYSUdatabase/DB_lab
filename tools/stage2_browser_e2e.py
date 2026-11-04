@@ -31,7 +31,17 @@ def main() -> None:
     shots = directory / "screenshots"
     shots.mkdir()
     password = (
-        (ROOT / "instance" / "stage2_evidence_password.txt").read_text(encoding="utf-8").strip()
+        (
+            ROOT
+            / "instance"
+            / (
+                "employee_evidence_password.txt"
+                if args.suffix == "WebEmp26A01"
+                else "stage2_evidence_password.txt"
+            )
+        )
+        .read_text(encoding="utf-8")
+        .strip()
     )
     if not 12 <= len(password) <= 72:
         raise SystemExit("Invalid private experiment password")

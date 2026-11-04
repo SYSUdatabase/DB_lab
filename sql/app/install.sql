@@ -452,3 +452,4 @@ GO
 COMMIT TRANSACTION;
 GO
 :r sql/app/register.sql
+:r sql/app/employees.sql
