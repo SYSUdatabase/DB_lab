@@ -400,6 +400,8 @@ if ($RemoveRuntime) {
         Remove-CimInstance -InputObject $runtimeProfile -ErrorAction Stop
     }
     if ($runtimeUser) {
+        . (Join-Path $PSScriptRoot 'batch_logon_right.ps1')
+        Set-BatchLogonRight -Sid $runtimeUser.SID.Value -Revoke
         Remove-LocalUser -Name $RuntimeAccountName -ErrorAction Stop
     }
 

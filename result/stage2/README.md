@@ -10,3 +10,8 @@
 
 - [第9周最新浏览器、接口、SQL及错误结果](WebEmp26A01/README.md)：原业务重新截图22张，员工管理新图11张，SQL25项核对通过，72项新全量测试通过。
 - [原第8周旧证据](WebStage2A02/README.md)继续保留。
+
+## 新环境从零部署与受限账户验收（2026-11-06）
+
+- [WebXY1105F 验收记录](WebXY1105F/README.md)：新电脑从空库部署，普通 Windows 账户实际连接的权限核对，受限账户运行的服务上原业务 22 张、员工管理 11 张 Edge 截图。
+- 部署中各次失败的现场：[WebXY1105C](WebXY1105C/runtime/first_start_failure.json)、[WebXY1105D](WebXY1105D/runtime/first_start_failure.json)、[WebXY1105E](WebXY1105E/runtime/first_start_failure.json)；WebXY1105B 的回归失败日志在 [week6/v11](../week6/v11/WebXY1105B/regression_v11.sql.log)。

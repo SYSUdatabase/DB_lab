@@ -1,0 +1,4 @@
+BACKUP COPY_ONLY CHECKSUM + VERIFYONLY + RESTORE PASS
+source=TokenHubDB_v10_WebXY1105B
+target=TokenHubDB_v11_WebXY1105B
+backup=C:\Users\xy\Desktop\数据库实验\DB_lab\result\sql_backups\WebXY1105B\TokenHubDB_v10_WebXY1105B_W6_c0c04f15d110.bak

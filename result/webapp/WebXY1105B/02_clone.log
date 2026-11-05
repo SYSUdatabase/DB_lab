@@ -1,0 +1,26 @@
+PASS isolated SQL backup directory C:\Users\xy\Desktop\���ݿ�ʵ��\DB_lab\result\sql_backups\WebXY1105B
+Backing up TokenHubDB_v01_WebXY1105B then restoring TokenHubDB_v10_WebXY1105B
+PASS isolated DB backup and restore
+PASS v1.0 migration
+Backing up TokenHubDB_v10_WebXY1105B then restoring TokenHubDB_v11_WebXY1105B
+PASS isolated DB backup and restore
+PASS enforce_known_rules.sql
+PASS record_usage.sql
+PASS protect_parent_deletes.sql
+PASS approved_rules.sql
+PASS registered_order_workflow.sql
+PASS verify_approved_rules_baseline.sql
+PASS test_guards.sql
+PASS test_managed_usage.sql
+PASS test_parent_and_role.sql
+PASS test_approved_rules.sql
+Traceback (most recent call last):
+  File "C:\Users\xy\Desktop\���ݿ�ʵ��\DB_lab\week6\v11\build_sandbox.py", line 207, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\xy\Desktop\���ݿ�ʵ��\DB_lab\week6\v11\build_sandbox.py", line 202, in main
+    run_sqlcmd(args.server, v11, sql, evidence / (fname + ".log"), fname)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\xy\Desktop\���ݿ�ʵ��\DB_lab\week6\v11\build_sandbox.py", line 90, in run_sqlcmd
+    raise RuntimeError(note + " FAILED; inspect " + str(log))
+RuntimeError: regression_v11.sql FAILED; inspect C:\Users\xy\Desktop\���ݿ�ʵ��\DB_lab\result\week6\v11\WebXY1105B\regression_v11.sql.log

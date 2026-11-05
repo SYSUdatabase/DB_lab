@@ -1,0 +1,12 @@
+{
+    "task":  "TokenHub-TokenHubWeb",
+    "last_run":  "11/06/2026 00:22:55",
+    "last_task_result":  "0x1",
+    "port_5050_listening":  false,
+    "runtime_identity_log_created":  false,
+    "icacls_instance_runtime_json":  [
+                                         "C:\\Users\\xy\\Desktop\\数据库实验\\DB_lab\\instance\\runtime.json",
+                                         "已成功处理 1 个文件; 处理 0 个文件时失败"
+                                     ],
+    "cause":  "setup_web_runtime.ps1 applied \"icacls instance /inheritance:r /grant:r \u003cSID\u003e:(OI)(CI)... /T\"; on files the result is an empty DACL, so run_web.ps1 under the runtime account could not read instance/runtime.json"
+}

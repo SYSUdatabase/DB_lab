@@ -1,0 +1,33 @@
+{
+    "task":  "TokenHub-TokenHubWeb",
+    "last_task_result":  "0x41303",
+    "last_task_result_meaning":  "SCHED_S_TASK_HAS_NOT_RUN",
+    "port_5050_listening":  false,
+    "security_logon_failures":  [
+                                    {
+                                        "time":  "2026-11-06 00:16:40",
+                                        "event_id":  4625,
+                                        "target_account":  "LAPTOP-OJSK2J30\\TokenHubWeb",
+                                        "logon_type":  4,
+                                        "status":  "0xC000015B",
+                                        "sub_status":  "0x00000000"
+                                    },
+                                    {
+                                        "time":  "2026-11-06 00:13:37",
+                                        "event_id":  4625,
+                                        "target_account":  "LAPTOP-OJSK2J30\\TokenHubWeb",
+                                        "logon_type":  4,
+                                        "status":  "0xC000015B",
+                                        "sub_status":  "0x00000000"
+                                    },
+                                    {
+                                        "time":  "2026-11-06 00:13:37",
+                                        "event_id":  4625,
+                                        "target_account":  "LAPTOP-OJSK2J30\\TokenHubWeb",
+                                        "logon_type":  4,
+                                        "status":  "0xC000015B",
+                                        "sub_status":  "0x00000000"
+                                    }
+                                ],
+    "cause":  "STATUS_LOGON_TYPE_NOT_GRANTED for logon type 4 (batch): account lacked SeBatchLogonRight"
+}

@@ -390,3 +390,25 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 ## 2026-11-04 README 后续修改合并
 
 用户要求保留 README 后续修改并将当前工作区全部内容本地 commit，不 push。合并 README、ROADMAP 和两份 AI 文档的冲突，保留 RunId 清理流程及第9周员工管理记录；删除指向已清理 WebNewRun01 证据文件的失效链接，更新清理状态。只读核验确认三个目标数据库、三个结果目录、批次备份目录及五个精确备份文件路径均不存在，msdb 历史元数据保留。Python AST、Ruff、3 项备份目录单元测试、PowerShell Parser、README 7 个 PowerShell 代码块和四份文档 77 条相对链接通过。53 个文件变更已提交到本地 main，工作区干净，未 push。
+
+## 2026-11-06 新环境从零部署与受限 Windows 账户验收（肖懿）
+
+**问题与原始要求。** 肖懿要求把文档中仍标为未验证的事项补完，尽可能少修改代码；同意在本人电脑上创建受限运行账户，验收完成后清理账户、计划任务和本次数据库；提交以本人 GitHub 账号推送，AI 使用记录如实写明本人在其中的决定。
+
+**AI 梳理与范围决定。** AI 通读 README、ROADMAP、操作手册、组内分工和第7—9周计划，整理出三类可执行的未完成事项：受限 Windows 账户启动与权限核对；重跑 Edge E2E；在另一台新电脑从零部署。组员人工核对截图/报告/分工、独立复现与签收只能由组员完成，保持未完成。肖懿追问“新环境从零部署”出自哪份文档（docs/webapp.md 第 116 行），确认三项都做、浏览器测试一并重跑，组员事项不代填。
+
+**部署中暴露的问题与本人决定。** 原开发电脑上从未实际执行过受限账户部署，换到新电脑后依次出现 5 个问题；AI 每次保留失败现场、定位原因并给出修正方案，由肖懿决定：
+
+1. `regression_v11.sql` R12 引用 `TokenHubDB_v01_A.sys.tables`，`build_sandbox.py` 只替换 `.dbo.` 前缀，新电脑没有该库而失败（WebXY1105B）。肖懿判断这是值得记录且必须修正的缺陷，修正只需一点点；采用 AI 方案，测试循环改为替换 `TokenHubDB_v01_A.` 前缀（1 行）。
+2. 计划任务从未启动，安全日志 4625、0xC000015B：运行账户没有“作为批处理作业登录”权限（WebXY1105C）。AI 先提出“手动授权并在手册补一句”与“改脚本自动授予/撤销”两种方案，并按“尽量少改代码”推荐前者。肖懿选择不改代码后追问“那以后别人怎么办”；AI 核实只改文档会让后来者第一次部署仍然失败，且家庭版手动授权需要多行 secedit 操作，因此改为推荐修改脚本。肖懿同意，要求代码量尽量小，并认为这处修改很有价值、应当记录。实现为新增 `tools/batch_logon_right.ps1`（仅增删该账户的 SeBatchLogonRight），配置和清理脚本各加 2 行。
+3. `instance` 权限设置带 `/T`，文件 DACL 被清空，运行账户读不到 `runtime.json`（WebXY1105D）。AI 在临时目录做带/不带 `/T` 的对照实验复现。肖懿决定去掉 `/T` 并记录在案。AI 同时指出清理后仓库文件残留已删除账户的 SID 授权；本轮未改代码，收尾时手动清除（账户存在时用 `icacls /remove`，已删除账户的 SID 无法解析，改用 .NET `PurgeAccessRules`）。
+4. 仓库位于 `C:\Users\<用户>\Desktop`，运行账户 `Set-Location` 被拒绝（WebXY1105E）。AI 提出：改用用户目录外的仓库副本部署（AGENT.md 规定另建副本须用户明确同意）、手册补充部署位置要求、配置脚本开头检查并直接报错。肖懿同意三项一起做。
+5. 服务处理第一个请求后退出：`run_web.ps1` 在 `Stop` 模式下，Windows PowerShell 5.1 把重定向的 Flask stderr 日志当作终止错误（WebXY1105F 首次启动）。AI 加 1 行在启动前改为 `Continue`，成败仍由退出码判断；该处改动推送前经肖懿审阅确认。
+
+**改动文件。** `week6/v11/build_sandbox.py`、`tools/setup_web_runtime.ps1`、`tools/cleanup_reproduction.ps1`、`tools/run_web.ps1`、新增 `tools/batch_logon_right.ps1`；文档 README、ROADMAP、docs/webapp.md、docs/team_division.md、plan/week7-9-webapp-plan.md、result/stage2/README.md 及新的 [WebXY1105F 验收记录](../result/stage2/WebXY1105F/README.md)。网站代码与 SQL 脚本未改。
+
+**验证结果与证据。** 实际执行：WebXY1105F 从空库构建全部 PASS；运行账户 `TokenHubWebF` 实际连接执行 runtime_identity.py，sysadmin=0、db_owner=0、三项越权操作拒绝、商品目录可读；SQL 端只属于 app_runtime；监听进程属主为该账户；对该服务重跑 Edge E2E，原业务 22 张/42 事件、员工管理 11 张/10 事件 PASS，截图抽查目视一致。配置脚本的用户目录检查做了反向测试：在用户目录内的仓库运行时直接拒绝，未创建任何账户。
+
+**未完成事项。** 组员人工核对与独立复现；员工列表“套餐名称 / 套餐 #undefined”显示问题（第9周截图已存在）未修改。清理脚本对同一批次分两次清理时不能重入、删除账户时不撤销仓库读取 ACE，两项本轮手动处理，未改代码。
+
+**清理。** 按肖懿要求，重启电脑后删除三个运行账户及其计划任务、SQL 登录、用户配置、批处理登录授权，删除全部 WebXY1105* 数据库与备份，清除仓库根目录残留 ACE；E 盘副本与临时安装包删除。核对无残留，SeBatchLogonRight 恢复为系统默认。为诊断而临时重置过 WebXY1105E/F 运行账户的密码，这两个账户已随清理删除。

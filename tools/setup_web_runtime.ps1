@@ -11,6 +11,9 @@ if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administra
     throw 'Run this setup script in an elevated PowerShell. It creates the dedicated ordinary service account.'
 }
 $root = Split-Path -Parent $PSScriptRoot
+# The runtime account cannot enter another user's profile (C:\Users\<name>); fail before creating anything.
+$profiles = Split-Path -Parent ([Environment]::GetFolderPath('UserProfile'))
+if ($root.StartsWith($profiles + '\', [StringComparison]::OrdinalIgnoreCase)) { throw "Checkout $root is inside the user profile folder $profiles; move it elsewhere (for example D:\ or E:\) so the runtime account can read it." }
 $instance = Join-Path $root 'instance'
 $configFile = Join-Path $instance 'runtime.json'
 $taskName = "TokenHub-$AccountName"
@@ -30,13 +33,15 @@ $account = New-LocalUser -Name $AccountName -Password $secure -Description 'Toke
 $fullName = "$env:COMPUTERNAME\$AccountName"
 $sid = $account.SID.Value
 $setupSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+. (Join-Path $PSScriptRoot 'batch_logon_right.ps1')
+Set-BatchLogonRight -Sid $sid
 New-Item -ItemType Directory -Force -Path $instance | Out-Null
 $secret = Get-RandomSecret 48
 @{ database=$DatabaseName; server=$Server; secret=$secret; port=$Port; account=$fullName } | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath $configFile
 # Grant only traverse/read on the checkout; mutable application files stay in instance.
 & icacls $root /grant "*${sid}:(OI)(CI)RX" /T /Q | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Cannot grant runtime checkout read access' }
-& icacls $instance /inheritance:r /grant:r "*${sid}:(OI)(CI)M" "*${setupSid}:(OI)(CI)F" '*S-1-5-32-544:(OI)(CI)F' '*S-1-5-18:(OI)(CI)F' /T /Q | Out-Null
+& icacls $instance /inheritance:r /grant:r "*${sid}:(OI)(CI)M" "*${setupSid}:(OI)(CI)F" '*S-1-5-32-544:(OI)(CI)F' '*S-1-5-18:(OI)(CI)F' /Q | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Cannot restrict instance directory permissions' }
 $login = $fullName.Replace(']',']]')
 $sql = "IF SUSER_ID(N'$fullName') IS NOT NULL THROW 55009,'Runtime login already exists',1; CREATE LOGIN [$login] FROM WINDOWS; USE [$DatabaseName]; CREATE USER [$login] FOR LOGIN [$login]; ALTER ROLE app_runtime ADD MEMBER [$login];"

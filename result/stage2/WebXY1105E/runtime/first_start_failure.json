@@ -1,0 +1,8 @@
+{
+    "task":  "TokenHub-TokenHubWebE",
+    "last_task_result":  "0x1",
+    "checkout":  "C:\\Users\\xy\\Desktop\\数据库实验\\DB_lab",
+    "run_web_ps1_error":  "Set-Location : 拒绝访问。\r\n所在位置 C:\\Users\\xy\\Desktop\\数据库实验\\DB_lab\\tools\\run_web.ps1:3 字符: 1\r\n+ Set-Location -LiteralPath $root\r\n+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (:) [Set-Location], UnauthorizedAccessException\r\n    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.SetLocationCommand",
+    "cause":  "checkout under C:\\Users\\\u003cuser\u003e; the runtime account has no access to the private profile directory, so Set-Location to the checkout is denied",
+    "diagnosis_method":  "temporary task TokenHub-Diag ran tools/run_web.ps1 under the same runtime account with stderr captured; the runtime account password was reset for this diagnosis"
+}

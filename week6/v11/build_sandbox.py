@@ -198,7 +198,7 @@ def main() -> None:
     ):
         sql = (ROOT / "sql" / "v11" / fname).read_text(encoding="utf-8-sig")
         sql = sql.replace("TokenHubDB_v11_Issues_20261014", v11)
-        sql = sql.replace("TokenHubDB_v01_A.dbo.", args.source + ".dbo.")
+        sql = sql.replace("TokenHubDB_v01_A.", args.source + ".")
         run_sqlcmd(args.server, v11, sql, evidence / (fname + ".log"), fname)
     print("PASS original v0.1 protected; isolated v1.0 and v1.1 ready:", v11)
 

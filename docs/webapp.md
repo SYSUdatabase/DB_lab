@@ -55,9 +55,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup_web_runtime.ps1 
 
 脚本不接受已有账户、已有运行配置或同名任务。若权限配置中断，保留错误，先检查已完成阶段；不要删除既有账户或通过赋予db_owner/sysadmin解决。运行账户仅需仓库及Python运行时的读取/目录遍历权限、instance写权限。
 
+部署前提（2026-11-06 新电脑部署时确认）：
+
+- 仓库必须放在用户目录（`C:\Users\<用户名>`）之外，例如 `D:\` 或 `E:\`。运行账户无法进入他人的用户目录，计划任务会在 `Set-Location` 处被拒绝；脚本开头会检查并直接报错。所选位置最好只向普通用户开放读取。
+- Python 运行时同样须能被运行账户读取（安装在用户目录内的 Python 不可用）。
+- 脚本为运行账户授予“作为批处理作业登录”（SeBatchLogonRight），这是以存储密码运行计划任务所需的唯一额外权限，部分 Windows 版本不会自动授予；`cleanup_reproduction.ps1 -RemoveRuntime` 在删除账户前撤销该权限。实现见 [batch_logon_right.ps1](../tools/batch_logon_right.ps1)。
+- 运行账户登录过后，其用户配置可能一直处于加载状态，`-RemoveRuntime` 会拒绝删除；重启电脑后再执行清理即可。
+
 `instance/runtime.log` 保存服务启动输出；`instance/webapp.log` 保存请求编号、时间、操作、角色、错误码和结果。日志不包含密码、会话令牌、原始SQL或完整异常参数。运行账户应执行 [身份核对脚本](../tools/runtime_identity.py)，确认sysadmin/db_owner均为0，读取基表、修改商品及DDL均拒绝，商品目录可读。该检查须以该账户实际连接执行，不能用sysadmin的EXECUTE AS结果代替。
 
-当前会话没有Windows管理员权限，因此本轮未创建普通Windows账户；配置脚本已提供，最终账户启动验收仍待执行。
+此前开发会话没有Windows管理员权限，未创建普通Windows账户。2026-11-06 肖懿在新电脑上完成该项验收：运行账户 `TokenHubWebF` 实际连接结果为 sysadmin=0、db_owner=0、三项越权操作均拒绝、商品目录可读，见[验收记录](../result/stage2/WebXY1105F/README.md)。
 
 ## 开发预览
 
@@ -113,7 +120,7 @@ SQL反例在事务中回滚；HTTP业务流程测试会在指定新实验库增�
 
 浏览器测试使用已安装的Tabbit CLI、[场景脚本](../tools/browser_qa.js)和[执行器](../tools/browser_qa.py)，验证三角色流程；不要求运行应用的普通用户安装Tabbit。前端提示失败时保存请求编号，按日志定位；不复制内部异常到页面。
 
-最终原目录56项自动测试全部通过，无skipped；完整结果见[证据索引](../result/webapp/README.md)。第一名测试组员陈诗翰先在其环境测试；第二名组员阮依成已亲自检查本机登录及订单并指出缺少注册入口。后续注册功能已补齐；独立66项测试和22张Edge截图为补充自动化证据。另一个新Windows环境从零部署及真实普通Windows受限账户启动待验证。
+最终原目录56项自动测试全部通过，无skipped；完整结果见[证据索引](../result/webapp/README.md)。第一名测试组员陈诗翰先在其环境测试；第二名组员阮依成已亲自检查本机登录及订单并指出缺少注册入口。后续注册功能已补齐；独立66项测试和22张Edge截图为补充自动化证据。2026-11-06 已在另一台新Windows电脑上完成从零部署及普通Windows受限账户启动验收，并对该账户运行的服务重跑Edge E2E（22+11张截图），见[验收记录](../result/stage2/WebXY1105F/README.md)。
 
 
 应用ER重导出需要可选的matplotlib依赖：安装 "matplotlib>=3.8,<4" 后执行 python report/render_app_er.py。已有SVG/PNG可直接查阅。
