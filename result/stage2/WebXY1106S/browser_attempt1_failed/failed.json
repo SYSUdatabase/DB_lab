@@ -1,0 +1,13 @@
+{
+  "database": "WebXY1106S",
+  "order_id": null,
+  "events": [],
+  "screenshots": [
+    {
+      "file": "99_失败现场.png",
+      "sha256": "e9cd171bf5f8d4cbb9d2b4f6eced205ba9200862344ae7c255705b3d0f5f177f"
+    }
+  ],
+  "error_type": "Error",
+  "error": "Page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n  - taking page screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n"
+}

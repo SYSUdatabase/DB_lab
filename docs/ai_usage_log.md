@@ -569,3 +569,12 @@ AI新增 app.ManageEmployees（独立 EXECUTE AS OWNER 存储过程，独立验�
 验证：从已有隔离 WebEmp26A01 在临时5053 Flask/Edge会话只读访问管理员员工列表和商品目录，两个页面断言PASS，保存两张实际Edge截图和SHA-256于 result/stage2/WebEmp26A01/ui_fix_20261106/，临时预览随后关闭。使用全新后缀 WebFinal1106A 从空v0.1构建至Web成功，再运行 python -m unittest discover -s tests -v，**Ran 75 tests、OK、0跳过**；完整数据库准备日志和 unittest 原始日志分别存于 result/stage2/WebFinal1106A/database_setup.log 和 unittest75_stderr.log。没有在人工演示库重做建库或写入业务测试。
 
 根据肖懿于11月6日提交的跨机器运行记录，修正 report/stage2_report.md 中“受限Windows账户与新环境部署待验证”的旧描述，逐项列出真实身份、SQL权限拒绝、HTTP检查、22+11张Edge截图及5个部署故障的原因与修复；另加入显示修复两张新图及75项测试结果。AI辅助执行与队友已提供的原始跨机器证据相区分。不修改原有agent.md或尚未提交的docs/team_division.md，不代替用户提交Git。
+
+## 2026-11-06 报告截图复核与重截（肖懿）
+
+- **用户要求**：肖懿说明报告图注由 AI 撰写，要求复核 `report/stage2_report.md`；查看原图 14 后确认图注与图片不符，要求修复 AI 指出的全部问题并重新截图。
+- **复核方法**：下载报告引用的 25 张图片逐张目视比对图注，并检查全部相对链接存在。主要问题：原图 14 是商品目录页而非订单列表；原图 22、23 截于加载中且几乎相同；原图 16 与原图 24 同一文件；原图 17—21 为修复前界面；7 处图注超出图片可见内容。
+- **脚本修正**：`stage2_browser_e2e.py` 在 `web_other` 登录后 `nav("订单管理")`，读取首列订单号并断言不含 #112，执行清单记录 `visible_order_ids`；`stage2_employee_browser.py` 在 09、11 两张截图前 `expect(#feedback).not_to_contain_text("正在读取")`。Ruff check/format 通过。
+- **WebXY1106S**：`app_prepare.py --suffix WebXY1106S` 全部 PASS（用 `Win32_Process.Create` 启动，避免远程会话结束时进程被终止）。预览服务 `DB_LAB_PREVIEW=1`、端口 5051。业务脚本第一次在 `01_游客商品目录` 截图时 Playwright 报 `Page.captureScreenshot: Unable to capture screenshot`，events 为空；员工脚本随后 11 张/10 事件 PASS；将业务失败目录改名为 `browser_attempt1_failed` 后重跑，22 张/42 事件 PASS，订单号仍为 112，越权请求 `678fa865a5d444818b004504d077f503` 返回 403。员工截图 09 与 11 的 SHA-256 相同（两个店员界面一致），报告只放一张。
+- **报告修改**：图 14、16—22 换为 WebXY1106S 截图；原图 23 删除，原图 24、25 改为图 23、24；图注改写；开头补充各批次库；示例后缀改为 `<新后缀>`；第 9 节与开头注明 AI 辅助执行；新增 9.4 节。
+- **清理**：停止两个 `python -m webapp` 进程，5051 无监听；`cleanup_reproduction.ps1 -Suffix WebXY1106S -KeepEvidence -Confirm:$false`（经 `-File` 传 `-Confirm:$false` 会报参数类型错误，改为在同一进程中 `&` 调用）删除三个数据库与两份备份，核验 PASS；删除 `instance/`（本次为截图临时创建，含实验密码文件）。

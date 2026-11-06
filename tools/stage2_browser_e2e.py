@@ -271,12 +271,17 @@ def main() -> None:
             logout()
 
             login("customer", "web_other")
+            nav("订单管理")
+            cells = page.locator("#table-body tr td:first-child").all_inner_texts()
+            visible = [x.strip() for x in cells]
+            assert str(order_id) not in visible
             status, deny = api(f"/orders/{order_id}")
             assert status == 403 and deny["code"] == "FORBIDDEN"
             shot("17_第二顾客数据隔离")
             mark(
                 "Cross-customer order blocked",
                 order_id=order_id,
+                visible_order_ids=visible,
                 code=deny["code"],
                 request_id=deny["request_id"],
             )

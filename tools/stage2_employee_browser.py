@@ -177,6 +177,7 @@ def main() -> None:
             expect(page.locator("#navigation")).not_to_contain_text("员工管理")
             status, data = api("/employees?page=1&q=")
             assert status == 403 and data["code"] == "FORBIDDEN"
+            expect(page.locator("#feedback")).not_to_contain_text("正在读取")
             screenshot("09_普通店员没有员工管理入口")
             mark("Staff forbidden on admin page and API")
             logout()
@@ -188,6 +189,7 @@ def main() -> None:
             login(username, new_password)
             expect(page.locator("#identity")).to_contain_text("店员")
             expect(page.locator("#navigation")).not_to_contain_text("员工管理")
+            expect(page.locator("#feedback")).not_to_contain_text("正在读取")
             screenshot("11_新店员可登录但无管理权限")
             mark("New staff login succeeded after password reset")
 
