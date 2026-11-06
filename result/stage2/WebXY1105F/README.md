@@ -20,7 +20,7 @@
 - Windows 端 [windows_runtime.json](runtime/windows_runtime.json)：账户不属于任何本地组，计划任务 RunLevel 为 Limited；监听 `127.0.0.1:5050` 的进程及两个 `python -m webapp` 进程的属主均为 `TokenHubWebF`。
 - HTTP 冒烟 [http_smoke.json](runtime/http_smoke.json)：首页 200，商品接口 `OK`、10 项。
 - 浏览器流程（连接上述受限账户运行的 5050 服务）：原业务 22 张截图、42 条事件 PASS，[manifest](browser/manifest.json)；员工管理 11 张截图、10 条事件 PASS，[manifest](employees/manifest.json)。`browser/manifest.json` 的 `not_tested` 字段是脚本内固定文本，本轮受限账户的核对结果以 `runtime/` 下文件为准。
-- 截图已抽查目视：订单支付、店员补货、新增店员页面内容与事件一致。员工列表第二列表头显示为“套餐名称”、行内显示“套餐 #undefined”，第9周 WebEmp26A01 截图中已有相同现象，属于原有页面显示问题，本轮未修改。
+- 截图已抽查目视：订单支付、店员补货、新增店员页面内容与事件一致。员工列表第二列表头显示为“套餐名称”、行内显示“套餐 #undefined”，第9周 WebEmp26A01 截图中已有相同现象，属于原有页面显示问题，本轮未修改；该问题已于 2026-11-06 另行修复，见[报告 9.2 节](../../../report/stage2_report.md)。
 
 ## 部署中发现并修正的问题
 
