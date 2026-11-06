@@ -1,0 +1,23 @@
+{
+  "datetime": "2026-11-06T10:28:56",
+  "database": "TokenHubDB_v11_WebEmp26A01",
+  "browser": "Microsoft Edge via Playwright, actual 5053 Flask site",
+  "operations": "read-only login and two page views; not a member's manual clicking",
+  "result": "PASS",
+  "assertions": [
+    "employee page column header is 员工姓名",
+    "employee rows never render 套餐 #undefined",
+    "product column header remains 套餐名称",
+    "product page remains functional"
+  ],
+  "screenshots": [
+    {
+      "file": "01_员工姓名列修复.png",
+      "sha256": "a9e6563d5a8b92d2c761c7873439979ebe59ca5b5a1b5dc7464b3f4780279012"
+    },
+    {
+      "file": "02_商品名称列保持正常.png",
+      "sha256": "f8f765fa19972f71f4fed5827399e5459092f940b7625097ba3a19546abe11e5"
+    }
+  ]
+}

@@ -15,3 +15,9 @@
 
 - [WebXY1105F 验收记录](WebXY1105F/README.md)：新电脑从空库部署，普通 Windows 账户实际连接的权限核对，受限账户运行的服务上原业务 22 张、员工管理 11 张 Edge 截图。
 - 部署中各次失败的现场：[WebXY1105C](WebXY1105C/runtime/first_start_failure.json)、[WebXY1105D](WebXY1105D/runtime/first_start_failure.json)、[WebXY1105E](WebXY1105E/runtime/first_start_failure.json)；WebXY1105B 的回归失败日志在 [week6/v11](../week6/v11/WebXY1105B/regression_v11.sql.log)。
+
+## 2026-11-06 最新补充：界面修复与75项完整回归
+
+- [全新隔离数据库 WebFinal1106A：75项 unittest 全通过、0失败、0跳过](WebFinal1106A/README.md)。
+- [修复后的真实 Edge 员工姓名列与商品列表截图](WebEmp26A01/ui_fix_20261106/manifest.json)；旧业务截图和原始哈希仍保留。
+- [新电脑受限 Windows 运行身份与权限验收](WebXY1105F/README.md)；详细结论和截图见[最新阶段报告第9节](../../report/stage2_report.md)。

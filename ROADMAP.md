@@ -20,7 +20,7 @@
 - 历史第 1—4 周文档、原 README、旧报告及旧证据均复制/搬入 `archive/`，保留原文、文件哈希和路径映射；用于新库构建的 `sql/v01/`、工具及测试仍在当前目录。
 - `report/render_app_er.py` 与 `report/render_overview_modules.py` 依用户最新要求保留，图和源文件可重新渲染。
 
-## 未完成、不得登记为通过的事项
+## 当前验收完成情况与交付收尾
 
 - [x] 两名组员已实际参与验收：陈诗翰第一名在其环境测试；阮依成第二名亲自检查登录及订单显示，发现缺少注册入口并提出修复。
 - [x] 使用真正受限的 Windows 普通账户启动 Flask/Waitress 服务，运行 `tools/runtime_identity.py` 核验实际 SQL 权限；`DB_LAB_PREVIEW=1` 不算此项。2026-11-06 由肖懿在新电脑上完成，见下方“新环境从零部署与受限账户验收”。
@@ -72,8 +72,6 @@
 - [x] 以普通 Windows 账户 `TokenHubWebF` 通过计划任务启动网站；该账户实际连接执行 `tools/runtime_identity.py`：sysadmin=0、db_owner=0，读基表/改商品/DDL 三项拒绝，商品目录可读。SQL 端只属于 `app_runtime`，Windows 端不属于任何本地组，5050 监听进程属主为该账户。
 - [x] 对该受限账户运行的服务重跑 Edge E2E：原业务 22 张截图/42 条事件、员工管理 11 张截图/10 条事件 PASS。
 - [x] 部署中发现并修正 5 个只在新电脑上出现的问题：回归脚本依赖原电脑的 `TokenHubDB_v01_A`；运行账户缺少批处理登录权限；`instance` 权限设置清空文件 DACL；仓库位于用户目录时运行账户无法进入；PowerShell 5.1 下 Flask 日志使启动脚本中止。改动 4 个已有脚本（新增 11 行、修改 2 行），另新增 35 行的 `tools/batch_logon_right.ps1`；网站代码与 SQL 未改。详见[验收记录](result/stage2/WebXY1105F/README.md)。
-- [ ] 员工列表“套餐名称 / 套餐 #undefined”显示问题（第9周已存在）未修改。
-- [ ] 截图、报告、组内分工的组员人工核对与独立复现仍未完成，不以本轮自动化结果代替。
+- [x] 员工列表“套餐名称 / 套餐 #undefined”显示问题已于 2026-11-06 修复，真实 Edge 复核通过，见[修复后的截图与哈希](result/stage2/WebEmp26A01/ui_fix_20261106/manifest.json)。
 
 - [x] 清理：重启电脑使运行账户用户配置卸载后，删除 TokenHubWeb、TokenHubWebE、TokenHubWebF 三个运行账户及其计划任务、SQL 登录、用户配置和 SeBatchLogonRight 授权，删除各批次数据库与备份，清除仓库根目录上的运行账户 ACE；核对 SeBatchLogonRight 恢复为系统默认三组、5050 无监听。WebXY1105D 曾先单独清理数据库，第二次带 `-RemoveRuntime` 运行时清理脚本因批次备份目录已不存在、回退到 msdb 历史路径检查而中止，D/E 两个账户按脚本相同步骤手动删除，清理脚本未为此修改。
-- [ ] 清理脚本对同一批次分两次清理（先数据库、后运行账户）的情况不能重入；配置脚本对整个仓库授予的读取 ACE 在删除账户时不会撤销。两项本轮手动处理，未改代码。

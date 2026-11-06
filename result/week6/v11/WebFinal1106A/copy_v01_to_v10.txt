@@ -1,0 +1,4 @@
+BACKUP COPY_ONLY CHECKSUM + VERIFYONLY + RESTORE PASS
+source=TokenHubDB_v01_WebFinal1106A
+target=TokenHubDB_v10_WebFinal1106A
+backup=C:\Users\ruanyicheng\Desktop\数据库\DB_lab\result\sql_backups\WebFinal1106A\TokenHubDB_v01_WebFinal1106A_W6_ab2cd0ee7205.bak

@@ -561,3 +561,11 @@ AI新增 app.ManageEmployees（独立 EXECUTE AS OWNER 存储过程，独立验�
 - **Edge E2E**：以本人身份运行 `stage2_browser_e2e.py --suffix WebXY1105F --url http://127.0.0.1:5050` 与 `stage2_employee_browser.py --suffix WebXY1105F --url http://127.0.0.1:5050 --run-id employees`，分别 22 张截图/42 事件、11 张截图/10 事件 PASS。抽查 3 张截图目视一致；员工列表“套餐名称 / 套餐 #undefined”与第9周截图相同，未修改。`stage2_reconcile.py` 只接受 WebStage2A02/WebEmp26A01 两个后缀，本轮未运行 SQL 对账，也未为此修改脚本。
 - **证据整理**：WebXY1105F 的构建与 stage2 证据复制回原检出；WebXY1105C/D/E 的构建均为 PASS，与 F 重复，只保留其 `result/stage2/<后缀>/runtime/` 失败现场；WebXY1105B 保留全部构建日志。
 - **清理**：停用三个运行任务后重启电脑（三个账户的用户配置重启前均处于加载状态）。重启后在 E 盘副本执行 `cleanup_reproduction.ps1 -Suffix WebXY1105F -KeepEvidence -RemoveRuntime -RuntimeAccountName TokenHubWebF`，PASS；在原检出对 WebXY1105D 再次执行时，因该批次备份目录已在先前清理中删除，脚本回退到 msdb 历史路径并以“Legacy backup path is outside SQL Server's default backup folder”中止，未删除任何对象。随后按清理脚本相同步骤手动删除 TokenHubWeb、TokenHubWebE：注销计划任务、DROP LOGIN、删除用户配置、`Set-BatchLogonRight -Revoke`、`Remove-LocalUser`。账户存在时先用 `icacls /remove` 清除仓库根目录 ACE，已删除的 WebXY1105C 账户 SID 用 `PurgeAccessRules` 清除。核对：无 TokenHub* 本地账户、任务、用户配置及目录；无 WebXY1105* 数据库与 TokenHubWeb* 登录；`secedit /export` 显示 SeBatchLogonRight 为 `*S-1-5-32-544,*S-1-5-32-551,*S-1-5-32-559`；仓库根目录 ACL 恢复原样；5050 无监听。空的 `instance/` 与 `result/sql_backups/` 删除，E 盘副本与临时 wheel 删除。
+
+## 2026-11-06 最新检查：员工姓名列修复、报告更正与75项完整测试
+
+用户要求修复此前队友在新环境截图中发现的员工管理显示问题、同步第二阶段报告，并重新执行完整75项测试。AI核对 app.js 后确认 renderTable() 将所有 name 字段当作商品名称：员工姓名被标注为“套餐名称”，行内出现“套餐 #undefined”。本轮仅按栏目区分姓名表头和单元格渲染：employees 显示“员工姓名”并仅显示真实员工姓名，products 保持原“套餐名称”与商品描述逻辑，未修改数据库结构、员工历史记录或角色权限。
+
+验证：从已有隔离 WebEmp26A01 在临时5053 Flask/Edge会话只读访问管理员员工列表和商品目录，两个页面断言PASS，保存两张实际Edge截图和SHA-256于 result/stage2/WebEmp26A01/ui_fix_20261106/，临时预览随后关闭。使用全新后缀 WebFinal1106A 从空v0.1构建至Web成功，再运行 python -m unittest discover -s tests -v，**Ran 75 tests、OK、0跳过**；完整数据库准备日志和 unittest 原始日志分别存于 result/stage2/WebFinal1106A/database_setup.log 和 unittest75_stderr.log。没有在人工演示库重做建库或写入业务测试。
+
+根据肖懿于11月6日提交的跨机器运行记录，修正 report/stage2_report.md 中“受限Windows账户与新环境部署待验证”的旧描述，逐项列出真实身份、SQL权限拒绝、HTTP检查、22+11张Edge截图及5个部署故障的原因与修复；另加入显示修复两张新图及75项测试结果。AI辅助执行与队友已提供的原始跨机器证据相区分。不修改原有agent.md或尚未提交的docs/team_division.md，不代替用户提交Git。

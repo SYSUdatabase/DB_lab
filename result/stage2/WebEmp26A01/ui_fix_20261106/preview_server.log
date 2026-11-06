@@ -1,0 +1,22 @@
+[2026-11-06 10:28:44,550] INFO in __init__: request_id=9e73dc049fbf406d834de0697df172d7 operation=current_identity role=guest code=OK result=200
+INFO:webapp:request_id=9e73dc049fbf406d834de0697df172d7 operation=current_identity role=guest code=OK result=200
+[2026-11-06 10:28:50,237] INFO in __init__: request_id=723677fcbaa6411dbfa242f4bd431461 operation=index role=guest code=OK result=200
+INFO:webapp:request_id=723677fcbaa6411dbfa242f4bd431461 operation=index role=guest code=OK result=200
+[2026-11-06 10:28:50,705] INFO in __init__: request_id=b85eb1e8e3b34d87b50b94c57f7daf7e operation=static role=guest code=OK result=200
+INFO:webapp:request_id=b85eb1e8e3b34d87b50b94c57f7daf7e operation=static role=guest code=OK result=200
+[2026-11-06 10:28:50,707] INFO in __init__: request_id=0211db0ad4404a5d9a867917357c51a7 operation=static role=guest code=OK result=200
+INFO:webapp:request_id=0211db0ad4404a5d9a867917357c51a7 operation=static role=guest code=OK result=200
+[2026-11-06 10:28:50,787] INFO in __init__: request_id=642d413412664c7b9211700312568add operation=current_identity role=guest code=OK result=200
+INFO:webapp:request_id=642d413412664c7b9211700312568add operation=current_identity role=guest code=OK result=200
+[2026-11-06 10:28:50,795] INFO in __init__: request_id=ca90fc5510a84365a0947ceea2b7b4ac operation=unknown role=guest code=NOT_FOUND result=404
+INFO:webapp:request_id=ca90fc5510a84365a0947ceea2b7b4ac operation=unknown role=guest code=NOT_FOUND result=404
+[2026-11-06 10:28:51,585] INFO in __init__: request_id=465053166bb9422cb8783292df619d81 operation=products.list role=guest code=OK result=200
+INFO:webapp:request_id=465053166bb9422cb8783292df619d81 operation=products.list role=guest code=OK result=200
+[2026-11-06 10:28:53,432] INFO in __init__: request_id=2f9250ba19be47c5bc170edfd7d8dd5a operation=login role=admin code=OK result=200
+INFO:webapp:request_id=2f9250ba19be47c5bc170edfd7d8dd5a operation=login role=admin code=OK result=200
+[2026-11-06 10:28:53,993] INFO in __init__: request_id=b9c27234a61544ab88e285f112bbccc6 operation=employees.list role=admin code=OK result=200
+INFO:webapp:request_id=b9c27234a61544ab88e285f112bbccc6 operation=employees.list role=admin code=OK result=200
+[2026-11-06 10:28:54,280] INFO in __init__: request_id=534f3159347e4aa59f523e683817049b operation=products.list role=admin code=OK result=200
+INFO:webapp:request_id=534f3159347e4aa59f523e683817049b operation=products.list role=admin code=OK result=200
+[2026-11-06 10:28:55,257] INFO in __init__: request_id=2cf3c4e92fa9417f8a0f56a9ea2b6087 operation=products.list role=admin code=OK result=200
+INFO:webapp:request_id=2cf3c4e92fa9417f8a0f56a9ea2b6087 operation=products.list role=admin code=OK result=200
