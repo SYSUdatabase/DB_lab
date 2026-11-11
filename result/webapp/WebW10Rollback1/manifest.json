@@ -1,0 +1,19 @@
+{
+  "server": "localhost\\SQLEXPRESS",
+  "database": "TokenHubDB_v11_WebW10Rollback1",
+  "source": "TokenHubDB_v01_WebW10Rollback1",
+  "history_repair": "skipped: fresh v01 passed VFY12/13; hardened verification passed",
+  "business_tables": 17,
+  "app_tables": 1,
+  "week10": {
+    "installed": false,
+    "schema_version": null,
+    "extension_tables": 0
+  },
+  "accounts": [
+    "web_customer",
+    "web_other",
+    "web_staff",
+    "web_admin"
+  ]
+}

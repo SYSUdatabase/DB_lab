@@ -1,0 +1,2520 @@
+{
+  "utc_time": "2026-11-11T03:25:12.023261+00:00",
+  "database": "TokenHubDB_v11_WebW10Final03",
+  "server": "localhost\\SQLEXPRESS",
+  "tests_run": 40,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "cases": [
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_extension_uses_guarded_entry_and_own_log",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_help_exposes_opt_in_without_connecting",
+      "status": "PASS",
+      "elapsed_seconds": 0.25,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_rejects_unbounded_database_before_running_sql",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SourceTests.test_explicit_extension_and_narrow_grant",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_adjustment_audit_and_same_key_idempotency",
+      "status": "PASS",
+      "elapsed_seconds": 0.516,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 95,
+            "account_id": 91,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "operation_key": "aabdac98-dc5c-4c7f-a2e7-6fc70431a482"
+          },
+          "actual": {
+            "adjustment_id": 10010,
+            "operation_key": "AABDAC98-DC5C-4C7F-A2E7-6FC70431A482",
+            "product_id": 95,
+            "account_id": 91,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 5123,
+            "created_at": "2026-11-11T11:24:59"
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 95,
+            "account_id": 91,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "operation_key": "aabdac98-dc5c-4c7f-a2e7-6fc70431a482"
+          },
+          "actual": {
+            "adjustment_id": 10010,
+            "operation_key": "AABDAC98-DC5C-4C7F-A2E7-6FC70431A482",
+            "product_id": 95,
+            "account_id": 91,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 5123,
+            "created_at": "2026-11-11T11:24:59"
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": {
+            "adjustment_id": 10010,
+            "operation_key": "AABDAC98-DC5C-4C7F-A2E7-6FC70431A482",
+            "product_id": 95,
+            "account_id": 91,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 5123,
+            "created_at": "2026-11-11T11:24:59"
+          },
+          "expected": {
+            "adjustment_id": 10010,
+            "operation_key": "AABDAC98-DC5C-4C7F-A2E7-6FC70431A482",
+            "product_id": 95,
+            "account_id": 91,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 5123,
+            "created_at": "2026-11-11T11:24:59"
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            1500,
+            200,
+            1300
+          ],
+          "expected": [
+            1500,
+            200,
+            1300
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 95,
+            "account_id": 91,
+            "change_amount": -400,
+            "reason": "fixture adjustment",
+            "operation_key": "cdc607af-8d5f-4ffb-94f4-e6b20fdf69a8"
+          },
+          "actual": {
+            "adjustment_id": 10011,
+            "operation_key": "CDC607AF-8D5F-4FFB-94F4-E6B20FDF69A8",
+            "product_id": 95,
+            "account_id": 91,
+            "operator_id": 1,
+            "change_amount": -400,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1300,
+            "after_current_quota": 900,
+            "before_total_quota": 1500,
+            "after_total_quota": 1100,
+            "log_id": 5124,
+            "created_at": "2026-11-11T11:24:59"
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            1100,
+            200,
+            900
+          ],
+          "expected": [
+            1100,
+            200,
+            900
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            [
+              300,
+              300,
+              "adjustment",
+              "manual",
+              null
+            ],
+            [
+              -400,
+              -400,
+              "adjustment",
+              "manual",
+              null
+            ]
+          ],
+          "expected": [
+            [
+              300,
+              300,
+              "adjustment",
+              "manual",
+              null
+            ],
+            [
+              -400,
+              -400,
+              "adjustment",
+              "manual",
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_adjustment_ledger_failure_rolls_back_four_tables",
+      "status": "PASS",
+      "elapsed_seconds": 0.297,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 96,
+            "account_id": 92,
+            "change_amount": 5,
+            "reason": "fixture adjustment",
+            "operation_key": "fe5e0c4c-764e-49aa-9db6-1273c0fa6791"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]injected ledger failure (56999) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund",
+      "status": "PASS",
+      "elapsed_seconds": 1.14,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 98,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 147
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 147
+          },
+          "actual": {
+            "order_id": 147
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "200.00",
+            "10.00",
+            "190.00"
+          ],
+          "expected": [
+            "200",
+            "10",
+            "190"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 98,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 148
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 148
+          },
+          "actual": {
+            "order_id": 148
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "usage.create",
+          "role": "customer",
+          "input": {
+            "product_id": 98,
+            "tokens_used": 50000
+          },
+          "actual": {
+            "log_id": 3014
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            [
+              147,
+              200000,
+              50000
+            ],
+            [
+              148,
+              200000,
+              0
+            ]
+          ],
+          "expected": [
+            [
+              147,
+              200000,
+              50000
+            ],
+            [
+              148,
+              200000,
+              0
+            ]
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "refunds.request",
+          "role": "customer",
+          "input": {
+            "order_id": 147
+          },
+          "actual": {
+            "order_id": 147
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "refunds.request",
+          "role": "customer",
+          "input": {
+            "order_id": 147
+          },
+          "actual": {
+            "order_id": 147
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            [
+              "142.50",
+              150000,
+              50000
+            ]
+          ],
+          "expected": [
+            [
+              "142.50",
+              150000,
+              50000
+            ]
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "200.00",
+            "10.00",
+            "190.00"
+          ],
+          "expected": [
+            "200.00",
+            "10.00",
+            "190.00"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 200000,
+          "expected": 200000
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_discount_thresholds_and_invalid_values",
+      "status": "PASS",
+      "elapsed_seconds": 0.11,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.0000",
+            "0.00"
+          ],
+          "expected": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.0000",
+            "0.00"
+          ],
+          "expected": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.0500",
+            "5.00"
+          ],
+          "expected": [
+            "0.05",
+            "5"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.0500",
+            "25.00"
+          ],
+          "expected": [
+            "0.05",
+            "25"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.1000",
+            "50.00"
+          ],
+          "expected": [
+            "0.10",
+            "50"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.1000",
+            "1000000000000000.00"
+          ],
+          "expected": [
+            "0.10",
+            "1000000000000000.00"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_draft_amount_overflow_rolls_back_without_partial_order",
+      "status": "PASS",
+      "elapsed_seconds": 0.39,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 100,
+                "quantity": 2147483647
+              }
+            ]
+          },
+          "exception": "('22003', '[22003] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]将 numeric 转换为数据类型 numeric 时出现算术溢出错误。 (8115) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_draft_repricing_add_set_delete_and_price_snapshot",
+      "status": "PASS",
+      "elapsed_seconds": 0.516,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 101,
+                "quantity": 3
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 150
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "90.00",
+            "0.00",
+            "90.00"
+          ],
+          "expected": [
+            "90",
+            "0",
+            "90"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.item_add",
+          "role": "customer",
+          "input": {
+            "order_id": 150,
+            "product_id": 101,
+            "quantity": 1
+          },
+          "actual": {
+            "order_id": 150
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "120.00",
+            "6.00",
+            "114.00"
+          ],
+          "expected": [
+            "120",
+            "6",
+            "114"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "30.00",
+            "amount-v1"
+          ],
+          "expected": [
+            "30",
+            "amount-v1"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.item_set",
+          "role": "customer",
+          "input": {
+            "order_id": 150,
+            "detail_id": 233,
+            "quantity": 3
+          },
+          "actual": {
+            "order_id": 150
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "90.00",
+            "0.00",
+            "90.00"
+          ],
+          "expected": [
+            "90",
+            "0",
+            "90"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.item_delete",
+          "role": "customer",
+          "input": {
+            "order_id": 150,
+            "detail_id": 233
+          },
+          "actual": {
+            "order_id": 150
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.00",
+            0
+          ],
+          "expected": [
+            "0",
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_duplicate_json_fields_are_rejected_at_runtime_boundary",
+      "status": "PASS",
+      "elapsed_seconds": 0.156,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_account_product_operator_and_pair_are_rejected",
+      "status": "PASS",
+      "elapsed_seconds": 1.032,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write",
+      "status": "PASS",
+      "elapsed_seconds": 0.812,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 110,
+            "account_id": 105,
+            "change_amount": 0,
+            "reason": "valid",
+            "operation_key": "e259903c-5400-4c80-83d6-5a31847e035c"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Valid product, account, nonzero quantity, reason and operation key required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 111,
+            "account_id": 106,
+            "change_amount": null,
+            "reason": "valid",
+            "operation_key": "932fa7a4-666a-4ea8-92de-12dd8d1153f2"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Payload field has an invalid JSON type (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 112,
+            "account_id": 107,
+            "change_amount": 1,
+            "reason": "",
+            "operation_key": "76bbce44-6897-4128-a53b-0c413cf3c6a0"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Valid product, account, nonzero quantity, reason and operation key required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 113,
+            "account_id": 108,
+            "change_amount": 1,
+            "reason": "     ",
+            "operation_key": "7c3822fd-6471-4c4a-9a23-566f3f258cd4"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Valid product, account, nonzero quantity, reason and operation key required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 114,
+            "account_id": 109,
+            "change_amount": 1,
+            "reason": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "operation_key": "ccfc4127-1527-4ebd-b602-fee6a346948b"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Valid product, account, nonzero quantity, reason and operation key required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_legacy_draft_preserves_zero_discount",
+      "status": "PASS",
+      "elapsed_seconds": 0.516,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 115,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 151
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.item_add",
+          "role": "customer",
+          "input": {
+            "order_id": 151,
+            "product_id": 115,
+            "quantity": 3
+          },
+          "actual": {
+            "order_id": 151
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "120.00",
+            "0.00",
+            "120.00"
+          ],
+          "expected": [
+            "120",
+            "0",
+            "120"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_operation_key_parameter_conflict_rolls_back",
+      "status": "PASS",
+      "elapsed_seconds": 0.265,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 116,
+            "account_id": 111,
+            "change_amount": 10,
+            "reason": "fixture adjustment",
+            "operation_key": "5a35b2f6-14d6-4042-b3b2-1f7d3de644b0"
+          },
+          "actual": {
+            "adjustment_id": 20012,
+            "operation_key": "5A35B2F6-14D6-4042-B3B2-1F7D3DE644B0",
+            "product_id": 116,
+            "account_id": 111,
+            "operator_id": 1,
+            "change_amount": 10,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1010,
+            "before_total_quota": 1000,
+            "after_total_quota": 1010,
+            "log_id": 5147,
+            "created_at": "2026-11-11T11:25:04"
+          }
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 116,
+            "account_id": 111,
+            "change_amount": 11,
+            "reason": "fixture adjustment",
+            "operation_key": "5a35b2f6-14d6-4042-b3b2-1f7d3de644b0"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Operation key already has different parameters (56009) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_payment_lot_failure_rolls_back_order_balance_and_lots",
+      "status": "PASS",
+      "elapsed_seconds": 0.516,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 117,
+                "quantity": 4
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 152
+          }
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 152
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]injected lot failure (56998) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_refund_ledger_failure_rolls_back_balance_lots_and_refund",
+      "status": "PASS",
+      "elapsed_seconds": 0.359,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 118,
+                "quantity": 4
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 153
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 153
+          },
+          "actual": {
+            "order_id": 153
+          }
+        },
+        {
+          "operation": "refunds.request",
+          "role": "customer",
+          "input": {
+            "order_id": 153
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]injected refund failure (56997) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_replenishment_boundaries_defaults_and_invalid_values",
+      "status": "PASS",
+      "elapsed_seconds": 0.188,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": 900,
+          "expected": 900
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 900,
+          "expected": 900
+        },
+        {
+          "assertion": "equal",
+          "actual": null,
+          "expected": null
+        },
+        {
+          "assertion": "equal",
+          "actual": null,
+          "expected": null
+        },
+        {
+          "assertion": "equal",
+          "actual": null,
+          "expected": null
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_rounding_is_per_line",
+      "status": "PASS",
+      "elapsed_seconds": 0.484,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 121,
+                "quantity": 1
+              },
+              {
+                "product_id": 122,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 154
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "100.00",
+            "5.01",
+            "94.99"
+          ],
+          "expected": [
+            "100",
+            "5.01",
+            "94.99"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "0.01",
+            "5.00"
+          ],
+          "expected": [
+            "0.01",
+            "5.00"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_runtime_boundary_rejects_forged_fields_and_structured_quotas",
+      "status": "PASS",
+      "elapsed_seconds": 0.891,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "restocks.recommendation",
+          "role": "admin",
+          "input": {
+            "product_id": 123,
+            "account_id": 116,
+            "target_quota": "3000",
+            "minimum_quota": {}
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Payload field has an invalid JSON type (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "restocks.recommendation",
+          "role": "admin",
+          "input": {
+            "product_id": 124,
+            "account_id": 117,
+            "target_quota": "3000",
+            "minimum_quota": []
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Payload field has an invalid JSON type (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "restocks.recommendation",
+          "role": "admin",
+          "input": {
+            "product_id": 125,
+            "account_id": 118,
+            "target_quota": "3000",
+            "operator_id": 1
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Actor and pricing fields are server controlled (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "restocks.recommendation",
+          "role": "admin",
+          "input": {
+            "product_id": 126,
+            "account_id": 119,
+            "target_quota": "3000",
+            "price": "1"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Unsupported payload field (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 127,
+                "quantity": 1
+              }
+            ],
+            "discount_rate": ".5"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Pricing and actor fields are server controlled (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 128,
+                "quantity": 1
+              }
+            ],
+            "total_amount": "1"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Pricing and actor fields are server controlled (56000) (SQLExecDirectW)')"
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_runtime_cannot_execute_internal_week10_objects",
+      "status": "PASS",
+      "elapsed_seconds": 0.125,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_sales_empty_invalid_and_maximum_end_date",
+      "status": "PASS",
+      "elapsed_seconds": 0.125,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            0,
+            0,
+            "0.00"
+          ],
+          "expected": [
+            0,
+            0,
+            "0"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            0,
+            0,
+            "0.00"
+          ],
+          "expected": [
+            0,
+            0,
+            "0"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": [],
+          "expected": []
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_sales_inclusive_dates_use_payment_time",
+      "status": "PASS",
+      "elapsed_seconds": 0.875,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 131,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 155
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 131,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 156
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 131,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 157
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 155
+          },
+          "actual": {
+            "order_id": 155
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 156
+          },
+          "actual": {
+            "order_id": 156
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 157
+          },
+          "actual": {
+            "order_id": 157
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            2,
+            2,
+            "60.00"
+          ],
+          "expected": [
+            2,
+            2,
+            "60"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending",
+      "status": "PASS",
+      "elapsed_seconds": 0.734,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 132,
+                "quantity": 2
+              },
+              {
+                "product_id": 133,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 158
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 132,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 159
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 133,
+                "quantity": 9
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 160
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 133,
+                "quantity": 9
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 161
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.cancel",
+          "role": "staff",
+          "input": {
+            "order_id": 161
+          },
+          "actual": {
+            "order_id": 161
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 158
+          },
+          "actual": {
+            "order_id": 158
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 159
+          },
+          "actual": {
+            "order_id": 159
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "refunds.request",
+          "role": "customer",
+          "input": {
+            "order_id": 158
+          },
+          "actual": {
+            "order_id": 158
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            2,
+            4,
+            "125.00"
+          ],
+          "expected": [
+            2,
+            4,
+            "125"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": {
+            "132": [
+              3,
+              "87.00",
+              2
+            ],
+            "133": [
+              1,
+              "38.00",
+              1
+            ]
+          },
+          "expected": {
+            "132": [
+              3,
+              "87",
+              2
+            ],
+            "133": [
+              1,
+              "38",
+              1
+            ]
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": {
+            "132": [
+              3,
+              "87.00",
+              2
+            ],
+            "133": [
+              1,
+              "38.00",
+              1
+            ]
+          },
+          "expected": {
+            "132": [
+              3,
+              "87.00",
+              2
+            ],
+            "133": [
+              1,
+              "38.00",
+              1
+            ]
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": "pending",
+          "expected": "pending"
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_two_connections_payment_credits_exactly_once",
+      "status": "PASS",
+      "elapsed_seconds": 0.578,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 134,
+                "quantity": 4
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 162
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "assertion": "equal",
+          "actual": 6738400236,
+          "expected": 6738400236
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            1,
+            6738400236,
+            0
+          ],
+          "expected": [
+            1,
+            6738400236,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_two_connections_same_key_and_competing_debits",
+      "status": "PASS",
+      "elapsed_seconds": 0.282,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": 20013,
+          "expected": 20013
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            1010,
+            0,
+            1010
+          ],
+          "expected": [
+            1010,
+            0,
+            1010
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            410,
+            0,
+            410
+          ],
+          "expected": [
+            410,
+            0,
+            410
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 2,
+          "expected": 2
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_underflow_and_bigint_extremes_roll_back",
+      "status": "PASS",
+      "elapsed_seconds": 0.593,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 136,
+            "account_id": 128,
+            "change_amount": -1001,
+            "reason": "fixture adjustment",
+            "operation_key": "80908f33-cdc8-41aa-a897-8903510cf73f"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Adjustment exceeds quota bounds (56009) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 137,
+            "account_id": 129,
+            "change_amount": -9223372036854775808,
+            "reason": "fixture adjustment",
+            "operation_key": "089ecfc8-6a4e-40c6-823b-ac5d2f2dc303"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Adjustment exceeds quota bounds (56009) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 138,
+            "account_id": 130,
+            "change_amount": 9223372036854775807,
+            "reason": "fixture adjustment",
+            "operation_key": "ff18bc84-9d42-4fc2-933f-47333330ac1a"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Adjustment exceeds quota bounds (56009) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates",
+      "status": "PASS",
+      "elapsed_seconds": 1.032,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": "0001-01-01",
+            "end_date": "0001-01-01"
+          },
+          "actual": {
+            "summary": {
+              "order_count": 0,
+              "sales_quantity": 0,
+              "sales_amount": 0.0
+            },
+            "items": []
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": {
+            "summary": {
+              "order_count": 0,
+              "sales_quantity": 0,
+              "sales_amount": 0.0
+            },
+            "items": []
+          },
+          "expected": {
+            "summary": {
+              "order_count": 0,
+              "sales_quantity": 0,
+              "sales_amount": 0
+            },
+            "items": []
+          }
+        },
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": "2026-1-01",
+            "end_date": "2026-01-01"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]ISO dates required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": "2026-01-01 ",
+            "end_date": "2026-01-01"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]ISO dates required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": "invalid",
+            "end_date": "2026-01-01"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]ISO dates required (56000) (SQLExecDirectW)')"
+        },
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": null,
+            "end_date": "2026-01-01"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Payload field has an invalid JSON type (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": [
+            "data"
+          ],
+          "expected": [
+            "data"
+          ]
+        },
+        {
+          "assertion": "equal",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "operation": "restocks.recommendation",
+          "role": "staff",
+          "input": {
+            "product_id": 144,
+            "account_id": 136,
+            "minimum_quota": 2000,
+            "target_quota": 3000
+          },
+          "actual": {
+            "recommended_quantity": 2000
+          }
+        },
+        {
+          "assertion": "equal",
+          "actual": {
+            "recommended_quantity": 2000
+          },
+          "expected": {
+            "recommended_quantity": 2000
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor",
+      "status": "PASS",
+      "elapsed_seconds": 0.812,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "reports.sales",
+          "role": null,
+          "input": {},
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "reports.sales",
+          "role": "customer",
+          "input": {},
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Employee required (56003) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "staff",
+          "input": {},
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Administrator required (56003) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "reports.sales",
+          "role": "admin",
+          "input": {
+            "operator_id": 2
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Actor and pricing fields are server controlled (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "operation": "reports.sales",
+          "role": "admin",
+          "input": {
+            "discount_rate": ".5"
+          },
+          "exception": "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Actor and pricing fields are server controlled (56000) (SQLExecDirectW)')"
+        },
+        {
+          "assertion": "equal",
+          "actual": 0,
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_adjustment_signed_range_and_forgery",
+      "status": "PASS",
+      "elapsed_seconds": 0.047,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_dao_binds_week10_parameters_and_preserves_bigint",
+      "status": "PASS",
+      "elapsed_seconds": 0.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_list_defaults_and_csrf",
+      "status": "PASS",
+      "elapsed_seconds": 0.015,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_list_optional_filters",
+      "status": "PASS",
+      "elapsed_seconds": 0.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_numeric_sql_overflow_is_input_error",
+      "status": "PASS",
+      "elapsed_seconds": 0.015,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_order_rejects_client_pricing",
+      "status": "PASS",
+      "elapsed_seconds": 0.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_reason_uses_utf16_storage_limit",
+      "status": "PASS",
+      "elapsed_seconds": 0.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_recommendation_bigint_and_optional_minimum",
+      "status": "PASS",
+      "elapsed_seconds": 0.015,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_sales_validates_dates_and_roles",
+      "status": "PASS",
+      "elapsed_seconds": 0.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_week10_bigint_list_total_preserves_precision",
+      "status": "PASS",
+      "elapsed_seconds": 0.047,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_wire_precision_and_errors",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    }
+  ],
+  "fixture_policy": "SQL test transactions roll back. Two-connection tests retain uniquely tagged committed fixtures in the isolated database."
+}

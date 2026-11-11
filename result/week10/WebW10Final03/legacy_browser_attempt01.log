@@ -1,0 +1,82 @@
+SCREENSHOT 01_游客商品目录.png
+PASS Guest catalog
+SCREENSHOT 02_登录入口.png
+SCREENSHOT 03_顾客注册表单.png
+SCREENSHOT 04_注册成功自动登录.png
+PASS Register new customer auto-login
+PASS Logout
+SCREENSHOT 05_重复账号拒绝.png
+PASS Duplicate username rejected without account creation
+SCREENSHOT 06_错误密码拒绝.png
+PASS Invalid login rejected
+PASS Login web_admin
+SCREENSHOT 07_管理员新增商品.png
+PASS HTTP GET /products
+PASS New product ID
+SCREENSHOT 08_商品唯一约束拒绝.png
+PASS Duplicate provider plus Token rejected
+SCREENSHOT 09_管理员新增库存账号.png
+PASS HTTP GET /inventory
+PASS New upstream inventory
+PASS Logout
+PASS Login web_customer
+SCREENSHOT 10_顾客订单表单.png
+PASS HTTP GET /orders
+PASS Created draft
+SCREENSHOT 11_顾客待支付订单.png
+SCREENSHOT 12_订单模拟支付成功.png
+SCREENSHOT 13_支付后余额.png
+SCREENSHOT 14_Token调用扣减.png
+PASS HTTP GET /usage
+PASS Successful usage
+PASS HTTP POST /usage
+PASS HTTP GET /products
+PASS Input rejection and SQL injection-as-search are safe
+SCREENSHOT 15_顾客部分退款订单.png
+SCREENSHOT 16_退款金额待结算.png
+PASS HTTP GET /refunds
+PASS Refund recorded
+PASS HTTP POST /orders/163/refund
+PASS HTTP POST /orders/163/refund
+PASS Repeated refund idempotent
+PASS HTTP POST /usage
+PASS Spent/refunded balance cannot be reused
+PASS Logout
+PASS Login web_other
+PASS HTTP GET /orders/163
+SCREENSHOT 17_第二顾客数据隔离.png
+PASS Cross-customer order blocked
+PASS Logout
+PASS Login web_staff
+SCREENSHOT 99_失败现场.png
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tools\stage2_browser_e2e.py", line 385, in <module>
+    main()
+  File "D:\Desktop\DB\DB_lab\tools\stage2_browser_e2e.py", line 295, in main
+    row.get_by_role("button", name="补货").click()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\sync_api\_generated.py", line 11045, in click
+    self._sync(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\_sync_base.py", line 124, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\locator.py", line 222, in click
+    return await self._frame.click(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\frame.py", line 587, in click
+    return await self._channel.click(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\channel_owner.py", line 387, in finish
+    raise e from None
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\channel_owner.py", line 352, in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\playwright\_impl\utils\zones.py", line 58, in run_async
+    return await func()
+           ^^^^^^^^^^^^
+playwright._impl._errors.Error: Locator.click: Error: strict mode violation: locator("#table-body tr").filter(has_text="Stage2上游账号A01").first.get_by_role("button", name="补货") resolved to 2 elements:
+    1) <button type="button" class="button subtle">补货建议</button> aka locator("tr:nth-child(19) > td:nth-child(7) > .row-actions > button").first
+    2) <button type="button" class="button subtle">补货</button> aka locator("tr:nth-child(19) > td:nth-child(7) > .row-actions > button:nth-child(2)")
+
+Call log:
+  - waiting for locator("#table-body tr").filter(has_text="Stage2上游账号A01").first.get_by_role("button", name="补货")
+

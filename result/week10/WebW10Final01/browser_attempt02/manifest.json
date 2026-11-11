@@ -1,0 +1,53 @@
+{
+  "events": [
+    {
+      "path": "/reports/sales?start_date=2026-01-01&end_date=2026-12-31",
+      "method": "GET",
+      "status": 401,
+      "code": "UNAUTHENTICATED",
+      "request_id": "9baba92fa7a242eb9046082738569980"
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "54de03e584da43c8a3f07f1b90d9378b"
+    },
+    {
+      "path": "/accounts",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "d07f03330b274150a2d388a67d5561ba"
+    },
+    {
+      "path": "/inventory/adjustments?account_id=19",
+      "method": "GET",
+      "status": 200,
+      "code": "OK",
+      "request_id": "210e2e9430bb4e5b89876ff431ef9d15"
+    },
+    {
+      "path": "/auth/register",
+      "method": "POST",
+      "status": 400,
+      "code": "INVALID_INPUT",
+      "request_id": "7046a4b8d3ac475c8fddb19b91c84566"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_guest.png",
+      "sha256": "6f096d951eb466c28ce58cab99346b5e5153dfc5a80cbd001c0eb59036770a32"
+    },
+    {
+      "file": "02_adjustment.png",
+      "sha256": "50ac9e3c431de442fcf4610cea9e5ddbe8ed66a69ed66c03a6e52283e12dbf71"
+    },
+    {
+      "file": "03_sales_admin.png",
+      "sha256": "802057525ca8cdf4f8f924af4653b7a004428ef04b38c72b1c693aa7d8b43b8a"
+    }
+  ]
+}

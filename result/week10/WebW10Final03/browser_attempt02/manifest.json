@@ -1,0 +1,166 @@
+{
+  "events": [
+    {
+      "path": "/reports/sales?start_date=2026-01-01&end_date=2026-12-31",
+      "method": "GET",
+      "status": 401,
+      "code": "UNAUTHENTICATED",
+      "request_id": "de96d3debba443d0bf0869d6c79b4213"
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "d5656edca8e642d08418437c34fae53a"
+    },
+    {
+      "path": "/accounts",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "eb624031f566451c93516e987571935e"
+    },
+    {
+      "path": "/inventory/adjustments?account_id=89",
+      "method": "GET",
+      "status": 200,
+      "code": "OK",
+      "request_id": "598110374a9f459fa9f6f65585ffc67a"
+    },
+    {
+      "check": "committed response lost, reopen and retry same key",
+      "result": "PASS"
+    },
+    {
+      "path": "/auth/register",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "ebb3e005b6d04065a3b5c4a7bf4490eb"
+    },
+    {
+      "path": "/orders",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "3fdae200907b40698efff645db248d12"
+    },
+    {
+      "path": "/orders/144",
+      "method": "GET",
+      "status": 200,
+      "code": "OK",
+      "request_id": "97b322b2ab7c45219c2cfd1ecff44e3f"
+    },
+    {
+      "path": "/orders/144/pay",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "f0e818697e6344b082da5eed145e5b69"
+    },
+    {
+      "path": "/usage",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "9b739810304a4cccbca649738b022658"
+    },
+    {
+      "path": "/orders/144/refund",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "38cac91e3dbe46f09a93643355d34e1d"
+    },
+    {
+      "path": "/refunds",
+      "method": "GET",
+      "status": 200,
+      "code": "OK",
+      "request_id": "b06dad9530d247109947ed7ab921481b"
+    },
+    {
+      "path": "/reports/sales?start_date=2026-01-01&end_date=2026-12-31",
+      "method": "GET",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "4c64bdb3af8649ee974fc6d655b60c0b"
+    },
+    {
+      "path": "/inventory/adjustments",
+      "method": "POST",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "91e78278e39a45eeaca90c4c51daac4a"
+    },
+    {
+      "path": "/restocks",
+      "method": "GET",
+      "status": 200,
+      "code": "OK",
+      "request_id": "a848a32b59594ed3ad3a2bff85077a88"
+    },
+    {
+      "path": "/restocks/16/complete",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "88997df9ee644f7c92e5232fc8a8d039"
+    },
+    {
+      "path": "/orders/144/settle",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "398b766d60944dc384e6431a97c96c61"
+    },
+    {
+      "check": "discount/refund/recommendation/adjustment and roles",
+      "result": "PASS"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_guest.png",
+      "sha256": "4dc2b01979df8675878aa2231bf0769e59a05aaacd95ca0d4c584fa2a7939c7d"
+    },
+    {
+      "file": "02a_committed_response_lost.png",
+      "sha256": "97a8d75812190ff8c5d5c07ec40706ab5ca1496a2d63f5f85bb4d2e093a1742a"
+    },
+    {
+      "file": "02_adjustment.png",
+      "sha256": "7249eea41146a7ee7c43270fe2e396ca2f44ee45d927267b0fc6336a9efe9a1a"
+    },
+    {
+      "file": "03_sales_admin.png",
+      "sha256": "9805f785d1f0979341fcac1eef2ca0428ff34dfa44176571456a9a8da6ba1af0"
+    },
+    {
+      "file": "04_discount_snapshot.png",
+      "sha256": "67eac33599a26e9ecf67a7453a2d94a73d475e1b2f3539fb9f129d0e7a1dd766"
+    },
+    {
+      "file": "05_discount_refund.png",
+      "sha256": "5b947baeac6a7eedd64bd72302c36b2a38454b969f34bcb667d4ffdd3a6deea1"
+    },
+    {
+      "file": "06_sales_staff.png",
+      "sha256": "de257c17d852951fce424585d76249020937942889820cd57fab1e5250c98270"
+    },
+    {
+      "file": "07_replenishment_recommendation.png",
+      "sha256": "175984e5727653f21025ccdbc084e8d350f46ffe7f067620522c4e19e5db046c"
+    },
+    {
+      "file": "08_restock_completed.png",
+      "sha256": "00f9dba60622edaa8f179d60906a624e4bf626dd6e8de58e9171960222789570"
+    },
+    {
+      "file": "09_sales_after_refund.png",
+      "sha256": "666b5ee211dac124ba65a5e0f5c2f0ea838286cf7452658a314021218bee3d60"
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "database": "WebW10Final03",
+  "order_id": 163,
+  "events": [
+    {
+      "check": "Guest catalog",
+      "count": 16
+    },
+    {
+      "check": "Register new customer auto-login"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Duplicate username rejected without account creation"
+    },
+    {
+      "check": "Invalid login rejected"
+    },
+    {
+      "check": "Login web_admin",
+      "role": "employee"
+    },
+    {
+      "check": "HTTP GET /products",
+      "status": 200,
+      "code": "OK",
+      "request_id": "df8048c398b8467082630500f40b4b15"
+    },
+    {
+      "check": "New product ID",
+      "product_id": 150
+    },
+    {
+      "check": "Duplicate provider plus Token rejected"
+    },
+    {
+      "check": "HTTP GET /inventory",
+      "status": 200,
+      "code": "OK",
+      "request_id": "f6794568457c44bd9d37456ef2be39b6"
+    },
+    {
+      "check": "New upstream inventory",
+      "account_id": 142,
+      "initial_quota": "1000000"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_customer",
+      "role": "customer"
+    },
+    {
+      "check": "HTTP GET /orders",
+      "status": 200,
+      "code": "OK",
+      "request_id": "e83b8768087d445fa9378590601cec20"
+    },
+    {
+      "check": "Created draft",
+      "order_id": 163
+    },
+    {
+      "check": "HTTP GET /usage",
+      "status": 200,
+      "code": "OK",
+      "request_id": "703cbd2f832240cf836310ed99bcb3f9"
+    },
+    {
+      "check": "Successful usage",
+      "used": 50000
+    },
+    {
+      "check": "HTTP POST /usage",
+      "status": 400,
+      "code": "INVALID_INPUT",
+      "request_id": "5099f662909b406f9644e60b92d503c9"
+    },
+    {
+      "check": "HTTP GET /products",
+      "status": 200,
+      "code": "OK",
+      "request_id": "0ebd3d35704d465ea2bfcc977cfef2bc"
+    },
+    {
+      "check": "Input rejection and SQL injection-as-search are safe"
+    },
+    {
+      "check": "HTTP GET /refunds",
+      "status": 200,
+      "code": "OK",
+      "request_id": "1470321d956f4e5899e5660880313343"
+    },
+    {
+      "check": "Refund recorded",
+      "order_id": 163,
+      "amount": "7.58",
+      "refunded_tokens": "85791",
+      "consumed_tokens": "50000"
+    },
+    {
+      "check": "HTTP POST /orders/163/refund",
+      "status": 200,
+      "code": "OK",
+      "request_id": "df4438e797044b6ba8ddc84c07c08417"
+    },
+    {
+      "check": "HTTP POST /orders/163/refund",
+      "status": 200,
+      "code": "OK",
+      "request_id": "72bc28e2965b49509c4b1f010ec272f1"
+    },
+    {
+      "check": "Repeated refund idempotent"
+    },
+    {
+      "check": "HTTP POST /usage",
+      "status": 409,
+      "code": "BUSINESS_RULE",
+      "request_id": "82e7070dfdef45048428b0b34c6ac996"
+    },
+    {
+      "check": "Spent/refunded balance cannot be reused"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_other",
+      "role": "customer"
+    },
+    {
+      "check": "HTTP GET /orders/163",
+      "status": 403,
+      "code": "FORBIDDEN",
+      "request_id": "498d832f41c545e78dc689d927be51a0"
+    },
+    {
+      "check": "Cross-customer order blocked",
+      "order_id": 163,
+      "visible_order_ids": [
+        "127",
+        "126"
+      ],
+      "code": "FORBIDDEN",
+      "request_id": "498d832f41c545e78dc689d927be51a0"
+    },
+    {
+      "check": "Logout"
+    },
+    {
+      "check": "Login web_staff",
+      "role": "employee"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_游客商品目录.png",
+      "sha256": "04b78e9adbe86de7c886da71445d7640464a3e99f38cbc59f2077c56d2ca4b71"
+    },
+    {
+      "file": "02_登录入口.png",
+      "sha256": "3fe2371f66bd144587e9f4f4c26479b5a2ad1bc705aab8c9a975e7b241fa4177"
+    },
+    {
+      "file": "03_顾客注册表单.png",
+      "sha256": "200961086acc5c125eee2757a9f7b7c3e954dc060b181b7d7d50067a71151425"
+    },
+    {
+      "file": "04_注册成功自动登录.png",
+      "sha256": "668adfa756fe18c969a7c8c27c3a5e05c2b4381930c45b7643d4dc713517e617"
+    },
+    {
+      "file": "05_重复账号拒绝.png",
+      "sha256": "6cb36a6b86284a06f5e3dd8110fcdf5f190fc1ba99bb6f8a561a1580d38e233d"
+    },
+    {
+      "file": "06_错误密码拒绝.png",
+      "sha256": "fea025646ca9b65e3e278e7155596b7f8ee4801e2a61f19e38e95e7147b05ae6"
+    },
+    {
+      "file": "07_管理员新增商品.png",
+      "sha256": "545ea1f5273bc7cc01a5f865af3782374ba23e863194ccc49f95328aef037d2a"
+    },
+    {
+      "file": "08_商品唯一约束拒绝.png",
+      "sha256": "c3fae33d9d2a33b2d2f08ce84082b23dbe44e5f02187732399492ba85ce91b99"
+    },
+    {
+      "file": "09_管理员新增库存账号.png",
+      "sha256": "132a7190201d4b2845012eb05f40d5442b14edc1159354ddf0cd50610fa9af14"
+    },
+    {
+      "file": "10_顾客订单表单.png",
+      "sha256": "a0fa719b2d03bdccd5ba3990e3ca7193d186a4704e6b2c7f1907a4a3622e59e6"
+    },
+    {
+      "file": "11_顾客待支付订单.png",
+      "sha256": "fc2444984efef7c5f63fb3dae21227684d36bf2f8979424a91ee8b778018b8f2"
+    },
+    {
+      "file": "12_订单模拟支付成功.png",
+      "sha256": "621ea4f82f00fb73498d1fb6fad8399cdc2131f73c3232cad37634c5a6289e5a"
+    },
+    {
+      "file": "13_支付后余额.png",
+      "sha256": "0152e6e36d62e7d8ef75e1eb8f8b461cfe1013ec091d4973720cecaa1d7b07ca"
+    },
+    {
+      "file": "14_Token调用扣减.png",
+      "sha256": "a16c808fa4902cf46aca7b8a8af69f79282711e2814da607544b0ca5c9bf93aa"
+    },
+    {
+      "file": "15_顾客部分退款订单.png",
+      "sha256": "53fb2bc1d9acde24ab9c8925f93db045fa036377f40a19b1fa766341d12cc24a"
+    },
+    {
+      "file": "16_退款金额待结算.png",
+      "sha256": "bd477d805152e02b1270dd5ae0ca0a44f44426cff04b918848232e355ad0bc06"
+    },
+    {
+      "file": "17_第二顾客数据隔离.png",
+      "sha256": "e5606b27e01c9403f75e83b38106b41bbcb071afc2cea77b70fe2d3117bf1f5f"
+    },
+    {
+      "file": "99_失败现场.png",
+      "sha256": "6c562eed53546eb28d8ddac759d2417b98f6a8e988c1faba05c6c09e3f387cef"
+    }
+  ],
+  "error_type": "Error",
+  "error": "Locator.click: Error: strict mode violation: locator(\"#table-body tr\").filter(has_text=\"Stage2上游账号A01\").first.get_by_role(\"button\", name=\"补货\") resolved to 2 elements:\n    1) <button type=\"button\" class=\"button subtle\">补货建议</button> aka locator(\"tr:nth-child(19) > td:nth-child(7) > .row-actions > button\").first\n    2) <button type=\"button\" class=\"button subtle\">补货</button> aka locator(\"tr:nth-child(19) > td:nth-child(7) > .row-actions > button:nth-child(2)\")\n\nCall log:\n  - waiting for locator(\"#table-body tr\").filter(has_text=\"Stage2上游账号A01\").first.get_by_role(\"button\", name=\"补货\")\n"
+}

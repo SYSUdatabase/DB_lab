@@ -1,0 +1,7 @@
+{
+  "windows_identity": "LAPTOP-3H5FCR3B\\dulant",
+  "effective_administrator": false,
+  "required_check": "actual ordinary Windows runtime identity with week10 SQL",
+  "status": "pending",
+  "reason": "setup_web_runtime.ps1 requires an elevated administrator token"
+}

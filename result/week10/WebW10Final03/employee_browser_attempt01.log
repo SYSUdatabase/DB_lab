@@ -1,0 +1,22 @@
+SCREENSHOT 01_管理员员工列表
+PASS Administrator sees employee management {}
+SCREENSHOT 02_新增店员表单
+SCREENSHOT 03_新增店员成功
+PASS HTTP GET /employees?page=1&q= {'status': 200, 'code': 'OK', 'request_id': '78f9ee5203124fbfb887f597eae1e49d'}
+PASS Staff is exclusively staff and no hash exposed {'employee_id': 11}
+SCREENSHOT 04_重复店员账号被拒
+SCREENSHOT 05_管理员修改店员姓名
+SCREENSHOT 06_管理员重置密码后
+PASS Password reset completed {}
+SCREENSHOT 07_店员停用保留记录
+SCREENSHOT 08_店员重新启用
+PASS HTTP POST /employees {'status': 400, 'code': 'INVALID_INPUT', 'request_id': '40093891601b45c4b69619df97728896'}
+PASS Client admin-role injection rejected {}
+PASS HTTP GET /employees?page=1&q= {'status': 403, 'code': 'FORBIDDEN', 'request_id': 'ddcc150693004bdb8cf874957ae082da'}
+SCREENSHOT 09_普通店员没有员工管理入口
+PASS Staff forbidden on admin page and API {}
+SCREENSHOT 10_游客不能查看员工列表
+PASS Guest access rejected {}
+SCREENSHOT 11_新店员可登录但无管理权限
+PASS New staff login succeeded after password reset {}
+PASS EMPLOYEE BROWSER 11 screenshots 10 events

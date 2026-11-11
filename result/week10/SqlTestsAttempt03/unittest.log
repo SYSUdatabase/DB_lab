@@ -1,0 +1,208 @@
+test_extension_uses_guarded_entry_and_own_log (test_week10_prepare.Week10PreparationTests.test_extension_uses_guarded_entry_and_own_log) ... ok
+test_help_exposes_opt_in_without_connecting (test_week10_prepare.Week10PreparationTests.test_help_exposes_opt_in_without_connecting) ... ok
+test_rejects_unbounded_database_before_running_sql (test_week10_prepare.Week10PreparationTests.test_rejects_unbounded_database_before_running_sql) ... ok
+test_explicit_extension_and_narrow_grant (test_week10_sql.Week10SourceTests.test_explicit_extension_and_narrow_grant) ... ok
+test_adjustment_audit_and_same_key_idempotency (test_week10_sql.Week10SqlTests.test_adjustment_audit_and_same_key_idempotency) ... ok
+test_adjustment_ledger_failure_rolls_back_four_tables (test_week10_sql.Week10SqlTests.test_adjustment_ledger_failure_rolls_back_four_tables) ... ok
+test_discount_payment_fifo_partial_refund_and_repeat_refund (test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund) ... ERROR
+test_discount_thresholds_and_invalid_values (test_week10_sql.Week10SqlTests.test_discount_thresholds_and_invalid_values) ... ok
+test_draft_repricing_add_set_delete_and_price_snapshot (test_week10_sql.Week10SqlTests.test_draft_repricing_add_set_delete_and_price_snapshot) ... ok
+test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) ... 
+  test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=0, reason_length=5) ... ERROR
+  test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=None, reason_length=5) ... FAIL
+  test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=0) ... FAIL
+  test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=5) ... FAIL
+  test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=256) ... FAIL
+test_legacy_draft_preserves_zero_discount (test_week10_sql.Week10SqlTests.test_legacy_draft_preserves_zero_discount) ... ok
+test_operation_key_parameter_conflict_rolls_back (test_week10_sql.Week10SqlTests.test_operation_key_parameter_conflict_rolls_back) ... ok
+test_replenishment_boundaries_defaults_and_invalid_values (test_week10_sql.Week10SqlTests.test_replenishment_boundaries_defaults_and_invalid_values) ... ok
+test_rounding_is_per_line (test_week10_sql.Week10SqlTests.test_rounding_is_per_line) ... ok
+test_runtime_cannot_execute_internal_week10_objects (test_week10_sql.Week10SqlTests.test_runtime_cannot_execute_internal_week10_objects) ... ok
+test_sales_empty_invalid_and_maximum_end_date (test_week10_sql.Week10SqlTests.test_sales_empty_invalid_and_maximum_end_date) ... ok
+test_sales_two_results_distinct_orders_refunded_and_pending (test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending) ... ERROR
+test_two_connections_same_key_and_competing_debits (test_week10_sql.Week10SqlTests.test_two_connections_same_key_and_competing_debits) ... ok
+test_underflow_and_bigint_extremes_roll_back (test_week10_sql.Week10SqlTests.test_underflow_and_bigint_extremes_roll_back) ... ok
+test_week10_app_json_and_strict_dates (test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates) ... FAIL
+test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) ... 
+  test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role=None, operation='reports.sales') ... ERROR
+  test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='customer', operation='reports.sales') ... FAIL
+  test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='staff', operation='inventory.adjustments.create') ... FAIL
+  test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='admin', operation='reports.sales') ... FAIL
+  test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='admin', operation='reports.sales') ... FAIL
+test_adjustment_signed_range_and_forgery (test_week10_web.Week10WebTests.test_adjustment_signed_range_and_forgery) ... ok
+test_dao_binds_week10_parameters_and_preserves_bigint (test_week10_web.Week10WebTests.test_dao_binds_week10_parameters_and_preserves_bigint) ... ok
+test_list_defaults_and_csrf (test_week10_web.Week10WebTests.test_list_defaults_and_csrf) ... ok
+test_order_rejects_client_pricing (test_week10_web.Week10WebTests.test_order_rejects_client_pricing) ... ok
+test_recommendation_bigint_and_optional_minimum (test_week10_web.Week10WebTests.test_recommendation_bigint_and_optional_minimum) ... ok
+test_sales_validates_dates_and_roles (test_week10_web.Week10WebTests.test_sales_validates_dates_and_roles) ... ok
+test_wire_precision_and_errors (test_week10_web.Week10WebTests.test_wire_precision_and_errors) ... ok
+
+======================================================================
+ERROR: test_discount_payment_fifo_partial_refund_and_repeat_refund (test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 296, in test_discount_payment_fifo_partial_refund_and_repeat_refund
+    product = self.product("200", 200000)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 101, in product
+    return self.insert_id(
+           ^^^^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 92, in insert_id
+    self.db.execute(
+pyodbc.IntegrityError: ('23000', '[23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]违反了 UNIQUE KEY 约束“UQ_Products_provider_tokens”。不能在对象“dbo.Products”中插入重复键。重复键值为 (Other, 200000)。 (2627) (SQLExecDirectW); [23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]语句已终止。 (3621)')
+
+======================================================================
+ERROR: test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=0, reason_length=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 409, in test_invalid_quantity_and_reason_do_not_write
+    self.assertEqual(self.stock(), before)
+                     ^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 173, in stock
+    return tuple(
+           ^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_sales_two_results_distinct_orders_refunded_and_pending (test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 336, in test_sales_two_results_distinct_orders_refunded_and_pending
+    self.db.execute(
+pyodbc.IntegrityError: ('23000', '[23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]UPDATE 语句与 CHECK 约束"CK_Orders_payment_time"冲突。该冲突发生于数据库"TokenHubDB_v11_WebW10Dev01"，表"dbo.Orders"。 (547) (SQLExecDirectW); [23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]语句已终止。 (3621)')
+
+======================================================================
+ERROR: test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role=None, operation='reports.sales')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 465, in test_week10_authorization_and_forged_actor
+    self.assertEqual(self.stock(), before)
+                     ^^^^^^^^^^^^
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 173, in stock
+    return tuple(
+           ^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+FAIL: test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=None, reason_length=5)
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 407, in test_invalid_quantity_and_reason_do_not_write
+    with self.assertRaisesRegex(pyodbc.Error, "56000"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=0)
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 407, in test_invalid_quantity_and_reason_do_not_write
+    with self.assertRaisesRegex(pyodbc.Error, "56000"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=5)
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 407, in test_invalid_quantity_and_reason_do_not_write
+    with self.assertRaisesRegex(pyodbc.Error, "56000"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) (amount=1, reason_length=256)
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 407, in test_invalid_quantity_and_reason_do_not_write
+    with self.assertRaisesRegex(pyodbc.Error, "56000"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_week10_app_json_and_strict_dates (test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 474, in test_week10_app_json_and_strict_dates
+    self.assertEqual(
+AssertionError: {'sum[16 chars]ount': 0, 'sales_quantity': 0, 'sales_amount': 0.0}} != {'sum[16 chars]ount': 0, 'sales_quantity': 0, 'sales_amount': 0}, 'items': []}
++ {'items': [],
+- {'summary': {'order_count': 0, 'sales_amount': 0.0, 'sales_quantity': 0}}
+? ^                                              --
+
++  'summary': {'order_count': 0, 'sales_amount': 0, 'sales_quantity': 0}}
+? ^
+
+
+======================================================================
+FAIL: test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='customer', operation='reports.sales')
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 463, in test_week10_authorization_and_forged_actor
+    with self.assertRaisesRegex(pyodbc.Error, error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56003" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='staff', operation='inventory.adjustments.create')
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 463, in test_week10_authorization_and_forged_actor
+    with self.assertRaisesRegex(pyodbc.Error, error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56003" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='admin', operation='reports.sales')
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 463, in test_week10_authorization_and_forged_actor
+    with self.assertRaisesRegex(pyodbc.Error, error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) (role='admin', operation='reports.sales')
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week10_sql.py", line 463, in test_week10_authorization_and_forged_actor
+    with self.assertRaisesRegex(pyodbc.Error, error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "56000" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')"
+
+----------------------------------------------------------------------
+Ran 28 tests in 7.663s
+
+FAILED (failures=9, errors=4)

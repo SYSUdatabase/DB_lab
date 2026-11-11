@@ -1,0 +1,13 @@
+﻿已将数据库上下文更改为 "TokenHubDB_v11_WebW10Dev01"。
+order_count          sales_quantity       sales_amount                            
+-------------------- -------------------- ----------------------------------------
+                   0                    0                                      .00
+product_id  name                                                                                                 sales_quantity       sales_amount                             order_count         
+----------- ---------------------------------------------------------------------------------------------------- -------------------- ---------------------------------------- --------------------
+PASS week10 SQL function, schema and maximum-date assertions
+消息 1934，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，过程 w10.usp_AdjustInventory，第 49 行
+INSERT 失败，因为下列 SET 选项的设置不正确: 'QUOTED_IDENTIFIER'。请确保 SET 选项正确无误，可以用于 计算列上的索引视图和/或索引和/或筛选的索引和/或查询通知和/或 XML 数据类型方法和/或空间索引操作。。
+消息 1934，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，过程 w10.usp_AdjustInventory，第 49 行
+INSERT 失败，因为下列 SET 选项的设置不正确: 'QUOTED_IDENTIFIER'。请确保 SET 选项正确无误，可以用于 计算列上的索引视图和/或索引和/或筛选的索引和/或查询通知和/或 XML 数据类型方法和/或空间索引操作。。
+消息 56999，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，第 36 行
+Idempotent adjustment replay

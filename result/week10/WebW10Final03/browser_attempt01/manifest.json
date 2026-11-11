@@ -1,0 +1,31 @@
+{
+  "events": [
+    {
+      "path": "/reports/sales?start_date=2026-01-01&end_date=2026-12-31",
+      "method": "GET",
+      "status": 401,
+      "code": "UNAUTHENTICATED",
+      "request_id": "6eef82270ae14d0f9df856533e3b672f"
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "9c8ab6db609c4b9cb845f2a40e6b3327"
+    },
+    {
+      "path": "/accounts",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "14885a37c9cc48ae9a6c0601a1e44cf4"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_guest.png",
+      "sha256": "0a61d0475368695e31c3bb3448d6c6a4d6b0c1b87a93b05c97e199e0b8a357c9"
+    }
+  ]
+}

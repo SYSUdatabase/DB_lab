@@ -1,0 +1,42 @@
+{
+  "events": [
+    {
+      "path": "/reports/sales?start_date=2026-01-01&end_date=2026-12-31",
+      "method": "GET",
+      "status": 401,
+      "code": "UNAUTHENTICATED",
+      "request_id": "ef5d5d49a17b46cf9243a9deaf660eaa"
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "2b761685ff4e4c138f14bc26c10a90d8"
+    },
+    {
+      "path": "/accounts",
+      "method": "POST",
+      "status": 200,
+      "code": "OK",
+      "request_id": "d1f10ef23a6941b8bd8e4d2529c49649"
+    },
+    {
+      "path": "/inventory/adjustments?account_id=18",
+      "method": "GET",
+      "status": 400,
+      "code": "INVALID_INPUT",
+      "request_id": "b564d3bfb8924a01b70eea7e37e93d66"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_guest.png",
+      "sha256": "b3ddbe572ca16845af5c864cd1b67f02b0aeac768836b95d6444d7528466fe1f"
+    },
+    {
+      "file": "02_adjustment.png",
+      "sha256": "846f12e1e6006f6fe3fcf0b194079620986e65349841722a8f3dc2896dc2386f"
+    }
+  ]
+}

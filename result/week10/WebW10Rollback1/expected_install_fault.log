@@ -1,0 +1,4 @@
+已将数据库上下文更改为 "TokenHubDB_v11_WebW10Rollback1"。
+已将数据库上下文更改为 "TokenHubDB_v11_WebW10Rollback1"。
+消息 56998，级别 16，状态 1，服务器 LAPTOP-3H5FCR3B\SQLEXPRESS，第 1 行
+Expected installation fault: roll back the outer migration transaction

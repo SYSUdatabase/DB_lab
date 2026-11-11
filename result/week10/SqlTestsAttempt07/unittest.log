@@ -1,0 +1,44 @@
+test_extension_uses_guarded_entry_and_own_log (test_week10_prepare.Week10PreparationTests.test_extension_uses_guarded_entry_and_own_log) ... ok
+test_help_exposes_opt_in_without_connecting (test_week10_prepare.Week10PreparationTests.test_help_exposes_opt_in_without_connecting) ... ok
+test_rejects_unbounded_database_before_running_sql (test_week10_prepare.Week10PreparationTests.test_rejects_unbounded_database_before_running_sql) ... ok
+test_explicit_extension_and_narrow_grant (test_week10_sql.Week10SourceTests.test_explicit_extension_and_narrow_grant) ... ok
+test_adjustment_audit_and_same_key_idempotency (test_week10_sql.Week10SqlTests.test_adjustment_audit_and_same_key_idempotency) ... ok
+test_adjustment_ledger_failure_rolls_back_four_tables (test_week10_sql.Week10SqlTests.test_adjustment_ledger_failure_rolls_back_four_tables) ... ok
+test_discount_payment_fifo_partial_refund_and_repeat_refund (test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund) ... ok
+test_discount_thresholds_and_invalid_values (test_week10_sql.Week10SqlTests.test_discount_thresholds_and_invalid_values) ... ok
+test_draft_amount_overflow_rolls_back_without_partial_order (test_week10_sql.Week10SqlTests.test_draft_amount_overflow_rolls_back_without_partial_order) ... ok
+test_draft_repricing_add_set_delete_and_price_snapshot (test_week10_sql.Week10SqlTests.test_draft_repricing_add_set_delete_and_price_snapshot) ... ok
+test_duplicate_json_fields_are_rejected_at_runtime_boundary (test_week10_sql.Week10SqlTests.test_duplicate_json_fields_are_rejected_at_runtime_boundary) ... ok
+test_invalid_account_product_operator_and_pair_are_rejected (test_week10_sql.Week10SqlTests.test_invalid_account_product_operator_and_pair_are_rejected) ... ok
+test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) ... ok
+test_legacy_draft_preserves_zero_discount (test_week10_sql.Week10SqlTests.test_legacy_draft_preserves_zero_discount) ... ok
+test_operation_key_parameter_conflict_rolls_back (test_week10_sql.Week10SqlTests.test_operation_key_parameter_conflict_rolls_back) ... ok
+test_payment_lot_failure_rolls_back_order_balance_and_lots (test_week10_sql.Week10SqlTests.test_payment_lot_failure_rolls_back_order_balance_and_lots) ... ok
+test_refund_ledger_failure_rolls_back_balance_lots_and_refund (test_week10_sql.Week10SqlTests.test_refund_ledger_failure_rolls_back_balance_lots_and_refund) ... ok
+test_replenishment_boundaries_defaults_and_invalid_values (test_week10_sql.Week10SqlTests.test_replenishment_boundaries_defaults_and_invalid_values) ... ok
+test_rounding_is_per_line (test_week10_sql.Week10SqlTests.test_rounding_is_per_line) ... ok
+test_runtime_boundary_rejects_forged_fields_and_structured_quotas (test_week10_sql.Week10SqlTests.test_runtime_boundary_rejects_forged_fields_and_structured_quotas) ... ok
+test_runtime_cannot_execute_internal_week10_objects (test_week10_sql.Week10SqlTests.test_runtime_cannot_execute_internal_week10_objects) ... ok
+test_sales_empty_invalid_and_maximum_end_date (test_week10_sql.Week10SqlTests.test_sales_empty_invalid_and_maximum_end_date) ... ok
+test_sales_inclusive_dates_use_payment_time (test_week10_sql.Week10SqlTests.test_sales_inclusive_dates_use_payment_time) ... ok
+test_sales_two_results_distinct_orders_refunded_and_pending (test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending) ... ok
+test_two_connections_payment_credits_exactly_once (test_week10_sql.Week10SqlTests.test_two_connections_payment_credits_exactly_once) ... ok
+test_two_connections_same_key_and_competing_debits (test_week10_sql.Week10SqlTests.test_two_connections_same_key_and_competing_debits) ... ok
+test_underflow_and_bigint_extremes_roll_back (test_week10_sql.Week10SqlTests.test_underflow_and_bigint_extremes_roll_back) ... ok
+test_week10_app_json_and_strict_dates (test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates) ... ok
+test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) ... ok
+test_adjustment_signed_range_and_forgery (test_week10_web.Week10WebTests.test_adjustment_signed_range_and_forgery) ... ok
+test_dao_binds_week10_parameters_and_preserves_bigint (test_week10_web.Week10WebTests.test_dao_binds_week10_parameters_and_preserves_bigint) ... ok
+test_list_defaults_and_csrf (test_week10_web.Week10WebTests.test_list_defaults_and_csrf) ... ok
+test_list_optional_filters (test_week10_web.Week10WebTests.test_list_optional_filters) ... ok
+test_numeric_sql_overflow_is_input_error (test_week10_web.Week10WebTests.test_numeric_sql_overflow_is_input_error) ... ok
+test_order_rejects_client_pricing (test_week10_web.Week10WebTests.test_order_rejects_client_pricing) ... ok
+test_reason_uses_utf16_storage_limit (test_week10_web.Week10WebTests.test_reason_uses_utf16_storage_limit) ... ok
+test_recommendation_bigint_and_optional_minimum (test_week10_web.Week10WebTests.test_recommendation_bigint_and_optional_minimum) ... ok
+test_sales_validates_dates_and_roles (test_week10_web.Week10WebTests.test_sales_validates_dates_and_roles) ... ok
+test_wire_precision_and_errors (test_week10_web.Week10WebTests.test_wire_precision_and_errors) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 16.147s
+
+OK

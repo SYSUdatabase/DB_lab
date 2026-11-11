@@ -1,0 +1,25 @@
+{
+  "actual": {
+    "tables": 19,
+    "trusted_foreign_keys": 26,
+    "inventory_divergence": 0,
+    "negative_balances": 0,
+    "overconsumed_lots": 0,
+    "invalid_discount_snapshots": 0,
+    "invalid_adjustment_log": 0,
+    "disabled_triggers": 0,
+    "untrusted_constraints": 0
+  },
+  "expected": {
+    "tables": 19,
+    "trusted_foreign_keys": 26,
+    "inventory_divergence": 0,
+    "negative_balances": 0,
+    "overconsumed_lots": 0,
+    "invalid_discount_snapshots": 0,
+    "invalid_adjustment_log": 0,
+    "disabled_triggers": 0,
+    "untrusted_constraints": 0
+  },
+  "passed": true
+}

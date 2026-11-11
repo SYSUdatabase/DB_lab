@@ -1,0 +1,4 @@
+BACKUP COPY_ONLY CHECKSUM + VERIFYONLY + RESTORE PASS
+source=TokenHubDB_v10_WebW10Dev01
+target=TokenHubDB_v11_WebW10Dev01
+backup=D:\Desktop\DB\DB_lab\result\sql_backups\WebW10Dev01\TokenHubDB_v10_WebW10Dev01_W6_f98eb5549762.bak

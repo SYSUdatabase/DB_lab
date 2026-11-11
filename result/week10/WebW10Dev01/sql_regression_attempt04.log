@@ -1,0 +1,9 @@
+﻿已将数据库上下文更改为 "TokenHubDB_v11_WebW10Dev01"。
+order_count          sales_quantity       sales_amount                            
+-------------------- -------------------- ----------------------------------------
+                   0                    0                                      .00
+product_id  name                                                                                                 sales_quantity       sales_amount                             order_count         
+----------- ---------------------------------------------------------------------------------------------------- -------------------- ---------------------------------------- --------------------
+PASS week10 SQL function, schema and maximum-date assertions
+PASS week10 discounted sales, refund, audited adjustment replay and inventory assertions
+PASS week10 expected business errors

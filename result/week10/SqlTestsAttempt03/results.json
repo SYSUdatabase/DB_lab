@@ -1,0 +1,627 @@
+{
+  "utc_time": "2026-11-11T03:01:05.595930+00:00",
+  "database": "TokenHubDB_v11_WebW10Dev01",
+  "server": "localhost\\SQLEXPRESS",
+  "tests_run": 28,
+  "failures": 9,
+  "errors": 4,
+  "skipped": 0,
+  "passed": false,
+  "cases": [
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_extension_uses_guarded_entry_and_own_log",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_help_exposes_opt_in_without_connecting",
+      "status": "PASS",
+      "elapsed_seconds": 0.234,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_prepare.Week10PreparationTests.test_rejects_unbounded_database_before_running_sql",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SourceTests.test_explicit_extension_and_narrow_grant",
+      "status": "PASS",
+      "elapsed_seconds": 0.0,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_adjustment_audit_and_same_key_idempotency",
+      "status": "PASS",
+      "elapsed_seconds": 0.672,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 44,
+            "account_id": 35,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "operation_key": "dd8f9515-9f30-4d0d-ad77-68632e26d16b"
+          },
+          "actual": {
+            "adjustment_id": 7,
+            "operation_key": "DD8F9515-9F30-4D0D-AD77-68632E26D16B",
+            "product_id": 44,
+            "account_id": 35,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 3053,
+            "created_at": "2026-11-11T11:00:59"
+          }
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 44,
+            "account_id": 35,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "operation_key": "dd8f9515-9f30-4d0d-ad77-68632e26d16b"
+          },
+          "actual": {
+            "adjustment_id": 7,
+            "operation_key": "DD8F9515-9F30-4D0D-AD77-68632E26D16B",
+            "product_id": 44,
+            "account_id": 35,
+            "operator_id": 1,
+            "change_amount": 300,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1300,
+            "before_total_quota": 1200,
+            "after_total_quota": 1500,
+            "log_id": 3053,
+            "created_at": "2026-11-11T11:00:59"
+          }
+        },
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 44,
+            "account_id": 35,
+            "change_amount": -400,
+            "reason": "fixture adjustment",
+            "operation_key": "10ada3e8-09de-4d73-9a8d-3b19d8f5f417"
+          },
+          "actual": {
+            "adjustment_id": 8,
+            "operation_key": "10ADA3E8-09DE-4D73-9A8D-3B19D8F5F417",
+            "product_id": 44,
+            "account_id": 35,
+            "operator_id": 1,
+            "change_amount": -400,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1300,
+            "after_current_quota": 900,
+            "before_total_quota": 1500,
+            "after_total_quota": 1100,
+            "log_id": 3054,
+            "created_at": "2026-11-11T11:00:59"
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_adjustment_ledger_failure_rolls_back_four_tables",
+      "status": "PASS",
+      "elapsed_seconds": 0.281,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund",
+      "status": "ERROR",
+      "elapsed_seconds": 0.125,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "Traceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 296, in test_discount_payment_fifo_partial_refund_and_repeat_refund\n    product = self.product(\"200\", 200000)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 101, in product\n    return self.insert_id(\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 92, in insert_id\n    self.db.execute(\npyodbc.IntegrityError: ('23000', '[23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]违反了 UNIQUE KEY 约束“UQ_Products_provider_tokens”。不能在对象“dbo.Products”中插入重复键。重复键值为 (Other, 200000)。 (2627) (SQLExecDirectW); [23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]语句已终止。 (3621)')\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_discount_thresholds_and_invalid_values",
+      "status": "PASS",
+      "elapsed_seconds": 0.141,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_draft_repricing_add_set_delete_and_price_snapshot",
+      "status": "PASS",
+      "elapsed_seconds": 0.609,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 49,
+                "quantity": 3
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 120
+          }
+        },
+        {
+          "operation": "orders.item_add",
+          "role": "customer",
+          "input": {
+            "order_id": 120,
+            "product_id": 49,
+            "quantity": 1
+          },
+          "actual": {
+            "order_id": 120
+          }
+        },
+        {
+          "operation": "orders.item_set",
+          "role": "customer",
+          "input": {
+            "order_id": 120,
+            "detail_id": 203,
+            "quantity": 3
+          },
+          "actual": {
+            "order_id": 120
+          }
+        },
+        {
+          "operation": "orders.item_delete",
+          "role": "customer",
+          "input": {
+            "order_id": 120,
+            "detail_id": 203
+          },
+          "actual": {
+            "order_id": 120
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write (amount=0, reason_length=5)",
+      "status": "FAIL",
+      "elapsed_seconds": 0.235,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "Traceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 409, in test_invalid_quantity_and_reason_do_not_write\n    self.assertEqual(self.stock(), before)\n                     ^^^^^^^^^^^^\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 173, in stock\n    return tuple(\n           ^^^^^^\nTypeError: 'NoneType' object is not iterable\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write (amount=None, reason_length=5)",
+      "status": "FAIL",
+      "elapsed_seconds": 0.25,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 407, in test_invalid_quantity_and_reason_do_not_write\n    with self.assertRaisesRegex(pyodbc.Error, \"56000\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write (amount=1, reason_length=0)",
+      "status": "FAIL",
+      "elapsed_seconds": 0.25,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 407, in test_invalid_quantity_and_reason_do_not_write\n    with self.assertRaisesRegex(pyodbc.Error, \"56000\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write (amount=1, reason_length=5)",
+      "status": "FAIL",
+      "elapsed_seconds": 0.25,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 407, in test_invalid_quantity_and_reason_do_not_write\n    with self.assertRaisesRegex(pyodbc.Error, \"56000\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write (amount=1, reason_length=256)",
+      "status": "FAIL",
+      "elapsed_seconds": 0.266,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 407, in test_invalid_quantity_and_reason_do_not_write\n    with self.assertRaisesRegex(pyodbc.Error, \"56000\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_legacy_draft_preserves_zero_discount",
+      "status": "PASS",
+      "elapsed_seconds": 0.359,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 51,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 121
+          }
+        },
+        {
+          "operation": "orders.item_add",
+          "role": "customer",
+          "input": {
+            "order_id": 121,
+            "product_id": 51,
+            "quantity": 3
+          },
+          "actual": {
+            "order_id": 121
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_operation_key_parameter_conflict_rolls_back",
+      "status": "PASS",
+      "elapsed_seconds": 0.281,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "inventory.adjustments.create",
+          "role": "admin",
+          "input": {
+            "product_id": 52,
+            "account_id": 42,
+            "change_amount": 10,
+            "reason": "fixture adjustment",
+            "operation_key": "442da5f5-c7be-4a38-9002-103be3ff213d"
+          },
+          "actual": {
+            "adjustment_id": 10009,
+            "operation_key": "442DA5F5-C7BE-4A38-9002-103BE3FF213D",
+            "product_id": 52,
+            "account_id": 42,
+            "operator_id": 1,
+            "change_amount": 10,
+            "reason": "fixture adjustment",
+            "before_current_quota": 1000,
+            "after_current_quota": 1010,
+            "before_total_quota": 1000,
+            "after_total_quota": 1010,
+            "log_id": 3063,
+            "created_at": "2026-11-11T11:01:01"
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_replenishment_boundaries_defaults_and_invalid_values",
+      "status": "PASS",
+      "elapsed_seconds": 0.282,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_rounding_is_per_line",
+      "status": "PASS",
+      "elapsed_seconds": 0.593,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": [
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 55,
+                "quantity": 1
+              },
+              {
+                "product_id": 56,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 122
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_runtime_cannot_execute_internal_week10_objects",
+      "status": "PASS",
+      "elapsed_seconds": 0.157,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_sales_empty_invalid_and_maximum_end_date",
+      "status": "PASS",
+      "elapsed_seconds": 0.14,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending",
+      "status": "ERROR",
+      "elapsed_seconds": 1.016,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "Traceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 336, in test_sales_two_results_distinct_orders_refunded_and_pending\n    self.db.execute(\npyodbc.IntegrityError: ('23000', '[23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]UPDATE 语句与 CHECK 约束\"CK_Orders_payment_time\"冲突。该冲突发生于数据库\"TokenHubDB_v11_WebW10Dev01\"，表\"dbo.Orders\"。 (547) (SQLExecDirectW); [23000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]语句已终止。 (3621)')\n",
+      "database_calls": [
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 59,
+                "quantity": 2
+              },
+              {
+                "product_id": 60,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 123
+          }
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 59,
+                "quantity": 1
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 124
+          }
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 60,
+                "quantity": 9
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 125
+          }
+        },
+        {
+          "operation": "orders.create",
+          "role": "customer",
+          "input": {
+            "items": [
+              {
+                "product_id": 60,
+                "quantity": 9
+              }
+            ]
+          },
+          "actual": {
+            "order_id": 126
+          }
+        },
+        {
+          "operation": "orders.cancel",
+          "role": "staff",
+          "input": {
+            "order_id": 126
+          },
+          "actual": {
+            "order_id": 126
+          }
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 123
+          },
+          "actual": {
+            "order_id": 123
+          }
+        },
+        {
+          "operation": "orders.pay",
+          "role": "customer",
+          "input": {
+            "order_id": 124
+          },
+          "actual": {
+            "order_id": 124
+          }
+        },
+        {
+          "operation": "refunds.request",
+          "role": "customer",
+          "input": {
+            "order_id": 123
+          },
+          "actual": {
+            "order_id": 123
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_two_connections_same_key_and_competing_debits",
+      "status": "PASS",
+      "elapsed_seconds": 0.453,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_underflow_and_bigint_extremes_roll_back",
+      "status": "PASS",
+      "elapsed_seconds": 0.953,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates",
+      "status": "FAIL",
+      "elapsed_seconds": 0.328,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "Traceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 474, in test_week10_app_json_and_strict_dates\n    self.assertEqual(\nAssertionError: {'sum[16 chars]ount': 0, 'sales_quantity': 0, 'sales_amount': 0.0}} != {'sum[16 chars]ount': 0, 'sales_quantity': 0, 'sales_amount': 0}, 'items': []}\n+ {'items': [],\n- {'summary': {'order_count': 0, 'sales_amount': 0.0, 'sales_quantity': 0}}\n? ^                                              --\n\n+  'summary': {'order_count': 0, 'sales_amount': 0, 'sales_quantity': 0}}\n? ^\n\n",
+      "database_calls": [
+        {
+          "operation": "reports.sales",
+          "role": "staff",
+          "input": {
+            "start_date": "0001-01-01",
+            "end_date": "0001-01-01"
+          },
+          "actual": {
+            "summary": {
+              "order_count": 0,
+              "sales_quantity": 0,
+              "sales_amount": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor (role=None, operation='reports.sales')",
+      "status": "FAIL",
+      "elapsed_seconds": 0.156,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "Traceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 465, in test_week10_authorization_and_forged_actor\n    self.assertEqual(self.stock(), before)\n                     ^^^^^^^^^^^^\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 173, in stock\n    return tuple(\n           ^^^^^^\nTypeError: 'NoneType' object is not iterable\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor (role='customer', operation='reports.sales')",
+      "status": "FAIL",
+      "elapsed_seconds": 0.219,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 463, in test_week10_authorization_and_forged_actor\n    with self.assertRaisesRegex(pyodbc.Error, error):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56003\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor (role='staff', operation='inventory.adjustments.create')",
+      "status": "FAIL",
+      "elapsed_seconds": 0.266,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 463, in test_week10_authorization_and_forged_actor\n    with self.assertRaisesRegex(pyodbc.Error, error):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56003\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor (role='admin', operation='reports.sales')",
+      "status": "FAIL",
+      "elapsed_seconds": 0.359,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 463, in test_week10_authorization_and_forged_actor\n    with self.assertRaisesRegex(pyodbc.Error, error):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor (role='admin', operation='reports.sales')",
+      "status": "FAIL",
+      "elapsed_seconds": 0.406,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\Desktop\\DB\\DB_lab\\tests\\test_week10_sql.py\", line 463, in test_week10_authorization_and_forged_actor\n    with self.assertRaisesRegex(pyodbc.Error, error):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"56000\" does not match \"('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Authentication required (56001) (SQLExecDirectW)')\"\n",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_adjustment_signed_range_and_forgery",
+      "status": "PASS",
+      "elapsed_seconds": 0.094,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_dao_binds_week10_parameters_and_preserves_bigint",
+      "status": "PASS",
+      "elapsed_seconds": 0.078,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_list_defaults_and_csrf",
+      "status": "PASS",
+      "elapsed_seconds": 0.031,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_order_rejects_client_pricing",
+      "status": "PASS",
+      "elapsed_seconds": 0.047,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_recommendation_bigint_and_optional_minimum",
+      "status": "PASS",
+      "elapsed_seconds": 0.031,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_sales_validates_dates_and_roles",
+      "status": "PASS",
+      "elapsed_seconds": 0.032,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    },
+    {
+      "test": "test_week10_web.Week10WebTests.test_wire_precision_and_errors",
+      "status": "PASS",
+      "elapsed_seconds": 0.031,
+      "expected": "All explicit unittest assertions pass",
+      "actual": "All assertions passed",
+      "database_calls": []
+    }
+  ],
+  "fixture_policy": "SQL test transactions roll back. Two-connection tests retain uniquely tagged committed fixtures in the isolated database."
+}
