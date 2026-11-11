@@ -10,10 +10,10 @@ SQL 按交付版本保存，**当前业务功能最新版为 [v1.1](v11/README.m
 
 ## 最新版本的执行入口
 
-[第六周统一部署及 ER/数据字典](../week6/v11/README.md) 对应的 **一键重建**（在项目根目录运行）：
+[第六周统一部署及 ER/数据字典](../archive/coursework/week6/v11/README.md) 对应的 **一键重建**（在项目根目录运行）：
 
 ```powershell
-python -B .\week6\v11\run_full.py --suffix NewV11Run01
+python -B .\db_tools\v11\run_full.py --suffix NewV11Run01
 ```
 
 该入口会创建新的隔离 v1.0、v1.1 数据库，先备份/还原、执行 `sql/v10/migration.sql`，再按顺序安装 `sql/v11/` 的修复 SQL、核对固定种子合成历史数据并执行支付、消费、补货与退款回归。**不覆盖 v0.1、现有 v1.0 或已经运行的 v1.1。** 不要直接对正式库从中间开始运行增量 SQL。

@@ -1,11 +1,11 @@
-# 第五—九周第二阶段交付记录
+# 第一—九周完成记录与第三阶段衔接
 
 本文件只记录第二阶段的当前进度；第 1—4 周和整合前的完整执行过程保留在 [历史 ROADMAP](archive/coursework/week4/ROADMAP_combined_before_stage2.md)。详细技术过程见 [AI 日志](docs/ai_usage_log.md)。
 
 | 阶段 | 主要完成内容 | 对应证据 |
 |---|---|---|
-| 第 5 周 | ER 模型、主外键和参与约束核验、数据字典、问题清单与独立复核 | [week5](week5/README.md) |
-| 第 6 周 | 函数依赖/范式分析、UsagePeriod/UsageSummaryCore 迁移、回归及后续 v1.1 修复 | [week6](week6/README.md)、[v1.0 迁移](sql/v10/migration.sql) |
+| 第 5 周 | ER 模型、主外键和参与约束核验、数据字典、问题清单与独立复核 | [week5](archive/coursework/week5/README.md) |
+| 第 6 周 | 函数依赖/范式分析、UsagePeriod/UsageSummaryCore 迁移、回归及后续 v1.1 修复 | [week6](archive/coursework/week6/README.md)、[v1.0 迁移](sql/v10/migration.sql) |
 | 第 7 周 | 数据库基础代码（陈诗翰）、Web 四层结构和受控业务入口 | [sql/app](sql/app/)、[Web 代码](webapp/) |
 | 第 8 周 | 顾客注册与输入/角色检查、Web 完整测试、交付整理（阮依成） | [注册](sql/app/register.sql)、[集成测试](tests/test_registration.py)、[组内分工](docs/team_division.md) |
 | 第9周：陈诗翰 | 完成负责版本的后续测试与更新（按组内确认记录） | [分工](docs/team_division.md) |

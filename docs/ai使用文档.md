@@ -69,7 +69,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 
 用户此次不是简单要求“生成一张漂亮的图”，而是连续细化**可编辑性、最少交叉、基数记号统一、信息删减、特殊 ER 语义和来源真实性**。AI 需要将每轮人工反馈落到可复现的项目源文件及验证脚本，并在修改的同时记录采用、拒绝、失败、验证与遗留，而不是修改完才按结果倒写一个“全部成功”的结论。
 
-详细过程同步到 [AI 使用详细日志](ai_usage_log.md)；可编辑图及审核依据见 [第五周交付入口](../week5/README.md)、[特殊 ER 要素说明](../week5/special_er_features.md)和[当前 QA 日志](../result/week5/qa_special_er.log)。
+详细过程同步到 [AI 使用详细日志](ai_usage_log.md)；可编辑图及审核依据见 [第五周交付入口](../archive/coursework/week5/README.md)、[特殊 ER 要素说明](../archive/coursework/week5/special_er_features.md)和[当前 QA 日志](../result/week5/qa_special_er.log)。
 
 
 ### 本次记录文档的校验补充
@@ -105,7 +105,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 - **失败与修正**：第一次迁移在验证最终视图数量时失败并回滚，发现选定 v0.1_A 源库只有 9 个视图，少正式定义的 `v_CustomerService`；在迁移脚本中补入官方视图及 manager/staff 权限。完整 VFY03 又查出源库 `v_InventoryStatus` 缺少官方的 `quota_headroom`，仅在目标副本对齐并整合至脚本。
 - **回归证据**：`sql/v10/regression.sql` 的 R01–R12 通过；与旧库双向对账、合法插入回滚、重复键/CHECK/FK 负例、角色权限与单独 VFY14 均通过。迁移前后非权限业务行 3763 条差异为 0；源数据库前后 SHA-256 一致。
 - **明确的未通过事项**：旧库本来存在订单早于注册 20、调用早于注册 402、上游有效性/provider 问题 225、历史余额负值事件 1，迁移副本四项数量不变。旧 VFY12/VFY13 **未通过**，不把规范化成功表述成旧历史数据全量正确。
-- **交付**：[第六周 README](../week6/README.md)、[v1.0 数据字典](../week6/data_dictionary_v10.md)、[可编辑 ER](../week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../week6/report_material.md)、[迁移](../sql/v10/migration.sql)、[回归](../sql/v10/regression.sql)、[验证日志](../result/week6/README.md)。
+- **交付**：[第六周 README](../archive/coursework/week6/README.md)、[v1.0 数据字典](../archive/coursework/week6/data_dictionary_v10.md)、[可编辑 ER](../archive/coursework/week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../archive/coursework/week6/report_material.md)、[迁移](../sql/v10/migration.sql)、[回归](../sql/v10/regression.sql)、[验证日志](../result/week6/README.md)。
 - **Python 检验**：原项目 `unittest` 共 22 项，12 项 PASS、10 项因未指定专用集成测试库 skipped（不能冒称通过）；第五周与第六周 ER QA 均通过。后续若要修复旧历史数据或适配 v1.0 写入生成器，需要另行决定改动范围；本次未执行第二次 commit/push。
 
 ## 2026-10-14：第五周遗留问题的 v1.1 隔离修复
@@ -143,26 +143,26 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 - **选择的代码基线**：检查提交历史，发现首个第六周提交为 `43b5112`，其父提交 `c8d4e64`（2026-10-10）为第六周开始前的最后提交。使用 `git archive` 冻结其 344 个 Git 跟踪文件，另写 Git 对象清单，不用当前最新版本冒充旧代码。压缩包及 SHA-256 见 [历史源码备份](../archive/week6-pre-migration/README.md)。
 - **实际复现**：从旧 ZIP 解压，在新的 `TokenHubDB_v01_W6Replay261014` 上运行历史 `run_v01.ps1`，全部 SQL/原 `verify.sql` 和签名通过；备份/校验/还原到新 `TokenHubDB_v10_W6Replay261014`，再运行规范化迁移、R01–R12 与 VFY01–VFY14，全部通过。
 - **发现并修正兼容性**：原本 `migration.sql` 只接受旧本地 v0.1_A 的 9 个视图；标准历史代码构建的 v0.1 有 10 个视图。将结构前置检查改为只接受这两种**已核实**的状态，缺少 `v_CustomerService` 时按正式代码补建，已有时保留；仍拒绝未知模式，没有弱化 14 表/17 FK、3394 汇总等前提。
-- **自动化复测**：新增 [`run_from_snapshot.ps1`](../week6/reproduction/run_from_snapshot.ps1)，再次以新库名 `W6Auto261014` 执行整个流程：ZIP 哈希核对→解压→旧代码建库→COPY_ONLY/VERIFYONLY/还原→迁移→R01–R12→VFY01–VFY14→业务对账。全部通过，迁移前后 3763 条非权限业务结果差异 0。完整命令与日志见 [复现说明](../week6/reproduction/README.md) 与 [执行证据](../result/week6/reproduction/README.md)。
+- **自动化复测**：新增 [`run_from_snapshot.ps1`](../archive/coursework/week6/reproduction/run_from_snapshot.ps1)，再次以新库名 `W6Auto261014` 执行整个流程：ZIP 哈希核对→解压→旧代码建库→COPY_ONLY/VERIFYONLY/还原→迁移→R01–R12→VFY01–VFY14→业务对账。全部通过，迁移前后 3763 条非权限业务结果差异 0。完整命令与日志见 [复现说明](../archive/coursework/week6/reproduction/README.md) 与 [执行证据](../result/week6/reproduction/README.md)。
 - **区分两种数据来源**：旧本地 v0.1_A 有 VFY12/VFY13 历史异常，本次没有修改它；完整通过的数据是**从迁移前代码全新生成的标准 v0.1 样例**，不能用标准样例的 PASS 掩盖旧库问题。v1.1 的后续业务约束单独保留，不混入此次 v0.1→v1.0 规范化脚本。
 - **边界**：所有复现数据库/物理文件/目录使用全新名称，未删除和覆盖原有数据库或备份；压缩包备份历史 Git 跟踪源代码，不包含未跟踪环境文件、SQL Server BAK/MDF/LDF 和 Git 历史数据库。未执行 commit/push。
 
 ## 2026-10-14：第六周同事接手交接记录
 
 - **用户要求**：在 `D:\Desktop\DB\DB_lab\week6` 保存一份可由同事继承当前进度的上下文，随后提交 Git。
-- **AI 方案及实施**：从当前 Git 提交历史、`week6/` 文档、回归日志、迁移前完整代码归档和数据库只读元数据整理 [`week6/HANDOFF_CONTEXT.md`](../week6/HANDOFF_CONTEXT.md)；按 P0–P5、v1.1 I01–I10、独立复现、交接清单组织，增加明确的未解决项和安全限制。并在 [`week6/README.md`](../week6/README.md) 增加入口。未改动任何数据库。
+- **AI 方案及实施**：从当前 Git 提交历史、`week6/` 文档、回归日志、迁移前完整代码归档和数据库只读元数据整理 [`week6/HANDOFF_CONTEXT.md`](../archive/coursework/week6/HANDOFF_CONTEXT.md)；按 P0–P5、v1.1 I01–I10、独立复现、交接清单组织，增加明确的未解决项和安全限制。并在 [`week6/README.md`](../archive/coursework/week6/README.md) 增加入口。未改动任何数据库。
 - **事实边界**：标准旧代码重新生成的 v0.1→v1.0 复现两轮通过 R01–R12/VFY01–VFY14；历史本地 v0.1_A 的 VFY12/VFY13 数据异常未清理；v1.1 受控写入仅在副本实施，尚未完整一键重放。先前 10 个集成测试跳过、Ruff 未执行，第六周独立同事签收没有记录，不冒称完成。
 - **协作要求**：本轮只提交新交接文档及对应入口、计划和 AI 记录，已存在的另一项 `report/overview_modules.*` 和 README/ROADMAP 中的其他未提交改动保留，不顺带提交；不执行 push。
 
 
 ## 2026-10-17：v1.1 合成历史修复与事务加固
 
-用户要求完成第六周 v1.1 后续修复及根 README 更新，第二阶段报告暂不修改。采用方案：保留原库，在新隔离库上先执行备份/校验/还原、v1.0 迁移及 v1.1 原有部署；用已有固定种子生成器逐行确认合成数据来源后更正四类历史异常，保留逐条审计；再安装业务写入保护、受控支付和补货流程。结果为历史异常 20/402/225/1 → 0/0/0/0，VFY01–VFY14、X01–X10、Y01–Y04 以及原 v1.1 测试全部通过。文件与证据见 [部署说明](../week6/v11/README.md)。保留旧数据库和 sh 电脑现有 v1.1；缺少完整退款业务规则，不擅自编造历史资金事件。
+用户要求完成第六周 v1.1 后续修复及根 README 更新，第二阶段报告暂不修改。采用方案：保留原库，在新隔离库上先执行备份/校验/还原、v1.0 迁移及 v1.1 原有部署；用已有固定种子生成器逐行确认合成数据来源后更正四类历史异常，保留逐条审计；再安装业务写入保护、受控支付和补货流程。结果为历史异常 20/402/225/1 → 0/0/0/0，VFY01–VFY14、X01–X10、Y01–Y04 以及原 v1.1 测试全部通过。文件与证据见 [部署说明](../archive/coursework/week6/v11/README.md)。保留旧数据库和 sh 电脑现有 v1.1；缺少完整退款业务规则，不擅自编造历史资金事件。
 
 
 ## 2026-10-17 v1.1 退款与统一交付
 
-用户要求整合原基础修复与加固目录，补齐退款金额、已消费 Token 的差额处理及退款流水防重复。采用每个支付明细对应一个 Token 批次、调用 FIFO 扣减、退款只回收未消费余额、每订单唯一退款账本和待外部付款凭证结清的机制。独立一键部署验证结果见 [v1.1 统一说明](../week6/v11/README.md) 与 [本轮回归](../result/week6/v11/Full261017D/)；R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过。对外退款网关未接入，因此结算状态不能在无外部凭证的情况下宣称到账。
+用户要求整合原基础修复与加固目录，补齐退款金额、已消费 Token 的差额处理及退款流水防重复。采用每个支付明细对应一个 Token 批次、调用 FIFO 扣减、退款只回收未消费余额、每订单唯一退款账本和待外部付款凭证结清的机制。独立一键部署验证结果见 [v1.1 统一说明](../archive/coursework/week6/v11/README.md) 与 [本轮回归](../result/week6/v11/Full261017D/)；R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过。对外退款网关未接入，因此结算状态不能在无外部凭证的情况下宣称到账。
 
 ## 2026-10-17 SQL 三版本目录与独立重建
 

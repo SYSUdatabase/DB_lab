@@ -267,7 +267,7 @@
 -  在询问和核对 v1.1 的退款逻辑时，指出旧版主要只有订单 refunded 状态和相关明细约束，缺乏用户应退款金额、已消费 Token 的处理、退款流水及重复退款保护。随后明确要求补齐以上功能，并整合原先分散的两个 v1.1 代码目录。此处的“人工发现”指用户主动识别并提出功能缺口，不表示用户亲自执行了数据库测试。
 - **发现依据**：原设计允许订单 status 为 refunded，合成样例里已有 2 条退款状态订单，但当时不存在按原成交价计算返款、扣回未用 Token、记录现金退款责任并防止重复退款的完整受控事务。仅修改订单状态不能证明用户余额与现金退款已经同步。
 - **本轮采用的实现规则**：新增 OrderTokenLots 和 RefundLedger 两表及 2 条 PK/FK，已付款明细按购买顺序建立 Token 批次，消费按 FIFO 扣减。退款事务仅收回该订单未使用 Token，按订单明细成交小计乘以未消费比例、逐明细四舍五入计算应退款额；已消耗部分不退。每订单退款唯一，重复调用不重复扣减。应退款先记为 awaiting_transfer；外部支付实际成功且凭证经服务端/人工核实后才登记 settled。按未消费比例计算是本次系统采用的规则，不冒称其他组员已独立审批。
-- **文件修改与清理**：合并基础修复与加固代码到 [week6/v11](../week6/v11/README.md)；新增 [退款结构](../sql/v11/07_refund_schema.sql)、[Token 批次账务](../sql/v11/08_accounting_lots.sql)、[退款事务](../sql/v11/09_refund_workflow.sql) 和 [退款测试](../sql/v11/10_refund_regression.sql)。原 week6/issue_fixes、week6/hardening 代码目录在独立重建通过后删除；历史测试日志和备份保留。
+- **文件修改与清理**：合并基础修复与加固代码到 [week6/v11](../archive/coursework/week6/v11/README.md)；新增 [退款结构](../sql/v11/07_refund_schema.sql)、[Token 批次账务](../sql/v11/08_accounting_lots.sql)、[退款事务](../sql/v11/09_refund_workflow.sql) 和 [退款测试](../sql/v11/10_refund_regression.sql)。原 week6/issue_fixes、week6/hardening 代码目录在独立重建通过后删除；历史测试日志和备份保留。
 - **验证结果**：在新建的 TokenHubDB_v11_Full261017D 从 v0.1 备份、还原、迁移、修订可追溯的合成历史数据，再安装完整 v1.1 并运行 R01–R12、VFY01–VFY14、X01–X10、Y01–Y04 及 RF01–RF06，全部通过。退款案例中，原价 6.90 的 100000 Token 已使用 20000 时，只收回剩余 80000，记录应退 5.52；完全未使用时记录应退 6.90。重复退款、重复凭证及直接伪造退款流水的反例已测试。[退款回归日志](../result/week6/v11/Full261017D/final_validation/validation_10_refund_regression.sql.log) 和 [总体验证日志](../result/week6/v11/Full261017D/final_validation/validation_verify_v11_full.sql.log) 均保留；测试交易回滚。
 - **未完成边界**：数据库不向用户直接转账，尚未接入支付渠道及验证实际资金到账；原 v0.1 和队友 sh 电脑的旧 v1.1 未更新；第二阶段报告暂不动。
 

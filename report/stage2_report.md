@@ -14,7 +14,7 @@
 
 TokenHub 提供顾客购买 OpenAI、Claude、Gemini、Other 等模型供应商 Token 套餐的演示业务。订单明细固化下单时的商品价格与 Token 份额；模拟支付后按顾客和供应商发放余额；模拟调用按 FIFO 消耗 Token 批次并减少服务器选择的上游账号库存；店员补货，管理员维护商品与账号并登记模拟退款结算。
 
-第 5 周对原 v0.1 的 **14 张业务表、17 条外键**进行 ER 逆向，核对实体标识、候选码、联系基数、强制/可选参与及现有数据库实际约束。区分业务希望成立的规则与现有 PK、FK、UNIQUE、CHECK 真正保证的规则，避免仅凭样例数据推断强制参与。完整分析见 [第五周设计](../week5/README.md)、[ER 图](../week5/er_diagram.png)、[业务规则映射](../week5/business_rules_mapping.md)与[独立复核](../week5/independent_review.md)。
+第 5 周对原 v0.1 的 **14 张业务表、17 条外键**进行 ER 逆向，核对实体标识、候选码、联系基数、强制/可选参与及现有数据库实际约束。区分业务希望成立的规则与现有 PK、FK、UNIQUE、CHECK 真正保证的规则，避免仅凭样例数据推断强制参与。完整分析见 [第五周设计](../archive/coursework/week5/README.md)、[ER 图](../archive/coursework/week5/er_diagram.png)、[业务规则映射](../archive/coursework/week5/business_rules_mapping.md)与[独立复核](../archive/coursework/week5/independent_review.md)。
 
 ![图1 应用扩展 ER 图（由实际数据库关系整理）](er_diagram_app.png)
 
@@ -30,7 +30,7 @@ TokenHub 提供顾客购买 OpenAI、Claude、Gemini、Other 等模型供应商 
 
 如果同一周期有多条统计记录，改变周期结束日期必须同步更新多行；插入尚无汇总的周期和删除最后一条汇总也会影响周期元数据。采用 `UsagePeriod` 保存周期定义，`UsageSummaryCore` 保存业务统计和对周期的外键，二者通过周期主键连接，无损并保留关键函数依赖。兼容的同名 `UsageSummary` 视图仅提供旧查询入口，不接收旧 INSERT。
 
-订单成交快照、订单汇总及 Token 余额等字段不简单当作违规冗余删除：它们分别属于交易历史事实与业务维护的数据，靠约束、受控过程和事务保持一致。原有表的保留、拆分及业务理由见[函数依赖与范式分析](../week6/dependency_normalization.md)、[重构方案](../week6/redesign_decisions.md)及[更新异常清单](../week5/v01_issues.md)。
+订单成交快照、订单汇总及 Token 余额等字段不简单当作违规冗余删除：它们分别属于交易历史事实与业务维护的数据，靠约束、受控过程和事务保持一致。原有表的保留、拆分及业务理由见[函数依赖与范式分析](../archive/coursework/week6/dependency_normalization.md)、[重构方案](../archive/coursework/week6/redesign_decisions.md)及[更新异常清单](../archive/coursework/week5/v01_issues.md)。
 
 ### 1.3 迁移、完整性与回归
 

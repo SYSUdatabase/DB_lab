@@ -6,10 +6,10 @@
 
 | 周次 / 环节 | 负责人 | 主要工作 | 证据与状态 |
 |---|---|---|---|
-| 第 5 周：ER 模型初稿 | **陈诗翰** | 从 v0.1 设计反推实体、关系、主外键、数据字典和业务规则映射 | [第五周设计](../week5/README.md)，初稿及配套分析完成 |
-| 第 5 周：独立复核 | **阮依成** | 对照 DDL 核验 14 个实体、17 条外键、候选码、参与约束，指出和修订 ER 联系表示问题 | [独立复核记录](../week5/independent_review.md)，已完成 |
-| 第 6 周：规范化与初始迁移 | **陈诗翰** | 函数依赖和范式分析、`UsagePeriod` 分解方案、v1.0 数据迁移、`migration.sql`、`regression.sql`、第六周基础 SQL | [依赖分析](../week6/dependency_normalization.md)、[迁移 SQL](../sql/v10/migration.sql)、[回归 SQL](../sql/v10/regression.sql)，初版完成 |
-| 第 6 周：问题核对与完善 | **阮依成** | 复核退款业务，明确已消费 Token 退款、应退金额、流水和重复退款保护；推动 v1.1 修复、统一 SQL 版本目录和复测 | [v1.1 方案](../week6/v11/README.md)、[退款逻辑](../sql/v11/09_refund_workflow.sql)、[退款回归](../sql/v11/10_refund_regression.sql)，相关验证已执行 |
+| 第 5 周：ER 模型初稿 | **陈诗翰** | 从 v0.1 设计反推实体、关系、主外键、数据字典和业务规则映射 | [第五周设计](../archive/coursework/week5/README.md)，初稿及配套分析完成 |
+| 第 5 周：独立复核 | **阮依成** | 对照 DDL 核验 14 个实体、17 条外键、候选码、参与约束，指出和修订 ER 联系表示问题 | [独立复核记录](../archive/coursework/week5/independent_review.md)，已完成 |
+| 第 6 周：规范化与初始迁移 | **陈诗翰** | 函数依赖和范式分析、`UsagePeriod` 分解方案、v1.0 数据迁移、`migration.sql`、`regression.sql`、第六周基础 SQL | [依赖分析](../archive/coursework/week6/dependency_normalization.md)、[迁移 SQL](../sql/v10/migration.sql)、[回归 SQL](../sql/v10/regression.sql)，初版完成 |
+| 第 6 周：问题核对与完善 | **阮依成** | 复核退款业务，明确已消费 Token 退款、应退金额、流水和重复退款保护；推动 v1.1 修复、统一 SQL 版本目录和复测 | [v1.1 方案](../archive/coursework/week6/v11/README.md)、[退款逻辑](../sql/v11/09_refund_workflow.sql)、[退款回归](../sql/v11/10_refund_regression.sql)，相关验证已执行 |
 | **第 7 周：数据库基础代码** | **陈诗翰** | 完成第7周数据库基础代码，为 Web 层调用提供数据与业务基础 | [SQL 分层入口](../sql/app/)、[第7—9周方案](../plan/week7-9-webapp-plan.md)，按组员分工说明登记 |
 | **第 8 周：顾客注册与测试** | **阮依成** | 发现无注册入口问题，提出并完成顾客注册、登录衔接、输入及重复账号验证；组织正常/异常测试和证据核对 | [注册过程](../sql/app/register.sql)、[业务层](../webapp/services.py)、[注册测试](../tests/test_registration.py)、[验收证据](../result/stage2/WebStage2A02/README.md)，自动化执行已完成 |
 | **第 8 周：交付整理** | **阮依成** | 合并依赖清单、整理第5—9周 README 与阶段报告、将第1—4周历史内容归档、整理 AI 日志和组内分工，形成可复现证据链 | [根 README](../README.md)、[第二阶段报告](../report/stage2_report.md)、[归档清单](../archive/stage1_to_stage2_manifest.json)，已整理 |

@@ -113,7 +113,7 @@ def main() -> None:
     run(
         [
             *base,
-            "week6/v11/build_sandbox.py",
+            "db_tools/v11/build_sandbox.py",
             "--server",
             args.server,
             "--source",
@@ -128,7 +128,7 @@ def main() -> None:
         run(
             [
                 *base,
-                "week6/v11/" + script,
+                "db_tools/v11/" + script,
                 "--server",
                 args.server,
                 "--database",

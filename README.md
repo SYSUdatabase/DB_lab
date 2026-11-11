@@ -1,13 +1,13 @@
-# TokenHub：第二阶段数据库应用（第 5—9 周）
+# TokenHub：数据库课程项目（第 1—9 周完成，第 10—13 周进行中）
 
-本仓库当前交付**第 5—9 周的数据库重构与 Web 应用**。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和测试工具。
+本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，现进入第 10—13 周数据库编程与事务处理阶段。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和测试工具。
 
 ## 交付内容与入口
 
 | 周次 | 当前成果 | 主要文件 |
 |---|---|---|
-| 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](week5/README.md) |
-| 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](week6/dependency_normalization.md)、[重构方案](week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](week6/README.md) |
+| 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
+| 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[应用测试](tests/)、[Web SQL](sql/app/) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
 | 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第9周最新证据](result/stage2/WebEmp26A01/README.md)**、[原有测试记录](result/webapp/README.md) |
@@ -89,7 +89,8 @@ sql/v01/              迁移所需原始建库及数据脚本（保留执行依�
 sql/v10/              migration.sql、regression.sql（课程 v1.0）
 sql/v11/              业务加固及退款、库存扩展
 sql/app/              Web 应用过程与受限顾客注册
-week5/、week6/        ER、函数依赖、范式、重构与回归
+archive/coursework/week5/、week6/  历史 ER、范式、重构与回归资料
+db_tools/v11/        当前运行依赖的 v1.1 数据库构建与验证脚本
 webapp/、tools/       Web 页面/业务/DAO 与准备、验收脚本
 tests/                安全、SQL、事务和 HTTP 自动化测试
 report/               第二阶段报告、ER 图和渲染源码

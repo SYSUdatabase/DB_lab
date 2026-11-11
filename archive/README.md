@@ -40,3 +40,9 @@
 全部移动文件逐项校验 SHA-256 或目录子文件哈希；映射及校验数据见 [stage1_to_stage2_manifest.json](stage1_to_stage2_manifest.json)。第 5—9 周仍在活动目录中的 AI 日志来自历史原记录第二阶段段落，不凭空生成旧内容。
 
 当前入口为 [根 README](../README.md)、[第二阶段报告](../report/stage2_report.md)、[最终真实截图与 SQL 对账](../result/stage2/WebStage2A02/README.md)。可编辑 ER/架构图源码和两份 `render_*.py` **按用户要求保留**。
+
+## 第三阶段的第5、6周历史归档
+
+第5周现存于 [coursework/week5](coursework/week5/README.md)，第6周现存于 [coursework/week6](coursework/week6/README.md)。原文件内容及 SHA-256 见 [归档清单](stage2_to_stage3_manifest.json)。
+
+仍在使用的第6周构建工具复制到 [db_tools/v11](../db_tools/v11/README.md)，正式 SQL 及运行证据分别保留在 sql/、result/。归档内部文档的路径以历史布局为准。

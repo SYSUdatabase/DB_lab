@@ -159,7 +159,7 @@ def render() -> None:
             "箭头仅表示主要业务关联，不是完整外码图或强制执行顺序。实际用量统计直接来自调用数据；异常/补货也可独立触发。",
             fontsize=9.8, color="#6C7B8A")
     ax.text(.72, .42,
-            "说明：本图按已迁移的 v1.0 绘制；v1.1 问题修补在另一隔离副本内。实体级关系另见 week6/er_diagram_v10.mmd。",
+            "说明：本图按已迁移的 v1.0 绘制；v1.1 问题修补在另一隔离副本内。实体级关系另见 archive/coursework/week6/er_diagram_v10.mmd。",
             fontsize=9.0, color="#6C7B8A")
     svg, png = ROOT / "overview_modules.svg", ROOT / "overview_modules.png"
     fig.savefig(svg, format="svg", bbox_inches="tight", pad_inches=.18)

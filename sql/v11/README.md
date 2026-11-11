@@ -7,10 +7,10 @@
 - **退款与 Token 批次**：`07_refund_schema.sql`、`08_accounting_lots.sql`、`09_refund_workflow.sql`。退款按未消费 Token 比例核算应退金额，一订单唯一退款流水，防重复退款；实际资金转账仍依赖外部支付渠道。
 - **回归脚本**：`regression_v11.sql`、`test_*.sql`、`04_regression.sql`、`06_restock_regression.sql`、`10_refund_regression.sql`、`verify_v11_full.sql`、`verify_approved_rules*.sql`。
 
-安装有前后依赖和数据库白名单，**不要逐个手工无序执行**。统一 Python 入口、执行顺序、错误恢复、合成数据修复、[ER 图](../../week6/v11/er_diagram_v11.mmd)、[数据字典](../../week6/v11/data_dictionary_v11.md)和日志都在 [week6/v11](../../week6/v11/README.md)。
+安装有前后依赖和数据库白名单，**不要逐个手工无序执行**。统一 Python 入口、执行顺序、错误恢复、合成数据修复、[ER 图](../../archive/coursework/week6/v11/er_diagram_v11.mmd)、[数据字典](../../archive/coursework/week6/v11/data_dictionary_v11.md)和日志都在 [week6/v11](../../archive/coursework/week6/v11/README.md)。
 
 从项目根目录完整重建：
 
 ```powershell
-python -B .\week6\v11\run_full.py --suffix NewV11Run01
+python -B .\db_tools\v11\run_full.py --suffix NewV11Run01
 ```
