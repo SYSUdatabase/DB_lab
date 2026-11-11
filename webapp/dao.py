@@ -127,6 +127,22 @@ def employees(token_hash: bytes, operation: str, payload: JsonObject) -> JsonObj
         return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
 
 
+def week10(token_hash: bytes, operation: str, payload: JsonObject) -> JsonObject:
+    """Execute the session-authorized Week 10 database entry point."""
+    with unit_of_work() as connection:
+        result = rows(
+            connection.cursor().execute(
+                "EXEC app.Week10 @token_hash=?, @operation=?, @payload=?",
+                token_hash,
+                operation,
+                json.dumps(payload, ensure_ascii=False),
+            )
+        )
+        if not result or "data" not in result[0]:
+            raise AppError("DATABASE_PROTOCOL", "业务数据暂时不可用", 500)
+        return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
+
+
 def wire_values(value: object, key: str = "") -> object:
     if isinstance(value, dict):
         return {name: wire_values(item, name) for name, item in value.items()}
@@ -146,6 +162,15 @@ def wire_values(value: object, key: str = "") -> object:
             "target_amount",
             "actual_amount",
             "safety_threshold",
+            "order_count",
+            "sales_quantity",
+            "sales_amount",
+            "recommended_quantity",
+            "change_amount",
+            "original_subtotal",
+            "discount_rate",
+            "discount_amount",
+            "adjustment_id",
         }
     ):
         return str(value)

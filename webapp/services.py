@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 import re
 import secrets
+import uuid
+from datetime import date
 from decimal import Decimal, InvalidOperation
 
 import bcrypt
@@ -31,6 +33,10 @@ INTEGER_FIELDS = {
     "page",
 }
 ALLOWED = {
+    "reports.sales": {"staff", "admin"},
+    "restocks.recommendation": {"staff", "admin"},
+    "inventory.adjustments.create": {"admin"},
+    "inventory.adjustments.list": {"admin"},
     "employees.list": {"admin"},
     "employees.create": {"admin"},
     "employees.update": {"admin"},
@@ -144,10 +150,17 @@ def validate(payload: JsonObject) -> JsonObject:
         for key in (
             "user_id",
             "employee_id",
+            "operator_id",
             "role",
             "token_hash",
             "confirmed_employee_id",
             "upstream_tokens_used",
+            "original_subtotal",
+            "discount_rate",
+            "discount_amount",
+            "pricing_rule_version",
+            "unit_price",
+            "subtotal",
         )
     ):
         raise AppError("INVALID_INPUT", "请求包含不允许指定的身份或扣减字段", 400)
@@ -240,6 +253,77 @@ def employee_payload(operation: str, payload: JsonObject) -> JsonObject:
     return output
 
 
+WEEK10_FIELDS = {
+    "reports.sales": {"start_date", "end_date"},
+    "restocks.recommendation": {"product_id", "account_id", "minimum_quota", "target_quota"},
+    "inventory.adjustments.create": {
+        "product_id",
+        "account_id",
+        "change_amount",
+        "reason",
+        "operation_key",
+    },
+    "inventory.adjustments.list": {"page"},
+}
+
+
+def week10_integer(value: object, minimum: int, maximum: int) -> int:
+    if isinstance(value, bool) or not re.fullmatch(r"-?[0-9]+", str(value)):
+        raise AppError("INVALID_INPUT", "数量与编号须为有效整数", 400)
+    number = int(str(value))
+    if not minimum <= number <= maximum:
+        raise AppError("INVALID_INPUT", "数值超出允许范围", 400)
+    return number
+
+
+def week10_payload(operation: str, payload: JsonObject) -> JsonObject:
+    output = dict(payload)
+    if operation == "inventory.adjustments.list":
+        output.setdefault("page", 1)
+    if operation == "restocks.recommendation":
+        output.setdefault("minimum_quota", None)
+    if set(output) != WEEK10_FIELDS[operation]:
+        raise AppError("INVALID_INPUT", "请求包含缺失或不允许的字段", 400)
+    if operation == "reports.sales":
+        try:
+            dates = [date.fromisoformat(str(output[key])) for key in ("start_date", "end_date")]
+            if (
+                any(
+                    str(output[key]) != parsed.isoformat()
+                    for key, parsed in zip(("start_date", "end_date"), dates, strict=True)
+                )
+                or dates[0] > dates[1]
+            ):
+                raise ValueError
+        except ValueError:
+            raise AppError("INVALID_INPUT", "请输入有效且顺序正确的起止日期", 400) from None
+        return output
+    if operation == "inventory.adjustments.list":
+        return {"page": week10_integer(output["page"], 1, 100000)}
+    for key in ("product_id", "account_id"):
+        output[key] = week10_integer(output[key], 1, 2147483647)
+    if operation == "restocks.recommendation":
+        for key in ("minimum_quota", "target_quota"):
+            if key == "minimum_quota" and output[key] is None:
+                continue
+            output[key] = str(week10_integer(output[key], 0, 9223372036854775807))
+        if output["minimum_quota"] is not None and int(output["target_quota"]) < int(
+            output["minimum_quota"]
+        ):
+            raise AppError("INVALID_INPUT", "目标额度须大于等于最低额度", 400)
+        return output
+    change = week10_integer(output["change_amount"], -9223372036854775808, 9223372036854775807)
+    reason = output["reason"]
+    if change == 0 or not isinstance(reason, str) or not 1 <= len(reason.strip()) <= 255:
+        raise AppError("INVALID_INPUT", "调整量须非零，原因须为1至255个字符", 400)
+    try:
+        output["operation_key"] = str(uuid.UUID(str(output["operation_key"])))
+    except ValueError:
+        raise AppError("INVALID_INPUT", "操作键须为有效UUID", 400) from None
+    output.update(change_amount=str(change), reason=reason.strip())
+    return output
+
+
 def perform(operation: str, payload: JsonObject, token: str | None) -> JsonObject:
     principal = identity(token)
     role = str(principal["role"])
@@ -249,6 +333,16 @@ def perform(operation: str, payload: JsonObject, token: str | None) -> JsonObjec
         raise AppError("FORBIDDEN", "当前身份没有此操作权限", 403)
     if operation.startswith("employees."):
         return dao.employees(digest(token), operation, employee_payload(operation, payload))
+    if operation in WEEK10_FIELDS:
+        return dao.week10(digest(token), operation, week10_payload(operation, payload))
+    if operation.startswith("orders.") and set(payload) & {
+        "price",
+        "total_amount",
+        "total_tokens",
+        "gross_amount",
+        "net_amount",
+    }:
+        raise AppError("INVALID_INPUT", "订单金额与套餐快照由数据库计算", 400)
     validated = validate(payload)
     hashed = digest(token) if token else None
     if role == "customer" and "order_id" in validated:

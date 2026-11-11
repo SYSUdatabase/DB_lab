@@ -15,6 +15,11 @@ def database_error(error: Exception) -> AppError:
     detail = str(error)
     numbers = {int(n) for n in re.findall(r"\((\d{3,5})\)", detail)}
     mappings = {
+        56000: ("INVALID_INPUT", "请检查日期、原因和数值范围", 400),
+        56001: ("UNAUTHENTICATED", "请重新登录后操作", 401),
+        56003: ("FORBIDDEN", "当前身份没有此操作权限", 403),
+        56004: ("NOT_FOUND", "商品、账号或库存记录不存在", 404),
+        56009: ("BUSINESS_CONFLICT", "库存状态或操作键发生冲突，请核对操作记录", 409),
         55000: ("INVALID_INPUT", "请检查必填项、格式和数值范围", 400),
         55001: ("UNAUTHENTICATED", "请先登录，或重新登录后操作", 401),
         55003: ("FORBIDDEN", "当前身份没有此操作权限", 403),
