@@ -25,7 +25,11 @@ class Week10PreparationTests(unittest.TestCase):
             run.assert_not_called()
 
     def test_extension_uses_guarded_entry_and_own_log(self) -> None:
-        with tempfile.TemporaryDirectory() as directory, patch.object(app_prepare, "run") as run:
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch.object(app_prepare, "run") as run,
+            patch.object(app_prepare, "week10_baseline", return_value={"Orders": [100, 42]}),
+        ):
             app_prepare.install_week10("localhost", "TokenHubDB_v11_WebW10Dev01", Path(directory))
             command, log = run.call_args.args
             self.assertIn("DatabaseName=TokenHubDB_v11_WebW10Dev01", command)

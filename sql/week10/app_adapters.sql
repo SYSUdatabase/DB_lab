@@ -198,7 +198,7 @@ SET NUMERIC_ROUNDABORT OFF;
 SET NOCOUNT ON;
  SET XACT_ABORT ON;
  IF @payload IS NULL OR ISJSON(@payload)<>1 OR LEFT(LTRIM(@payload),1)<>'{' THROW 55000,'JSON object required',1;
- IF @operation IN('orders.create','orders.item_add','orders.item_set') AND (
+ IF @operation LIKE 'orders.%' AND (
   EXISTS(SELECT 1 FROM OPENJSON(@payload) WHERE [key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id'))
   OR EXISTS(SELECT 1 FROM OPENJSON(@payload,'$.items') i CROSS APPLY OPENJSON(i.value) f
     WHERE f.[key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id')))
@@ -492,4 +492,3 @@ SET NOCOUNT ON;
  END CATCH;
 END;
 GO
-

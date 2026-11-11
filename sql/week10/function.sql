@@ -16,8 +16,8 @@ BEGIN
  FROM dbo.Products p JOIN dbo.UpstreamAccount a ON p.model_provider=a.provider
  JOIN dbo.Inventory i ON i.account_id=a.account_id
  WHERE p.product_id=@product_id AND a.account_id=@account_id
- AND a.status='active' AND a.created_at<=SYSDATETIME()
- AND (a.expires_at IS NULL OR a.expires_at>SYSDATETIME())
+ AND a.status='active' AND a.created_at<=CONVERT(DATETIME2(0),SYSDATETIME())
+ AND (a.expires_at IS NULL OR a.expires_at>CONVERT(DATETIME2(0),SYSDATETIME()))
  AND i.current_quota=a.total_quota-a.used_quota;
  IF @current IS NULL OR @minimum IS NULL OR @minimum<0 OR @target_quota IS NULL OR @target_quota<@minimum RETURN NULL;
  RETURN CASE WHEN @current<@minimum AND @target_quota>@current THEN @target_quota-@current ELSE 0 END;
@@ -35,5 +35,3 @@ RETURNS TABLE AS RETURN (
  GROUP BY p.product_id,p.name
 );
 GO
-
-

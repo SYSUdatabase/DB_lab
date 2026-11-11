@@ -83,6 +83,8 @@ def install_week10(server: str, database: str, evidence: Path) -> None:
     """Install the opt-in extension only in a bounded new Web database."""
     if not re.fullmatch(r"TokenHubDB_v11_Web[A-Za-z0-9]{3,12}", database):
         raise ValueError("Week10 requires an isolated Web database")
+    before = week10_baseline(server, database)
+    (evidence / "week10_before.json").write_text(json.dumps(before, indent=2), encoding="utf-8")
     run(
         [
             "sqlcmd",
@@ -102,6 +104,40 @@ def install_week10(server: str, database: str, evidence: Path) -> None:
         ],
         evidence / "04_week10_install.log",
     )
+    after = week10_baseline(server, database)
+    (evidence / "week10_after.json").write_text(json.dumps(after, indent=2), encoding="utf-8")
+    if before != after:
+        raise RuntimeError("Week10 migration changed existing business values; inspect snapshots")
+
+
+def week10_baseline(server: str, database: str) -> dict[str, list[int | None]]:
+    """Compare original business fields without reading authentication or API credentials."""
+    fields = {
+        "Orders": "order_id,user_id,total_amount,total_tokens,status,created_at,paid_at",
+        "OrderDetails": "detail_id,order_id,product_id,quantity,unit_price,subtotal,tokens_per_unit,total_tokens",
+        "TokenBalances": "balance_id,user_id,model_provider,remaining_tokens,updated_at",
+        "OrderTokenLots": "detail_id,credited_at,issued_tokens,consumed_tokens,refunded_tokens",
+        "RefundLedger": "order_id,refund_id,refund_amount,refundable_tokens,consumed_tokens,payout_state",
+        "Inventory": "inventory_id,account_id,current_quota,last_updated_at",
+        "InventoryLog": "log_id,account_id,change_type,change_amount,reference_type,reference_id,operator_id,created_at",
+        "UpstreamAccount": "account_id,provider,total_quota,used_quota,status,created_at,expires_at",
+    }
+    connection = pyodbc.connect(
+        f"DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};"
+        "Trusted_Connection=yes;TrustServerCertificate=yes;",
+        autocommit=True,
+    )
+    try:
+        return {
+            table: list(
+                connection.execute(
+                    f"SELECT COUNT_BIG(*),CHECKSUM_AGG(BINARY_CHECKSUM({columns})) FROM dbo.[{table}]"
+                ).fetchone()
+            )
+            for table, columns in fields.items()
+        }
+    finally:
+        connection.close()
 
 
 def main() -> None:

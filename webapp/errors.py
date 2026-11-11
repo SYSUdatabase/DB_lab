@@ -15,6 +15,7 @@ def database_error(error: Exception) -> AppError:
     detail = str(error)
     numbers = {int(n) for n in re.findall(r"\((\d{3,5})\)", detail)}
     mappings = {
+        8115: ("INVALID_INPUT", "数量或金额超出数据库允许范围", 400),
         56000: ("INVALID_INPUT", "请检查日期、原因和数值范围", 400),
         56001: ("UNAUTHENTICATED", "请重新登录后操作", 401),
         56003: ("FORBIDDEN", "当前身份没有此操作权限", 403),

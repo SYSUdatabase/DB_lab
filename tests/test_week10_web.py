@@ -162,3 +162,42 @@ class Week10WebTests(unittest.TestCase):
                 )
             self.assertEqual(response.status_code, 400)
             execute.assert_not_called()
+
+    def test_list_optional_filters(self) -> None:
+        response, execute = self.request(
+            "/inventory/adjustments?account_id=18&product_id=2&page_size=50"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            execute.call_args.args[2],
+            {"page": 1, "account_id": 18, "product_id": 2, "page_size": 50},
+        )
+        for query in (
+            "account_id=0",
+            "product_id=2147483648",
+            "page_size=101",
+            "page_size=true",
+            "account_id=1.5",
+        ):
+            response, execute = self.request("/inventory/adjustments?" + query)
+            self.assertEqual(response.status_code, 400)
+            execute.assert_not_called()
+
+    def test_reason_uses_utf16_storage_limit(self) -> None:
+        payload = {
+            "product_id": 1,
+            "account_id": 2,
+            "change_amount": "1",
+            "reason": "😀" * 128,
+            "operation_key": "398d1774-f684-4526-9222-a2a86976283b",
+        }
+        response, execute = self.request("/inventory/adjustments", payload=payload)
+        self.assertEqual(response.status_code, 400)
+        execute.assert_not_called()
+        response, execute = self.request(
+            "/inventory/adjustments", payload={**payload, "reason": "😀" * 127 + "字"}
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_numeric_sql_overflow_is_input_error(self) -> None:
+        self.assertEqual(database_error(Exception("Arithmetic overflow (8115)")).status, 400)

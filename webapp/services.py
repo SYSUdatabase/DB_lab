@@ -280,6 +280,12 @@ def week10_payload(operation: str, payload: JsonObject) -> JsonObject:
     output = dict(payload)
     if operation == "inventory.adjustments.list":
         output.setdefault("page", 1)
+        if set(output) - {"page", "page_size", "product_id", "account_id"}:
+            raise AppError("INVALID_INPUT", "请求包含不允许的字段", 400)
+        return {
+            key: week10_integer(value, 1, {"page": 1000000, "page_size": 100}.get(key, 2147483647))
+            for key, value in output.items()
+        }
     if operation == "restocks.recommendation":
         output.setdefault("minimum_quota", None)
     if set(output) != WEEK10_FIELDS[operation]:
@@ -298,8 +304,6 @@ def week10_payload(operation: str, payload: JsonObject) -> JsonObject:
         except ValueError:
             raise AppError("INVALID_INPUT", "请输入有效且顺序正确的起止日期", 400) from None
         return output
-    if operation == "inventory.adjustments.list":
-        return {"page": week10_integer(output["page"], 1, 100000)}
     for key in ("product_id", "account_id"):
         output[key] = week10_integer(output[key], 1, 2147483647)
     if operation == "restocks.recommendation":
@@ -314,7 +318,12 @@ def week10_payload(operation: str, payload: JsonObject) -> JsonObject:
         return output
     change = week10_integer(output["change_amount"], -9223372036854775808, 9223372036854775807)
     reason = output["reason"]
-    if change == 0 or not isinstance(reason, str) or not 1 <= len(reason.strip()) <= 255:
+    if (
+        change == 0
+        or not isinstance(reason, str)
+        or not reason.strip()
+        or len(reason.encode("utf-16-le", errors="surrogatepass")) // 2 > 255
+    ):
         raise AppError("INVALID_INPUT", "调整量须非零，原因须为1至255个字符", 400)
     try:
         output["operation_key"] = str(uuid.UUID(str(output["operation_key"])))

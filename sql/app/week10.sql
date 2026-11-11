@@ -99,4 +99,3 @@ END;
 GO
 GRANT EXECUTE ON app.Week10 TO app_runtime;
 GO
-
