@@ -79,10 +79,36 @@ def seed(server: str, database: str) -> None:
         db.close()
 
 
+def install_week10(server: str, database: str, evidence: Path) -> None:
+    """Install the opt-in extension only in a bounded new Web database."""
+    if not re.fullmatch(r"TokenHubDB_v11_Web[A-Za-z0-9]{3,12}", database):
+        raise ValueError("Week10 requires an isolated Web database")
+    run(
+        [
+            "sqlcmd",
+            "-S",
+            server,
+            "-d",
+            database,
+            "-E",
+            "-C",
+            "-b",
+            "-f",
+            "65001",
+            "-v",
+            "DatabaseName=" + database,
+            "-i",
+            str(ROOT / "sql/week10/install.sql"),
+        ],
+        evidence / "04_week10_install.log",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suffix", required=True)
     parser.add_argument("--server", default=r"localhost\SQLEXPRESS")
+    parser.add_argument("--with-week10", action="store_true", help="Install week 10 SQL extension")
     args = parser.parse_args()
     if not re.fullmatch(r"Web[A-Za-z0-9]{3,12}", args.suffix):
         raise SystemExit("Suffix must start Web followed by 3–12 letters/digits")
@@ -158,6 +184,8 @@ def main() -> None:
         evidence / "03_app_install.log",
     )
     seed(args.server, target)
+    if args.with_week10:
+        install_week10(args.server, target, evidence)
     (evidence / "manifest.json").write_text(
         json.dumps(
             {
@@ -167,6 +195,11 @@ def main() -> None:
                 "history_repair": "skipped: fresh v01 passed VFY12/13; hardened verification passed",
                 "business_tables": 17,
                 "app_tables": 1,
+                "week10": {
+                    "installed": args.with_week10,
+                    "schema_version": "amount-v1" if args.with_week10 else None,
+                    "extension_tables": 1 if args.with_week10 else 0,
+                },
                 "accounts": ["web_customer", "web_other", "web_staff", "web_admin"],
             },
             ensure_ascii=False,

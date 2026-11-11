@@ -453,3 +453,17 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 AI提出沿用内部v1.1与Web基线，增加销售统计、库存调整、补货量与销售汇总函数及折扣函数，以账号库存适配商品参数，并把折后金额保存到历史明细。金额阶梯折扣、管理员专属校正、补货默认阈值和成交额统计口径均为计划建议，待审核。用户本轮要求制定计划，实施任务保留未勾选。
 
 新增plan/week10-procedures-functions-plan.md，同步README与ROADMAP入口及本记录。静态核对任务覆盖、相对链接、PowerShell代码块语法和git diff --check，实际结果见同日详细日志。第10周业务代码、SQL安装、数据库和浏览器验收待执行。
+
+
+## 2026-11-11 第10周实施启动
+
+用户授权按计划执行，采用计划中的折扣、管理员校正及补货口径。工作直接在原目录的week10-procedures-functions分支进行。SQL和Web由子任务按文件归属实施，提交和文档集中核对。
+
+Web反例先运行5项，出现4个缺少dao.week10错误和1个数值精度断言失败，随后进入实现。新后缀WebW10Base01已从v0.1完整建立至Web，准备退出码0，记录在result/week10/WebW10Base01/prepare.log。当前运行旧业务完整回归，尚未登记结果。SQL审查发现现有订单包含partially_refunded状态，销售统计将同时计入以保留原成交额；空草稿需要Orders.pricing_rule_version保存版本，计划适配时补齐该字段。
+
+
+### 第10周P0及SQL/Web实现进展
+
+基线回归首次运行73项，1项模块导入错误，原因是归档后tests/test_backup_directory.py仍引用week6.v11。同步修正该测试和ER渲染入口为db_tools.v11，随后重跑。准备入口3项反例先运行为1失败2错误，新增--with-week10及受限目标安装函数后3项通过，Ruff通过。
+
+SQL反例先在基线只读执行，因折扣函数缺失返回56999，退出1；随后新增schema、函数和过程。Web新增5项测试先红后绿，API角色/日期/有符号BIGINT/UUID与字段白名单、56xxx错误映射、数值字符串和页面已实现，node语法及Ruff通过，数据库联调待执行。开发库WebW10Dev01完整准备成功，原基线库保留。

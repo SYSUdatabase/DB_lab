@@ -6,11 +6,11 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import MagicMock, patch
 
-from week6.v11.build_sandbox import grant_sql_service_access
+from db_tools.v11.build_sandbox import grant_sql_service_access
 
 
 class BackupDirectoryPermissionTests(unittest.TestCase):
-    @patch("week6.v11.build_sandbox.subprocess.run")
+    @patch("db_tools.v11.build_sandbox.subprocess.run")
     def test_grants_modify_to_the_exact_sql_service_account(self, run: MagicMock) -> None:
         run.return_value = subprocess.CompletedProcess([], 0, "granted", "")
         with TemporaryDirectory() as folder:
@@ -28,14 +28,14 @@ class BackupDirectoryPermissionTests(unittest.TestCase):
         )
         self.assertTrue(run.call_args.kwargs["capture_output"])
 
-    @patch("week6.v11.build_sandbox.subprocess.run")
+    @patch("db_tools.v11.build_sandbox.subprocess.run")
     def test_rejects_control_characters_in_service_account(self, run: MagicMock) -> None:
         with TemporaryDirectory() as folder:
             with self.assertRaisesRegex(RuntimeError, "invalid service account"):
                 grant_sql_service_access(Path(folder), "NT Service\\SQL\nInjected")
         run.assert_not_called()
 
-    @patch("week6.v11.build_sandbox.subprocess.run")
+    @patch("db_tools.v11.build_sandbox.subprocess.run")
     def test_fails_closed_when_icacls_cannot_grant_access(self, run: MagicMock) -> None:
         run.return_value = subprocess.CompletedProcess([], 5, "", "Access is denied")
         with TemporaryDirectory() as folder:

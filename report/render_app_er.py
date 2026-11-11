@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent))
-from week6.v11 import render_er_v11 as drawing  # noqa: E402
+from db_tools.v11 import render_er_v11 as drawing  # noqa: E402
 
 
 def read_model() -> tuple[dict[str, list[str]], list[drawing.Link]]:
