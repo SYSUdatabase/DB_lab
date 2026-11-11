@@ -467,3 +467,8 @@ Web反例先运行5项，出现4个缺少dao.week10错误和1个数值精度断�
 基线回归首次运行73项，1项模块导入错误，原因是归档后tests/test_backup_directory.py仍引用week6.v11。同步修正该测试和ER渲染入口为db_tools.v11，随后重跑。准备入口3项反例先运行为1失败2错误，新增--with-week10及受限目标安装函数后3项通过，Ruff通过。
 
 SQL反例先在基线只读执行，因折扣函数缺失返回56999，退出1；随后新增schema、函数和过程。Web新增5项测试先红后绿，API角色/日期/有符号BIGINT/UUID与字段白名单、56xxx错误映射、数值字符串和页面已实现，node语法及Ruff通过，数据库联调待执行。开发库WebW10Dev01完整准备成功，原基线库保留。
+
+
+### 2026-11-11 第10周进展
+
+原业务基线重跑75项全部通过，0跳过，证据result/week10/WebW10Base01/unittest_attempt2.log。SQL开发库安装及初步回归均退出0，安装日志sql_install_attempt01.log和回归sql_regression_attempt01.log位于result/week10/WebW10Dev01。独立测试反例在基线只读确认折扣函数缺失208，随后实施集成测试。Web相关14项测试、Ruff及JS语法通过。

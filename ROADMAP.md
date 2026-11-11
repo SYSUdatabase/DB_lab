@@ -100,3 +100,5 @@
 
 - 新后缀WebW10Base01与WebW10Dev01完整准备通过，分别保留日志。
 - --with-week10安装选项及3项准备入口测试通过，备份测试与ER渲染旧导入路径修正，原业务回归重跑中。
+
+- 第10周进展：原业务基线重跑75项全部通过，0跳过，证据result/week10/WebW10Base01/unittest_attempt2.log。SQL开发库安装及初步回归均退出0，安装日志sql_install_attempt01.log和回归sql_regression_attempt01.log位于result/week10/WebW10Dev01。独立测试反例在基线只读确认折扣函数缺失208，随后实施集成测试。Web相关14项测试、Ruff及JS语法通过。
