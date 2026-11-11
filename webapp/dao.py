@@ -140,7 +140,10 @@ def week10(token_hash: bytes, operation: str, payload: JsonObject) -> JsonObject
         )
         if not result or "data" not in result[0]:
             raise AppError("DATABASE_PROTOCOL", "业务数据暂时不可用", 500)
-        return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
+        data = wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
+        if isinstance(data, dict) and data.get("total") is not None:
+            data["total"] = str(data["total"])
+        return data
 
 
 def wire_values(value: object, key: str = "") -> object:

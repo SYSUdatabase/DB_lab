@@ -201,3 +201,17 @@ class Week10WebTests(unittest.TestCase):
 
     def test_numeric_sql_overflow_is_input_error(self) -> None:
         self.assertEqual(database_error(Exception("Arithmetic overflow (8115)")).status, 400)
+
+    def test_week10_bigint_list_total_preserves_precision(self) -> None:
+        connection = MagicMock()
+        cursor = connection.cursor.return_value.execute.return_value
+        cursor.description = [("data",)]
+        cursor.fetchall.return_value = [
+            ('{"items":[],"total":9007199254740993,"page":1,"page_size":20}',)
+        ]
+        app = create_app({"TESTING": True, "SECRET_KEY": "week10-test"})
+        with app.app_context(), patch("webapp.dao.connect", return_value=connection):
+            result = dao.week10(b"session-hash", "inventory.adjustments.list", {"page": 1})
+        self.assertEqual(result["total"], "9007199254740993")
+        self.assertEqual(result["page"], 1)
+        self.assertEqual(dao.wire_values({"total": 20}), {"total": 20})

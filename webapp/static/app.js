@@ -99,16 +99,59 @@ async function recommendationForm(accountId){
  form.addEventListener("submit",event=>{event.preventDefault();guard(async()=>{submit.disabled=true;try{const data=Object.fromEntries(new FormData(form));if(data.minimum_quota==="")delete data.minimum_quota;const result=await api(`/restocks/recommendation?${new URLSearchParams(data)}`);output.replaceChildren(el("p",`建议补货 ${format(result.recommended_quantity,"recommended_quantity")} Token`));if(BigInt(result.recommended_quantity)>0n)output.append(button("按建议创建补货任务",()=>simpleForm("确认创建补货任务",[{key:"account_id",type:"number",value:data.account_id},{key:"planned_amount",type:"number",value:result.recommended_quantity}],payload=>api("/restocks","POST",payload))));}finally{submit.disabled=false;}});});
  form.addEventListener("input",()=>output.replaceChildren());$("#editor-content").append(form);
 }
+const pendingAdjustmentStorageKey="tokenhub.inventoryAdjustment.pending";
+function pendingAdjustment(){
+ const stored=sessionStorage.getItem(pendingAdjustmentStorageKey);
+ return stored?JSON.parse(stored):null;
+}
+function clearPendingAdjustment(operationKey){
+ if(pendingAdjustment()?.operation_key===operationKey)sessionStorage.removeItem(pendingAdjustmentStorageKey);
+}
 async function adjustmentForm(accountId){
- const form=el("form");await inventoryPicker(form,accountId);openEditor("校正库存");
+ if(state.role!=="admin")throw new Error("仅管理员可以校正库存");
+ let pending=pendingAdjustment();
+ const form=el("form");await inventoryPicker(form,pending?.payload.account_id||accountId);openEditor("校正库存");
  form.append(field({key:"change_amount",label:"调整 Token（正数增加，负数减少）",type:"text"}),field({key:"reason",label:"校正原因（最多255字）",type:"textarea"}));
  form.querySelector("[name=reason]").maxLength=255;
  form.append(el("p","同时调整账号总额度和可用库存，保留已消费额度。","help"));
- let operationKey=crypto.randomUUID(),submittedPayload=null;
+ const operationKey=pending?.operation_key||crypto.randomUUID();
  const keyLabel=el("p",`操作键 ${operationKey}`,"help operation-key");form.append(keyLabel);
  const output=el("div");output.setAttribute("role","status");form.append(output);
- const submit=appendSubmit(form,"确认校正库存");
- form.addEventListener("submit",event=>{event.preventDefault();guard(async()=>{submit.disabled=true;try{const data=Object.fromEntries(new FormData(form));const signature=JSON.stringify(data);if(submittedPayload!==null&&signature!==submittedPayload){operationKey=crypto.randomUUID();keyLabel.textContent=`操作键 ${operationKey}`;}submittedPayload=signature;const result=await api("/inventory/adjustments","POST",{...data,operation_key:operationKey});output.replaceChildren();for(const key of ["adjustment_id","before_current_quota","after_current_quota","before_total_quota","after_total_quota"])if(result[key]!==undefined)output.append(el("p",`${labels[key]} ${format(result[key],key)}`));output.append(el("p","库存校正已保存。相同内容再次确认会返回已有记录。","help"),button("新建校正操作",()=>adjustmentForm(data.account_id)));await load();feedback("库存校正已保存，可在库存校正记录中核对。");}finally{submit.disabled=false;}});});$("#editor-content").append(form);
+ const submit=appendSubmit(form,pending?"重试原校正请求":"确认校正库存");
+ const newOperation=button("新建校正操作",()=>{clearPendingAdjustment(operationKey);return adjustmentForm(accountId);});
+ newOperation.hidden=!pending;
+ form.append(newOperation);
+ function lockRequest(){
+  for(const [key,value]of Object.entries(pending.payload)){
+   const input=form.elements.namedItem(key);
+   if(input){input.value=value;if(key==="product_id")input.dispatchEvent(new Event("change"));}
+  }
+  for(const input of form.querySelectorAll("input,select,textarea"))input.disabled=true;
+  newOperation.hidden=false;
+  submit.textContent="重试原校正请求";
+ }
+ if(pending){lockRequest();output.append(el("p","已恢复待确认的校正请求。重试会核对原操作结果，新建前请先核对库存校正记录。","help"));}
+ form.addEventListener("submit",event=>{
+  event.preventDefault();guard(async()=>{
+   submit.disabled=true;newOperation.disabled=true;
+   try{
+    if(!pending){
+     pending={operation_key:operationKey,payload:Object.fromEntries(new FormData(form))};
+     sessionStorage.setItem(pendingAdjustmentStorageKey,JSON.stringify(pending));
+     lockRequest();
+    }
+    const result=await api("/inventory/adjustments","POST",{...pending.payload,operation_key:pending.operation_key});
+    clearPendingAdjustment(pending.operation_key);
+    output.replaceChildren();
+    for(const key of ["adjustment_id","before_current_quota","after_current_quota","before_total_quota","after_total_quota"]){
+     if(result[key]!==undefined)output.append(el("p",`${labels[key]} ${format(result[key],key)}`));
+    }
+    output.append(el("p","库存校正已保存。再次确认会返回已有记录。","help"));
+    await load();feedback("库存校正已保存，可在库存校正记录中核对。");
+   }finally{submit.disabled=false;newOperation.disabled=false;}
+  });
+ });
+ $("#editor-content").append(form);
 }
 
 $("#close-editor").addEventListener("click",()=>$("#editor").close());

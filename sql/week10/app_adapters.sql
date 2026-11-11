@@ -198,11 +198,6 @@ SET NUMERIC_ROUNDABORT OFF;
 SET NOCOUNT ON;
  SET XACT_ABORT ON;
  IF @payload IS NULL OR ISJSON(@payload)<>1 OR LEFT(LTRIM(@payload),1)<>'{' THROW 55000,'JSON object required',1;
- IF @operation LIKE 'orders.%' AND (
-  EXISTS(SELECT 1 FROM OPENJSON(@payload) WHERE [key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id'))
-  OR EXISTS(SELECT 1 FROM OPENJSON(@payload,'$.items') i CROSS APPLY OPENJSON(i.value) f
-    WHERE f.[key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id')))
-  THROW 56000,'Pricing fields are calculated by SQL',1;
  DECLARE @role VARCHAR(50),@user INT,@employee INT;
  -- Resolve internally; never trust actor identifiers or roles in the JSON payload.
  SELECT @role=CASE WHEN u.user_id IS NOT NULL THEN 'customer' ELSE r.role_name END,
@@ -216,6 +211,10 @@ SET NOCOUNT ON;
  AND (u.user_id IS NOT NULL OR r.role_id IS NOT NULL);
  IF @role IS NULL AND (@operation<>'products.list' OR @token_hash IS NOT NULL)
   THROW 55001,'Authentication required',1;
+ DECLARE @forged_order_fields BIT=CASE WHEN
+  EXISTS(SELECT 1 FROM OPENJSON(@payload) WHERE [key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id'))
+  OR EXISTS(SELECT 1 FROM OPENJSON(@payload,'$.items') i CROSS APPLY OPENJSON(CASE WHEN i.[type]=5 THEN i.value ELSE N'{}' END) f
+    WHERE f.[key] IN('discount_rate','discount_amount','subtotal','original_subtotal','unit_price','pricing_rule_version','price','total_amount','total_tokens','gross_amount','net_amount','operator_id','employee_id','token_hash','role','user_id')) THEN 1 ELSE 0 END;
  DECLARE @page INT=COALESCE(TRY_CONVERT(INT,JSON_VALUE(@payload,'$.page')),1),
  @q NVARCHAR(100)=JSON_VALUE(@payload,'$.q'),@status VARCHAR(24)=JSON_VALUE(@payload,'$.status'),
  @id INT=TRY_CONVERT(INT,JSON_VALUE(@payload,'$.order_id')),
@@ -280,6 +279,7 @@ SET NOCOUNT ON;
  END
  ELSE IF @operation='orders.list'
  BEGIN
+  IF @forged_order_fields=1 THROW 56000,'Pricing and actor fields are server controlled',1;
   SET @items=(SELECT order_id,user_id,total_amount,total_tokens,status,created_at,paid_at FROM dbo.Orders
    WHERE (@role IN('staff','admin') OR user_id=@user) AND (@status IS NULL OR status=@status)
     AND (@q IS NULL OR CONVERT(NVARCHAR(20),order_id) LIKE N'%'+@q+N'%')
@@ -290,6 +290,7 @@ SET NOCOUNT ON;
  ELSE IF @operation='orders.create'
  BEGIN
   IF @role<>'customer' THROW 55003,'Customer required',1;
+  IF @forged_order_fields=1 THROW 56000,'Pricing and actor fields are server controlled',1;
   DECLARE @newitems TABLE(seq INT PRIMARY KEY,product_id INT,quantity INT);
   IF LEFT(LTRIM(JSON_QUERY(@payload,'$.items')),1)<>'[' OR JSON_QUERY(@payload,'$.items') IS NULL THROW 55000,'Items array required',1;
   INSERT @newitems SELECT TRY_CONVERT(INT,[key]),TRY_CONVERT(INT,JSON_VALUE(value,'$.product_id')),TRY_CONVERT(INT,JSON_VALUE(value,'$.quantity')) FROM OPENJSON(@payload,'$.items');
@@ -310,6 +311,7 @@ SET NOCOUNT ON;
   SELECT @owner=user_id,@ostatus=status FROM dbo.Orders WITH(UPDLOCK,HOLDLOCK) WHERE order_id=@id;
   IF @owner IS NULL THROW 55004,'Order missing',1;
   IF @role='customer' AND @owner<>@user THROW 55003,'Order belongs to another customer',1;
+  IF @operation LIKE 'orders.%' AND @forged_order_fields=1 THROW 56000,'Pricing and actor fields are server controlled',1;
   IF @operation='orders.get'
    SET @data=(SELECT JSON_QUERY((SELECT order_id,user_id,total_amount,total_tokens,status,created_at,paid_at FROM dbo.Orders WHERE order_id=@id FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) [order],
     JSON_QUERY((SELECT d.*,p.name,p.model_provider FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id WHERE d.order_id=@id ORDER BY d.detail_id FOR JSON PATH)) items FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
