@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -19,14 +20,15 @@ def main() -> None:
     parser.add_argument("--suffix", required=True)
     parser.add_argument("--url", default="http://127.0.0.1:5052")
     parser.add_argument("--run-id", default="employees")
+    parser.add_argument("--evidence-dir", type=Path)
     args = parser.parse_args()
     if not re.fullmatch(r"Web[A-Za-z0-9]{3,12}", args.suffix):
         raise SystemExit("Only isolated Web database suffixes")
-    directory = ROOT / "result" / "stage2" / args.suffix / args.run_id
+    directory = args.evidence_dir or ROOT / "result" / "stage2" / args.suffix / args.run_id
     directory.mkdir(parents=True, exist_ok=False)
     shots = directory / "screenshots"
     shots.mkdir()
-    demo_pw = (
+    demo_pw = os.environ.get("DB_LAB_DEMO_PASSWORD") or (
         (ROOT / "instance" / "employee_evidence_password.txt").read_text(encoding="utf-8").strip()
     )
     username = "employeeA02" if args.run_id == "employees_verified" else "employeeA01"

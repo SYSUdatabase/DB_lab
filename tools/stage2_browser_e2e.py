@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -23,14 +24,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--suffix", required=True)
     parser.add_argument("--url", default="http://127.0.0.1:5051")
+    parser.add_argument("--evidence-dir", type=Path)
     args = parser.parse_args()
     if not re.fullmatch(r"Web[A-Za-z0-9]{3,12}", args.suffix):
         raise SystemExit("Refusing non-isolated database suffix")
-    directory = ROOT / "result" / "stage2" / args.suffix / "browser"
+    directory = args.evidence_dir or ROOT / "result" / "stage2" / args.suffix / "browser"
     directory.mkdir(parents=True, exist_ok=False)
     shots = directory / "screenshots"
     shots.mkdir()
-    password = (
+    password = os.environ.get("DB_LAB_DEMO_PASSWORD") or (
         (
             ROOT
             / "instance"
@@ -290,7 +292,7 @@ def main() -> None:
             login("employee", "web_staff")
             nav("上游库存")
             row = page.locator("#table-body tr").filter(has_text=account_name).first
-            row.get_by_role("button", name="补货").click()
+            row.get_by_role("button", name="补货", exact=True).click()
             page.get_by_label("计划补货数量").fill("10000")
             submit()
             nav("补货任务")
