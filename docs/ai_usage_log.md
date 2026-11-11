@@ -664,3 +664,8 @@ SQL/API和页面已分步本地提交。提交前diff检查曾提示sql/app/week
 ## 2026-11-11 补充提交现有复现结果
 
 用户要求commit。检查工作区后，仅余WebNewRun01的源库、Web与v1.1复现输出未跟踪。本轮将这三个目录作为已有运行记录提交，未重新运行数据库或测试。提交前检查文件范围、凭据模式与git diff --check。
+
+
+## 2026-11-11 直接在main提交
+
+用户要求直接commit到main。已将week10-procedures-functions的全部提交快进合入main，工作区干净，并在AGENT.md记录后续直接在main本地逐步提交的约束。
