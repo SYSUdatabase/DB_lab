@@ -19,3 +19,8 @@ python -B .\db_tools\v11\run_full.py --suffix NewV11Run01
 该入口会创建新的隔离 v1.0、v1.1 数据库，先备份/还原、执行 `sql/v10/migration.sql`，再按顺序安装 `sql/v11/` 的修复 SQL、核对固定种子合成历史数据并执行支付、消费、补货与退款回归。**不覆盖 v0.1、现有 v1.0 或已经运行的 v1.1。** 不要直接对正式库从中间开始运行增量 SQL。
 
 v0.1 独立建库入口仍是 `tools/run_v01.ps1`，使用 `sql/v01/`；历史代码快照另在 [archive](../archive/week6-pre-migration/README.md)。第二阶段报告保持不变。
+
+
+## 第10周可选增量
+
+完整v1.1 Web基线后可安装[week10](week10/README.md)，使用app_prepare.py --with-week10一次构建。新增销售/补货/折扣函数、库存调整与受控Web入口，安装后19表26FK。第二阶段默认构建入口保持18表。

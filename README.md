@@ -4,7 +4,7 @@
 
 ## 交付内容与入口
 
-第10周的存储过程、函数与应用整合方案见[第10周执行计划](plan/week10-procedures-functions-plan.md)，当前已完成上下文复核与计划编写，业务对象待实施。
+第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，完整新库回归115项通过。普通Windows账户对第10周增量的运行验收待补做。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
 
 | 周次 | 当前成果 | 主要文件 |
 |---|---|---|
@@ -14,6 +14,84 @@
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
 | 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第9周最新证据](result/stage2/WebEmp26A01/README.md)**、[原有测试记录](result/webapp/README.md) |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
+
+## 第10周安装与人工核验
+
+第10周在完整Web库后安装可选增量，数据库为19张表、26条可信外键。SQL过程/函数说明和直接SELECT例子见[周次SQL入口](sql/week10/README.md)，当前模型见[第10周ER](report/er_diagram_week10.png)。第二阶段报告继续使用原18表模型。
+
+首次准备在原项目根目录执行，`WebW10Your01`须换为未使用的后缀。
+
+```powershell
+Set-Location 'D:\Desktop\DB\DB_lab'
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
+.\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebW10Your01 --with-week10
+```
+
+每次人工核验前，在终端A选择已准备的数据库并启动。
+
+```powershell
+Set-Location 'D:\Desktop\DB\DB_lab'
+if (Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue) {
+    throw '5050已有监听，请先核对对应服务'
+}
+$env:DB_LAB_APP_DATABASE = 'TokenHubDB_v11_WebW10Your01'
+$env:DB_LAB_PREVIEW = '1'
+$env:DB_LAB_PORT = '5050'
+$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
+.\.venv\Scripts\python.exe -m webapp
+```
+
+终端B检查HTTP就绪，然后访问 `http://127.0.0.1:5050/`。再次启动时使用已有数据库，准备脚本用于新批次构建。
+
+```powershell
+$homeResponse = Invoke-WebRequest 'http://127.0.0.1:5050/' -UseBasicParsing
+if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
+$catalog = Invoke-RestMethod 'http://127.0.0.1:5050/api/v1/products'
+if ($catalog.code -ne 'OK') { throw '商品接口检查失败' }
+```
+
+| 身份 | 操作 | 预期 |
+|---|---|---|
+| 游客 | 浏览商品，直接访问销售统计API | 商品可读，统计401 |
+| 管理员web_admin | 建Other商品P，价格200，套餐Token取未使用且能被4整除的T，每套餐上游消耗100 | 记录P与T，商品创建成功 |
+| 管理员 | 建Other上游账号A，总额度1000、安全阈值200、有效期为将来；从库存校正记录新建+300，原因必填 | 可用量1300，总额度1300，记录操作编号与键 |
+| 管理员 | 同一校正表单点击“重试原校正请求” | 返回同一记录，额度仍1300；新增调整使用“新建校正操作” |
+| 店员web_staff | 销售统计选择起止日；补货任务计算P/A建议，最低2000、目标3000 | 统计可查，建议1700；管理员校正入口不可用，直接API403 |
+| 店员 | 按建议创建任务，实际完成填写100 | 创建时库存1300，完成后1400，按实际量增加 |
+| 新注册顾客 | 注册并登录新顾客，以P创建一件订单，打开详情 | 原价200、优惠10、成交190，规则amount-v1；草稿改数量会由SQL重算 |
+| 顾客 | 支付、消费T/4、申请退款 | 发放T、消费T/4、回收3T/4，应退142.50；记录中途余额 |
+| 顾客 | 重复退款；直接访问销售或库存校正API | 退款返回已有项，越权403 |
+| 管理员 | 查看销售统计和退款账本，登记模拟结算 | 本商品销量1、成交190，退款后仍保留成交额；应退款142.50 |
+
+顾客使用全新账户可使FIFO批次和上述数量一致。调用账号由服务端选择，库存扣减应按调用记录的account_id核对。原有各角色商品、订单、员工等完整职责继续按[全角色人工清单](docs/stage2_acceptance.md)检查。
+
+金额阶梯为满100元优惠5%、满500元优惠10%，每行四舍五入至分，订单金额取折后明细之和。销售日期含首尾两天，按paid_at统计，成交额包含后续退款订单。
+
+核验结束后先保存对象编号、金额、截图和请求编号，在页面退出登录。回到终端A按Ctrl+C并等待提示符返回，再在终端B确认端口释放。
+
+```powershell
+if (Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue) {
+    throw 'Web服务尚未关闭，请核对终端A进程'
+}
+'5050端口已释放'
+```
+
+普通Windows账户部署与计划任务启停沿用[应用手册](docs/webapp.md)。第10周受限SQL用户模拟测试已覆盖，普通Windows身份执行新增入口的验收状态见[运行权限记录](result/week10/WebW10Final03/runtime_preflight.json)。
+
+完整测试使用专用隔离库，配置对应的DB_LAB_APP_DATABASE、DB_LAB_WEEK10_DATABASE、DB_LAB_TEST_DATABASE及实验密码后执行。
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe tools/week10_verify.py --database $env:DB_LAB_WEEK10_DATABASE --run-id W10YourVerify01
+```
+
+浏览器验收和ER重导需要额外QA依赖。
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-qa.txt
+.\.venv\Scripts\python.exe tools/week10_browser.py --url 'http://127.0.0.1:5050' --evidence result/week10/YourNewRun/browser
+.\.venv\Scripts\python.exe report/render_week10_er.py
+```
 
 ## 系统架构
 

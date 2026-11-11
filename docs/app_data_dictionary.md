@@ -40,3 +40,37 @@ erDiagram
 新增 app.ManageEmployees，参数为会话token哈希、明确操作名和JSON参数。过程以 app_runtime 授权执行，但内部重新确认会话属于 active 的 admin。仅支持普通 staff 的分页列表、新建、修改姓名、重置密码、状态变更，不允许修改管理员。读取字段为 employee_id、name、account、status、hire_date、role，不返回 password_hash；创建时由SQL固定查找 staff 角色，不能由用户提供 role_id。停用与重置密码会撤销 app.Sessions 中对应员工的旧会话。
 
 复用 dbo.Employees.status 的 active/inactive，不增加实体表或外键，员工物理删除 API 不存在，维持 RestockTask/InventoryLog/ExceptionLog 和员工之间的历史引用。新脚本 sql/app/employees.sql，在 sql/app/install.sql 后执行；新建数据库由 app_prepare 自动安装。
+
+
+## 第10周可选扩展
+
+通过`--with-week10`安装后，当前应用为19张表、26条启用可信外键。第二阶段18表模型用于原交付，第10周模型见[可编辑源](../report/er_diagram_week10.mmd)与[ER图](../report/er_diagram_week10.png)。
+
+### 定价快照
+
+| 表与字段 | 类型 | 规则 |
+|---|---|---|
+| Orders.pricing_rule_version | VARCHAR(32) NOT NULL | legacy或amount-v1，空草稿也保存版本 |
+| OrderDetails.original_subtotal | DECIMAL(10,2) NOT NULL | quantity乘首次unit_price |
+| OrderDetails.discount_rate | DECIMAL(5,4) NOT NULL | legacy为0，新版本为0/0.05/0.10 |
+| OrderDetails.discount_amount | DECIMAL(10,2) NOT NULL | 原价乘折扣率，逐行四舍五入至分 |
+| OrderDetails.pricing_rule_version | VARCHAR(32) NOT NULL | 与订单重算版本一致 |
+| OrderDetails.subtotal | DECIMAL(10,2) NOT NULL | 原价减优惠后的成交小计，退款基数 |
+
+### w10.InventoryAdjustments
+
+| 字段 | 类型 | 规则 |
+|---|---|---|
+| adjustment_id | BIGINT IDENTITY | 主键 |
+| operation_key | UNIQUEIDENTIFIER | 唯一重放键，同键同参返回原记录 |
+| product_id | INT | 非空FK到Products |
+| account_id | INT | 非空FK到UpstreamAccount |
+| operator_id | INT | 非空FK到Employees，过程检查有效管理员 |
+| log_id | INT | 非空唯一FK到InventoryLog，每条调整恰好关联一条流水 |
+| change_amount | BIGINT | 有符号非零上游Token数量 |
+| reason | NVARCHAR(255) | 非空校正原因 |
+| before_current_quota / after_current_quota | BIGINT | 非负，差额等于change_amount |
+| before_total_quota / after_total_quota | BIGINT | 正数，差额等于change_amount |
+| created_at | DATETIME2(0) | Asia/Shanghai本地时间 |
+
+调整记录只追加。正负校正同时改变账号总额度与可用额度，已消费额度不变。manual流水reference_id保持NULL，由新表的log_id外键保存关联。数据库程序参数、异常号与SELECT示例见[第10周SQL说明](../sql/week10/README.md)。
