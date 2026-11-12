@@ -157,6 +157,23 @@ def main() -> None:
         ],
         evidence / "03_app_install.log",
     )
+    run(
+        [
+            "sqlcmd",
+            "-S",
+            args.server,
+            "-d",
+            target,
+            "-E",
+            "-C",
+            "-b",
+            "-f",
+            "65001",
+            "-i",
+            str(ROOT / "sql/app/dashboard.sql"),
+        ],
+        evidence / "04_dashboard_install.log",
+    )
     seed(args.server, target)
     (evidence / "manifest.json").write_text(
         json.dumps(

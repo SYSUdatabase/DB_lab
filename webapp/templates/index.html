@@ -6,6 +6,7 @@
   <title>TokenHub · Token 业务工作台</title>
   <link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}">
   <script src="{{ url_for('static',filename='app.js') }}" defer></script>
+  <script src="{{ url_for('static',filename='dashboard.js') }}" defer></script>
 </head>
 <body>
 <aside class="sidebar">
@@ -18,8 +19,20 @@
   <header class="topbar"><span>API Token 中转站 <span class="divider">/</span> <span id="breadcrumb">商品目录</span></span><div class="identity"><span id="identity">游客</span><button id="auth-button" class="button subtle">登录账户</button></div></header>
   <main>
     <div class="page-heading"><div><p class="section-context">业务工作台</p><h1 id="page-title">商品目录</h1><p id="page-description">选择适合你的模型套餐，购买后按实际调用消耗 Token。</p></div><button id="primary-action" class="button primary" hidden>新增</button></div>
-    <div class="notice"><span class="notice-symbol">i</span><span>下单保存套餐快照，支付后余额到账；模拟调用才会扣减余额与上游库存。</span></div>
-    <section class="data-panel" aria-label="业务数据">
+    <div id="workflow-notice" class="notice"><span class="notice-symbol">i</span><span>下单保存套餐快照，支付后余额到账；模拟调用才会扣减余额与上游库存。</span></div>
+    <section id="dashboard-panel" class="dashboard" aria-label="运营数据看板" hidden>
+      <div class="dashboard-toolbar">
+        <div><span class="live-indicator"></span><strong>SQL Server 实时运营数据</strong><p>每15秒自动刷新 · 数据来自当前演示库 · 支付与退款均为模拟业务</p></div>
+        <div class="dashboard-refresh"><span id="dashboard-status" role="status" aria-live="polite">准备读取数据</span><button id="dashboard-refresh" class="button subtle" type="button">立即刷新</button></div>
+      </div>
+      <div id="dashboard-kpis" class="kpi-grid" aria-label="关键运营指标"></div>
+      <div class="chart-grid">
+        <article class="chart-panel"><div class="panel-heading"><h2>近14天订单趋势</h2><p>按订单创建日期统计 · 当天新增订单会计入</p></div><div id="dashboard-trend" class="trend-chart"></div></article>
+        <article class="chart-panel"><div class="panel-heading"><h2>订单状态分布</h2><p>全部历史订单 · 不包含删除的空订单</p></div><div id="dashboard-status-chart" class="status-chart"></div></article>
+      </div>
+      <article class="chart-panel stock-panel"><div class="panel-heading"><h2>上游库存预警</h2><p>仅显示当前有效且低于安全阈值的上游账号，最多5条</p></div><div id="dashboard-stock"></div></article>
+    </section>
+    <section id="data-panel" class="data-panel" aria-label="业务数据">
       <form id="search-form" class="toolbar"><div class="search-control"><span aria-hidden="true">⌕</span><input id="search" type="search" aria-label="搜索记录" placeholder="搜索商品名称或描述"><button class="button subtle" type="submit">搜索</button></div><span id="record-count">正在读取…</span></form>
       <div id="feedback" role="status" aria-live="polite"></div>
       <div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>

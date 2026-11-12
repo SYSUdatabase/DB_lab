@@ -111,6 +111,15 @@ def execute(token_hash: bytes | None, operation: str, payload: JsonObject) -> Js
         return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
 
 
+def dashboard(token_hash: bytes) -> JsonObject:
+    """Read-only aggregated metrics; SQL procedure checks the employee session again."""
+    with unit_of_work() as connection:
+        result = rows(connection.cursor().execute("EXEC app.Dashboard @token_hash=?", token_hash))
+        if not result or "data" not in result[0]:
+            raise AppError("DATABASE_PROTOCOL", "运营数据暂时不可用", 500)
+        return wire_values(json.loads(str(result[0]["data"]), parse_float=Decimal))
+
+
 def employees(token_hash: bytes, operation: str, payload: JsonObject) -> JsonObject:
     """Dedicated SQL procedure rechecks the admin role and returns only public staff data."""
     with unit_of_work() as connection:

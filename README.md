@@ -9,6 +9,7 @@
 | 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[应用测试](tests/)、[Web SQL](sql/app/) |
+| 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
 | 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第9周最新证据](result/stage2/WebEmp26A01/README.md)**、[原有测试记录](result/webapp/README.md) |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
