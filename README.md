@@ -36,28 +36,74 @@ SQL Server（sql/v01、sql/v10、sql/v11、sql/app）
 
 Windows 64 位、Python ≥3.11、SQL Server Express（默认 `localhost\SQLEXPRESS`）、ODBC Driver 18、`sqlcmd`、PowerShell 5.1+。建库用户必须具备 SQL Server 创建、备份和还原实验库的权限；本地网站预览仅监听 127.0.0.1。
 
-在项目根目录运行：
+### 1. 新批次从空库构建
+
+在当前`demonstration`版本的项目根目录执行。每次准备记录同一组服务器、RunId和目标库，后续启动及清理沿用这些值。
 
 ```powershell
+Set-Location 'D:\Desktop\DB\DB_lab'
+$ServerInstance = 'localhost\SQLEXPRESS'
+$Suffix = 'WebR' + (Get-Date -Format 'MMddHHmmss')
+$DatabaseName = "TokenHubDB_v11_$Suffix"
+"本次RunId=$Suffix；目标库=$DatabaseName；服务器=$ServerInstance"
+
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 $env:PATH = "$pwd\.venv\Scripts;$env:PATH"
-$env:DB_LAB_DEMO_PASSWORD = Read-Host "设置12至72字节的实验密码"
-.\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebNewRun01
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置12至72字节的实验密码'
+.\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix
+if ($LASTEXITCODE -ne 0) { throw '数据库准备失败，请先检查本次日志' }
 ```
 
-**每次使用从未用过的后缀**；准备程序会从 v0.1 建库→备份/还原→v1.0 迁移→v1.1 扩展→安装 Web 数据库过程，并自动生成演示账户。拒绝覆盖既有数据库和同名结果目录。
+准备程序依次执行v0.1建库、备份/还原、v1.0迁移、v1.1扩展、Web过程、`app.Dashboard`统计过程及样例账户创建。当前版本的新库自动安装大屏，安装结果记录在`result/webapp/<RunId>/04_dashboard_install.log`。数据库或结果目录重名时拒绝覆盖。
 
-仅用于本机开发验收的启动方式：
+### 2. 已有Web库补装大屏
+
+更新代码后继续使用原Web库时，执行对应SQL增量。下例使用本机已有的`WebNewRun01`，请按实际启动配置修改服务器和目标库。
 
 ```powershell
-$env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_WebNewRun01"
-$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString("N") + [Guid]::NewGuid().ToString("N")
-$env:DB_LAB_PREVIEW = "1"
+Set-Location 'D:\Desktop\DB\DB_lab'
+$ServerInstance = 'localhost\SQLEXPRESS'
+$DatabaseName = 'TokenHubDB_v11_WebNewRun01'
+sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -f 65001 -i sql/app/dashboard.sql
+if ($LASTEXITCODE -ne 0) { throw '大屏扩展安装失败，请检查SQL输出' }
+```
+
+该增量使用`CREATE OR ALTER`安装统计过程并授予`app_runtime`执行权限，保留业务数据。只补装该过程时，沿用原数据库的RunId。代码更新后重启Web服务；仅补装SQL时可直接点击“立即刷新”。
+
+### 3. 启动前核对数据库
+
+新库与已有库均在相同目标库执行以下检查，正常时输出实际库名及`app.Dashboard`。出现2812表示网站连接的库缺少该过程，应核对启动配置并执行上一步。
+
+```powershell
+sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -Q "IF OBJECT_ID(N'app.Dashboard',N'P') IS NULL THROW 55004,'app.Dashboard is missing',1; SELECT DB_NAME() AS database_name, N'app.Dashboard' AS installed_procedure;"
+if ($LASTEXITCODE -ne 0) { throw '目标库缺少大屏过程，停止启动检查' }
+```
+
+### 4. 启动与页面核验
+
+在终端A设置刚才核对的服务器和目标库后，前台启动。运行普通账户计划任务时，连接配置来自`instance/runtime.json`，应核对其中的server/database与安装目标一致。
+
+```powershell
+$env:DB_LAB_SERVER = $ServerInstance
+$env:DB_LAB_APP_DATABASE = $DatabaseName
+$env:DB_LAB_PORT = '5050'
+$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
+$env:DB_LAB_PREVIEW = '1'
+Remove-Item Env:DB_LAB_HTTPS -ErrorAction SilentlyContinue
 .\.venv\Scripts\python.exe -m webapp
 ```
 
-浏览器访问 **http://127.0.0.1:5050/**。测试账户为顾客 `web_customer`、`web_other`，员工入口为店员 `web_staff`、管理员 `web_admin`，密码是准备时自行设置的实验密码。顾客也可在登录对话框注册新账号。**不要提交真实密码、`instance/` 内容或 SQL 登录密钥。**
+浏览器访问 **http://127.0.0.1:5050/**。顾客账户为`web_customer`、`web_other`，员工入口为`web_staff`、`web_admin`，密码取该数据库准备时设置的值。顾客也可自行注册。
+
+在终端B确认首页响应，再由店员或管理员登录“运营概览”，核对6张指标卡、14天趋势、状态图及刷新时间，每15秒自动更新。无近期订单时趋势可以全为0；出现“刷新失败”及请求编号时，按该编号检查`instance/webapp.log`。未登录访问`/api/v1/dashboard`返回401。
+
+```powershell
+$homeResponse = Invoke-WebRequest 'http://127.0.0.1:5050/' -UseBasicParsing
+if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
+```
+
+凭据与运行配置保存在Git忽略的环境变量或`instance/`中。详细统计口径见[大屏说明](docs/stage2_dashboard.md)。
 
 正式受限 Windows 账户部署见 [Web 操作手册](docs/webapp.md) 的 `tools/setup_web_runtime.ps1`；开发预览的 `app_runtime_probe` 测试**不能替代**使用真实普通 Windows 身份的数据库权限验收。仓库须放在用户目录（`C:\Users\<用户名>`）之外，否则运行账户无法读取，配置脚本会直接拒绝。
 
@@ -66,8 +112,9 @@ $env:DB_LAB_PREVIEW = "1"
 专门的新数据库上运行，自动测试会写入模拟业务数据，不应在演示主库或他人实验库上重复运行：
 
 ```powershell
-$env:DB_LAB_TEST_DATABASE = "TokenHubDB_v01_WebNewRun01"
-$env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_WebNewRun01"
+$TestSuffix = Read-Host '输入本次专用测试批次的RunId'
+$env:DB_LAB_TEST_DATABASE = "TokenHubDB_v01_$TestSuffix"
+$env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_$TestSuffix"
 $env:DB_LAB_DEMO_PASSWORD = Read-Host "输入本次实验密码"
 $env:DB_LAB_PREVIEW = "1"
 $env:DB_LAB_SECRET = "仅本地测试使用的随机密钥"
@@ -114,58 +161,81 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 - 本次证据目录：result/source_<RunId>/、result/week6/v11/<RunId>/、result/webapp/<RunId>/。
 - 可再生成的 Python/Ruff 测试缓存。
 
-### 先预览，再执行
+### 先停止服务，再预览清理
 
-先停止本次手动启动的 python -m webapp（在运行窗口按 Ctrl+C）。从仓库根目录执行：
+先保存需要保留的截图、对象编号与日志。在终端A按Ctrl+C，等待前台Web进程退出。若本次通过普通账户计划任务启动，在有权限管理任务的PowerShell中执行下列任务命令，任务名应与配置时的账户一致。
 
 ```powershell
-$Suffix = 'WebNewRun01'
-
-# 只盘点，不删除；检查输出中的数据库、备份文件和目录是否都属于本次 RunId。
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -WhatIf
-
-# 确认上一步清单无误后执行；会在开始前再次询问确认。
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Confirm
+$RuntimeAccountName = 'TokenHubWeb'
+$RuntimeTaskName = "TokenHub-$RuntimeAccountName"
+Disable-ScheduledTask -TaskName $RuntimeTaskName | Out-Null
+Stop-ScheduledTask -TaskName $RuntimeTaskName
 ```
+
+停止后在终端B检查本次端口。下例为5050，自定义端口时同步修改。
+
+```powershell
+$WebPort = 5050
+$listeners = Get-NetTCPConnection -LocalPort $WebPort -State Listen -ErrorAction SilentlyContinue
+if ($listeners) {
+    $listeners | Select-Object LocalPort, OwningProcess
+    throw '端口仍有监听，请先核对并停止本次Web服务'
+}
+'本次Web端口已释放'
+```
+
+清理目标使用准备时记录的RunId和服务器。下面默认保留日志与清单，核对`-WhatIf`输出后执行带确认的命令。
+
+```powershell
+Set-Location 'D:\Desktop\DB\DB_lab'
+$Suffix = Read-Host '输入要清理的RunId，例如WebR1113220000'
+$ServerInstance = 'localhost\SQLEXPRESS'
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -WhatIf
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
+```
+
+大屏过程及其授权随该批次v1.1数据库一同清除，未新增独立大屏数据库。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
 
 `-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
 
-默认会删除本次三个证据目录。如果要删除数据库、备份和缓存，但保留本次日志/清单供归档，预览和执行时都加 -KeepEvidence：
+脚本不加`-KeepEvidence`时会删除本次三个证据目录。保留证据的完整命令已列在上方；若确定本次证据也要删除，两条命令均去掉`-KeepEvidence`。对应的Git已跟踪文件会在工作区显示删除，应在提交前核对。
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -KeepEvidence -WhatIf
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -KeepEvidence -Confirm
-```
 
 如果复现中途失败，尚未生成 manifest.json，清理程序默认拒绝猜测。确认该后缀是本次新建且三个目标数据库确实属于本次复现后，才加 -AllowIncomplete：
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -AllowIncomplete -WhatIf
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -AllowIncomplete -WhatIf
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -AllowIncomplete -Confirm
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -AllowIncomplete -Confirm
 ```
 
 ### 可选：同时删除受限 Web 运行账户
 
-只有执行过 tools/setup_web_runtime.ps1 并且要一并撤销该次专用运行环境时才使用。必须提供当时的准确 -RuntimeAccountName；默认账户名是 TokenHubWeb。该选项会停止并删除指向本仓库 tools/run_web.ps1 的计划任务、删除对应 SQL 登录、带有 TokenHub 专用描述的本地账户及其未加载的用户配置目录，并删除 instance/runtime.json、运行日志等指定文件。它不会读取运行配置中的密钥。请确认该账户/任务没有被其它项目或复现共用，并在管理员 PowerShell 中执行：
+只有执行过 tools/setup_web_runtime.ps1 并且要一并撤销该次专用运行环境时才使用。先在同一终端设置`$RuntimeAccountName`为配置时的账户名，与停止任务时保持一致。必须提供当时的准确 -RuntimeAccountName；默认账户名是 TokenHubWeb。该选项会停止并删除指向本仓库 tools/run_web.ps1 的计划任务、删除对应 SQL 登录、带有 TokenHub 专用描述的本地账户及其未加载的用户配置目录，并删除 instance/runtime.json、运行日志等指定文件。它不会读取运行配置中的密钥。请确认该账户/任务没有被其它项目或复现共用，并在管理员 PowerShell 中执行：
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -RemoveRuntime -RuntimeAccountName TokenHubWeb -WhatIf
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -RemoveRuntime -RuntimeAccountName $RuntimeAccountName -WhatIf
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -RemoveRuntime -RuntimeAccountName TokenHubWeb -Confirm
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -RemoveRuntime -RuntimeAccountName $RuntimeAccountName -Confirm
 ```
 
-如果没有配置受限运行账户，不要加 `-RemoveRuntime`；开发预览的环境变量随终端关闭，不需要额外清理。**旧批次兼容**：在此备份目录改造前创建的批次（包括本轮 `WebNewRun01`）把 `.bak` 放在 SQL Server 的默认 `Program Files` 目录。若当前账户无权访问，脚本会在任何删除动作前中止；只需对这种旧批次在具有对应 NTFS 权限的提升 PowerShell 中执行同一条清理命令。新批次的备份隔离在仓库内，不需要管理员权限清理。
+如果没有配置受限运行账户，不要加 `-RemoveRuntime`；开发预览的环境变量随终端关闭，不需要额外清理。**旧批次兼容**：在此备份目录改造前创建的批次（包括早期 `WebNewRun01`）把 `.bak` 放在 SQL Server 的默认 `Program Files` 目录。若当前账户无权访问，脚本会在任何删除动作前中止；只需对这种旧批次在具有对应 NTFS 权限的提升 PowerShell 中执行同一条清理命令。新批次的备份隔离在仓库内，不需要管理员权限清理。
+
+清理结束核对脚本末尾的验证结果，使用`-KeepEvidence`时应保留日志与清单。前台预览终端可清除本次环境变量。
+
+```powershell
+Remove-Item Env:DB_LAB_DEMO_PASSWORD, Env:DB_LAB_SECRET, Env:DB_LAB_PREVIEW, Env:DB_LAB_APP_DATABASE, Env:DB_LAB_SERVER, Env:DB_LAB_PORT -ErrorAction SilentlyContinue
+```
 
 清理程序位置：`tools/cleanup_reproduction.ps1`。它会在末尾核对三个数据库、备份文件、`result/sql_backups/<RunId>/` 和证据目录是否按选项清除。`.venv/`、`.git/`、SQL 源文件、`archive/`、其它 RunId 的数据库/结果、历史验收证据均保留；Python 临时 SQL 文件夹由 `TemporaryDirectory` 自动清理。
 
-清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。当前保留的其它实验库包括 TokenHubDB_v01_A、TokenHubDB_v10_W6_20261014、TokenHubDB_v11_Issues_20261014 及 TokenHubDB_v01/v10/v11_Web261021A-D；迁移前 ZIP、archive/、result/stage2/、.venv/、instance/ 和 .git/ 均保留。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
+清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。当前保留的其它实验库包括 TokenHubDB_v01_A、TokenHubDB_v10_W6_20261014、TokenHubDB_v11_Issues_20261014 及 TokenHubDB_v01/v10/v11_Web261021A-D；迁移前 ZIP、archive/、result/stage2/、.venv/ 和 .git/ 均保留；未使用`-RemoveRuntime`时保留instance/。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
 
 ## 第9周员工管理增补（2026-11-04）
 
