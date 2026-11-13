@@ -95,6 +95,9 @@ if ($LASTEXITCODE -ne 0) { throw '目标库连接或大屏对象检查失败，�
 在终端A设置刚才核对的服务器和目标库后，前台启动。运行普通账户计划任务时，连接配置来自`instance/runtime.json`，应核对其中的server/database与安装目标一致。
 
 ```powershell
+.\.venv\Scripts\python.exe tools/seed_dashboard_recent.py --server $ServerInstance --database $DatabaseName
+if ($LASTEXITCODE -ne 0) { throw '近14天样例准备失败，请检查输出' }
+
 $env:DB_LAB_SERVER = $ServerInstance
 $env:DB_LAB_APP_DATABASE = $DatabaseName
 $env:DB_LAB_PORT = '5050'
@@ -103,6 +106,10 @@ $env:DB_LAB_PREVIEW = '1'
 Remove-Item Env:DB_LAB_HTTPS -ErrorAction SilentlyContinue
 .\.venv\Scripts\python.exe -m webapp
 ```
+
+启动前的样例脚本以数据库准备身份运行，生成专用顾客`dashboard_recent_sample`与商品`Dashboard Recent Sample`，近14天每天1—4笔订单，包含待支付、支付、取消和退款。专用顾客使用随机不可知密码，日常登录继续使用原有账户。支付与退款调用已有过程，订单创建时间覆盖历史日期，支付与退款时间为本次执行时间。
+
+同日重复执行新增数为0，后续日期启动时只补缺少的样例订单。准备过程在一个事务内完成；原订单日期保持原值。样例会计入大屏指标，识别时按专用顾客和商品筛选。运行普通账户计划任务前，也先用数据库准备身份执行这一步。
 
 浏览器访问 **http://127.0.0.1:5050/**。顾客账户为`web_customer`、`web_other`，员工入口为`web_staff`、`web_admin`，密码取该数据库准备时设置的值。顾客也可自行注册。
 
@@ -208,7 +215,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproducti
   -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
 ```
 
-大屏过程及其授权随该批次v1.1数据库一同清除，未新增独立大屏数据库。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
+大屏过程、近14天样例顾客/商品/订单、余额、Token批次和退款账本随该批次v1.1数据库一同清除。样例脚本不创建额外数据库或Windows账户。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
 
 `-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
 

@@ -41,3 +41,17 @@ $env:DB_LAB_PREVIEW = "1"
 - 现场演示创建/支付订单、补货后，刷新看板即可看到对应数量变化；显示结果必须与当前数据库实际值一致。
 - 如果需要反复演练并恢复现场，建议先创建专用展示库并单独备份。不要直接还原覆盖原验收数据库。
 - 本功能的局部测试在 `tests/test_dashboard.py`；SQL/权限/实际计数校验采用事务回滚，不保留测试会话或业务写入。
+
+
+## 启动前准备近14天样例
+
+使用数据库准备身份，在核对目标库后、启动Web前运行。
+
+```powershell
+.\.venv\Scripts\python.exe tools/seed_dashboard_recent.py --server $ServerInstance --database $DatabaseName
+if ($LASTEXITCODE -ne 0) { throw '近14天样例准备失败' }
+```
+
+脚本生成专用顾客dashboard_recent_sample与商品Dashboard Recent Sample。近14天每天1—4笔订单，数量按日历日期固定，记录包含待支付、已支付、取消和退款。订单创建时间覆盖14天，支付、退款使用当前执行时间，由已有过程记账。原有交易不改日期，库存不受影响。
+
+同一日期重复执行不重复加单；跨日执行只补新窗口中缺少的订单。操作键应用锁串行化并发准备，整体事务失败回滚。仅允许v1.1 Web库及数据库准备身份运行，应用运行角色没有样例写入授权。样例关联对象随RunId对应数据库整体清理。

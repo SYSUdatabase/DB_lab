@@ -1,0 +1,147 @@
+{
+  "first_run": {
+    "database": "TokenHubDB_v11_WebR1113225642",
+    "inserted_orders": 33,
+    "sample_user": "dashboard_recent_sample",
+    "start_date": "2026-10-31",
+    "end_date": "2026-11-13",
+    "daily_orders": [
+      {
+        "day": "2026-10-31",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-01",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-02",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-03",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-04",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-05",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-06",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-07",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-08",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-09",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-10",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-11",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-12",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-13",
+        "order_count": 2
+      }
+    ]
+  },
+  "second_run": {
+    "database": "TokenHubDB_v11_WebR1113225642",
+    "inserted_orders": 0,
+    "sample_user": "dashboard_recent_sample",
+    "start_date": "2026-10-31",
+    "end_date": "2026-11-13",
+    "daily_orders": [
+      {
+        "day": "2026-10-31",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-01",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-02",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-03",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-04",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-05",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-06",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-07",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-08",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-09",
+        "order_count": 2
+      },
+      {
+        "day": "2026-11-10",
+        "order_count": 3
+      },
+      {
+        "day": "2026-11-11",
+        "order_count": 4
+      },
+      {
+        "day": "2026-11-12",
+        "order_count": 1
+      },
+      {
+        "day": "2026-11-13",
+        "order_count": 2
+      }
+    ]
+  },
+  "original_orders_unchanged": true,
+  "inventory_unchanged": true,
+  "runtime_dashboard_verified": {
+    "days": 14,
+    "every_day_positive": true,
+    "metrics": {
+      "total_orders": 133,
+      "pending_orders": 18,
+      "paid_orders": 99,
+      "gross_paid_amount": 4794.6,
+      "refund_amount": 150.0,
+      "active_products": 11,
+      "low_stock_accounts": 0
+    }
+  }
+}
