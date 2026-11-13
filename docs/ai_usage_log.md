@@ -596,3 +596,12 @@ AI新增 app.ManageEmployees（独立 EXECUTE AS OWNER 存储过程，独立验�
 本轮修改README、ROADMAP与AI记录，静态检查命令语法、相对链接和diff。未执行数据库安装、服务启停或清理命令。当前分支为demonstration，原未跟踪的WebNewRun01输出保留。
 
 静态验证结果为PASS，README的12段PowerShell代码块解析无错误、32个链接检查通过，流程关键项及git diff --check通过。
+
+
+## 2026-11-13 复现路径歧义修正
+
+用户提供新库WebR1113225642准备成功的输出，随后执行已有库示例，把DatabaseName覆盖为已不存在的WebNewRun01，导致登录目标数据库失败。README将新建与已有库补装明确为A/B二选一，路径A成功直接进入共同启动检查，路径B改为输入现存完整库名，检查失败提示区分连接问题与对象缺失。虚拟环境改为仅不存在时创建，已有环境检查后复用，并检查依赖命令退出码。
+
+只读查询确认新库ONLINE、旧库不存在，并检查新库大屏对象。本轮未重建环境、未安装SQL、未启动或关闭服务、未执行清理；未摘录用户提供的密码。修改README、ROADMAP与两份AI记录。
+
+验证通过。新库app.Dashboard对象存在，现有venv检查成功，12段PowerShell语法、路径分流断言、链接与git diff --check通过。

@@ -36,7 +36,9 @@ SQL Server（sql/v01、sql/v10、sql/v11、sql/app）
 
 Windows 64 位、Python ≥3.11、SQL Server Express（默认 `localhost\SQLEXPRESS`）、ODBC Driver 18、`sqlcmd`、PowerShell 5.1+。建库用户必须具备 SQL Server 创建、备份和还原实验库的权限；本地网站预览仅监听 127.0.0.1。
 
-### 1. 新批次从空库构建
+### 路径A：新批次从空库构建（完成后跳到启动检查）
+
+**路径A与路径B二选一。** 首次建库或创建新批次选择A；继续使用已有Web库且需要补装大屏时选择B。A成功后直接执行“启动前核对数据库”，保留A中的目标库变量。
 
 在当前`demonstration`版本的项目根目录执行。每次准备记录同一组服务器、RunId和目标库，后续启动及清理沿用这些值。
 
@@ -47,40 +49,48 @@ $Suffix = 'WebR' + (Get-Date -Format 'MMddHHmmss')
 $DatabaseName = "TokenHubDB_v11_$Suffix"
 "本次RunId=$Suffix；目标库=$DatabaseName；服务器=$ServerInstance"
 
-python -m venv .venv
+if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe' -PathType Leaf)) {
+    python -m venv .venv
+    if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败，请检查Python和目录权限' }
+}
+.\.venv\Scripts\python.exe -c "import sys; assert sys.prefix != sys.base_prefix; print('venv OK')"
+if ($LASTEXITCODE -ne 0) { throw '现有虚拟环境不可用，请先检查环境' }
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败' }
 $env:PATH = "$pwd\.venv\Scripts;$env:PATH"
 $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置12至72字节的实验密码'
 .\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix
 if ($LASTEXITCODE -ne 0) { throw '数据库准备失败，请先检查本次日志' }
 ```
 
+已有可用`.venv`会直接复用。Windows覆盖正在使用的python.exe可能报Permission denied，先检查现有环境，避免反复创建。
+
 准备程序依次执行v0.1建库、备份/还原、v1.0迁移、v1.1扩展、Web过程、`app.Dashboard`统计过程及样例账户创建。当前版本的新库自动安装大屏，安装结果记录在`result/webapp/<RunId>/04_dashboard_install.log`。数据库或结果目录重名时拒绝覆盖。
 
-### 2. 已有Web库补装大屏
+### 路径B：已有Web库补装大屏（选择路径A时跳过本节）
 
-更新代码后继续使用原Web库时，执行对应SQL增量。下例使用本机已有的`WebNewRun01`，请按实际启动配置修改服务器和目标库。
+仅在继续使用已有Web库时执行本节。目标库必须是本机仍存在、已安装Web应用的数据库，按原RunId或启动配置填写。
 
 ```powershell
 Set-Location 'D:\Desktop\DB\DB_lab'
 $ServerInstance = 'localhost\SQLEXPRESS'
-$DatabaseName = 'TokenHubDB_v11_WebNewRun01'
+$DatabaseName = Read-Host '输入现有Web数据库完整名称（须与启动配置一致）'
 sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -f 65001 -i sql/app/dashboard.sql
 if ($LASTEXITCODE -ne 0) { throw '大屏扩展安装失败，请检查SQL输出' }
 ```
 
 该增量使用`CREATE OR ALTER`安装统计过程并授予`app_runtime`执行权限，保留业务数据。只补装该过程时，沿用原数据库的RunId。代码更新后重启Web服务；仅补装SQL时可直接点击“立即刷新”。
 
-### 3. 启动前核对数据库
+### 2. 启动前核对数据库（A或B完成后继续）
 
-新库与已有库均在相同目标库执行以下检查，正常时输出实际库名及`app.Dashboard`。出现2812表示网站连接的库缺少该过程，应核对启动配置并执行上一步。
+保留所选路径设置的`$ServerInstance`和`$DatabaseName`，在同一PowerShell执行以下检查，正常时输出实际库名及`app.Dashboard`。连接失败时先核对目标库存在性与访问权限；SQL错误2812表示调用的过程缺失。
 
 ```powershell
 sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -Q "IF OBJECT_ID(N'app.Dashboard',N'P') IS NULL THROW 55004,'app.Dashboard is missing',1; SELECT DB_NAME() AS database_name, N'app.Dashboard' AS installed_procedure;"
-if ($LASTEXITCODE -ne 0) { throw '目标库缺少大屏过程，停止启动检查' }
+if ($LASTEXITCODE -ne 0) { throw '目标库连接或大屏对象检查失败，请核对上方SQL输出' }
 ```
 
-### 4. 启动与页面核验
+### 3. 启动与页面核验
 
 在终端A设置刚才核对的服务器和目标库后，前台启动。运行普通账户计划任务时，连接配置来自`instance/runtime.json`，应核对其中的server/database与安装目标一致。
 
