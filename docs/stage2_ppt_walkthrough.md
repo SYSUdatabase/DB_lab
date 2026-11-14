@@ -101,12 +101,6 @@ SELECT COUNT(*) AS trusted_foreign_key_count
 FROM sys.foreign_keys WHERE is_disabled=0 AND is_not_trusted=0;
 ```
 
-3. 资源管理器地址栏输入项目根目录 → 打开`result\stage2\WebFinal1106A\unittest75_stderr.log` → Ctrl+End定位结尾，展示`Ran 75 tests`和`OK`。
-4. 打开`result\week6\v11\WebFinal1106A\migration.log`，定位`3394 summaries`。
-5. 说明75项是该历史批次的完整测试数，当前分支新增大屏等测试后发现数量可能增加。四角色的操作范围将在第7—8页现场验证。
-
-PPT中的3,394对应`UsageSummary`迁移后的汇总行数。Token调用流水`TokenUsageLogs`为另一个统计口径，不能把汇总行数直接称为调用次数。
-
 ## PPT第4页：完整ER模型
 
 **核心功能**　18张表按身份、交易、余额、库存和账务划分职责。
