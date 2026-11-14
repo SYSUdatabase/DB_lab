@@ -144,7 +144,11 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 所有可编辑图源及 `report/render_app_er.py`、`report/render_overview_modules.py` **保留**。项目运行不依赖它们，但后续修改图像时可以重新导出；旧材料归档映射见 [archive/README.md](archive/README.md)。
 
 
-## 每次复现后的完整清理（按 RunId）
+## 每次复现后的清理（按 RunId）
+
+按第1至第4步依次操作。第3步的路径A与路径B二选一，完成所选路径后进入第4步。需要清理中断批次或同时撤销受限运行账户时，先阅读后面的特殊情况，再执行第3步。
+
+**一次从空库复现会创建三个数据库。** 两次复现使用两个RunId，会产生两组、共六个数据库；清理时每个RunId分别执行一遍本流程。
 
 每次执行 tools/app_prepare.py --suffix Web... 时使用一个从未使用过的后缀；这个后缀就是本次复现的 **RunId**。例如 WebNewRun01。不要复用旧后缀。
 
@@ -166,7 +170,7 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 | instance中的运行配置及共享日志 | 按下面的运行账户或共享日志步骤清理 |
 | .venv、源码、.git、archive与其它RunId的证据 | 作为环境与项目材料保留 |
 
-### 先停止服务，再预览清理
+### 1. 停止本次Web服务
 
 先保存需要保留的截图、对象编号与日志。在终端A按Ctrl+C，等待前台Web进程退出。若本次通过普通账户计划任务启动，在有权限管理任务的PowerShell中执行下列任务命令，任务名应与配置时的账户一致。
 
@@ -189,74 +193,142 @@ if ($listeners) {
 '本次Web端口已释放'
 ```
 
-清理目标使用准备时记录的RunId和服务器。下面是完整清理，包含本次日志与清单。核对`-WhatIf`输出后执行带确认的命令。
+预期输出为`本次Web端口已释放`，随后进入第2步。
+
+### 2. 指定要清理的RunId和服务器
+
+在同一清理终端执行后续步骤。输入创建时记录的RunId，服务器填写准备时传给`app_prepare.py --server`的值。
 
 ```powershell
 Set-Location 'D:\Desktop\DB\DB_lab'
 $Suffix = Read-Host '输入要清理的RunId，例如WebR1113220000'
 $ServerInstance = 'localhost\SQLEXPRESS'
 if ($Suffix -notmatch '^Web[A-Za-z0-9]{3,12}$') { throw 'RunId格式无效' }
+"本次清理RunId=$Suffix；服务器=$ServerInstance"
+@("TokenHubDB_v01_$Suffix", "TokenHubDB_v10_$Suffix", "TokenHubDB_v11_$Suffix")
+```
 
+核对输出的三个库名属于本次复现。每次填写一个RunId。
+
+### 3. 选择清理路径，先预览再删除
+
+**路径A与路径B二选一。** 路径A完整删除本批次及证据；路径B删除数据库与备份，同时保留日志、清单和验收证据。
+
+#### 路径A　完整删除本批次（包含证据目录）
+
+先执行预览，核对三个数据库、备份路径与三个证据目录均对应第2步的RunId。
+
+```powershell
+$KeepEvidence = $false
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
   -Suffix $Suffix -Server $ServerInstance -WhatIf
 if ($LASTEXITCODE -ne 0) { throw '清理预览失败，请检查错误输出' }
+```
 
+核对预览后执行删除。在确认提示中输入`Y`确认当前项，或输入`A`确认本次全部操作。
+
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
   -Suffix $Suffix -Server $ServerInstance -Confirm
 if ($LASTEXITCODE -ne 0) { throw '清理未完成，请检查错误输出' }
 ```
 
-大屏过程、近14天样例顾客/商品/订单、余额、Token批次和退款账本随该批次v1.1数据库一同清除。样例脚本不创建额外数据库或Windows账户。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
+预期末尾输出`Cleanup verification PASS for <RunId>.`，随后直接进入第4步。
 
-`-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
+#### 路径B　删除数据库和备份，保留证据目录
 
-正常结束应输出`Cleanup verification PASS for <RunId>.`。完整清理后，在同一终端执行下面的只读核验，确认三个数据库与四个批次目录均已删除。
+先执行预览。此路径在预览和删除时均使用`-KeepEvidence`。
+
+```powershell
+$KeepEvidence = $true
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -WhatIf
+if ($LASTEXITCODE -ne 0) { throw '清理预览失败，请检查错误输出' }
+```
+
+核对预览中的数据库与备份路径均对应第2步的RunId，再执行删除。在确认提示中输入`Y`确认当前项，或输入`A`确认本次全部操作。
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
+if ($LASTEXITCODE -ne 0) { throw '清理未完成，请检查错误输出' }
+```
+
+预期末尾输出`Cleanup verification PASS for <RunId>.`，随后进入第4步。三个证据目录继续保存在原位置。
+
+### 4. 核验清理结果
+
+在完成第3步的同一终端执行下面的只读核验。`$KeepEvidence`沿用所选路径的值。路径A核对三个数据库和四个批次目录均已删除；路径B核对三个数据库与备份目录已删除。
 
 ```powershell
 $remainingDatabaseCount = sqlcmd -S $ServerInstance -d master -E -C -b -h -1 -W -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name IN(N'TokenHubDB_v01_$Suffix',N'TokenHubDB_v10_$Suffix',N'TokenHubDB_v11_$Suffix');"
 if ($LASTEXITCODE -ne 0) { throw '数据库核验连接失败' }
 if ([int]("$remainingDatabaseCount".Trim()) -ne 0) { throw '本批次仍有数据库' }
-$runPaths = @("result/source_$Suffix", "result/week6/v11/$Suffix", "result/webapp/$Suffix", "result/sql_backups/$Suffix")
+$runPaths = @("result/sql_backups/$Suffix")
+if (-not $KeepEvidence) {
+    $runPaths += @("result/source_$Suffix", "result/week6/v11/$Suffix", "result/webapp/$Suffix")
+}
 $remainingPaths = @($runPaths | Where-Object { Test-Path -LiteralPath $_ })
-if ($remainingPaths.Count) { throw "本批次仍有目录：$($remainingPaths -join ', ')" }
-'完整批次清理已核验'
+if ($remainingPaths.Count) { throw "本批次仍有待清理目录：$($remainingPaths -join ', ')" }
+"清理核验通过；RunId=$Suffix；保留证据=$KeepEvidence"
 ```
+
+预期输出为`清理核验通过`及本次RunId。需要清理另一批次时，从第2步重新填写那个RunId，并完成第3、4步。再次创建时生成新的RunId。
+
+### 清理范围与特殊情况
+
+大屏过程、近14天样例顾客/商品/订单、余额、Token批次和退款账本随该批次v1.1数据库一同清除。样例脚本不创建额外数据库或Windows账户。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
+
+`-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
 
 对应的Git已跟踪结果文件会在工作区显示删除，应在提交前核对。批次目录外另存的截图和报告按保存位置管理。
 
-**需要保留证据时改用以下一组命令**。此模式有意保留三个结果目录，只检查数据库与备份目录已删除。
+#### 复现中断，尚未生成manifest.json
+
+确认该后缀是本次新建且三个目标数据库属于本次复现后，在第3步所选路径的预览和删除命令中同时加入`-AllowIncomplete`。下面以保留证据为例，完成第1、2步后用本组命令执行第3步。
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -WhatIf
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
-```
-
-
-如果复现中途失败，尚未生成 manifest.json，清理程序默认拒绝猜测。确认该后缀是本次新建且三个目标数据库确实属于本次复现后，才加 -AllowIncomplete：
-
-```powershell
+$KeepEvidence = $true
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
   -Suffix $Suffix -Server $ServerInstance -KeepEvidence -AllowIncomplete -WhatIf
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -AllowIncomplete -Confirm
+if ($LASTEXITCODE -ne 0) { throw '中断批次清理预览失败' }
 ```
 
-### 可选：同时删除受限 Web 运行账户
+核对预览后执行删除，成功后进入第4步。
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -AllowIncomplete -Confirm
+if ($LASTEXITCODE -ne 0) { throw '中断批次清理未完成' }
+```
+
+#### 同时删除受限Web运行账户
 
 只有执行过 tools/setup_web_runtime.ps1 并且要一并撤销该次专用运行环境时才使用。先在同一终端设置`$RuntimeAccountName`为配置时的账户名，与停止任务时保持一致。必须提供当时的准确 -RuntimeAccountName；默认账户名是 TokenHubWeb。该选项会停止并删除指向本仓库 tools/run_web.ps1 的计划任务、删除对应 SQL 登录、带有 TokenHub 专用描述的本地账户及其未加载的用户配置目录，并删除 instance/runtime.json、运行日志等指定文件。它不会读取运行配置中的密钥。请确认该账户/任务没有被其它项目或复现共用，并在管理员 PowerShell 中执行：
 
+本组命令替代第3步的普通清理命令，完成后进入第4步。下面保留批次证据；完整删除证据时，将`$KeepEvidence`设为`$false`，并从预览和删除两条命令中同时去掉`-KeepEvidence`。中断批次还需在两条命令中同时加入`-AllowIncomplete`。
+
 ```powershell
+$RuntimeAccountName = 'TokenHubWeb'
+$KeepEvidence = $true
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
   -Suffix $Suffix -Server $ServerInstance -KeepEvidence -RemoveRuntime -RuntimeAccountName $RuntimeAccountName -WhatIf
+if ($LASTEXITCODE -ne 0) { throw '运行账户清理预览失败' }
+```
+
+核对预览后执行删除。账户配置目录已加载时，先注销该账户或重启电脑，再重试。
+
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
   -Suffix $Suffix -Server $ServerInstance -KeepEvidence -RemoveRuntime -RuntimeAccountName $RuntimeAccountName -Confirm
+if ($LASTEXITCODE -ne 0) { throw '运行账户清理未完成' }
 ```
 
 如果没有配置受限运行账户，不要加 `-RemoveRuntime`；开发预览的环境变量随终端关闭，不需要额外清理。**旧批次兼容**：在此备份目录改造前创建的批次（包括早期 `WebNewRun01`）把 `.bak` 放在 SQL Server 的默认 `Program Files` 目录。若当前账户无权访问，脚本会在任何删除动作前中止；只需对这种旧批次在具有对应 NTFS 权限的提升 PowerShell 中执行同一条清理命令。新批次的备份隔离在仓库内，不需要管理员权限清理。
 
-清理结束核对脚本末尾的验证结果。中途失败与运行账户示例带有`-KeepEvidence`，需要连同该批次证据一并删除时，两条命令均去掉该参数。
+清理结束核对脚本末尾的验证结果。中途失败示例带有`-KeepEvidence`，需要连同该批次证据一并删除时，将`$KeepEvidence`设为`$false`并从两条命令中同时去掉该参数。
+
+### 可选　清理共享日志和当前终端变量
 
 前台预览也会产生共享运行日志。服务停止后，如本机运行记录无需保留，可单独清除以下文件；这些日志可能包含多个批次。
 
@@ -278,15 +350,3 @@ Remove-Item Env:DB_LAB_DEMO_PASSWORD, Env:DB_LAB_SECRET, Env:DB_LAB_PREVIEW, Env
 清理程序位置：`tools/cleanup_reproduction.ps1`。它会在末尾核对三个数据库、备份文件、`result/sql_backups/<RunId>/` 和证据目录是否按选项清除。`.venv/`、`.git/`、SQL 源文件、`archive/`、其它 RunId 的数据库/结果、历史验收证据均保留；Python 临时 SQL 文件夹由 `TemporaryDirectory` 自动清理。
 
 清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。2026-11-14已按用户要求清理本机全部36个TokenHubDB项目库，之后按路径A重新建立新批次；迁移前 ZIP、archive/、result/stage2/、.venv/ 和 .git/ 均保留；未使用`-RemoveRuntime`时保留instance/。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
-
-## 第9周员工管理增补（2026-11-04）
-
-店长（管理员）登录后在左侧选择“员工管理”，可以查看普通店员、新增店员、修改姓名、重置密码、停用或重新启用；没有物理删除按钮，原因是员工与补货/库存操作的历史外键应保留。店员不能通过管理页面创建管理员或管理其他员工；停用和密码重置均会撤销旧会话。
-
-第9周新建隔离数据库 WebEmp26A01 的最新验证：[正常与异常截图索引](result/stage2/WebEmp26A01/README.md)，包含重新截图22张原有业务画面和新增11张员工管理画面、25项SQL对账。原有 WebStage2A02 证据保留供审计。陈诗翰负责第9周追加测试及更新，阮依成负责新增员工管理和本轮测试/截图/文档整理。
-
-**已有 Web 实验数据库更新时不需要重建旧库**：在具备数据库安装权限的 PowerShell、项目根目录执行下方 SQLCMD，然后重启 Flask 以加载新路由；务必核对目标库名，不对原始旧库执行。
-
-    sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_WebYourRun01 -E -C -b -f 65001 -v DatabaseName=TokenHubDB_v11_WebYourRun01 -i sql/app/employees.sql
-
-全新使用 app_prepare.py 构建的 Web 后缀库则自动包含员工管理过程。
