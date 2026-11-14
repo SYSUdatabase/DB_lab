@@ -17,7 +17,7 @@
 | 7 | 顾客注册、管理员新增/停用员工 | 注册弹窗、员工管理、第二浏览器窗口 |
 | 8 | 四类角色权限 | 切换游客、顾客、店员、管理员，核对导航与按钮 |
 | 9 | 旧样例时间顺序异常与改进 | 仅展示PPT，讲解后翻页 |
-| 10 | 部分消费退款、未消费退款、重复退款保护 | 订单管理 → 退款账本 → Token余额 |
+| 10 | 部分消费退款、未消费退款 | 订单管理 → 退款账本 → Token余额 |
 | 11 | 大屏、14天趋势、库存预警与补货 | 运营概览 → 上游库存 → 补货任务 → 运营概览 |
 | 12 | 401/403/409/400与数据库对账 | 浏览器开发者工具、注册/商品表单、SSMS及历史证据 |
 
@@ -169,9 +169,9 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 
 本页仅展示PPT内容，讲解后直接翻到第10页。
 
-## PPT第10页：退款闭环与重复请求
+## PPT第10页：部分消费与未消费退款
 
-**核心功能**　已用Token保留消费事实，未用部分回收并登记应退款项；重复退款不重复记账。
+**核心功能**　已用Token保留消费事实，未用部分回收并登记应退款项。
 
 ### 10.1 对6.90元订单申请部分退款
 
@@ -189,40 +189,6 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 3. 8.90元订单行“模拟支付” → “确认提交”，再点“Token 余额”，核对到账100000。
 4. 保持未调用，返回“订单管理” → 8.90元订单行“申请退款” → “确认提交”。
 5. 点“退款账本”，核对8.90元订单应退8.90、回收100000、已消费0。再点“Token 余额”，回到0。
-
-### 10.3 重复提交同一笔退款
-
-6.90元订单已退款后按钮会隐藏，用开发者工具重复同一个请求。
-
-1. 陈同学保持登录，按F12打开开发者工具 → 点击“控制台/Console”。浏览器首次限制粘贴时，按其提示在本机允许本次粘贴。
-2. 粘贴下面函数并按Enter。函数只输出HTTP状态、业务码和请求编号。
-
-```javascript
-async function pptApi(path, method = 'GET', payload = {}) {
-  const identity = await (await fetch('/api/v1/auth/session')).json();
-  const options = {method, headers: {
-    'Content-Type': 'application/json', 'X-CSRF-Token': identity.data.csrf
-  }};
-  if (method !== 'GET') options.body = JSON.stringify(payload);
-  const response = await fetch('/api/v1' + path, options);
-  const body = await response.json();
-  console.table([{http: response.status, code: body.code, request_id: body.request_id}]);
-}
-```
-
-3. 继续复制下面这段代码并按Enter。它会从当前顾客的订单中自动找到6.90元那笔，再提交同一退款请求。
-
-```javascript
-{
-  const orderList = await (await fetch('/api/v1/orders')).json();
-  const partialRefundOrder = orderList.data.items.find(order => Number(order.total_amount) === 6.90);
-  if (!partialRefundOrder) throw new Error('请先用chen_demo登录，并完成6.90元订单');
-  await pptApi('/orders/' + partialRefundOrder.order_id + '/refund', 'POST');
-}
-```
-
-4. 预期200。按F12关闭工具，点击“订单管理”，再点“退款账本”重新加载。6.90元订单仍只有一笔退款，余额仍0。
-5. 需要展示RF01—RF06证据时，打开`result\week6\v11\WebFinal1106A\validation_10_refund_regression.sql.log`，Ctrl+End查看PASS结果。
 
 ## PPT第11页：大屏变化、预警与补货
 
@@ -256,7 +222,22 @@ ORDER BY t.task_id DESC;
 
 **核心功能**　显示明确HTTP状态与请求编号，验证失败没有产生业务写入。
 
-以下控制台命令使用第10页的`pptApi`函数。若刷新过页面，在当前页面Console重新粘贴该函数。下面的权限检查使用新库自带的第1号订单和第1号商品，可以直接复制命令。
+先按F12打开开发者工具 → 点击“控制台/Console” → 粘贴下面函数并按Enter。浏览器限制粘贴时，按其提示允许本次粘贴。函数只输出HTTP状态、业务码和请求编号。若刷新过页面，在Console重新粘贴该函数。
+
+```javascript
+async function pptApi(path, method = 'GET', payload = {}) {
+  const identity = await (await fetch('/api/v1/auth/session')).json();
+  const options = {method, headers: {
+    'Content-Type': 'application/json', 'X-CSRF-Token': identity.data.csrf
+  }};
+  if (method !== 'GET') options.body = JSON.stringify(payload);
+  const response = await fetch('/api/v1' + path, options);
+  const body = await response.json();
+  console.table([{http: response.status, code: body.code, request_id: body.request_id}]);
+}
+```
+
+下面的权限检查使用新库自带的第1号订单和第1号商品，可以直接复制命令。
 
 | 场景 | 具体点击/输入 | 核对结果 |
 |---|---|---|
