@@ -1,0 +1,27 @@
+Run suffix: WebC1114115831
+SQL Server: localhost\SQLEXPRESS
+Databases to drop:
+  TokenHubDB_v11_WebC1114115831
+  TokenHubDB_v10_WebC1114115831
+  TokenHubDB_v01_WebC1114115831
+Run-specific SQL backup directory to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831
+SQL backup files to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831\TokenHubDB_v01_WebC1114115831_W6_cea616cfd348.bak
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831\TokenHubDB_v10_WebC1114115831_W6_3f5d74575396.bak
+Evidence directories to delete:
+  D:\Desktop\DB\DB_lab\result\source_WebC1114115831
+  D:\Desktop\DB\DB_lab\result\week6\v11\WebC1114115831
+  D:\Desktop\DB\DB_lab\result\webapp\WebC1114115831
+Cache directories to delete:
+  D:\Desktop\DB\DB_lab\.ruff_cache
+  D:\Desktop\DB\DB_lab\tests\__pycache__
+  D:\Desktop\DB\DB_lab\tools\__pycache__
+  D:\Desktop\DB\DB_lab\webapp\__pycache__
+Dropped and verified absent: TokenHubDB_v11_WebC1114115831
+Dropped and verified absent: TokenHubDB_v10_WebC1114115831
+Dropped and verified absent: TokenHubDB_v01_WebC1114115831
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831\TokenHubDB_v01_WebC1114115831_W6_cea616cfd348.bak
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831\TokenHubDB_v10_WebC1114115831_W6_3f5d74575396.bak
+Deleted run backup directory: D:\Desktop\DB\DB_lab\result\sql_backups\WebC1114115831
+Cleanup verification PASS for WebC1114115831.

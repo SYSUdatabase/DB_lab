@@ -1,0 +1,8 @@
+D:\Desktop\DB\DB_lab\tools\cleanup_reproduction.ps1 : Cannot convert 'System.String' to the type 'System.Management.Aut
+omation.SwitchParameter' required by parameter 'Confirm'. 
+At line:1 char:103
++ ... uffix 'WebC1114115831' -Server 'localhost\SQLEXPRESS' -Confirm:\False
++                                                                    ~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [cleanup_reproduction.ps1], ParameterBindingException
+    + FullyQualifiedErrorId : CannotConvertArgument,cleanup_reproduction.ps1
+ 

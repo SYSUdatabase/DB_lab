@@ -178,6 +178,17 @@ archive/              第 1—4 周旧报告、历史说明、完整原日志和
 - 本次证据目录：result/source_<RunId>/、result/week6/v11/<RunId>/、result/webapp/<RunId>/。
 - 可再生成的 Python/Ruff 测试缓存。
 
+| 生成物 | 完整批次清理的处理 |
+|---|---|
+| v0.1、v1.0、v1.1三个数据库及其MDF/LDF | 按精确库名删除，文件由SQL Server释放 |
+| Web账户、会话、订单、余额、调用、补货、退款及近14天样例 | 在该批次数据库内，随库删除 |
+| app.Dashboard等程序对象与数据库角色 | 随该批次v1.1库删除 |
+| 两份备份及`result/sql_backups/<RunId>/` | 按记录路径删除，并核对目录已删除 |
+| `result/source_<RunId>/`、`result/week6/v11/<RunId>/`、`result/webapp/<RunId>/` | 完整清理删除；带KeepEvidence时保留 |
+| `__pycache__`、Ruff等缓存 | 脚本扫描并清理仓库内共享缓存 |
+| instance中的运行配置及共享日志 | 按下面的运行账户或共享日志步骤清理 |
+| .venv、源码、.git、archive与其它RunId的证据 | 作为环境与项目材料保留 |
+
 ### 先停止服务，再预览清理
 
 先保存需要保留的截图、对象编号与日志。在终端A按Ctrl+C，等待前台Web进程退出。若本次通过普通账户计划任务启动，在有权限管理任务的PowerShell中执行下列任务命令，任务名应与配置时的账户一致。
@@ -201,25 +212,49 @@ if ($listeners) {
 '本次Web端口已释放'
 ```
 
-清理目标使用准备时记录的RunId和服务器。下面默认保留日志与清单，核对`-WhatIf`输出后执行带确认的命令。
+清理目标使用准备时记录的RunId和服务器。下面是完整清理，包含本次日志与清单。核对`-WhatIf`输出后执行带确认的命令。
 
 ```powershell
 Set-Location 'D:\Desktop\DB\DB_lab'
 $Suffix = Read-Host '输入要清理的RunId，例如WebR1113220000'
 $ServerInstance = 'localhost\SQLEXPRESS'
+if ($Suffix -notmatch '^Web[A-Za-z0-9]{3,12}$') { throw 'RunId格式无效' }
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -WhatIf
+  -Suffix $Suffix -Server $ServerInstance -WhatIf
+if ($LASTEXITCODE -ne 0) { throw '清理预览失败，请检查错误输出' }
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
-  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
+  -Suffix $Suffix -Server $ServerInstance -Confirm
+if ($LASTEXITCODE -ne 0) { throw '清理未完成，请检查错误输出' }
 ```
 
 大屏过程、近14天样例顾客/商品/订单、余额、Token批次和退款账本随该批次v1.1数据库一同清除。样例脚本不创建额外数据库或Windows账户。若还要撤销该批次专用运行账户，应在执行清理前选择后面的`-RemoveRuntime`组合命令，一次清理完成。
 
 `-Server` 必须与准备时传给 `app_prepare.py --server` 的值一致；默认是 `localhost\SQLEXPRESS`。清理脚本核对成功运行留下的 `result/webapp/<RunId>/manifest.json`，只处理由后缀精确组成的三个数据库名，不使用 `LIKE` 或数据库通配符。新批次只检查 `result/sql_backups/<RunId>/`，不访问 SQL Server 的 `Program Files` 默认备份目录；删除数据库时 SQL Server 会一并释放对应 MDF/LDF，不要手动删除数据库文件。
 
-脚本不加`-KeepEvidence`时会删除本次三个证据目录。保留证据的完整命令已列在上方；若确定本次证据也要删除，两条命令均去掉`-KeepEvidence`。对应的Git已跟踪文件会在工作区显示删除，应在提交前核对。
+正常结束应输出`Cleanup verification PASS for <RunId>.`。完整清理后，在同一终端执行下面的只读核验，确认三个数据库与四个批次目录均已删除。
+
+```powershell
+$remainingDatabaseCount = sqlcmd -S $ServerInstance -d master -E -C -b -h -1 -W -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name IN(N'TokenHubDB_v01_$Suffix',N'TokenHubDB_v10_$Suffix',N'TokenHubDB_v11_$Suffix');"
+if ($LASTEXITCODE -ne 0) { throw '数据库核验连接失败' }
+if ([int]("$remainingDatabaseCount".Trim()) -ne 0) { throw '本批次仍有数据库' }
+$runPaths = @("result/source_$Suffix", "result/week6/v11/$Suffix", "result/webapp/$Suffix", "result/sql_backups/$Suffix")
+$remainingPaths = @($runPaths | Where-Object { Test-Path -LiteralPath $_ })
+if ($remainingPaths.Count) { throw "本批次仍有目录：$($remainingPaths -join ', ')" }
+'完整批次清理已核验'
+```
+
+对应的Git已跟踪结果文件会在工作区显示删除，应在提交前核对。批次目录外另存的截图和报告按保存位置管理。
+
+**需要保留证据时改用以下一组命令**。此模式有意保留三个结果目录，只检查数据库与备份目录已删除。
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -WhatIf
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproduction.ps1 `
+  -Suffix $Suffix -Server $ServerInstance -KeepEvidence -Confirm
+```
 
 
 如果复现中途失败，尚未生成 manifest.json，清理程序默认拒绝猜测。确认该后缀是本次新建且三个目标数据库确实属于本次复现后，才加 -AllowIncomplete：
@@ -244,7 +279,20 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/cleanup_reproducti
 
 如果没有配置受限运行账户，不要加 `-RemoveRuntime`；开发预览的环境变量随终端关闭，不需要额外清理。**旧批次兼容**：在此备份目录改造前创建的批次（包括早期 `WebNewRun01`）把 `.bak` 放在 SQL Server 的默认 `Program Files` 目录。若当前账户无权访问，脚本会在任何删除动作前中止；只需对这种旧批次在具有对应 NTFS 权限的提升 PowerShell 中执行同一条清理命令。新批次的备份隔离在仓库内，不需要管理员权限清理。
 
-清理结束核对脚本末尾的验证结果，使用`-KeepEvidence`时应保留日志与清单。前台预览终端可清除本次环境变量。
+清理结束核对脚本末尾的验证结果。中途失败与运行账户示例带有`-KeepEvidence`，需要连同该批次证据一并删除时，两条命令均去掉该参数。
+
+前台预览也会产生共享运行日志。服务停止后，如本机运行记录无需保留，可单独清除以下文件；这些日志可能包含多个批次。
+
+```powershell
+$sharedLogs = @('instance/webapp.log', 'instance/webapp.log.1', 'instance/webapp.log.2', 'instance/webapp.log.3')
+foreach ($logPath in $sharedLogs) {
+    if (Test-Path -LiteralPath $logPath -PathType Leaf) {
+        Remove-Item -LiteralPath $logPath -Force
+    }
+}
+```
+
+前台预览终端可清除本次环境变量。
 
 ```powershell
 Remove-Item Env:DB_LAB_DEMO_PASSWORD, Env:DB_LAB_SECRET, Env:DB_LAB_PREVIEW, Env:DB_LAB_APP_DATABASE, Env:DB_LAB_SERVER, Env:DB_LAB_PORT -ErrorAction SilentlyContinue

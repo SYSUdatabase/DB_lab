@@ -1,0 +1,11 @@
+{
+  "suffix": "WebC1114115831",
+  "sample_order_count": 35,
+  "sample_days": 14,
+  "remaining_databases": [],
+  "remaining_directories": [],
+  "existing_user_batch_preserved": true,
+  "passed": true,
+  "cleanup_log": "cleanup_attempt02.log",
+  "first_cleanup_attempt": "Argument quoting failed before script execution; kept in cleanup.log"
+}

@@ -1,0 +1,65 @@
+{
+  "database": "TokenHubDB_v11_WebC1114115831",
+  "inserted_orders": 35,
+  "sample_user": "dashboard_recent_sample",
+  "start_date": "2026-11-01",
+  "end_date": "2026-11-14",
+  "daily_orders": [
+    {
+      "day": "2026-11-01",
+      "order_count": 2
+    },
+    {
+      "day": "2026-11-02",
+      "order_count": 3
+    },
+    {
+      "day": "2026-11-03",
+      "order_count": 4
+    },
+    {
+      "day": "2026-11-04",
+      "order_count": 1
+    },
+    {
+      "day": "2026-11-05",
+      "order_count": 2
+    },
+    {
+      "day": "2026-11-06",
+      "order_count": 3
+    },
+    {
+      "day": "2026-11-07",
+      "order_count": 4
+    },
+    {
+      "day": "2026-11-08",
+      "order_count": 1
+    },
+    {
+      "day": "2026-11-09",
+      "order_count": 2
+    },
+    {
+      "day": "2026-11-10",
+      "order_count": 3
+    },
+    {
+      "day": "2026-11-11",
+      "order_count": 4
+    },
+    {
+      "day": "2026-11-12",
+      "order_count": 1
+    },
+    {
+      "day": "2026-11-13",
+      "order_count": 2
+    },
+    {
+      "day": "2026-11-14",
+      "order_count": 3
+    }
+  ]
+}

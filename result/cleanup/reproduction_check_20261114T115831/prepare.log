@@ -1,0 +1,8 @@
+PASS 01_source.log
+PASS 02_clone.log
+PASS deploy_extension.py.log
+PASS install_refund.py.log
+PASS validate_hardened.py.log
+PASS 03_app_install.log
+PASS 04_dashboard_install.log
+PASS application prepared: TokenHubDB_v11_WebC1114115831

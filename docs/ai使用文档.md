@@ -479,3 +479,10 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 用户要求清理现有项目数据库以从空库复现。盘点并保存明确清单后，核对5050进程父程序属于原项目.venv，停止项目Web服务并确认端口释放。按名称和database_id逐项核对，删除本机SQLEXPRESS上的36个TokenHubDB_v01/v10/v11数据库，逐项确认DB_ID为空。最终项目库0个，aiwork、school及系统库的名单、编号与状态保持盘点值。
 
 清理证据位于result/cleanup/database_cleanup_20261114T012256/before.json、web_service.json和result.json。原始源码、虚拟环境、备份、历史证据与用户未跟踪输出均未执行文件清理。本轮仅核验清理结果，未重建数据库。后续按README路径A使用新RunId从空库准备，再执行近14天样例步骤。
+
+
+## 2026-11-14 README完整批次清理核验
+
+用户要求确保README准确清理空库复现生成的数据。核对脚本后将完整清理主路径移除KeepEvidence，保留证据另列一组命令，新增生成物与删除范围表、三个库及四个目录独立检查，说明共享缓存和instance运行日志的归属。共享日志另提供服务停止后的精确文件清理命令。
+
+独立批次WebC1114115831已从空v0.1构建至Web与大屏，加入近14天样例后，执行WhatIf并完整清理。结果为三个目标库与source/week6/webapp/备份四个目录全部不存在，用户既有WebR1114115635源库仍在。证据位于result/cleanup/reproduction_check_20261114T115831。自动核验首轮使用子进程传Confirm布尔参数时错误转义，脚本未执行；第二次在同一PowerShell直接调用布尔参数成功。首次文档写入命令被工具策略拒绝，改用apply_patch编辑；一次补丁因原文匹配不符未写入，重新读取后修正。未修改清理脚本逻辑。
