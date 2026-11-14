@@ -16,7 +16,7 @@
 | 6 | UsageSummary拆分与BCNF、无损迁移 | 仅展示PPT，讲解后翻页 |
 | 7 | 顾客注册、管理员新增/停用员工 | 注册弹窗、员工管理、第二浏览器窗口 |
 | 8 | 四类角色权限 | 切换游客、顾客、店员、管理员，核对导航与按钮 |
-| 9 | 旧样例时间顺序异常与改进 | 历史异常日志、当前库只读时间检查 |
+| 9 | 旧样例时间顺序异常与改进 | 仅展示PPT，讲解后翻页 |
 | 10 | 部分消费退款、未消费退款、重复退款保护 | 订单管理 → 退款账本 → Token余额 |
 | 11 | 大屏、14天趋势、库存预警与补货 | 运营概览 → 上游库存 → 补货任务 → 运营概览 |
 | 12 | 401/403/409/400与数据库对账 | 浏览器开发者工具、注册/商品表单、SSMS及历史证据 |
@@ -167,23 +167,7 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 
 ## PPT第9页：旧数据时间异常与当前检查
 
-**核心功能**　展示已发现的历史问题、保留证据，以及当前的跨表时间校验。
-
-1. 停留PPT第9页，指出旧库案例中的订单日期和注册日期。
-2. 资源管理器打开`result\week6\regression\legacy_anomalies_source.log`，核对`orders_before_registration 20`及`usage_before_registration 402`。
-3. 说明该日志来自历史`TokenHubDB_v01_A`，旧库已清理时直接使用留存证据。
-4. SSMS把数据库下拉框切回本轮v1.1库 → “新建查询” → 粘贴以下SQL → F5。
-
-```sql
-SELECT COUNT(*) AS orders_before_registration
-FROM dbo.Orders o JOIN dbo.Users u ON u.user_id=o.user_id
-WHERE o.created_at<u.created_at;
-SELECT COUNT(*) AS usage_before_registration
-FROM dbo.TokenUsageLogs l JOIN dbo.Users u ON u.user_id=l.user_id
-WHERE l.used_at<u.created_at;
-```
-
-5. 新建干净库预期为0和0。时间保护来自注册、订单、调用的跨表规则与受控入口；第6页的周期拆分解决的是函数依赖，两者分别说明。
+本页仅展示PPT内容，讲解后直接翻到第10页。
 
 ## PPT第10页：退款闭环与重复请求
 
