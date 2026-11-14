@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import argparse
-import getpass
 import json
 from datetime import datetime
 
 import bcrypt
 import pyodbc
 from seed_dashboard_recent import ROOT, validate_database
+
+DEMO_PASSWORD = "cshztmdscshztmds"
 
 
 def prepare(connection: pyodbc.Connection, password: str) -> dict[str, object]:
@@ -27,12 +28,6 @@ def prepare(connection: pyodbc.Connection, password: str) -> dict[str, object]:
             "@LockOwner='Transaction',@LockTimeout=10000; "
             "IF @result<0 THROW 55820,'Another PPT preparation is running',1;"
         )
-        cursor.execute(
-            "SELECT password_hash FROM dbo.Users WITH(UPDLOCK,HOLDLOCK) WHERE username='chen_demo'"
-        )
-        existing = cursor.fetchone()
-        if existing and not bcrypt.checkpw(encoded, existing[0].encode("ascii")):
-            raise ValueError("chen_demo exists. Enter its original password or use a new batch")
         cursor.execute((ROOT / "sql/app/ppt_demo_data.sql").read_text(encoding="utf-8"), hashed)
         while cursor.description is None:
             if not cursor.nextset():
@@ -48,9 +43,6 @@ def main() -> None:
     parser.add_argument("--server", default=r"localhost\SQLEXPRESS")
     args = parser.parse_args()
     validate_database(args.database)
-    password = getpass.getpass("Set chen_demo password (12–72 UTF-8 bytes): ")
-    if password != getpass.getpass("Confirm chen_demo password: "):
-        raise SystemExit("Passwords do not match")
     output = ROOT / "result/webapp" / args.database.removeprefix("TokenHubDB_v11_")
     output.mkdir(parents=True, exist_ok=True)
     evidence = output / ("ppt_baseline_" + datetime.now().strftime("%Y%m%d_%H%M%S_%f") + ".json")
@@ -61,7 +53,7 @@ def main() -> None:
         timeout=10,
     )
     try:
-        result = prepare(connection, password)
+        result = prepare(connection, DEMO_PASSWORD)
         connection.commit()
     except BaseException:
         connection.rollback()

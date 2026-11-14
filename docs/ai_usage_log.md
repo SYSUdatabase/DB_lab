@@ -667,3 +667,8 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 用户要求将商品、库存及陈同学账户的提前准备改为代码执行。新增tools/prepare_ppt_demo.py和sql/app/ppt_demo_data.sql，Windows集成认证连接指定Web库，交互读取并bcrypt保存顾客密码，在同一事务中准备6.90套餐、10000额度预警账号及chen_demo，并检查20000调用可用账号。保存不含密码的大屏基准JSON。未开始操作时同密码可重复执行，已有顾客交易、补货或第7页账户则拒绝重置并回滚。第7页注册与新增店员保留现场操作。同步README及PPT流程0.2节。验证使用本机TokenHubDB_v11_WebR1114151637执行准备、同密码重复执行、错误密码拒绝、库存冲突拒绝及回滚检查，均通过。验证结束已回滚全部行写入，SQL Server的IDENTITY序号可能因回滚产生间隔。首轮Ruff发现未使用导入及排序，自动修正后复查。未执行浏览器交易。
 
 收尾Python语法、文档链接、12页顺序及git diff --check通过。Ruff格式检查发现两处排版，格式化后lint与format --check均通过，CLI --help正常。
+
+
+## 2026-11-14 统一展示账户密码
+
+用户指定展示账户统一密码。准备脚本改为固定展示口令并取消交互输入，在同一事务内设置chen_demo和web_admin的bcrypt哈希并撤销旧会话。已有交易仍按原规则拒绝重置。README新建库命令、PPT流程注册李同学、创建/重置张店员及各处登录步骤同步使用指定口令。未在AI日志记录密码值，实际验证chen_demo与web_admin的密码匹配、旧会话撤销及重复执行通过，验证写入全部回滚。Ruff lint/format及Python语法检查通过。

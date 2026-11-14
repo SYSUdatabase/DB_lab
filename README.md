@@ -17,7 +17,7 @@
 
 按PPT页码操作的流程见[第二阶段12页PPT展示流程](docs/stage2_ppt_walkthrough.md)，包含每页核心功能、点击步骤、输入示例与预期结果。
 
-进行PPT展示时，完成近14天样例准备后、启动服务器前，可运行以下命令自动准备商品、预警库存、顾客`chen_demo`及大屏基准。命令会交互询问顾客密码，详细步骤见上述流程的0.2节。
+进行PPT展示时，完成近14天样例准备后、启动服务器前，可运行以下命令自动准备商品、预警库存、顾客`chen_demo`及大屏基准。展示账户统一使用密码`cshztmdscshztmds`，准备命令自动设置`chen_demo`及`web_admin`的密码，详细步骤见上述流程的0.2节。
 
 ```powershell
 .\.venv\Scripts\python.exe tools/prepare_ppt_demo.py --server $ServerInstance --database $DatabaseName
@@ -67,7 +67,7 @@ if ($LASTEXITCODE -ne 0) { throw '现有虚拟环境不可用，请先检查环�
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 if ($LASTEXITCODE -ne 0) { throw '依赖安装失败' }
 $env:PATH = "$pwd\.venv\Scripts;$env:PATH"
-$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置12至72字节的实验密码'
+$env:DB_LAB_DEMO_PASSWORD = 'cshztmdscshztmds'
 .\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix
 if ($LASTEXITCODE -ne 0) { throw '数据库准备失败，请先检查本次日志' }
 ```

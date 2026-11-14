@@ -29,6 +29,14 @@ BEGIN
  VALUES('chen_demo','chen_demo@example.invalid',@hash);
  SET @user=CONVERT(INT,SCOPE_IDENTITY());
 END;
+UPDATE dbo.Users SET password_hash=@hash WHERE user_id=@user;
+DECLARE @admin INT;
+SELECT @admin=e.employee_id FROM dbo.Employees e JOIN dbo.Roles r ON r.role_id=e.role_id
+ WHERE e.account='web_admin' AND e.status='active' AND r.role_name='admin';
+IF @admin IS NULL THROW 55821,'The prepared web_admin administrator is missing',1;
+UPDATE dbo.Employees SET password_hash=@hash WHERE employee_id=@admin;
+UPDATE app.Sessions SET revoked_at=SYSDATETIME()
+ WHERE (user_id=@user OR employee_id=@admin) AND revoked_at IS NULL;
 SELECT @product=product_id FROM dbo.Products WHERE name=N'入门体验套餐';
 IF @product IS NOT NULL AND NOT EXISTS(
  SELECT 1 FROM dbo.Products WHERE product_id=@product AND model_provider='Other' AND token_amount=100000)
