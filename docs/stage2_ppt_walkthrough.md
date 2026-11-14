@@ -206,18 +206,6 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 | 11-8 | 左侧“上游库存” → 翻页到展示库存账号。 | `展示库存账号`的可用库存为30000。 |
 | 11-9 | 回普通窗口管理员“运营概览” → “立即刷新” → 滚动到预警区域。 | 展示库存账号不再满足低库存条件，预警账号数较补货前减少1。 |
 
-若要展示创建人和处理人，SSMS选本轮v1.1库，直接执行下面SQL。查询按账号名称自动找到刚才那笔任务。
-
-```sql
-SELECT TOP (1) t.task_id,t.created_by,t.assigned_to,t.target_amount,t.actual_amount,t.status
-FROM dbo.RestockTask t
-JOIN dbo.UpstreamAccount a ON a.account_id=t.account_id
-WHERE a.account_name=N'展示库存账号'
-ORDER BY t.task_id DESC;
-```
-
-本次创建和处理均由张店员完成，对应同一员工编号。回到PPT时指出库存变化与SQL记录一致。
-
 ## PPT第12页：四种失败反馈与SQL对账
 
 **核心功能**　显示明确HTTP状态与请求编号，验证失败没有产生业务写入。
