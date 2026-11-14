@@ -15,6 +15,8 @@
 
 ## 系统架构
 
+按PPT页码操作的流程见[第二阶段12页PPT展示流程](docs/stage2_ppt_walkthrough.md)，包含每页核心功能、点击步骤、输入示例与预期结果。
+
 ```text
 HTML / CSS / JavaScript（webapp/templates、webapp/static）
   ↓ /api/v1/* HTTP + CSRF
