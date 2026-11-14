@@ -679,3 +679,8 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 用户报告chen_demo登录失败并询问是否重建。systematic-debugging核对请求401及现有TokenHubDB_v11_WebR1114151637缺少顾客。首次实际运行准备命令虽输出PASS，独立HTTP仍401，独立SQL仍无账户。诊断@@TRANCOUNT发现pyodbc自动事务与prepare显式BEGIN嵌套，prepare后为2、commit后仍为1，关闭连接使外层回滚。此前同连接检查未覆盖关闭后持久性，记录的回滚验证通过不能证明准备命令能持久化。
 
 删除tools/prepare_ppt_demo.py中的显式BEGIN，连接事务统一由pyodbc管理。实际执行准备命令后，关闭连接再用独立连接核对顾客、6.90商品与10000库存均存在，重复准备的@@TRANCOUNT为1。当前5050服务分别用chen_demo和web_admin登录HTTP200，验证会话已退出。有效基准为result/webapp/WebR1114151637/ppt_baseline_20261114_160247_411411.json；先前160120输出基准对应未持久化尝试。现有库已就绪，无需重建或重启，本轮未执行下单、调用或退款。
+
+
+## 2026-11-14 改用管理员库存页面核对调用扣减
+
+用户要求将第2页调用后SSMS只读SQL改为管理员查看上游库存。修改docs/stage2_ppt_walkthrough.md，在管理员改价后截取有效且额度充足的Other账号库存，陈同学消费20000后切回管理员，对比同账号可用额度减少20000，并恢复陈同学登录衔接第5页。移除该段SQL，保留10000预警账号供第11页补货。静态核对app.js的库存字段、分页及install.sql的账号选择规则，未执行新增调用或页面交易。
