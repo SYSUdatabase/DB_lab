@@ -13,7 +13,7 @@
 | 3 | 18表、22外键、四类角色、75项测试与迁移结果 | SSMS结构查询、历史验收文件 |
 | 4 | 完整ER模型 | PPT中的ER图；需要放大时打开项目ER图片 |
 | 5 | 顾客/订单/商品、账号/库存/流水、角色/员工/补货联系 | 订单详情、库存页、ER图、受引用删除拒绝 |
-| 6 | UsageSummary拆分与BCNF、无损迁移 | 规范化文档、迁移日志与v1.0查询 |
+| 6 | UsageSummary拆分与BCNF、无损迁移 | 仅展示PPT，讲解后翻页 |
 | 7 | 顾客注册、管理员新增/停用员工 | 注册弹窗、员工管理、第二浏览器窗口 |
 | 8 | 四类角色权限 | 切换游客、顾客、店员、管理员，核对导航与按钮 |
 | 9 | 旧样例时间顺序异常与改进 | 历史异常日志、当前库只读时间检查 |
@@ -124,22 +124,7 @@ FROM sys.foreign_keys WHERE is_disabled=0 AND is_not_trusted=0;
 
 ## PPT第6页：规范化迁移与数据保留
 
-**核心功能**　将周期定义从使用汇总中拆出，验证记录保留与无损重构。
-
-1. 切到资源管理器 → 打开`archive\coursework\week6\dependency_normalization.md`，查找`UsagePeriod`，对照PPT说明周期类型＋开始日期决定结束日期。
-2. 打开`result\week6\v11\WebFinal1106A\regression_v11.sql.log`，Ctrl+F查找`R02`和`EXCEPT`，展示历史双向比较通过记录。也可打开本轮RunId对应的同名日志。
-3. SSMS点击数据库下拉框，选择本轮`TokenHubDB_v10_<RunId>` → 点“新建查询” → 粘贴以下SQL → F5。
-
-```sql
-SELECT COUNT_BIG(*) AS summaries FROM dbo.UsageSummaryCore;
-SELECT COUNT_BIG(*) AS reconstructed_summaries FROM dbo.UsageSummary;
-SELECT COUNT_BIG(*) AS period_definitions FROM dbo.UsagePeriod;
-SELECT TOP (5) period_type,period_start,period_end
-FROM dbo.UsagePeriod ORDER BY period_type,period_start;
-```
-
-4. 核对3394、3394、99，指出周期终点集中在UsagePeriod保存。若本轮做过其它汇总写入，以构建时的迁移日志说明3394这一历史数值。
-5. 回PPT第6页，说明两张拆分表基于已确认函数依赖达到BCNF。订单金额等业务快照仍由现有约束和交易过程维护。
+本页仅展示PPT内容，讲解后直接翻到第7页。
 
 ## PPT第7页：注册、创建员工、停用和会话失效
 
