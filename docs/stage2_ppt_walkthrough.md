@@ -19,7 +19,7 @@
 | 9 | 旧样例时间顺序异常与改进 | 仅展示PPT，讲解后翻页 |
 | 10 | 部分消费退款、未消费退款 | 订单管理 → 退款账本 → Token余额 |
 | 11 | 大屏、14天趋势、库存预警与补货 | 运营概览 → 上游库存 → 补货任务 → 运营概览 |
-| 12 | 401/403/409/400与数据库对账 | 浏览器开发者工具、注册/商品表单、SSMS及历史证据 |
+| 12 | 异常处理与验收结果 | 仅展示PPT，讲解后结束 |
 
 ## 展示前准备
 
@@ -135,7 +135,7 @@ FROM sys.foreign_keys WHERE is_disabled=0 AND is_not_trusted=0;
 1. 浏览器右上角“退出登录” → “登录账户” → 点“还没有账号？注册顾客账户”。
 2. 账号输入`li_demo`，邮箱输入`li_demo@example.invalid`，密码及确认密码输入`cshztmdscshztmds`。
 3. 点“创建顾客账号”，核对自动以顾客登录。
-4. 左侧点“订单管理”，李同学应看不到陈同学的6.90元订单。李同学保持无订单，留给第8、12页隔离验证。
+4. 左侧点“订单管理”，李同学应看不到陈同学的6.90元订单。李同学保持无订单，留给第8页隔离验证。
 
 ### 7.2 新增和停用张店员
 
@@ -163,7 +163,7 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 | 张店员 | 切张店员的无痕窗口 → “商品目录” → “订单管理” → “上游库存” → “补货任务” → “退款账本”。 | 能查看跨顾客运营数据，可看到6.90元订单；没有新增商品、员工管理、替顾客支付或申请退款的按钮。 |
 | 管理员 | 普通窗口退出李同学 → 员工入口登录`web_admin`，密码填`cshztmdscshztmds` → “商品目录” → “员工管理”。 | 可维护商品及店员，原有员工和历史交易保留。 |
 
-管理员、店员都不以员工身份替顾客支付。第12页会直接调用隐藏入口后的API，证明后端也检查权限。
+管理员、店员都不以员工身份替顾客支付。
 
 ## PPT第9页：旧数据时间异常与当前检查
 
@@ -206,64 +206,14 @@ PPT截图还显示“重置密码”按钮。需要展示时，在普通窗口�
 | 11-8 | 左侧“上游库存” → 翻页到展示库存账号。 | `展示库存账号`的可用库存为30000。 |
 | 11-9 | 回普通窗口管理员“运营概览” → “立即刷新” → 滚动到预警区域。 | 展示库存账号不再满足低库存条件，预警账号数较补货前减少1。 |
 
-## PPT第12页：四种失败反馈与SQL对账
+## PPT第12页：结束展示
 
-**核心功能**　显示明确HTTP状态与请求编号，验证失败没有产生业务写入。
-
-先按F12打开开发者工具 → 点击“控制台/Console” → 粘贴下面函数并按Enter。浏览器限制粘贴时，按其提示允许本次粘贴。函数只输出HTTP状态、业务码和请求编号。若刷新过页面，在Console重新粘贴该函数。
-
-```javascript
-async function pptApi(path, method = 'GET', payload = {}) {
-  const identity = await (await fetch('/api/v1/auth/session')).json();
-  const options = {method, headers: {
-    'Content-Type': 'application/json', 'X-CSRF-Token': identity.data.csrf
-  }};
-  if (method !== 'GET') options.body = JSON.stringify(payload);
-  const response = await fetch('/api/v1' + path, options);
-  const body = await response.json();
-  console.table([{http: response.status, code: body.code, request_id: body.request_id}]);
-}
-```
-
-下面的权限检查使用新库自带的第1号订单和第1号商品，可以直接复制命令。
-
-| 场景 | 具体点击/输入 | 核对结果 |
-|---|---|---|
-| 401游客请求订单 | 普通窗口退出管理员 → F12 → Console → 输入`await pptApi('/orders')` → Enter。 | HTTP401，未登录，记录请求编号。 |
-| 403顾客查看别人订单 | F12收起 → “登录账户” → 登录入口选“顾客登录” → 账号输入`li_demo` → 填`cshztmdscshztmds` → 点“登录” → F12/Console → `await pptApi('/orders/1')`。 | HTTP403。第1号订单属于初始样例顾客，李同学无权查看。 |
-| 403顾客访问库存 | 李同学保持登录 → Console输入`await pptApi('/inventory')`。 | HTTP403，证明绕过隐藏导航也被拒绝。 |
-| 400非法Token数量 | 李同学保持登录 → Console输入`await pptApi('/usage', 'POST', {product_id: 1, tokens_used: '-1'})`。 | HTTP400，不新增调用。数字输入框本身可能先拦截负数，所以此处直接验证API。 |
-| 409重复注册 | 收起F12 → 退出李同学 → 登录账户 → 注册顾客入口 → 账号填`li_demo`、邮箱填`li_demo@example.invalid`，密码及确认密码均填`cshztmdscshztmds` → F12打开“网络/Network” → 再点击“创建顾客账号”。 | 页面提示重复并显示请求编号。Network中选POST auth/register → “标头/Headers”看409。收起工具，点“取消”关闭表单。 |
-| 409商品唯一约束 | 员工入口登录`web_admin`，密码填`cshztmdscshztmds` → 商品目录 → 新增商品 → 新名称`重复档位套餐`、Other、100000 Token、单价6.90、上游消耗100000、在售 → F12打开Network → 再点击“确认提交”。 | 因入门体验套餐已占用Other＋100000档位而409；选POST products看状态。取消弹窗后新商品未出现。 |
-
-### 最后对账
-
-1. SSMS选本轮v1.1库 → 新建查询。
-2. 粘贴以下查询，账号已写成`chen_demo`，按F5。
-
-```sql
-SELECT o.order_id,o.status,o.total_amount,o.total_tokens,
-       l.issued_tokens,l.consumed_tokens,l.refunded_tokens,
-       r.refund_amount,r.refundable_tokens,r.consumed_tokens AS refund_consumed
-FROM dbo.Orders o
-JOIN dbo.Users u ON u.user_id=o.user_id
-JOIN dbo.OrderDetails d ON d.order_id=o.order_id
-LEFT JOIN dbo.OrderTokenLots l ON l.detail_id=d.detail_id
-LEFT JOIN dbo.RefundLedger r ON r.order_id=o.order_id
-WHERE u.username='chen_demo' ORDER BY o.order_id;
-SELECT b.model_provider,b.remaining_tokens
-FROM dbo.TokenBalances b JOIN dbo.Users u ON u.user_id=b.user_id
-WHERE u.username='chen_demo';
-```
-
-3. 核对6.90元那笔订单购买100000 Token、消费20000、回收80000、退款5.52元；8.90元那笔订单购买100000 Token、消费0、回收100000、退款8.90元。陈同学的Other余额应为0。
-4. 打开`result\stage2\WebEmp26A01\README.md`，查看22张业务截图与25项SQL对账的证据入口。75项日志仍使用第3页的WebFinal1106A路径，分别说明批次。
-5. 回PPT第12页完成展示。保存交易结果截图、失败请求编号及必要的对账结果。
+本页仅展示PPT内容，讲解后结束展示。
 
 ## 结束与口径核对
 
 - 在普通窗口与张店员的无痕窗口分别点“退出登录”。回到启动服务器的PowerShell窗口，按Ctrl+C，等待命令提示符返回，再按README检查5050端口释放。
 - 需要清理本轮数据时，按[README完整批次清理](../README.md)输入本轮RunId，先预览再执行；清理后按文档核对三个数据库及四个批次目录。
-- 3394为迁移汇总行数，75/22/25是对应历史批次结果。大屏金额和订单数以本轮基准变化核对。
+- 大屏金额和订单数以本轮基准变化核对。
 - 时间线合法性由跨表时间约束与受控交易过程保证，周期表拆分处理函数依赖。人工补货有创建人，系统自动任务允许为空。
 - 本流程按12页PPT及当前源码静态核对，尚未登记为本轮逐项人工执行通过。PPT源文件保持原样。
