@@ -672,3 +672,10 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 ## 2026-11-14 统一展示账户密码
 
 用户指定展示账户统一密码。准备脚本改为固定展示口令并取消交互输入，在同一事务内设置chen_demo和web_admin的bcrypt哈希并撤销旧会话。已有交易仍按原规则拒绝重置。README新建库命令、PPT流程注册李同学、创建/重置张店员及各处登录步骤同步使用指定口令。未在AI日志记录密码值，实际验证chen_demo与web_admin的密码匹配、旧会话撤销及重复执行通过，验证写入全部回滚。Ruff lint/format及Python语法检查通过。
+
+
+## 2026-11-14 修复PPT准备数据未持久化
+
+用户报告chen_demo登录失败并询问是否重建。systematic-debugging核对请求401及现有TokenHubDB_v11_WebR1114151637缺少顾客。首次实际运行准备命令虽输出PASS，独立HTTP仍401，独立SQL仍无账户。诊断@@TRANCOUNT发现pyodbc自动事务与prepare显式BEGIN嵌套，prepare后为2、commit后仍为1，关闭连接使外层回滚。此前同连接检查未覆盖关闭后持久性，记录的回滚验证通过不能证明准备命令能持久化。
+
+删除tools/prepare_ppt_demo.py中的显式BEGIN，连接事务统一由pyodbc管理。实际执行准备命令后，关闭连接再用独立连接核对顾客、6.90商品与10000库存均存在，重复准备的@@TRANCOUNT为1。当前5050服务分别用chen_demo和web_admin登录HTTP200，验证会话已退出。有效基准为result/webapp/WebR1114151637/ppt_baseline_20261114_160247_411411.json；先前160120输出基准对应未持久化尝试。现有库已就绪，无需重建或重启，本轮未执行下单、调用或退款。

@@ -21,7 +21,7 @@ def prepare(connection: pyodbc.Connection, password: str) -> dict[str, object]:
     hashed = bcrypt.hashpw(encoded, bcrypt.gensalt()).decode("ascii")
     cursor = connection.cursor()
     try:
-        cursor.execute("SET XACT_ABORT ON; SET NOCOUNT ON; BEGIN TRANSACTION;")
+        cursor.execute("SET XACT_ABORT ON; SET NOCOUNT ON;")
         cursor.execute(
             "DECLARE @result INT; EXEC @result=sys.sp_getapplock "
             "@Resource=N'ppt.walkthrough.prepare',@LockMode='Exclusive',"
