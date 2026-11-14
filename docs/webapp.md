@@ -17,7 +17,6 @@ webapp/
 sql/app/              会话与权限、应用过程、受限顾客注册、兼容交易适配
 tools/app_prepare.py  全新数据库准备
 tools/setup_web_runtime.ps1  普通账户与计划任务配置
-tests/test_app_*.py / test_web*.py  SQL与HTTP集成检查
 ```
 
 配置模板：[.env.example](../.env.example)。程序从环境变量读取配置，不自动加载 .env。`instance/` 已忽略，包含本地日志及运行配置，不能提交或共享。数据库及结果目录重名即拒绝，不使用 DropExisting。
@@ -94,7 +93,7 @@ $env:DB_LAB_PREVIEW = '1'
 
 退款回收该订单全部可退余额，消费部分不退。退款重复提交返回原记录。管理员登记的SIM编号仅标记本地模拟结算，不表示外部资金划转。
 
-## 测试与故障定位
+## 故障定位
 
 新账号创建会在同一事务中自动登记初始可用额度的 `purchase/manual` 流水，标记为 `APP_INITIAL_QUOTA_V1`；样例准备工具也经过同一数据库触发器。只有这笔系统期初流水的未使用账号可受控删除；存在调用、补货或其它流水时拒绝删除。应用表数及外键数不变，新增一个账号插入触发器和一个期初流水唯一索引。
 
@@ -107,21 +106,7 @@ $env:DB_LAB_PREVIEW = '1'
 sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_Web261021D -E -C -b -i sql/app/verify_opening_inventory.sql
 ```
 
-```powershell
-$env:DB_LAB_TEST_DATABASE = 'TokenHubDB_v01_WebYourRun01'
-$env:DB_LAB_APP_DATABASE = 'TokenHubDB_v11_WebYourRun01'
-# DB_LAB_DEMO_PASSWORD须为本次建库时的样例密码
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\ruff.exe check webapp tools/app_prepare.py tools/browser_qa.py tools/runtime_identity.py tests
-.\.venv\Scripts\ruff.exe format --check webapp tools/app_prepare.py tools/browser_qa.py tools/runtime_identity.py tests
-```
-
-SQL反例在事务中回滚；HTTP业务流程测试会在指定新实验库增加订单、调用和退款，不用于旧交付库。故障注入测试会在隔离事务中临时创建触发器并回滚；应在无人写入的实验库单独执行。缺少数据库环境变量的测试明确skipped。
-
-浏览器测试使用已安装的Tabbit CLI、[场景脚本](../tools/browser_qa.js)和[执行器](../tools/browser_qa.py)，验证三角色流程；不要求运行应用的普通用户安装Tabbit。前端提示失败时保存请求编号，按日志定位；不复制内部异常到页面。
-
-最终原目录56项自动测试全部通过，无skipped；完整结果见[证据索引](../result/webapp/README.md)。第一名测试组员陈诗翰先在其环境测试；第二名组员阮依成已亲自检查本机登录及订单并指出缺少注册入口。后续注册功能已补齐；独立66项测试和22张Edge截图为补充自动化证据。2026-11-06 已在另一台新Windows电脑上完成从零部署及普通Windows受限账户启动验收，并对该账户运行的服务重跑Edge E2E（22+11张截图），见[验收记录](../result/stage2/WebXY1105F/README.md)。
-
+页面提示失败时保存请求编号，按运行日志定位。
 
 应用ER重导出需要可选的matplotlib依赖：安装 "matplotlib>=3.8,<4" 后执行 python report/render_app_er.py。已有SVG/PNG可直接查阅。
 
@@ -135,4 +120,4 @@ SQL反例在事务中回滚；HTTP业务流程测试会在指定新实验库增�
 
 只安装员工管理过程，不删除旧员工、订单或库存记录。注意端口、DB_LAB_APP_DATABASE 和浏览器缓存对应同一站点。不要将脚本运行在原始 TokenHubDB_v01 数据库上。
 
-新测试：[员工管理集成测试](../tests/test_employee_management.py)、[第9周截图（22张业务复测+11张员工管理）及异常请求编号](../result/stage2/WebEmp26A01/README.md)。72项完整 unittest 测试全部通过。本轮截图是 Edge 自动化真实页面操作，阮依成则是实际发现并提出该功能缺失的第二名测试组员；陈诗翰负责第9周原版本继续测试与更新。
+第9周截图与操作记录见[记录索引](../result/stage2/WebEmp26A01/README.md)。

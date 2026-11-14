@@ -1,6 +1,6 @@
 # TokenHub：数据库课程项目（第 1—9 周完成，第 10—13 周进行中）
 
-本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，现进入第 10—13 周数据库编程与事务处理阶段。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和测试工具。
+本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，现进入第 10—13 周数据库编程与事务处理阶段。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和数据库准备工具。
 
 ## 交付内容与入口
 
@@ -8,10 +8,9 @@
 |---|---|---|
 | 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
-| 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[应用测试](tests/)、[Web SQL](sql/app/) |
+| 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[Web SQL](sql/app/) |
 | 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
-| 测试证据 | 浏览器真实截图、请求编号、SQL 对账及完整测试结果 | **[第9周最新证据](result/stage2/WebEmp26A01/README.md)**、[原有测试记录](result/webapp/README.md) |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
 
 ## 系统架构
@@ -124,29 +123,6 @@ if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
 
 正式受限 Windows 账户部署见 [Web 操作手册](docs/webapp.md) 的 `tools/setup_web_runtime.ps1`；开发预览的 `app_runtime_probe` 测试**不能替代**使用真实普通 Windows 身份的数据库权限验收。仓库须放在用户目录（`C:\Users\<用户名>`）之外，否则运行账户无法读取，配置脚本会直接拒绝。
 
-## 测试与交付证据
-
-专门的新数据库上运行，自动测试会写入模拟业务数据，不应在演示主库或他人实验库上重复运行：
-
-```powershell
-$TestSuffix = Read-Host '输入本次专用测试批次的RunId'
-$env:DB_LAB_TEST_DATABASE = "TokenHubDB_v01_$TestSuffix"
-$env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_$TestSuffix"
-$env:DB_LAB_DEMO_PASSWORD = Read-Host "输入本次实验密码"
-$env:DB_LAB_PREVIEW = "1"
-$env:DB_LAB_SECRET = "仅本地测试使用的随机密钥"
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\ruff.exe check webapp tests tools
-```
-
-此前第二阶段独立浏览器证据以 `TokenHubDB_v11_WebStage2A02` 为对象：**22 张 Edge 真页面截图、42 项操作/API 记录、25 项只读 SQL 对账检查全部通过**。另有新库 `WebSign28A` 的 **66 项完整单元与集成测试通过**；详细范围、异常结果和局限见[阶段报告](report/stage2_report.md)与[证据索引](result/stage2/WebStage2A02/README.md)。截图为自动化浏览器执行，并非组员手工签收。
-
-2026-11-04 使用新后缀 WebNewRun01 从空 v0.1 完整构建至 Web：v0.1 建库及脚本全部 PASS；v1.0 迁移为 3394 条汇总、99 个周期键、15 张表、18 条外键和 11 个视图；v1.1 验证为 17 张业务表、20 条可信外键、158 个 Token 批次、3000 条消费引用和 11 个 W6 guards，退款账本核验通过。Web 清单记录 17 张业务表及 1 张 Sessions 表；历史数据修复步骤按设计跳过，因为新建 v0.1 已通过 VFY12/13，且加固验证通过。本轮是空库构建和数据库验证，不包含新的浏览器 E2E。三个实验数据库、两份批次备份和三个复现证据目录随后已按 RunId 清理，本节保留构建与验证结果摘要。
-
-**两名组员已经实际参与网站验收**：陈诗翰第一名先在其环境测试；阮依成第二名亲自测试本机网站登录和订单显示，发现缺少注册入口并推动修复。22张Edge截图为补充自动化证据；[全角色手动验收清单](docs/stage2_acceptance.md)供可选的独立环境复现。
-
-2026-11-06 肖懿在一台未部署过本项目的 Windows 电脑上完成从空库部署和受限 Windows 账户验收（`WebXY1105F`）：运行账户实际连接 SQL Server，sysadmin/db_owner 均为 0，读基表、改商品、DDL 均被拒绝，商品目录可读；对该账户运行的服务重跑 Edge E2E 全部通过。部署过程中修正了 5 个只在新电脑上出现的脚本问题，见[验收记录](result/stage2/WebXY1105F/README.md)。
-
 ## 目录概览
 
 ```text
@@ -157,7 +133,6 @@ sql/app/              Web 应用过程与受限顾客注册
 archive/coursework/week5/、week6/  历史 ER、范式、重构与回归资料
 db_tools/v11/        当前运行依赖的 v1.1 数据库构建与验证脚本
 webapp/、tools/       Web 页面/业务/DAO 与准备、验收脚本
-tests/                安全、SQL、事务和 HTTP 自动化测试
 report/               第二阶段报告、ER 图和渲染源码
 docs/                 Web 操作手册、数据字典、AI 日志及分工
 result/               第二阶段实际证据、迁移及测试日志
@@ -306,7 +281,7 @@ Remove-Item Env:DB_LAB_DEMO_PASSWORD, Env:DB_LAB_SECRET, Env:DB_LAB_PREVIEW, Env
 
 店长（管理员）登录后在左侧选择“员工管理”，可以查看普通店员、新增店员、修改姓名、重置密码、停用或重新启用；没有物理删除按钮，原因是员工与补货/库存操作的历史外键应保留。店员不能通过管理页面创建管理员或管理其他员工；停用和密码重置均会撤销旧会话。
 
-第9周新建隔离数据库 WebEmp26A01 的最新验证：[正常与异常截图索引](result/stage2/WebEmp26A01/README.md)，包含重新截图22张原有业务画面和新增11张员工管理画面、25项SQL对账、72项完整测试全部通过。原有 WebStage2A02 证据保留供审计。陈诗翰负责第9周追加测试及更新，阮依成负责新增员工管理和本轮测试/截图/文档整理。
+第9周新建隔离数据库 WebEmp26A01 的最新验证：[正常与异常截图索引](result/stage2/WebEmp26A01/README.md)，包含重新截图22张原有业务画面和新增11张员工管理画面、25项SQL对账。原有 WebStage2A02 证据保留供审计。陈诗翰负责第9周追加测试及更新，阮依成负责新增员工管理和本轮测试/截图/文档整理。
 
 **已有 Web 实验数据库更新时不需要重建旧库**：在具备数据库安装权限的 PowerShell、项目根目录执行下方 SQLCMD，然后重启 Flask 以加载新路由；务必核对目标库名，不对原始旧库执行。
 
