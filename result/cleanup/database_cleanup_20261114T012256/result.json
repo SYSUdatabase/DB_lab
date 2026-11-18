@@ -1,0 +1,77 @@
+{
+  "server": "localhost\\SQLEXPRESS",
+  "deleted": [
+    "TokenHubDB_v01_A",
+    "TokenHubDB_v01_Web261021A",
+    "TokenHubDB_v01_Web261021B",
+    "TokenHubDB_v01_Web261021C",
+    "TokenHubDB_v01_Web261021D",
+    "TokenHubDB_v01_WebR1113225642",
+    "TokenHubDB_v01_WebW10Base01",
+    "TokenHubDB_v01_WebW10Dev01",
+    "TokenHubDB_v01_WebW10Final01",
+    "TokenHubDB_v01_WebW10Final02",
+    "TokenHubDB_v01_WebW10Final03",
+    "TokenHubDB_v01_WebW10Rollback1",
+    "TokenHubDB_v10_W6_20261014",
+    "TokenHubDB_v10_Web261021A",
+    "TokenHubDB_v10_Web261021B",
+    "TokenHubDB_v10_Web261021C",
+    "TokenHubDB_v10_Web261021D",
+    "TokenHubDB_v10_WebR1113225642",
+    "TokenHubDB_v10_WebW10Base01",
+    "TokenHubDB_v10_WebW10Dev01",
+    "TokenHubDB_v10_WebW10Final01",
+    "TokenHubDB_v10_WebW10Final02",
+    "TokenHubDB_v10_WebW10Final03",
+    "TokenHubDB_v10_WebW10Rollback1",
+    "TokenHubDB_v11_Issues_20261014",
+    "TokenHubDB_v11_Web261021A",
+    "TokenHubDB_v11_Web261021B",
+    "TokenHubDB_v11_Web261021C",
+    "TokenHubDB_v11_Web261021D",
+    "TokenHubDB_v11_WebR1113225642",
+    "TokenHubDB_v11_WebW10Base01",
+    "TokenHubDB_v11_WebW10Dev01",
+    "TokenHubDB_v11_WebW10Final01",
+    "TokenHubDB_v11_WebW10Final02",
+    "TokenHubDB_v11_WebW10Final03",
+    "TokenHubDB_v11_WebW10Rollback1"
+  ],
+  "errors": [],
+  "deleted_count": 36,
+  "remaining_project_databases": [],
+  "retained": [
+    {
+      "name": "aiwork",
+      "database_id": 6,
+      "state": "ONLINE"
+    },
+    {
+      "name": "master",
+      "database_id": 1,
+      "state": "ONLINE"
+    },
+    {
+      "name": "model",
+      "database_id": 3,
+      "state": "ONLINE"
+    },
+    {
+      "name": "msdb",
+      "database_id": 4,
+      "state": "ONLINE"
+    },
+    {
+      "name": "school",
+      "database_id": 5,
+      "state": "ONLINE"
+    },
+    {
+      "name": "tempdb",
+      "database_id": 2,
+      "state": "ONLINE"
+    }
+  ],
+  "passed": true
+}

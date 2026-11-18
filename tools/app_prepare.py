@@ -219,6 +219,23 @@ def main() -> None:
         ],
         evidence / "03_app_install.log",
     )
+    run(
+        [
+            "sqlcmd",
+            "-S",
+            args.server,
+            "-d",
+            target,
+            "-E",
+            "-C",
+            "-b",
+            "-f",
+            "65001",
+            "-i",
+            str(ROOT / "sql/app/dashboard.sql"),
+        ],
+        evidence / "04_dashboard_install.log",
+    )
     seed(args.server, target)
     if args.with_week10:
         install_week10(args.server, target, evidence)

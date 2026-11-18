@@ -106,6 +106,7 @@ ROUTES = (
     ("/restocks/recommendation", "GET", "restocks.recommendation"),
     ("/inventory/adjustments", "POST", "inventory.adjustments.create"),
     ("/inventory/adjustments", "GET", "inventory.adjustments.list"),
+    ("/dashboard", "GET", "dashboard.view"),
     ("/employees", "GET", "employees.list"),
     ("/employees", "POST", "employees.create"),
     ("/employees/<int:employee_id>", "PUT", "employees.update"),

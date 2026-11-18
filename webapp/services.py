@@ -37,6 +37,7 @@ ALLOWED = {
     "restocks.recommendation": {"staff", "admin"},
     "inventory.adjustments.create": {"admin"},
     "inventory.adjustments.list": {"admin"},
+    "dashboard.view": {"staff", "admin"},
     "employees.list": {"admin"},
     "employees.create": {"admin"},
     "employees.update": {"admin"},
@@ -340,6 +341,10 @@ def perform(operation: str, payload: JsonObject, token: str | None) -> JsonObjec
         if role == "guest":
             raise AppError("UNAUTHENTICATED", "请先登录", 401)
         raise AppError("FORBIDDEN", "当前身份没有此操作权限", 403)
+    if operation == "dashboard.view":
+        if payload:
+            raise AppError("INVALID_INPUT", "运营看板不接受查询参数", 400)
+        return dao.dashboard(digest(token))
     if operation.startswith("employees."):
         return dao.employees(digest(token), operation, employee_payload(operation, payload))
     if operation in WEEK10_FIELDS:
