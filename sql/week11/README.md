@@ -12,12 +12,14 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 
 | 文件 | 内容 |
 |---|---|
-| `trigger.sql` | 审计表 `w11.InventoryAudit`、库存审计触发器 `dbo.trg_W11_InventoryAudit`、可售余量函数 `w11.fn_ProviderSellable`、订单完成规则触发器 `dbo.trg_W11_OrderCompletionRules` |
+| `trigger.sql` | 审计表 `w11.InventoryAudit`、库存审计触发器 `dbo.trg_W11_InventoryAudit`、可售余量函数 `w11.fn_ProviderSellable`、订单完成规则触发器 `dbo.trg_W11_OrderCompletionRules`、审计对应商品视图 `w11.v_InventoryAuditProduct` |
 | `window_query.sql` | 商品销售排名、按日累计销售额、最近 3 天移动平均，只读 |
-| `test_trigger.sql` | 13 个用例，按“编号\|类别\|初始数据\|操作\|预期结果\|实际结果\|是否符合”输出，任一不符合则以 57900 结束 |
+| `test_trigger.sql` | 14 个用例（2026-11-23 增加视图映射 A7 前为 13 个），按“编号\|类别\|初始数据\|操作\|预期结果\|实际结果\|是否符合”输出，任一不符合则以 57900 结束 |
 | `install.sql` | 增量安装入口 |
 
 库存审计的操作人员来自会话上下文 `tokenhub.actor`。`app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`；直接 SQL 连接时记为 `sql:登录名`。会话上下文可由连接自行设置，因此审计表另有 `login_name` 列，由触发器写入 `ORIGINAL_LOGIN()`，记录实际连接数据库的登录名。
+
+订单状态在数据库中仍存为 `paid`，说明和测试记录统一写作“已完成（paid）”。库存按上游账号保存，一条审计影响该账号所属供应商的全部套餐；需要按商品查看时用视图 `w11.v_InventoryAuditProduct`，它把每条审计展开为该供应商的每个商品各一行，不改动审计表。
 
 | 错误号 | 含义 |
 |---|---|

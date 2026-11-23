@@ -125,6 +125,20 @@ INSERT @r VALUES('A6',N'触发器拒绝',N'账号 #'+CONVERT(NVARCHAR(11),@a1)+N
  N'拒绝（54409），记录不变',@err+N'，被改记录 '+CONVERT(NVARCHAR(11),(SELECT COUNT(*) FROM w11.InventoryAudit WHERE operator=N'tamper'))+N' 行',
  CASE WHEN @err=N'错误 54409' AND NOT EXISTS(SELECT 1 FROM w11.InventoryAudit WHERE operator=N'tamper') THEN 1 ELSE 0 END);
 
+-- A7 视图映射：w11.v_InventoryAuditProduct 把本次两个测试账号的每条审计展开到所属供应商的全部商品。
+DECLARE @vrows INT,@vexpect INT,@vbad INT;
+SELECT @vrows=COUNT(*) FROM w11.v_InventoryAuditProduct WHERE account_id IN(@a1,@a2);
+SELECT @vexpect=SUM(CASE WHEN n.c=0 THEN 1 ELSE n.c END) FROM w11.InventoryAudit a
+ CROSS APPLY (SELECT COUNT(*) c FROM dbo.Products p WHERE p.model_provider=a.provider) n WHERE a.account_id IN(@a1,@a2);
+SELECT @vbad=COUNT(*) FROM w11.v_InventoryAuditProduct v LEFT JOIN dbo.Products p ON p.product_id=v.product_id
+ WHERE v.account_id IN(@a1,@a2) AND (v.product_id IS NULL OR p.model_provider<>v.provider);
+INSERT @r VALUES('A7',N'视图映射',N'账号 #'+CONVERT(NVARCHAR(11),@a1)+N'、#'+CONVERT(NVARCHAR(11),@a2)+N' 共 '
+  +CONVERT(NVARCHAR(11),(SELECT COUNT(*) FROM w11.InventoryAudit WHERE account_id IN(@a1,@a2)))+N' 条审计，Other 供应商商品 '
+  +CONVERT(NVARCHAR(11),(SELECT COUNT(*) FROM dbo.Products WHERE model_provider='Other'))+N' 个',
+ N'查询 w11.v_InventoryAuditProduct',N'每条审计展开为该供应商的每个商品各一行，共 '+CONVERT(NVARCHAR(11),@vexpect)+N' 行，商品供应商均与审计一致',
+ N'视图 '+CONVERT(NVARCHAR(11),@vrows)+N' 行，供应商不一致或缺商品 '+CONVERT(NVARCHAR(11),@vbad)+N' 行',
+ CASE WHEN @vrows>0 AND @vrows=@vexpect AND @vbad=0 THEN 1 ELSE 0 END);
+
 -- 订单完成规则用的测试商品：普通商品 P、Q，以及一份超过 Other 全部可售余量的大套餐。
 INSERT dbo.Products(name,description,price,model_provider,token_amount,required_upstream_tokens,status)
 VALUES(N'W11商品P_'+@tag,N'第11周测试商品P',12.00,'Other',100000+CONVERT(INT,RIGHT(@tag,5)),100000+CONVERT(INT,RIGHT(@tag,5)),'active');
@@ -143,21 +157,21 @@ EXEC dbo.usp_W5_AddMergedOrderItem @o1,@q,1,@emit_result=0;
 BEGIN TRY EXEC w12.usp_CompleteOrder @o1,@emit_result=0; SET @err=NULL; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER(),N' ',ERROR_MESSAGE()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @st=status FROM dbo.Orders WHERE order_id=@o1;
-INSERT @r VALUES('O1',N'正常操作',N'订单 #'+CONVERT(NVARCHAR(11),@o1)+N' pending，明细 P×2、Q×1',N'调用订单完成事务（状态改为 paid）',
- N'触发器放行，状态 paid',COALESCE(@err,N'状态 '+@st),CASE WHEN @err IS NULL AND @st='paid' THEN 1 ELSE 0 END);
+INSERT @r VALUES('O1',N'正常操作',N'订单 #'+CONVERT(NVARCHAR(11),@o1)+N' pending，明细 P×2、Q×1',N'调用订单完成事务（状态改为已完成（paid））',
+ N'触发器放行，状态已完成（paid）',COALESCE(@err,N'状态 '+@st),CASE WHEN @err IS NULL AND @st='paid' THEN 1 ELSE 0 END);
 
 -- O2 重复完成：对已完成订单再次 UPDATE status='paid'。
 BEGIN TRY UPDATE dbo.Orders SET status='paid' WHERE order_id=@o1; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
-INSERT @r VALUES('O2',N'触发器拒绝',N'订单 #'+CONVERT(NVARCHAR(11),@o1)+N' 已为 paid',N'UPDATE 状态再次设为 paid',
- N'拒绝（54401），状态仍为 paid',@err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o1),
+INSERT @r VALUES('O2',N'触发器拒绝',N'订单 #'+CONVERT(NVARCHAR(11),@o1)+N' 已为已完成（paid）',N'UPDATE 状态再次设为已完成（paid）',
+ N'拒绝（54401），状态仍为已完成（paid）',@err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o1),
  CASE WHEN @err=N'错误 54401' THEN 1 ELSE 0 END);
 
 -- O3 无明细：空的待支付订单直接改为 paid。
 EXEC dbo.usp_W5_CreateRegisteredOrder @uid,@emit_result=0,@app_result_id=@o2 OUTPUT;
 BEGIN TRY UPDATE dbo.Orders SET status='paid',paid_at=SYSDATETIME() WHERE order_id=@o2; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
-INSERT @r VALUES('O3',N'非法数据',N'订单 #'+CONVERT(NVARCHAR(11),@o2)+N' pending，无明细',N'UPDATE 状态为 paid',
+INSERT @r VALUES('O3',N'非法数据',N'订单 #'+CONVERT(NVARCHAR(11),@o2)+N' pending，无明细',N'UPDATE 状态为已完成（paid）',
  N'拒绝（54403），状态仍为 pending',@err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o2),
  CASE WHEN @err=N'错误 54403' AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o2) THEN 1 ELSE 0 END);
 
@@ -167,7 +181,7 @@ EXEC dbo.usp_W5_AddMergedOrderItem @o3,@p,1,@emit_result=0;
 BEGIN TRY UPDATE dbo.Orders SET total_amount=total_amount+1,status='paid',paid_at=SYSDATETIME() WHERE order_id=@o3; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 INSERT @r VALUES('O4',N'非法数据',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N' pending，P×1，金额 '+CONVERT(NVARCHAR(20),(SELECT total_amount FROM dbo.Orders WHERE order_id=@o3)),
- N'UPDATE 金额 +1 元并改为 paid',N'拒绝（54405），金额与状态不变',
+ N'UPDATE 金额 +1 元并改为已完成（paid）',N'拒绝（54405），金额与状态不变',
  @err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o3)+N'，金额 '+CONVERT(NVARCHAR(20),(SELECT total_amount FROM dbo.Orders WHERE order_id=@o3)),
  CASE WHEN @err=N'错误 54405' AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o3) THEN 1 ELSE 0 END);
 
@@ -179,7 +193,7 @@ SELECT @sell=available_quota-outstanding_upstream FROM w11.fn_ProviderSellable('
 BEGIN TRY UPDATE dbo.Orders SET status='paid',paid_at=SYSDATETIME() WHERE order_id=@o4; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 INSERT @r VALUES('O5',N'触发器拒绝',N'订单 #'+CONVERT(NVARCHAR(11),@o4)+N' 上游需求 '+CONVERT(NVARCHAR(20),(SELECT SUM(d.quantity*CONVERT(BIGINT,p.required_upstream_tokens)) FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id WHERE d.order_id=@o4))
- +N'，Other 可售上游余量 '+CONVERT(NVARCHAR(40),@sell),N'UPDATE 状态为 paid',N'拒绝（54406），状态仍为 pending',
+ +N'，Other 可售上游余量 '+CONVERT(NVARCHAR(40),@sell),N'UPDATE 状态为已完成（paid）',N'拒绝（54406），状态仍为 pending',
  @err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o4),
  CASE WHEN @err=N'错误 54406' AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o4) THEN 1 ELSE 0 END);
 
@@ -188,7 +202,7 @@ BEGIN TRY UPDATE dbo.Orders SET status='paid',paid_at=SYSDATETIME() WHERE order_
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @st=status FROM dbo.Orders WHERE order_id=@o3; SELECT @st2=status FROM dbo.Orders WHERE order_id=@o2;
 INSERT @r VALUES('O6',N'多条修改',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N'（有明细）与 #'+CONVERT(NVARCHAR(11),@o2)+N'（无明细）均为 pending',
- N'一条 UPDATE 同时改为 paid',N'整条拒绝（54403），两单都仍为 pending',@err+N'，状态 '+@st+N' / '+@st2,
+ N'一条 UPDATE 同时改为已完成（paid）',N'整条拒绝（54403），两单都仍为 pending',@err+N'，状态 '+@st+N' / '+@st2,
  CASE WHEN @err=N'错误 54403' AND @st='pending' AND @st2='pending' THEN 1 ELSE 0 END);
 
 -- O7 多条修改全部合格：两张有明细的订单一条 UPDATE 改为 paid，触发器逐单检查后放行；
@@ -205,7 +219,7 @@ BEGIN TRY
 END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 INSERT @r VALUES('O7',N'多条修改',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N'、#'+CONVERT(NVARCHAR(11),@o5)+N' 均有明细、金额一致',
- N'事务内一条 UPDATE 同时改为 paid，随后回滚',N'触发器放行 2 行；回滚后仍为 pending',
+ N'事务内一条 UPDATE 同时改为已完成（paid），随后回滚',N'触发器放行 2 行；回滚后仍为 pending',
  COALESCE(@err,N'更新 '+CONVERT(NVARCHAR(11),@n1)+N' 行；回滚后 '+(SELECT status FROM dbo.Orders WHERE order_id=@o3)+N' / '+(SELECT status FROM dbo.Orders WHERE order_id=@o5)),
  CASE WHEN @err IS NULL AND @n1=2 AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o5) THEN 1 ELSE 0 END);
 
@@ -214,6 +228,9 @@ PRINT N'== 库存审计记录：audit_id|account_id|provider|operation_type|quot
 SELECT CONCAT_WS(N'|',audit_id,account_id,provider,operation_type,COALESCE(CONVERT(NVARCHAR(20),quota_before),N'NULL'),
  COALESCE(CONVERT(NVARCHAR(20),quota_after),N'NULL'),change_quantity,CONVERT(NVARCHAR(23),operated_at,121),operator,login_name)
 FROM w11.InventoryAudit WHERE account_id IN(@a1,@a2) ORDER BY audit_id;
+PRINT N'== 审计对应商品（视图 w11.v_InventoryAuditProduct）：audit_id|account_id|provider|product_id|product_name|operation_type|change_quantity';
+SELECT CONCAT_WS(N'|',audit_id,account_id,provider,COALESCE(CONVERT(NVARCHAR(11),product_id),N'NULL'),COALESCE(product_name,N'NULL'),operation_type,change_quantity)
+FROM w11.v_InventoryAuditProduct WHERE account_id IN(@a1,@a2) ORDER BY audit_id,product_id;
 PRINT N'== 测试订单状态：order_id|status|total_amount|total_tokens|paid_at';
 SELECT CONCAT_WS(N'|',order_id,status,total_amount,total_tokens,COALESCE(CONVERT(NVARCHAR(19),paid_at,120),N'NULL'))
 FROM dbo.Orders WHERE order_id IN(@o1,@o2,@o3,@o4,@o5) ORDER BY order_id;

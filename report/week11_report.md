@@ -2,30 +2,31 @@
 
 ## 实现范围
 
-第11周增量装在第10周扩展之后，安装入口为 `sql/week11/install.sql`，`tools/app_prepare.py --with-week10 --with-week11` 从空库复现。增量为1张审计表、1个可售余量函数和3个触发器，不改动已有业务数据，安装前后8张核心表的计数与校验和一致（由准备脚本比对）。
+第11周增量装在第10周扩展之后，安装入口为 `sql/week11/install.sql`，`tools/app_prepare.py --with-week10 --with-week11` 从空库复现。增量为1张审计表、1个可售余量函数、3个触发器和1个审计对应商品视图，不改动已有业务数据，安装前后8张核心表的计数与校验和一致（由准备脚本比对）。
 
 | 对象 | 类型与用途 |
 |---|---|
 | dbo.trg_W11_InventoryAudit | `dbo.Inventory` 的 AFTER INSERT/UPDATE/DELETE 触发器，逐行写入库存审计 |
 | w11.InventoryAudit | 审计表：库存对象编号、账号、供应商、操作类型、调整前后数量、变化量、操作时间、操作人员、连接登录名 |
 | w11.trg_InventoryAuditImmutable | 审计记录只允许追加，修改或删除报 54409 |
-| dbo.trg_W11_OrderCompletionRules | `dbo.Orders` 的 AFTER INSERT/UPDATE 触发器，订单改为已完成时核对规则 |
+| dbo.trg_W11_OrderCompletionRules | `dbo.Orders` 的 AFTER INSERT/UPDATE 触发器，订单改为已完成（paid）时核对规则 |
 | w11.fn_ProviderSellable | 内联表值函数，返回某供应商的可用上游库存与已售未消费部分的上游消耗 |
+| w11.v_InventoryAuditProduct | 视图：把每条审计按供应商展开到受影响的商品编号，不改动审计表 |
 | sql/week11/window_query.sql | 排名、累计值、移动平均三条查询 |
 
 ## 库存审计触发器
 
-本项目的库存按上游账号保存（`Inventory.account_id` 与 `UpstreamAccount` 一一对应），商品按 `model_provider` 对应同一供应商的账号，因此审计记录库存行编号、账号编号和供应商，不单独记录商品编号。操作类型分为 insert、increase、decrease、delete，变化量等于调整后减调整前，由 CHECK 约束保证。
+本项目的库存按上游账号保存（`Inventory.account_id` 与 `UpstreamAccount` 一一对应），商品按 `model_provider` 对应同一供应商的账号，因此审计记录库存行编号、账号编号和供应商，不单独记录商品编号。需要按商品查看时，视图 `w11.v_InventoryAuditProduct` 按“账号→供应商→该供应商的套餐”把每条审计展开为受影响的商品编号，一条审计对应该供应商的每个商品各一行，审计表本身不变。操作类型分为 insert、increase、decrease、delete，变化量等于调整后减调整前，由 CHECK 约束保证。
 
 触发器用 `inserted` 与 `deleted` 按 `inventory_id` 全外连接，一条语句改多行时逐行记录；只改 `last_updated_at`、数量不变的行不记录。操作人员取会话上下文 `tokenhub.actor`：Web 入口 `app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`，每次调用都覆盖；直接用 SQL 连接操作时记为 `sql:登录名`。会话上下文可由任意连接自行设置，不能单独作为可信身份，因此审计表另有 `login_name` 列，由触发器写入 `ORIGINAL_LOGIN()`，即实际连接数据库的登录名，不受会话上下文影响。审计表与业务修改在同一事务中，业务回滚时审计一并回滚，因此它记录的是已生效的库存变化，不作为失败日志。
 
 ## 订单完成规则触发器
 
-项目组确定以 `paid` 作为“已完成”。订单状态改为 paid 时，触发器把本次涉及的订单放进表变量，按集合依次检查，任一订单不满足即拒绝整条语句：
+项目组确定数据库状态值仍为 `paid`，报告与测试记录统一写作“已完成（paid）”，不另设“已完成”状态，以免与“已支付”重复。订单状态改为已完成（paid）时，触发器把本次涉及的订单放进表变量，按集合依次检查，任一订单不满足即拒绝整条语句：
 
 | 检查 | 错误号 |
 |---|---|
-| 原状态已是 paid、refunded 或 partially_refunded，属于重复完成 | 54401 |
+| 原状态已是已完成（paid）、refunded 或 partially_refunded，属于重复完成 | 54401 |
 | 原状态不是 pending（如 cancelled） | 54402 |
 | 没有订单明细 | 54403 |
 | 明细引用的商品不存在，或数量、Token 不为正 | 54404 |

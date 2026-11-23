@@ -69,8 +69,8 @@ SELECT (SELECT COALESCE(SUM(CONVERT(DECIMAL(38,0),i.current_quota)),0)
   FROM dbo.OrderTokenLots l JOIN dbo.OrderDetails d ON d.detail_id=l.detail_id
   JOIN dbo.Products p ON p.product_id=d.product_id WHERE p.model_provider=@provider) AS outstanding_upstream;
 GO
--- 订单完成规则：本项目以 paid 作为“已完成”。状态改为 paid 时检查明细、商品、数量、
--- 金额与可售余量；refunded/partially_refunded/paid 的订单再次被设为 paid 视为重复完成。
+-- 订单完成规则：数据库状态值仍为 paid，文档与测试记录统一称“已完成（paid）”。状态改为已完成（paid）时检查明细、商品、数量、
+-- 金额与可售余量；已完成（paid）、refunded、partially_refunded 的订单再次被设为 paid 视为重复完成。
 -- 全部按集合判断，一条 UPDATE 同时完成多张订单时逐单检查，任一不满足则整条语句回滚。
 CREATE TRIGGER dbo.trg_W11_OrderCompletionRules ON dbo.Orders AFTER INSERT,UPDATE AS
 BEGIN
@@ -107,4 +107,12 @@ GO
 -- Orders 上原有 trg_W5_OrdersFinalized 也核对明细与金额；让本触发器先执行，拒绝时给出本周的明确错误号。
 EXEC sys.sp_settriggerorder @triggername=N'dbo.trg_W11_OrderCompletionRules',@order=N'First',@stmttype=N'UPDATE';
 EXEC sys.sp_settriggerorder @triggername=N'dbo.trg_W11_OrderCompletionRules',@order=N'First',@stmttype=N'INSERT';
+GO
+-- 审计对应商品：库存按上游账号保存，一条审计记录影响该账号所属供应商的全部套餐。视图按供应商把每条审计
+-- 记录展开到对应商品编号（审计一行对应该供应商的每个商品各一行），不改动审计表；供应商没有商品时 product_id 为 NULL。
+CREATE VIEW w11.v_InventoryAuditProduct AS
+SELECT a.audit_id,a.inventory_id,a.account_id,a.provider,p.product_id,p.name AS product_name,a.operation_type,
+ a.quota_before,a.quota_after,a.change_quantity,a.operated_at,a.operator,a.login_name
+FROM w11.InventoryAudit a
+LEFT JOIN dbo.Products p ON p.model_provider=a.provider;
 GO

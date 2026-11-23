@@ -49,7 +49,7 @@ INSERT @r VALUES('T1',N'订单·正常提交',
  N'订单 #'+CONVERT(NVARCHAR(11),@o)+N' pending，明细 2 条（P×3、Q×1），金额 '+CONVERT(NVARCHAR(20),@amt)+N'，Token '+CONVERT(NVARCHAR(20),@tok)
  +N'；顾客 Other 余额 '+CONVERT(NVARCHAR(20),@bal0)+N'；批次 0',
  N'EXEC w12.usp_CompleteOrder '+CONVERT(NVARCHAR(11),@o),
- N'状态 paid；余额 +'+CONVERT(NVARCHAR(20),@tok)+N'；批次 2 条',
+ N'状态已完成（paid）；余额 +'+CONVERT(NVARCHAR(20),@tok)+N'；批次 2 条',
  COALESCE(@err,N'状态 '+@st+N'；余额 '+CONVERT(NVARCHAR(20),@bal0)+N'→'+CONVERT(NVARCHAR(20),@bal1)+N'；批次 '+CONVERT(NVARCHAR(11),@lots1)+N' 条'),
  CASE WHEN @err IS NULL AND @st='paid' AND @bal1-@bal0=@tok AND @lots1=2 THEN 1 ELSE 0 END);
 
@@ -59,12 +59,12 @@ BEGIN TRY EXEC w12.usp_CompleteOrder @o,@emit_result=0; SET @err=N'未报错'; E
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @bal1=remaining_tokens FROM dbo.TokenBalances WHERE user_id=@uid AND model_provider='Other';
 SELECT @lots1=COUNT(*) FROM dbo.OrderTokenLots l JOIN dbo.OrderDetails d ON d.detail_id=l.detail_id WHERE d.order_id=@o;
-INSERT @r VALUES('T2',N'订单·重复调用',N'订单 #'+CONVERT(NVARCHAR(11),@o)+N' 已 paid；余额 '+CONVERT(NVARCHAR(20),@bal0)+N'；批次 '+CONVERT(NVARCHAR(11),@lots0),
+INSERT @r VALUES('T2',N'订单·重复调用',N'订单 #'+CONVERT(NVARCHAR(11),@o)+N' 已完成（paid）；余额 '+CONVERT(NVARCHAR(20),@bal0)+N'；批次 '+CONVERT(NVARCHAR(11),@lots0),
  N'再次 EXEC w12.usp_CompleteOrder '+CONVERT(NVARCHAR(11),@o),N'返回 53131（已完成）；余额、批次不变',
  @err+N'；余额 '+CONVERT(NVARCHAR(20),@bal1)+N'；批次 '+CONVERT(NVARCHAR(11),@lots1),
  CASE WHEN @err=N'错误 53131' AND @bal1=@bal0 AND @lots1=@lots0 THEN 1 ELSE 0 END);
 
--- T3 中途失败回滚：余额已经记入之后、订单改为 paid 之前主动抛错。
+-- T3 中途失败回滚：余额已经记入之后、订单改为已完成（paid）之前主动抛错。
 EXEC dbo.usp_W5_CreateRegisteredOrder @uid,@emit_result=0,@app_result_id=@o2 OUTPUT;
 EXEC dbo.usp_W5_AddMergedOrderItem @o2,@q,2,@emit_result=0;
 SELECT @bal0=remaining_tokens FROM dbo.TokenBalances WHERE user_id=@uid AND model_provider='Other';
@@ -87,7 +87,7 @@ BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLB
 SELECT @bal1=remaining_tokens FROM dbo.TokenBalances WHERE user_id=@uid AND model_provider='Other';
 SELECT @st=status FROM dbo.Orders WHERE order_id=@o2;
 INSERT @r VALUES('T4',N'订单·正常提交',N'T3 回滚后的订单 #'+CONVERT(NVARCHAR(11),@o2)+N' pending；余额 '+CONVERT(NVARCHAR(20),@bal0),
- N'不设故障点，再次完成',N'状态 paid；余额增加 Q×2 的 Token',
+ N'不设故障点，再次完成',N'状态已完成（paid）；余额增加 Q×2 的 Token',
  COALESCE(@err,N'状态 '+@st+N'；余额 '+CONVERT(NVARCHAR(20),@bal0)+N'→'+CONVERT(NVARCHAR(20),@bal1)),
  CASE WHEN @err IS NULL AND @st='paid' AND @bal1-@bal0=(SELECT total_tokens FROM dbo.Orders WHERE order_id=@o2) THEN 1 ELSE 0 END);
 
@@ -121,7 +121,7 @@ EXEC dbo.usp_W5_AddMergedOrderItem @o5,@p,1,@emit_result=0;
 BEGIN TRY EXEC dbo.usp_W6_PayPendingOrder @o5,@emit_result=0; EXEC dbo.usp_W6_PayPendingOrder @o5,@emit_result=0; SET @err=N'第二次未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 INSERT @r VALUES('T6',N'订单·原入口',N'订单 #'+CONVERT(NVARCHAR(11),@o5)+N' pending（P×1）',
- N'连续两次 EXEC dbo.usp_W6_PayPendingOrder（Web“模拟支付”调用的过程）',N'第一次 paid，第二次返回 53131；批次 1 条',
+ N'连续两次 EXEC dbo.usp_W6_PayPendingOrder（Web“模拟支付”调用的过程）',N'第一次已完成（paid），第二次返回 53131；批次 1 条',
  N'第二次 '+@err+N'；状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o5)+N'；批次 '
  +CONVERT(NVARCHAR(11),(SELECT COUNT(*) FROM dbo.OrderTokenLots l JOIN dbo.OrderDetails d ON d.detail_id=l.detail_id WHERE d.order_id=@o5))+N' 条',
  CASE WHEN @err=N'错误 53131' AND 'paid'=(SELECT status FROM dbo.Orders WHERE order_id=@o5)
