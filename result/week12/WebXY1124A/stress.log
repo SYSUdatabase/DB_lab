@@ -1,0 +1,10 @@
+﻿# 第一次运行的修改前一轮因测试商品 (Other,1000) 与修改后一轮重复触发唯一约束未执行，改为随机 Token 数后整组重跑，本文件为重跑结果；过程版本由 alter.py 按仓库文件重建（fixed=已提交版本，old=去掉供应商锁）
+proc fixed provider_lock_present= True
+after_fix|direct|{'ok': 120}|1.3s
+after_fix|web|{'ok': 120}|1.7s
+after_fix|consistency|inventory_mismatch=0|balance_lot_mismatch=0|trancount=0
+proc old provider_lock_present= False
+before_fix|direct|{'ok': 36, '(1205,)': 84}|18.5s
+before_fix|web|{'(1205,)': 83, 'ok': 37}|13.2s
+before_fix|consistency|inventory_mismatch=0|balance_lot_mismatch=0|trancount=0
+proc fixed provider_lock_present= True

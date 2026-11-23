@@ -1,0 +1,27 @@
+﻿python.exe : test_app_entries_set_actor_for_audit (tests.test_week11_12_sql.Week11And12SourceTests.test_app_entries_set
+_actor_for_audit) ... ok
+所在位置 C:\Users\xy\AppData\Local\Temp\w12fix_x7_run.ps1:15 字符: 1
++ & .\.venv\Scripts\python.exe -m unittest tests.test_week11_12_sql -v  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_app_entrie...r_audit) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_old_entries_delegate_to_week12_transactions (tests.test_week11_12_sql.Week11And12SourceTests.test_old_entries_dele
+gate_to_week12_transactions) ... ok
+test_triggers_handle_multiple_rows (tests.test_week11_12_sql.Week11And12SourceTests.test_triggers_handle_multiple_rows)
+ ... ok
+test_window_queries_cover_three_kinds (tests.test_week11_12_sql.Week11And12SourceTests.test_window_queries_cover_three_
+kinds) ... ok
+test_category_cycle_is_rejected (tests.test_week11_12_sql.Week11And12SqlTests.test_category_cycle_is_rejected) ... ok
+test_descendants_for_each_node_kind (tests.test_week11_12_sql.Week11And12SqlTests.test_descendants_for_each_node_kind) 
+... ok
+test_read_only_scripts_run (tests.test_week11_12_sql.Week11And12SqlTests.test_read_only_scripts_run) ... ok
+test_transaction_script_cases_all_pass (tests.test_week11_12_sql.Week11And12SqlTests.test_transaction_script_cases_all_
+pass) ... ok
+test_trigger_script_cases_all_pass (tests.test_week11_12_sql.Week11And12SqlTests.test_trigger_script_cases_all_pass) ..
+. ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 3.571s
+
+OK

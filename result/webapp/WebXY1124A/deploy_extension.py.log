@@ -1,0 +1,5 @@
+PASS 01_typed_consumption_refs.sql
+PASS 02_managed_usage_v11.sql
+PASS 03_close_write_paths.sql
+PASS 05_managed_restock.sql
+PASS v1.1 hardening installed; source database untouched
