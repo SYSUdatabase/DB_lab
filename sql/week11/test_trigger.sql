@@ -2,6 +2,10 @@
 -- 在安装了第11周扩展的专用实验库上执行。每次运行用当时的时间生成新的测试账号、商品和订单，
 -- 互不干扰，相当于每次从重置后的数据开始；需要回滚的用例在用例内部开启并回滚事务。
 -- 最后一个结果集按“编号|类别|初始数据|操作|预期结果|实际结果|是否符合”输出。
+-- sqlcmd 默认关闭 QUOTED_IDENTIFIER；写入带筛选索引的表和调用过程前统一打开。
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
 SET NOCOUNT ON;
 SET XACT_ABORT OFF;
 DECLARE @r TABLE(case_no VARCHAR(8),category NVARCHAR(20),initial NVARCHAR(400),operation NVARCHAR(400),
@@ -62,7 +66,8 @@ INSERT @r VALUES('A2',N'单条修改',N'账号 #'+CONVERT(NVARCHAR(11),@a1)+N' �
  COALESCE(@err,N'新增 '+CONVERT(NVARCHAR(11),@n1-@n0)+N' 行：'+@type+N'，'+CONVERT(NVARCHAR(20),@before)+N'→'+CONVERT(NVARCHAR(20),@after)+N'，操作人 '+@op),
  CASE WHEN @err IS NULL AND @n1-@n0=1 AND @type='increase' AND @before=@q1 AND @after=@q1+3000 AND @op=N'employee:test-admin' THEN 1 ELSE 0 END);
 
--- A3 多条修改：一条 UPDATE 同时减少两个账号的库存（同步减少总额度以保持账务一致），审计应逐行记 2 条。
+-- A3 多条修改：一条 UPDATE 同时减少两个账号的库存，审计应逐行记 2 条。同一事务内同步减少总额度、
+-- 写入 manual 调整流水，保持“库存=总额度-已用”和“库存变动都有流水”两条账务规则。
 SELECT @q1=current_quota FROM dbo.Inventory WHERE inventory_id=@inv1;
 SELECT @q2=current_quota FROM dbo.Inventory WHERE inventory_id=@inv2;
 SELECT @n0=COUNT(*) FROM w11.InventoryAudit;
@@ -70,6 +75,9 @@ BEGIN TRY
  BEGIN TRANSACTION;
  UPDATE dbo.UpstreamAccount SET total_quota=total_quota-200 WHERE account_id IN(@a1,@a2);
  UPDATE dbo.Inventory SET current_quota=current_quota-200,last_updated_at=SYSDATETIME() WHERE account_id IN(@a1,@a2);
+ INSERT dbo.InventoryLog(account_id,change_type,change_amount,reference_type,reference_id,reason,operator_id,created_at)
+ SELECT v.account_id,'adjustment',-200,'manual',NULL,N'第11周审计测试：多行减少',@admin,SYSDATETIME()
+ FROM (VALUES(@a1),(@a2)) v(account_id);
  COMMIT;
  SET @err=NULL;
 END TRY
@@ -166,11 +174,11 @@ INSERT @r VALUES('O4',N'非法数据',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N' p
 DECLARE @o4 INT,@sell DECIMAL(38,0);
 EXEC dbo.usp_W5_CreateRegisteredOrder @uid,@emit_result=0,@app_result_id=@o4 OUTPUT;
 EXEC dbo.usp_W5_AddMergedOrderItem @o4,@big,1,@emit_result=0;
-SELECT @sell=available_quota-outstanding_tokens FROM w11.fn_ProviderSellable('Other');
+SELECT @sell=available_quota-outstanding_upstream FROM w11.fn_ProviderSellable('Other');
 BEGIN TRY UPDATE dbo.Orders SET status='paid',paid_at=SYSDATETIME() WHERE order_id=@o4; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
-INSERT @r VALUES('O5',N'触发器拒绝',N'订单 #'+CONVERT(NVARCHAR(11),@o4)+N' 需求 '+CONVERT(NVARCHAR(20),(SELECT total_tokens FROM dbo.Orders WHERE order_id=@o4))
- +N'，Other 可售余量 '+CONVERT(NVARCHAR(40),@sell),N'UPDATE 状态为 paid',N'拒绝（54406），状态仍为 pending',
+INSERT @r VALUES('O5',N'触发器拒绝',N'订单 #'+CONVERT(NVARCHAR(11),@o4)+N' 上游需求 '+CONVERT(NVARCHAR(20),(SELECT SUM(d.quantity*CONVERT(BIGINT,p.required_upstream_tokens)) FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id WHERE d.order_id=@o4))
+ +N'，Other 可售上游余量 '+CONVERT(NVARCHAR(40),@sell),N'UPDATE 状态为 paid',N'拒绝（54406），状态仍为 pending',
  @err+N'，状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o4),
  CASE WHEN @err=N'错误 54406' AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o4) THEN 1 ELSE 0 END);
 

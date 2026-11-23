@@ -14,6 +14,10 @@
 --   └─ 3 多模态与其他 ← 1（另一条分支）
 --       ├─ 6 Gemini套餐 ← 3
 --       └─ 7 其他供应商套餐 ← 3
+-- sqlcmd 默认关闭 QUOTED_IDENTIFIER；写入带筛选索引的表和调用过程前统一打开。
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
 SET NOCOUNT ON;
 
 PRINT N'== 样例数据：分类表与各叶子分类下的商品数';

@@ -2,7 +2,7 @@
 --
 -- 口径：本项目以 paid 为“已完成”。完成时把订单 Token 按供应商记入顾客余额并逐明细发放
 -- Token 批次；上游账号库存仍在顾客模拟调用时按实际用量扣减（第10周及以前的扣减时机不变），
--- 因此完成事务不扣上游库存，而是先核对“可售余量”（w11.fn_ProviderSellable）防止超卖。
+-- 因此完成事务不扣上游库存，而是先按“份数×每份上游消耗”核对可售余量（w11.fn_ProviderSellable）防止超卖。
 -- 一张订单只能完成一次：状态条件更新 WHERE status='pending' 并检查受影响行数，
 -- 已完成的订单返回 53131，不会第二次记入余额。
 --
@@ -60,9 +60,11 @@ BEGIN
     OR discount_amount<>CONVERT(DECIMAL(10,2),ROUND(original_subtotal*@rate,2))
     OR subtotal<>original_subtotal-discount_amount OR total_tokens<>CONVERT(BIGINT,quantity)*tokens_per_unit))
    THROW 56009,'Pricing snapshots do not match the order rule',1;
-  -- 按商品汇总需求量，再按供应商汇总后核对可售余量。
-  DECLARE @need TABLE(product_id INT PRIMARY KEY, provider VARCHAR(50) NOT NULL, quantity BIGINT NOT NULL, tokens BIGINT NOT NULL);
-  INSERT @need SELECT d.product_id,p.model_provider,SUM(CONVERT(BIGINT,d.quantity)),SUM(d.total_tokens)
+  -- 按商品汇总需求量（份数、顾客 Token、上游消耗），再按供应商汇总：Token 记入余额，上游消耗核对可售余量。
+  DECLARE @need TABLE(product_id INT PRIMARY KEY, provider VARCHAR(50) NOT NULL, quantity BIGINT NOT NULL,
+   tokens BIGINT NOT NULL, upstream DECIMAL(38,0) NOT NULL);
+  INSERT @need SELECT d.product_id,p.model_provider,SUM(CONVERT(BIGINT,d.quantity)),SUM(d.total_tokens),
+   SUM(CONVERT(DECIMAL(38,0),d.quantity)*p.required_upstream_tokens)
   FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id
   WHERE d.order_id=@order_id GROUP BY d.product_id,p.model_provider;
   DECLARE @credit TABLE (provider VARCHAR(50) PRIMARY KEY, tokens BIGINT NOT NULL);
@@ -72,8 +74,8 @@ BEGIN
   DECLARE @locked INT;
   SELECT @locked=COUNT(*) FROM dbo.TokenBalances WITH(UPDLOCK,HOLDLOCK)
   WHERE user_id=@user_id AND model_provider IN (SELECT provider FROM @credit);
-  IF EXISTS(SELECT 1 FROM @credit c CROSS APPLY w11.fn_ProviderSellable(c.provider) s
-    WHERE c.tokens>s.available_quota-s.outstanding_tokens)
+  IF EXISTS(SELECT 1 FROM (SELECT provider,SUM(upstream) upstream FROM @need GROUP BY provider) n
+    CROSS APPLY w11.fn_ProviderSellable(n.provider) s WHERE n.upstream>s.available_quota-s.outstanding_upstream)
    THROW 53132,'Insufficient sellable upstream inventory for this order',1;
   UPDATE b SET remaining_tokens=b.remaining_tokens+c.tokens,updated_at=@now
   FROM dbo.TokenBalances b WITH(UPDLOCK,HOLDLOCK) JOIN @credit c

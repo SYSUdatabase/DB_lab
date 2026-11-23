@@ -52,7 +52,9 @@ BEGIN
  WHERE d.inventory_id IS NULL OR i.inventory_id IS NULL OR i.current_quota<>d.current_quota;
 END;
 GO
--- 可售余量：有效且未过期账号的当前库存，减去已售出但顾客尚未消费、也未退款的 Token。
+-- 可售余量（以上游库存为单位）：有效且未过期账号的当前库存之和，减去已售出但顾客尚未消费、
+-- 也未退款部分将要消耗的上游库存。每份套餐消耗 required_upstream_tokens，批次剩余份数按
+-- 剩余 Token ÷ 下单时每份 Token（tokens_per_unit）折算，向上取整。
 -- 订单完成时不扣上游库存（扣减仍在模拟调用时发生），因此完成前用可售余量防止超卖。
 CREATE FUNCTION w11.fn_ProviderSellable(@provider VARCHAR(50))
 RETURNS TABLE AS RETURN
@@ -60,9 +62,10 @@ SELECT (SELECT COALESCE(SUM(CONVERT(DECIMAL(38,0),i.current_quota)),0)
   FROM dbo.UpstreamAccount a JOIN dbo.Inventory i ON i.account_id=a.account_id
   WHERE a.provider=@provider AND a.status='active'
   AND (a.expires_at IS NULL OR a.expires_at>SYSDATETIME())) AS available_quota,
- (SELECT COALESCE(SUM(CONVERT(DECIMAL(38,0),l.issued_tokens-l.consumed_tokens-l.refunded_tokens)),0)
+ (SELECT COALESCE(SUM(CEILING(CONVERT(DECIMAL(38,6),l.issued_tokens-l.consumed_tokens-l.refunded_tokens)
+   *p.required_upstream_tokens/d.tokens_per_unit)),0)
   FROM dbo.OrderTokenLots l JOIN dbo.OrderDetails d ON d.detail_id=l.detail_id
-  JOIN dbo.Products p ON p.product_id=d.product_id WHERE p.model_provider=@provider) AS outstanding_tokens;
+  JOIN dbo.Products p ON p.product_id=d.product_id WHERE p.model_provider=@provider) AS outstanding_upstream;
 GO
 -- 订单完成规则：本项目以 paid 作为“已完成”。状态改为 paid 时检查明细、商品、数量、
 -- 金额与可售余量；refunded/partially_refunded/paid 的订单再次被设为 paid 视为重复完成。
@@ -90,12 +93,12 @@ BEGIN
    FROM dbo.OrderDetails d WHERE d.order_id=x.order_id) s
    WHERE s.amount<>x.total_amount OR s.tokens<>x.total_tokens)
   THROW 54405,'Order amount or tokens do not match its details',1;
- -- 本次完成的订单按供应商汇总需求；它们的 Token 批次在状态更新之后才发放，不计入已售未消费量。
- IF EXISTS(SELECT 1 FROM (SELECT p.model_provider provider,SUM(CONVERT(DECIMAL(38,0),d.total_tokens)) demand
+ -- 本次完成的订单按供应商汇总上游需求（份数×每份上游消耗）；它们的批次在状态更新之后才发放，不计入已售未消费量。
+ IF EXISTS(SELECT 1 FROM (SELECT p.model_provider provider,SUM(CONVERT(DECIMAL(38,0),d.quantity)*p.required_upstream_tokens) demand
     FROM @done x JOIN dbo.OrderDetails d ON d.order_id=x.order_id
     JOIN dbo.Products p ON p.product_id=d.product_id GROUP BY p.model_provider) need
    CROSS APPLY w11.fn_ProviderSellable(need.provider) s
-   WHERE need.demand>s.available_quota-s.outstanding_tokens)
+   WHERE need.demand>s.available_quota-s.outstanding_upstream)
   THROW 54406,'Insufficient sellable upstream inventory for this order',1;
 END;
 GO

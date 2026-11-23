@@ -2,6 +2,10 @@
 -- 在安装了第12周扩展的专用实验库上执行。每个用例先新建自己的订单或补货单并记录初始值，
 -- 相当于每次从重置后的数据开始；检查涉及的全部业务表，而不只看是否报错。
 -- 最后一个结果集按“编号|类别|初始数据|操作|预期结果|实际结果|是否符合”输出。
+-- sqlcmd 默认关闭 QUOTED_IDENTIFIER；写入带筛选索引的表和调用过程前统一打开。
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
 SET NOCOUNT ON;
 SET XACT_ABORT OFF;
 DECLARE @r TABLE(case_no VARCHAR(8),category NVARCHAR(20),initial NVARCHAR(600),operation NVARCHAR(400),
@@ -101,9 +105,9 @@ BEGIN CATCH SET @e2=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBA
 BEGIN TRY EXEC w12.usp_CompleteOrder @o4,@emit_result=0; SET @e3=N'未报错'; END TRY
 BEGIN CATCH SET @e3=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @bal1=remaining_tokens FROM dbo.TokenBalances WHERE user_id=@uid AND model_provider='Other';
-INSERT @r VALUES('T5',N'订单·规则拒绝',N'订单 -1 不存在；#'+CONVERT(NVARCHAR(11),@o3)+N' 无明细；#'+CONVERT(NVARCHAR(11),@o4)+N' 需求 '
- +CONVERT(NVARCHAR(20),(SELECT total_tokens FROM dbo.Orders WHERE order_id=@o4))+N' 超过 Other 可售余量 '
- +CONVERT(NVARCHAR(40),(SELECT available_quota-outstanding_tokens FROM w11.fn_ProviderSellable('Other')))+N'；余额 '+CONVERT(NVARCHAR(20),@bal0),
+INSERT @r VALUES('T5',N'订单·规则拒绝',N'订单 -1 不存在；#'+CONVERT(NVARCHAR(11),@o3)+N' 无明细；#'+CONVERT(NVARCHAR(11),@o4)+N' 上游需求 '
+ +CONVERT(NVARCHAR(20),(SELECT SUM(d.quantity*CONVERT(BIGINT,p.required_upstream_tokens)) FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id WHERE d.order_id=@o4))+N' 超过 Other 可售上游余量 '
+ +CONVERT(NVARCHAR(40),(SELECT available_quota-outstanding_upstream FROM w11.fn_ProviderSellable('Other')))+N'；余额 '+CONVERT(NVARCHAR(20),@bal0),
  N'依次完成这三张订单',N'分别返回 53123、53125、53132；两张订单仍 pending；余额不变',
  @e1+N'；'+@e2+N'；'+@e3+N'；状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o3)+N' / '+(SELECT status FROM dbo.Orders WHERE order_id=@o4)
  +N'；余额 '+CONVERT(NVARCHAR(20),@bal1),

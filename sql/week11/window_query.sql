@@ -1,6 +1,10 @@
 -- 第11周窗口查询：排名、累计值、移动平均。只读，可在任意已安装第10周扩展的库上反复执行。
 -- 成交口径与第10周销售统计一致：状态为 paid、refunded、partially_refunded 的订单，
 -- 金额取明细折后小计 subtotal，日期取 paid_at（已按 Asia/Shanghai 本地时间保存）。
+-- sqlcmd 默认关闭 QUOTED_IDENTIFIER；写入带筛选索引的表和调用过程前统一打开。
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
 SET NOCOUNT ON;
 -- 统计区间：样例数据的成交日期在 2026-07-01 至 2026-09-30 之间，需要时直接修改这两行。
 DECLARE @start_date DATE='20260701';
