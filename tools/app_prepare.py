@@ -110,6 +110,37 @@ def install_week10(server: str, database: str, evidence: Path) -> None:
         raise RuntimeError("Week10 migration changed existing business values; inspect snapshots")
 
 
+def install_week_extension(server: str, database: str, evidence: Path, week: int) -> None:
+    """Install the week 11 or week 12 extension on top of week 10 without changing business values."""
+    if not re.fullmatch(r"TokenHubDB_v11_Web[A-Za-z0-9]{3,12}", database):
+        raise ValueError(f"Week{week} requires an isolated Web database")
+    before = week10_baseline(server, database)
+    run(
+        [
+            "sqlcmd",
+            "-S",
+            server,
+            "-d",
+            database,
+            "-E",
+            "-C",
+            "-b",
+            "-f",
+            "65001",
+            "-v",
+            "DatabaseName=" + database,
+            "-i",
+            str(ROOT / f"sql/week{week}/install.sql"),
+        ],
+        evidence / f"0{week - 6}_week{week}_install.log",
+    )
+    after = week10_baseline(server, database)
+    if before != after:
+        raise RuntimeError(
+            f"Week{week} installation changed existing business values; inspect snapshots"
+        )
+
+
 def week10_baseline(server: str, database: str) -> dict[str, list[int | None]]:
     """Compare original business fields without reading authentication or API credentials."""
     fields = {
@@ -145,7 +176,17 @@ def main() -> None:
     parser.add_argument("--suffix", required=True)
     parser.add_argument("--server", default=r"localhost\SQLEXPRESS")
     parser.add_argument("--with-week10", action="store_true", help="Install week 10 SQL extension")
+    parser.add_argument(
+        "--with-week11", action="store_true", help="Install week 11 triggers (needs week 10)"
+    )
+    parser.add_argument(
+        "--with-week12", action="store_true", help="Install week 12 transactions (needs week 11)"
+    )
     args = parser.parse_args()
+    if args.with_week11 and not args.with_week10:
+        raise SystemExit("--with-week11 requires --with-week10")
+    if args.with_week12 and not args.with_week11:
+        raise SystemExit("--with-week12 requires --with-week11")
     if not re.fullmatch(r"Web[A-Za-z0-9]{3,12}", args.suffix):
         raise SystemExit("Suffix must start Web followed by 3–12 letters/digits")
     password = os.environ.get("DB_LAB_DEMO_PASSWORD", "")
@@ -239,6 +280,10 @@ def main() -> None:
     seed(args.server, target)
     if args.with_week10:
         install_week10(args.server, target, evidence)
+    if args.with_week11:
+        install_week_extension(args.server, target, evidence, 11)
+    if args.with_week12:
+        install_week_extension(args.server, target, evidence, 12)
     (evidence / "manifest.json").write_text(
         json.dumps(
             {
@@ -252,6 +297,14 @@ def main() -> None:
                     "installed": args.with_week10,
                     "schema_version": "amount-v1" if args.with_week10 else None,
                     "extension_tables": 1 if args.with_week10 else 0,
+                },
+                "week11": {
+                    "installed": args.with_week11,
+                    "extension_tables": 1 if args.with_week11 else 0,
+                },
+                "week12": {
+                    "installed": args.with_week12,
+                    "extension_tables": 2 if args.with_week12 else 0,
                 },
                 "accounts": ["web_customer", "web_other", "web_staff", "web_admin"],
             },
