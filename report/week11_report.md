@@ -51,7 +51,8 @@
 | 新库构建 | WebXY1123H 从 v0.1 构建至第12周，准备退出码 0，安装日志位于 `result/webapp/WebXY1123H/` |
 | 失败批次 | 第一次验收批次 WebXY1123F 的全量测试有 11 项未通过，原因与修正见[失败批次说明](../result/week12/WebXY1123F/README.md) |
 | 触发器测试 | 13 项全部符合，`@@TRANCOUNT=0`，[验证记录](../result/week11/WebXY1123H/README.md) |
-| 增加登录名后复测 | WebXY1123J 从空库构建至第12周，触发器 13 项全部符合，`tests/test_week11_12_sql.py` 9 项通过；未重跑全量 unittest，[验证记录](../result/week11/WebXY1123J/README.md) |
+| 增加登录名后复测 | WebXY1123J 从空库构建至第12周，触发器 13 项全部符合，`tests/test_week11_12_sql.py` 9 项通过，[验证记录](../result/week11/WebXY1123J/README.md) |
+| 增加登录名后全量测试 | WebXY1123K 从空库构建至第12周，全量 unittest 124 项通过、0 跳过，[测试记录](../result/week12/WebXY1123K/README.md) |
 | 窗口查询 | 三条查询退出码 0，[原始输出](../result/week11/WebXY1123H/window_query.log) |
 | 自动化测试 | `tests/test_week11_12_sql.py` 随全量 unittest 运行，结果见[第12周报告](week12_report.md) |
 

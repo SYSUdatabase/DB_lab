@@ -2,7 +2,7 @@
 
 复查第11周实现时发现，审计表的操作人员取自会话上下文 `tokenhub.actor`，而会话上下文可由任意连接自行设置。为此在 `w11.InventoryAudit` 增加 `login_name` 列，由触发器写入 `ORIGINAL_LOGIN()`，即实际连接数据库的登录名，不受会话上下文影响；`operator` 列的取值方式不变。测试脚本 A2 同时核对登录名，两份清单增加该列。
 
-数据库 `TokenHubDB_v11_WebXY1123J` 于 2026-11-23 用 `tools/app_prepare.py --with-week10 --with-week11 --with-week12` 从空 v0.1 新建，建库后运行 [test_trigger.sql](../../../sql/week11/test_trigger.sql)，并运行 `tests/test_week11_12_sql.py`（9 项，OK，[日志](unittest_week11_12.log)）。本轮未重跑全量 124 项 unittest。以下内容由[原始输出](test_trigger.log)整理，未改动数值；汇总为 `SUMMARY|13/13|TRANCOUNT=0`。此前 [WebXY1123H](../WebXY1123H/README.md) 的记录保留不变，对应增加登录名之前的版本。
+数据库 `TokenHubDB_v11_WebXY1123J` 于 2026-11-23 用 `tools/app_prepare.py --with-week10 --with-week11 --with-week12` 从空 v0.1 新建，建库后运行 [test_trigger.sql](../../../sql/week11/test_trigger.sql)，并运行 `tests/test_week11_12_sql.py`（9 项，OK，[日志](unittest_week11_12.log)）。本批未运行全量 unittest；改动后的全量 124 项测试另在 [WebXY1123K](../../week12/WebXY1123K/README.md) 运行并通过。以下内容由[原始输出](test_trigger.log)整理，未改动数值；汇总为 `SUMMARY|13/13|TRANCOUNT=0`。此前 [WebXY1123H](../WebXY1123H/README.md) 的记录保留不变，对应增加登录名之前的版本。
 
 ## 用例结果
 
