@@ -1,0 +1,22 @@
+:on error exit
+USE [$(DatabaseName)];
+GO
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_WARNINGS ON;
+SET ANSI_PADDING ON;
+SET ARITHABORT ON;
+SET CONCAT_NULL_YIELDS_NULL ON;
+SET NUMERIC_ROUNDABORT OFF;
+IF DB_NAME() NOT LIKE N'TokenHubDB[_]v11[_]Web%' OR DB_NAME()<>N'$(DatabaseName)'
+ THROW 57000,'Week11 requires an isolated v11 Web database',1;
+IF SCHEMA_ID('w10') IS NULL OR OBJECT_ID('w10.usp_AdjustInventory','P') IS NULL
+ THROW 57000,'Week10 extension must be installed first',1;
+IF SCHEMA_ID('w11') IS NOT NULL THROW 57009,'Week11 already installed',1;
+BEGIN TRANSACTION;
+GO
+:r sql/week11/trigger.sql
+COMMIT TRANSACTION;
+GO

@@ -22,6 +22,10 @@ BEGIN
  LEFT JOIN dbo.Roles r ON r.role_id=e.role_id AND r.role_name IN('admin','staff')
  WHERE DATALENGTH(@token_hash)=32 AND s.token_hash=@token_hash AND s.revoked_at IS NULL
  AND s.expires_at>SYSDATETIME() AND (u.user_id IS NOT NULL OR r.role_id IS NOT NULL);
+ -- 第11周库存审计触发器从会话上下文读取操作人员；每次调用都覆盖，连接复用时不残留上一位。
+ DECLARE @actor NVARCHAR(32)=CASE WHEN @employee IS NOT NULL THEN N'employee:'+CONVERT(NVARCHAR(11),@employee)
+  WHEN @user IS NOT NULL THEN N'user:'+CONVERT(NVARCHAR(11),@user) ELSE N'anonymous' END;
+ EXEC sys.sp_set_session_context @key=N'tokenhub.actor',@value=@actor;
  IF @role IS NULL THROW 56001,'Authentication required',1;
  IF @role NOT IN('admin','staff') THROW 56003,'Employee required',1;
  IF @operation IN('inventory.adjustments.create','inventory.adjustments.list') AND @role<>'admin'
