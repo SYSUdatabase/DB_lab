@@ -836,3 +836,10 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 追问“11周你认为还有什么问题”，引出复查五点，决定“那就简单修改下”，原因是“因为和后面的工作有涉及到，并且有些改动的影响太大了”；直接SQL并发超卖等留待第13周，“后续可以解决我们当前的思考”。之后审阅AI使用记录，指出人的部分写得太少，要求补充，本条与ai使用文档对应段落据此补写。
 - 按用户要求补跑全量测试：新批次WebXY1123K以`--with-week10 --with-week11 --with-week12`构建，退出0；DB_LAB_TEST_DATABASE指向v01、APP/WEEK10/WEEK12指向v11，`unittest discover -s tests -v` 124项OK、0跳过（77.8秒）。首次启动时上传的PowerShell脚本未带BOM，Windows PowerShell 5.1按本地编码读错中文路径，建库与测试均未执行，并在桌面误建了一个只含空目录的乱码路径目录；核对其中无文件后删除，脚本加BOM后重跑。清理脚本-KeepEvidence核验PASS，临时目录已删除。
 - `git fetch`：远端main无新提交，本地领先11个提交（本条提交前），未合并、未推送。
+
+## 2026-11-23：第11—12周后续
+
+- 受限账户补验收（WebXY1123R）：git clone正式仓库到E:\Claude产物\DB_lab_runtime_33d5cc（肖懿同意）并复制.venv；`app_prepare.py --suffix WebXY1123R --with-week10 --with-week11 --with-week12`退出0；`setup_web_runtime.ps1 -AccountName TokenHubWebR -Port 5060`退出0，runtime_identity：sysadmin=0、db_owner=0、denied_checks=3、catalog PASS。Edge对5060报ERR_UNSAFE_PORT，停任务改runtime.json端口为5072后重启。stage2_browser_e2e.py在“新增商品”按钮超时（界面已变），改用HTTP：第10周3个接口与重放、下单、支付、重复支付409、调用1000 Token（上游-1200）、补货任务#13实际8000、重复完成409，均符合；审计4行login_name均为LAPTOP-OJSK2J30\TokenHubWebR；webapp.log无服务端错误。cleanup_reproduction.ps1因目录名检查与备份路径检查无法在副本上运行：删除计划任务、按名DROP三个数据库、DROP LOGIN、Set-BatchLogonRight -Revoke，副本与临时目录删除；账户用户配置Loaded=True，待重启后删除。
+- 对齐讲义（WebXY1123S）：trigger.sql说明与视图w11.v_InventoryAuditProduct、test_trigger.sql显示文字与A7、test_transactions.sql显示文字；触发器14/14、事务12/12、全量124 OK、ruff通过；清理脚本核验PASS。
+- 全量重跑（WebXY1123K）：124 OK、0跳过；首次脚本无BOM未执行，误建空目录已删。
+- 分工：据肖懿转告组员已审阅确认，更新docs/team_division.md与ROADMAP。
