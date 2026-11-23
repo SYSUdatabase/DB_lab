@@ -1,6 +1,6 @@
 -- 第12周事务验证：订单完成事务、补货入库事务的正常提交、中途失败回滚、重复调用与规则拒绝。
--- 在安装了第12周扩展的专用实验库上执行。每个用例先新建自己的订单或补货单并记录初始值，
--- 相当于每次从重置后的数据开始；检查涉及的全部业务表，而不只看是否报错。
+-- 在安装了第12周扩展的专用实验库上执行。不重置整库：每个用例新建自己的订单或补货单并记录初始值，
+-- 用前后差值判断（T2/T4、R2、R4/R5 分别沿用 T1/T3、R1、R3 的对象）；检查涉及的全部业务表，而不只看是否报错。
 -- 最后一个结果集按“编号|类别|初始数据|操作|预期结果|实际结果|是否符合”输出。
 -- sqlcmd 默认关闭 QUOTED_IDENTIFIER；写入带筛选索引的表和调用过程前统一打开。
 SET ANSI_NULLS ON;
@@ -105,13 +105,16 @@ BEGIN CATCH SET @e2=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBA
 BEGIN TRY EXEC w12.usp_CompleteOrder @o4,@emit_result=0; SET @e3=N'未报错'; END TRY
 BEGIN CATCH SET @e3=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @bal1=remaining_tokens FROM dbo.TokenBalances WHERE user_id=@uid AND model_provider='Other';
+SELECT @lots1=COUNT(*) FROM dbo.OrderTokenLots l JOIN dbo.OrderDetails d ON d.detail_id=l.detail_id WHERE d.order_id IN (@o3,@o4);
 INSERT @r VALUES('T5',N'订单·规则拒绝',N'订单 -1 不存在；#'+CONVERT(NVARCHAR(11),@o3)+N' 无明细；#'+CONVERT(NVARCHAR(11),@o4)+N' 上游需求 '
  +CONVERT(NVARCHAR(20),(SELECT SUM(d.quantity*CONVERT(BIGINT,p.required_upstream_tokens)) FROM dbo.OrderDetails d JOIN dbo.Products p ON p.product_id=d.product_id WHERE d.order_id=@o4))+N' 超过 Other 可售上游余量 '
- +CONVERT(NVARCHAR(40),(SELECT available_quota-outstanding_upstream FROM w11.fn_ProviderSellable('Other')))+N'；余额 '+CONVERT(NVARCHAR(20),@bal0),
- N'依次完成这三张订单',N'分别返回 53123、53125、53132；两张订单仍 pending；余额不变',
+ +CONVERT(NVARCHAR(40),(SELECT available_quota-outstanding_upstream FROM w11.fn_ProviderSellable('Other')))+N'；余额 '+CONVERT(NVARCHAR(20),@bal0)+N'；两张订单批次 0',
+ N'依次完成这三张订单',N'分别返回 53123、53125、53132；两张订单仍 pending、无完成时间；余额不变；批次仍为 0',
  @e1+N'；'+@e2+N'；'+@e3+N'；状态 '+(SELECT status FROM dbo.Orders WHERE order_id=@o3)+N' / '+(SELECT status FROM dbo.Orders WHERE order_id=@o4)
- +N'；余额 '+CONVERT(NVARCHAR(20),@bal1),
- CASE WHEN @e1=N'错误 53123' AND @e2=N'错误 53125' AND @e3=N'错误 53132' AND @bal1=@bal0
+ +N'；完成时间'+CASE WHEN EXISTS(SELECT 1 FROM dbo.Orders WHERE order_id IN (@o3,@o4) AND paid_at IS NOT NULL) THEN N'已填' ELSE N'为空' END
+ +N'；余额 '+CONVERT(NVARCHAR(20),@bal1)+N'；批次 '+CONVERT(NVARCHAR(11),@lots1),
+ CASE WHEN @e1=N'错误 53123' AND @e2=N'错误 53125' AND @e3=N'错误 53132' AND @bal1=@bal0 AND @lots1=0
+  AND NOT EXISTS(SELECT 1 FROM dbo.Orders WHERE order_id IN (@o3,@o4) AND paid_at IS NOT NULL)
   AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o3) AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o4) THEN 1 ELSE 0 END);
 
 -- T6 原入口已替换：Web 调用的 dbo.usp_W6_PayPendingOrder 现在委托给 w12.usp_CompleteOrder。
@@ -151,15 +154,21 @@ INSERT @r VALUES('R1',N'补货·正常提交',N'补货单 #'+CONVERT(NVARCHAR(11
   AND @tst='completed' AND @actual=8000 AND @done IS NOT NULL THEN 1 ELSE 0 END);
 
 -- R2 重复调用：同一补货单再次入库，库存不能再增加。
+DECLARE @actual0 BIGINT=@actual,@done0 DATETIME2(0)=@done;
 SET @inv0=@inv1; SET @quota0=@quota1; SET @log0=@log1; SET @aud0=@aud1;
 BEGIN TRY EXEC w12.usp_ReceiveRestock @task,8000,@emit_result=0; SET @err=N'未报错'; END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 SELECT @inv1=i.current_quota,@quota1=a.total_quota FROM dbo.Inventory i JOIN dbo.UpstreamAccount a ON a.account_id=i.account_id WHERE i.account_id=@acct;
 SELECT @log1=COUNT(*) FROM dbo.InventoryLog WHERE account_id=@acct;
-INSERT @r VALUES('R2',N'补货·重复调用',N'补货单 #'+CONVERT(NVARCHAR(11),@task)+N' 已 completed；库存 '+CONVERT(NVARCHAR(20),@inv0)+N'；流水 '+CONVERT(NVARCHAR(11),@log0),
- N'再次 EXEC w12.usp_ReceiveRestock '+CONVERT(NVARCHAR(11),@task)+N',8000',N'返回 53311（已入库）；库存、总额度、流水不变',
- @err+N'；库存 '+CONVERT(NVARCHAR(20),@inv1)+N'，总额度 '+CONVERT(NVARCHAR(20),@quota1)+N'；流水 '+CONVERT(NVARCHAR(11),@log1),
- CASE WHEN @err=N'错误 53311' AND @inv1=@inv0 AND @quota1=@quota0 AND @log1=@log0 THEN 1 ELSE 0 END);
+SELECT @aud1=COUNT(*) FROM w11.InventoryAudit WHERE account_id=@acct;
+SELECT @tst=status,@actual=actual_amount,@done=completed_at FROM dbo.RestockTask WHERE task_id=@task;
+INSERT @r VALUES('R2',N'补货·重复调用',N'补货单 #'+CONVERT(NVARCHAR(11),@task)+N' 已 completed，实际 '+CONVERT(NVARCHAR(20),@actual0)+N'；库存 '+CONVERT(NVARCHAR(20),@inv0)
+ +N'，总额度 '+CONVERT(NVARCHAR(20),@quota0)+N'；流水 '+CONVERT(NVARCHAR(11),@log0)+N'，审计 '+CONVERT(NVARCHAR(11),@aud0),
+ N'再次 EXEC w12.usp_ReceiveRestock '+CONVERT(NVARCHAR(11),@task)+N',8000',N'返回 53311（已入库）；库存、总额度、流水、审计不变；单据实际量与入库时间不变',
+ @err+N'；库存 '+CONVERT(NVARCHAR(20),@inv1)+N'，总额度 '+CONVERT(NVARCHAR(20),@quota1)+N'；流水 '+CONVERT(NVARCHAR(11),@log1)+N'，审计 '+CONVERT(NVARCHAR(11),@aud1)
+ +N'；单据 '+@tst+N'，实际 '+COALESCE(CONVERT(NVARCHAR(20),@actual),N'NULL')+N'，入库时间'+CASE WHEN @done=@done0 THEN N'未变' ELSE N'已变' END,
+ CASE WHEN @err=N'错误 53311' AND @inv1=@inv0 AND @quota1=@quota0 AND @log1=@log0 AND @aud1=@aud0
+  AND @tst='completed' AND @actual=@actual0 AND @done=@done0 THEN 1 ELSE 0 END);
 
 -- R3 中途失败回滚：库存与总额度已增加、流水已写入之后，单据改为 completed 之前主动抛错。
 DECLARE @task2 INT;
@@ -188,18 +197,22 @@ INSERT @r VALUES('R3',N'补货·中途失败回滚',N'补货单 #'+CONVERT(NVARC
 
 -- R4 规则拒绝：补货量为 0 和负数、补货单不存在，都不改变库存。
 DECLARE @f1 NVARCHAR(40),@f2 NVARCHAR(40),@f3 NVARCHAR(40);
-SET @inv0=@inv1;
+SET @inv0=@inv1; SET @quota0=@quota1; SET @log0=@log1; SET @aud0=@aud1;
 BEGIN TRY EXEC w12.usp_ReceiveRestock @task2,0,@emit_result=0; SET @f1=N'未报错'; END TRY
 BEGIN CATCH SET @f1=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 BEGIN TRY EXEC w12.usp_ReceiveRestock @task2,-500,@emit_result=0; SET @f2=N'未报错'; END TRY
 BEGIN CATCH SET @f2=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 BEGIN TRY EXEC w12.usp_ReceiveRestock -1,100,@emit_result=0; SET @f3=N'未报错'; END TRY
 BEGIN CATCH SET @f3=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
-SELECT @inv1=current_quota FROM dbo.Inventory WHERE account_id=@acct;
-INSERT @r VALUES('R4',N'补货·规则拒绝',N'补货单 #'+CONVERT(NVARCHAR(11),@task2)+N' pending；库存 '+CONVERT(NVARCHAR(20),@inv0),
- N'入库数量 0、入库数量 -500、补货单 -1',N'分别返回 53303、53303、53310；库存不变；单据仍 pending',
- @f1+N'；'+@f2+N'；'+@f3+N'；库存 '+CONVERT(NVARCHAR(20),@inv1)+N'；单据 '+(SELECT status FROM dbo.RestockTask WHERE task_id=@task2),
- CASE WHEN @f1=N'错误 53303' AND @f2=N'错误 53303' AND @f3=N'错误 53310' AND @inv1=@inv0
+SELECT @inv1=i.current_quota,@quota1=a.total_quota FROM dbo.Inventory i JOIN dbo.UpstreamAccount a ON a.account_id=i.account_id WHERE i.account_id=@acct;
+SELECT @log1=COUNT(*) FROM dbo.InventoryLog WHERE account_id=@acct;
+SELECT @aud1=COUNT(*) FROM w11.InventoryAudit WHERE account_id=@acct;
+INSERT @r VALUES('R4',N'补货·规则拒绝',N'补货单 #'+CONVERT(NVARCHAR(11),@task2)+N' pending；库存 '+CONVERT(NVARCHAR(20),@inv0)
+ +N'，总额度 '+CONVERT(NVARCHAR(20),@quota0)+N'；流水 '+CONVERT(NVARCHAR(11),@log0)+N'，审计 '+CONVERT(NVARCHAR(11),@aud0),
+ N'入库数量 0、入库数量 -500、补货单 -1',N'分别返回 53303、53303、53310；库存、总额度、流水、审计不变；单据仍 pending',
+ @f1+N'；'+@f2+N'；'+@f3+N'；库存 '+CONVERT(NVARCHAR(20),@inv1)+N'，总额度 '+CONVERT(NVARCHAR(20),@quota1)+N'；流水 '+CONVERT(NVARCHAR(11),@log1)
+ +N'，审计 '+CONVERT(NVARCHAR(11),@aud1)+N'；单据 '+(SELECT status FROM dbo.RestockTask WHERE task_id=@task2),
+ CASE WHEN @f1=N'错误 53303' AND @f2=N'错误 53303' AND @f3=N'错误 53310' AND @inv1=@inv0 AND @quota1=@quota0 AND @log1=@log0 AND @aud1=@aud0
   AND 'pending'=(SELECT status FROM dbo.RestockTask WHERE task_id=@task2) THEN 1 ELSE 0 END);
 
 -- R5 原入口已替换：Web“完成补货”调用的 dbo.usp_W6_RestockAccount 现在委托给 w12.usp_ReceiveRestock。
@@ -211,6 +224,38 @@ INSERT @r VALUES('R5',N'补货·原入口',N'R3 回滚后的补货单 #'+CONVERT
  N'EXEC dbo.usp_W6_RestockAccount '+CONVERT(NVARCHAR(11),@task2)+N',5000',N'库存 +5000；单据 completed',
  COALESCE(@err,N'库存 '+CONVERT(NVARCHAR(20),@inv0)+N'→'+CONVERT(NVARCHAR(20),@inv1)+N'；单据 '+(SELECT status FROM dbo.RestockTask WHERE task_id=@task2)),
  CASE WHEN @err IS NULL AND @inv1-@inv0=5000 AND 'completed'=(SELECT status FROM dbo.RestockTask WHERE task_id=@task2) THEN 1 ELSE 0 END);
+
+-- R6 规则拒绝：已关闭（failed）的补货单不能入库，库存、总额度、流水、审计与单据都不变。
+DECLARE @task3 INT;
+INSERT dbo.RestockTask(account_id,trigger_reason,restock_method,target_amount,created_by,assigned_to,status)
+VALUES(@acct,'manual','manual_purchase',3000,@admin,@admin,'failed');
+SET @task3=SCOPE_IDENTITY();
+SELECT @inv0=i.current_quota,@quota0=a.total_quota FROM dbo.Inventory i JOIN dbo.UpstreamAccount a ON a.account_id=i.account_id WHERE i.account_id=@acct;
+SELECT @log0=COUNT(*) FROM dbo.InventoryLog WHERE account_id=@acct;
+SELECT @aud0=COUNT(*) FROM w11.InventoryAudit WHERE account_id=@acct;
+BEGIN TRY EXEC w12.usp_ReceiveRestock @task3,3000,@emit_result=0; SET @err=N'未报错'; END TRY
+BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
+SELECT @inv1=i.current_quota,@quota1=a.total_quota FROM dbo.Inventory i JOIN dbo.UpstreamAccount a ON a.account_id=i.account_id WHERE i.account_id=@acct;
+SELECT @log1=COUNT(*) FROM dbo.InventoryLog WHERE account_id=@acct;
+SELECT @aud1=COUNT(*) FROM w11.InventoryAudit WHERE account_id=@acct;
+SELECT @tst=status,@actual=actual_amount,@done=completed_at FROM dbo.RestockTask WHERE task_id=@task3;
+INSERT @r VALUES('R6',N'补货·规则拒绝',N'补货单 #'+CONVERT(NVARCHAR(11),@task3)+N' 状态 failed（已关闭）计划 3000；库存 '+CONVERT(NVARCHAR(20),@inv0)
+ +N'，总额度 '+CONVERT(NVARCHAR(20),@quota0)+N'；流水 '+CONVERT(NVARCHAR(11),@log0)+N'，审计 '+CONVERT(NVARCHAR(11),@aud0),
+ N'EXEC w12.usp_ReceiveRestock '+CONVERT(NVARCHAR(11),@task3)+N',3000',
+ N'返回 53312（已关闭）；库存、总额度、流水、审计不变；单据仍 failed，实际量与入库时间为空',
+ @err+N'；库存 '+CONVERT(NVARCHAR(20),@inv1)+N'，总额度 '+CONVERT(NVARCHAR(20),@quota1)+N'；流水 '+CONVERT(NVARCHAR(11),@log1)+N'，审计 '+CONVERT(NVARCHAR(11),@aud1)
+ +N'；单据 '+@tst+N'，实际 '+COALESCE(CONVERT(NVARCHAR(20),@actual),N'NULL')+N'，入库时间'+CASE WHEN @done IS NULL THEN N'为空' ELSE N'已填' END,
+ CASE WHEN @err=N'错误 53312' AND @inv1=@inv0 AND @quota1=@quota0 AND @log1=@log0 AND @aud1=@aud0
+  AND @tst='failed' AND @actual IS NULL AND @done IS NULL THEN 1 ELSE 0 END);
+
+-- R7 53313（供应商无商品）可达性核对：供应商取值受 CHECK 限制为四个，且被订单引用的商品不能改供应商、不能删除。
+-- 若四个供应商都有被订单引用的商品，53313 在本库无法构造，本用例核对这一前提，而不伪造一个不存在的场景。
+INSERT @r VALUES('R7',N'补货·不可构造核对',N'Products/UpstreamAccount 供应商 CHECK 为 OpenAI、Claude、Gemini、Other；trg_W6_ProductsHistory 禁止改已引用商品的供应商',
+ N'统计四个供应商中各有被 OrderDetails 引用的商品的个数',N'4 个供应商都有被引用商品，53313 在本库不可触发，保留为防御性检查',
+ N'有被引用商品的供应商 '+CONVERT(NVARCHAR(11),(SELECT COUNT(DISTINCT p.model_provider) FROM dbo.Products p
+   WHERE p.model_provider IN ('OpenAI','Claude','Gemini','Other') AND EXISTS(SELECT 1 FROM dbo.OrderDetails d WHERE d.product_id=p.product_id)))+N' 个',
+ CASE WHEN 4=(SELECT COUNT(DISTINCT p.model_provider) FROM dbo.Products p
+   WHERE p.model_provider IN ('OpenAI','Claude','Gemini','Other') AND EXISTS(SELECT 1 FROM dbo.OrderDetails d WHERE d.product_id=p.product_id)) THEN 1 ELSE 0 END);
 
 -- 账务总检查：本次涉及账号的库存等于总额度减已用额度，余额等于未消费批次之和。
 INSERT @r VALUES('Z1',N'一致性检查',N'上述用例执行完毕',N'核对补货账号与顾客 Other 余额',
