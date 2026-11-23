@@ -12,7 +12,7 @@
 | 旧业务追加浏览器 | [失败现场](WebW10Final03/legacy_browser_attempt01/failed.json)，补货按钮精确定位冲突，18张过程/失败截图保留；脚本定位已修复，完整重跑待补做 |
 | 安装回滚 | [强制失败后的检查](WebW10Rollback1/rollback_result.json)，通过 |
 | 账务一致性 | [计数与异常检查](WebW10Final03/accounting_checks.json)，19表26FK，各异常计数0 |
-| 普通Windows身份 | [权限预检](WebW10Final03/runtime_preflight.json)，当前令牌未提升，待补做 |
+| 普通Windows身份 | [权限预检](WebW10Final03/runtime_preflight.json)，当前令牌未提升；2026-11-23 补做，受限账户 TokenHubWebR 下身份核对、第10周三个接口及第11—12周写入均通过，见[补做记录](../stage2/WebXY1123R/README.md) |
 | 服务关闭 | [关闭记录](WebW10Final03/shutdown.json)，5052无监听 |
 
 WebW10Dev01和SqlTestsAttempt01至07保留开发、失败与修复过程。WebW10Final01保存浏览器筛选修复等尝试，WebW10Final02保存114项测试中发现并修复的授权顺序问题。不同库、不同尝试的结果分别保存。

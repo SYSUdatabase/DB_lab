@@ -1,0 +1,130 @@
+{
+  "audit_by_login_operator": [
+    [
+      "LAPTOP-OJSK2J30\\TokenHubWebR",
+      "employee:7",
+      "increase",
+      1
+    ],
+    [
+      "LAPTOP-OJSK2J30\\TokenHubWebR",
+      "employee:8",
+      "increase",
+      2
+    ],
+    [
+      "LAPTOP-OJSK2J30\\TokenHubWebR",
+      "user:44",
+      "decrease",
+      1
+    ]
+  ],
+  "audit_rows_by_runtime_account": 4,
+  "audit_rows_total": 4,
+  "audit_recent": [
+    [
+      1,
+      1,
+      "OpenAI",
+      "increase",
+      1300000,
+      1301000,
+      1000,
+      "2026-11-23 14:05:17.845",
+      "employee:8",
+      "LAPTOP-OJSK2J30\\TokenHubWebR"
+    ],
+    [
+      2,
+      1,
+      "OpenAI",
+      "increase",
+      1301000,
+      1302000,
+      1000,
+      "2026-11-23 14:15:19.613",
+      "employee:8",
+      "LAPTOP-OJSK2J30\\TokenHubWebR"
+    ],
+    [
+      3,
+      1,
+      "OpenAI",
+      "decrease",
+      1302000,
+      1300800,
+      -1200,
+      "2026-11-23 14:17:02.339",
+      "user:44",
+      "LAPTOP-OJSK2J30\\TokenHubWebR"
+    ],
+    [
+      4,
+      1,
+      "OpenAI",
+      "increase",
+      1300800,
+      1308800,
+      8000,
+      "2026-11-23 14:17:05.419",
+      "employee:7",
+      "LAPTOP-OJSK2J30\\TokenHubWebR"
+    ]
+  ],
+  "orders_paid_today": [
+    [
+      "112",
+      "paid",
+      "3.90",
+      "50000"
+    ]
+  ],
+  "restock_latest": [
+    [
+      "13",
+      "1",
+      "manual",
+      "manual_purchase",
+      "10000",
+      "8000",
+      "7",
+      "7",
+      "completed",
+      "2026-11-23 14:17:05",
+      "2026-11-23 14:17:05",
+      "None",
+      "manual"
+    ],
+    [
+      "8",
+      "8",
+      "low_quota",
+      "api_recharge",
+      "1200000",
+      "None",
+      "1",
+      "None",
+      "failed",
+      "2026-09-18 17:00:00",
+      "None",
+      "教学合成补货任务 #8",
+      "manual"
+    ],
+    [
+      "7",
+      "7",
+      "scheduled",
+      "manual_purchase",
+      "500000",
+      "None",
+      "1",
+      "None",
+      "failed",
+      "2026-09-18 16:00:00",
+      "None",
+      "教学合成补货任务 #7",
+      "manual"
+    ]
+  ],
+  "login_name_is_runtime_account_for_web_rows": true
+}

@@ -1,0 +1,54 @@
+2026-11-23 14:05:07,347 INFO request_id=20a4bf249f404f5fb90f91f1ff260b83 operation=index role=guest code=OK result=200
+2026-11-23 14:05:08,241 INFO request_id=6215608034cc4e8598db0f230eef5f0d operation=products.list role=guest code=OK result=200
+2026-11-23 14:05:15,954 INFO request_id=9c8830d6991c4a739d01aac4435465ef operation=current_identity role=guest code=OK result=200
+2026-11-23 14:05:17,029 INFO request_id=db266633398347d9b0fc778a2a7a068e operation=login role=admin code=OK result=200
+2026-11-23 14:05:17,396 INFO request_id=42b0183fa08347d7803a7f5ccc7c5609 operation=reports.sales role=admin code=OK result=200
+2026-11-23 14:05:17,587 INFO request_id=22b276694b3948fda831587b79ab0401 operation=restocks.recommendation role=admin code=OK result=200
+2026-11-23 14:05:17,900 INFO request_id=a6adc80de4404f37a095d875a0e34635 operation=inventory.adjustments.create role=admin code=OK result=200
+2026-11-23 14:05:18,087 INFO request_id=31ba49b5f50942e8991aa4ed039c5605 operation=inventory.adjustments.create role=admin code=OK result=200
+2026-11-23 14:05:18,285 INFO request_id=f6d5cf4845eb46b9b19a6a81ae0be104 operation=inventory.adjustments.list role=admin code=OK result=200
+2026-11-23 14:05:18,355 INFO request_id=f83fa56fb8f54e258f86a3daee8bc710 operation=logout role=guest code=OK result=200
+2026-11-23 14:14:46,992 INFO request_id=cf5cf1c2736549a2b6cabb9568f7cd9f operation=index role=guest code=OK result=200
+2026-11-23 14:14:47,739 INFO request_id=d5232f7014fd40f2bc9ee9674d51c131 operation=products.list role=guest code=OK result=200
+2026-11-23 14:14:49,672 INFO request_id=0654e561c5d94abaa2de5e02415a7ffb operation=index role=guest code=OK result=200
+2026-11-23 14:14:50,103 INFO request_id=f9e85e2821bc4fe1971f83e64879785d operation=static role=guest code=OK result=200
+2026-11-23 14:14:50,104 INFO request_id=9329ba0fb0394d9991869b4a043551ad operation=static role=guest code=OK result=200
+2026-11-23 14:14:50,132 INFO request_id=d13bed47ff5e47d8a607031ea998620b operation=static role=guest code=OK result=200
+2026-11-23 14:14:50,146 INFO request_id=46934e2cd89f46c9ada5aa30fb665212 operation=current_identity role=guest code=OK result=200
+2026-11-23 14:14:50,192 INFO request_id=09fc23e9d48e4f9f91f8f7257609d937 operation=unknown role=guest code=NOT_FOUND result=404
+2026-11-23 14:14:50,600 INFO request_id=cc5ea74bcc7f44b8ba760fb1d99eb58d operation=products.list role=guest code=OK result=200
+2026-11-23 14:14:52,686 INFO request_id=0c4602d01d3d43da9076686882676510 operation=register_customer role=customer code=OK result=200
+2026-11-23 14:14:52,951 INFO request_id=35da1ef529cb482bb2d440bc25e0fbaa operation=logout role=guest code=OK result=200
+2026-11-23 14:14:52,958 INFO request_id=7ba3f0bb447849cebaf7bdf3ca1cdf85 operation=current_identity role=guest code=OK result=200
+2026-11-23 14:14:53,266 ERROR database_failure request_id=300a71d95af0486d8ad3bb6fbbb40fc7 operation=products.list role=customer sqlstate=42000 native_codes=55001
+2026-11-23 14:14:53,270 INFO request_id=300a71d95af0486d8ad3bb6fbbb40fc7 operation=products.list role=customer code=UNAUTHENTICATED result=401
+2026-11-23 14:14:53,361 INFO request_id=b1a3e87f200c4e869812575d8eebbb46 operation=products.list role=guest code=OK result=200
+2026-11-23 14:14:54,122 ERROR database_failure request_id=0e15d0e28e4942118b28277e7fc4e4a0 operation=register_customer role=guest sqlstate=23000 native_codes=2627
+2026-11-23 14:14:54,132 INFO request_id=0e15d0e28e4942118b28277e7fc4e4a0 operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+2026-11-23 14:14:55,643 INFO request_id=004cfca6a3e549ebacd08c6dfb8257a2 operation=login role=guest code=LOGIN_FAILED result=401
+2026-11-23 14:14:57,728 INFO request_id=f5af39c36b874e83a16ca0a9de1d5724 operation=login role=admin code=OK result=200
+2026-11-23 14:14:57,975 INFO request_id=0867ae630f464f8c85d78d49d3ad4a60 operation=dashboard.view role=admin code=OK result=200
+2026-11-23 14:15:05,606 INFO request_id=da79d07eaf2c4d50b353f917844de006 operation=dashboard.view role=admin code=OK result=200
+2026-11-23 14:15:17,266 INFO request_id=c9ccd1d3183641dda5169627357382fc operation=current_identity role=guest code=OK result=200
+2026-11-23 14:15:18,686 INFO request_id=e149d7eadd7e40d5866e36001387f648 operation=login role=admin code=OK result=200
+2026-11-23 14:15:19,085 INFO request_id=9696b7a9e0d84a3fa24c990f69dd467f operation=reports.sales role=admin code=OK result=200
+2026-11-23 14:15:19,317 INFO request_id=c826b75c409a4e3eaa760fa9b057a9e8 operation=restocks.recommendation role=admin code=OK result=200
+2026-11-23 14:15:19,668 INFO request_id=447136dfd50f4044aad195e07c18487e operation=inventory.adjustments.create role=admin code=OK result=200
+2026-11-23 14:15:19,954 INFO request_id=90d7a1598f0b4cb3a9e7659b2a97c807 operation=inventory.adjustments.create role=admin code=OK result=200
+2026-11-23 14:15:20,231 INFO request_id=b3941145e6b64df4837294bb336617d5 operation=inventory.adjustments.list role=admin code=OK result=200
+2026-11-23 14:15:20,315 INFO request_id=6f4dab7cd1a3425f90901c0b420b4ba2 operation=logout role=guest code=OK result=200
+2026-11-23 14:16:57,819 INFO request_id=41797a3f0c1c415dbc6303389007e2d4 operation=current_identity role=guest code=OK result=200
+2026-11-23 14:17:00,425 INFO request_id=cdd6867754504859bc8fb3eba3afd3b8 operation=login role=customer code=OK result=200
+2026-11-23 14:17:01,204 INFO request_id=f6262f2989c649afad9dc9067b665ae5 operation=orders.create role=customer code=OK result=200
+2026-11-23 14:17:01,662 INFO request_id=013fd5075a70430084f8c2d2de1f4873 operation=orders.pay role=customer code=OK result=200
+2026-11-23 14:17:01,972 ERROR database_failure request_id=e28aa957fb364943b320f0fb399ed84a operation=orders.pay role=customer sqlstate=42000 native_codes=55009
+2026-11-23 14:17:01,986 INFO request_id=e28aa957fb364943b320f0fb399ed84a operation=orders.pay role=customer code=BUSINESS_RULE result=409
+2026-11-23 14:17:02,443 INFO request_id=82a2a874315c4b5db47d259f4693a823 operation=usage.create role=customer code=OK result=200
+2026-11-23 14:17:02,583 INFO request_id=9b3361ed999b400db991ff7677399592 operation=logout role=guest code=OK result=200
+2026-11-23 14:17:02,624 INFO request_id=8181d697813e400da0148180ecefb31b operation=current_identity role=guest code=OK result=200
+2026-11-23 14:17:04,811 INFO request_id=9aecfb410e584b4e9615b49cc380b45b operation=login role=staff code=OK result=200
+2026-11-23 14:17:05,120 INFO request_id=f3f92b770b0d454f857cf8e99382d677 operation=restocks.create role=staff code=OK result=200
+2026-11-23 14:17:05,430 INFO request_id=53b7a9c48fc6411886951e94cf74ab95 operation=restocks.complete role=staff code=OK result=200
+2026-11-23 14:17:05,696 ERROR database_failure request_id=f798add32b7f4652a12649cf8520d733 operation=restocks.complete role=staff sqlstate=42000 native_codes=55009
+2026-11-23 14:17:05,710 INFO request_id=f798add32b7f4652a12649cf8520d733 operation=restocks.complete role=staff code=BUSINESS_RULE result=409
+2026-11-23 14:17:05,814 INFO request_id=553851daef364b3f88a4bb8b7e5dd24a operation=logout role=guest code=OK result=200

@@ -4,7 +4,7 @@
 
 ## 交付内容与入口
 
-第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，完整新库回归115项通过。普通Windows账户对第10周增量的运行验收待补做。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
+第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，完整新库回归115项通过。普通Windows账户对第10周增量的运行验收已于2026-11-23补做（WebXY1123R，同时覆盖第11—12周触发器与事务），见[补做记录](result/stage2/WebXY1123R/README.md)。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
 
 第11周增加库存审计与订单完成规则触发器、排名/累计/移动平均三条窗口查询；第12周增加商品分类层级递归查询、订单完成事务与补货入库事务，Web的“模拟支付”“完成补货”改为调用新事务。新库WebXY1123H上触发器13项、事务12项用例全部符合，全量Python测试124项通过。结果见[第11周报告](report/week11_report.md)、[第12周报告](report/week12_report.md)。
 

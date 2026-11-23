@@ -1,0 +1,70 @@
+{
+  "base_url": "http://127.0.0.1:5072",
+  "database": "TokenHubDB_v11_WebXY1123R",
+  "results": [
+    {
+      "check": "session",
+      "http": 200,
+      "code": "OK",
+      "request_id": "c9ccd1d3183641dda5169627357382fc",
+      "pass": true
+    },
+    {
+      "check": "admin login",
+      "http": 200,
+      "code": "OK",
+      "request_id": "e149d7eadd7e40d5866e36001387f648",
+      "pass": true
+    },
+    {
+      "check": "week10 reports.sales",
+      "http": 200,
+      "code": "OK",
+      "request_id": "9696b7a9e0d84a3fa24c990f69dd467f",
+      "pass": true,
+      "rows": 10
+    },
+    {
+      "check": "week10 restocks.recommendation",
+      "http": 200,
+      "code": "OK",
+      "request_id": "c826b75c409a4e3eaa760fa9b057a9e8",
+      "pass": true
+    },
+    {
+      "check": "week10 inventory.adjustments.create",
+      "http": 200,
+      "code": "OK",
+      "request_id": "447136dfd50f4044aad195e07c18487e",
+      "pass": true,
+      "account_id": 1,
+      "product_id": 1,
+      "provider": "OpenAI",
+      "quota_before": 1301000,
+      "quota_after": 1302000,
+      "quota_delta_ok": true
+    },
+    {
+      "check": "week10 adjustment replay same operation_key",
+      "http": 200,
+      "code": "OK",
+      "request_id": "90d7a1598f0b4cb3a9e7659b2a97c807",
+      "quota_after_replay": 1302000,
+      "pass": true
+    },
+    {
+      "check": "week10 inventory.adjustments.list",
+      "http": 200,
+      "code": "OK",
+      "request_id": "b3941145e6b64df4837294bb336617d5",
+      "pass": true
+    },
+    {
+      "check": "logout",
+      "http": 200,
+      "code": "OK",
+      "request_id": "6f4dab7cd1a3425f90901c0b420b4ba2",
+      "pass": true
+    }
+  ]
+}

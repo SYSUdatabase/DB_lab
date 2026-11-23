@@ -1,0 +1,103 @@
+{
+  "base_url": "http://127.0.0.1:5072",
+  "database": "TokenHubDB_v11_WebXY1123R",
+  "product_id": 1,
+  "provider": "OpenAI",
+  "results": [
+    {
+      "check": "customer login",
+      "http": 200,
+      "code": "OK",
+      "request_id": "cdd6867754504859bc8fb3eba3afd3b8",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "orders.create",
+      "http": 200,
+      "code": "OK",
+      "request_id": "f6262f2989c649afad9dc9067b665ae5",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "orders.pay (week12 w12.usp_CompleteOrder via old entry; week11 completion trigger)",
+      "http": 200,
+      "code": "OK",
+      "request_id": "013fd5075a70430084f8c2d2de1f4873",
+      "expected_http": 200,
+      "pass": true,
+      "order_id": 112,
+      "status_after": "paid"
+    },
+    {
+      "check": "orders.pay repeated (expect business rule rejection)",
+      "http": 409,
+      "code": "BUSINESS_RULE",
+      "request_id": "e28aa957fb364943b320f0fb399ed84a",
+      "expected_http": 409,
+      "pass": true
+    },
+    {
+      "check": "usage.create 1000 tokens (upstream inventory decrease -> audit)",
+      "http": 200,
+      "code": "OK",
+      "request_id": "82a2a874315c4b5db47d259f4693a823",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "customer logout",
+      "http": 200,
+      "code": "OK",
+      "request_id": "9b3361ed999b400db991ff7677399592",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "staff login",
+      "http": 200,
+      "code": "OK",
+      "request_id": "9aecfb410e584b4e9615b49cc380b45b",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "restocks.create",
+      "http": 200,
+      "code": "OK",
+      "request_id": "f3f92b770b0d454f857cf8e99382d677",
+      "expected_http": 200,
+      "pass": true
+    },
+    {
+      "check": "restocks.complete actual 8000 (week12 w12.usp_ReceiveRestock via old entry)",
+      "http": 200,
+      "code": "OK",
+      "request_id": "53b7a9c48fc6411886951e94cf74ab95",
+      "expected_http": 200,
+      "pass": true,
+      "task_id": 13,
+      "account_id": 1,
+      "quota_before": 1300800,
+      "quota_after": 1308800
+    },
+    {
+      "check": "restocks.complete repeated (expect rejection, no second increase)",
+      "http": 409,
+      "code": "BUSINESS_RULE",
+      "request_id": "f798add32b7f4652a12649cf8520d733",
+      "expected_http": 409,
+      "pass": true,
+      "quota_after_repeat": 1308800
+    },
+    {
+      "check": "staff logout",
+      "http": 200,
+      "code": "OK",
+      "request_id": "553851daef364b3f88a4bb8b7e5dd24a",
+      "expected_http": 200,
+      "pass": true
+    }
+  ]
+}

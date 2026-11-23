@@ -1,0 +1,36 @@
+﻿{
+    "account":  "TokenHubWebR",
+    "local_groups":  [
+
+                     ],
+    "task":  "TokenHub-TokenHubWebR",
+    "run_level":  "Limited",
+    "task_user":  "TokenHubWebR",
+    "listen":  "127.0.0.1:5072 pid=66880",
+    "webapp_processes":  [
+                             {
+                                 "pid":  62788,
+                                 "owner":  "LAPTOP-OJSK2J30\\xy",
+                                 "listens_5072":  false,
+                                 "command":  "\"C:\\Users\\xy\\Desktop\\数据库实验\\DB_lab\\.venv\\Scripts\\python.exe\" -m webapp"
+                             },
+                             {
+                                 "pid":  61748,
+                                 "owner":  "LAPTOP-OJSK2J30\\xy",
+                                 "listens_5072":  false,
+                                 "command":  "\"C:\\Users\\xy\\Desktop\\数据库实验\\DB_lab\\.venv\\Scripts\\python.exe\" -m webapp"
+                             },
+                             {
+                                 "pid":  7428,
+                                 "owner":  "LAPTOP-OJSK2J30\\TokenHubWebR",
+                                 "listens_5072":  false,
+                                 "command":  "\"E:\\Claude产物\\DB_lab_runtime_33d5cc\\.venv\\Scripts\\python.exe\" -m webapp"
+                             },
+                             {
+                                 "pid":  66880,
+                                 "owner":  "LAPTOP-OJSK2J30\\TokenHubWebR",
+                                 "listens_5072":  true,
+                                 "command":  "\"E:\\Claude产物\\DB_lab_runtime_33d5cc\\.venv\\Scripts\\python.exe\" -m webapp"
+                             }
+                         ]
+}
