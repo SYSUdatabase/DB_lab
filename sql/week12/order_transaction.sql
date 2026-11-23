@@ -74,6 +74,10 @@ BEGIN
   DECLARE @locked INT;
   SELECT @locked=COUNT(*) FROM dbo.TokenBalances WITH(UPDLOCK,HOLDLOCK)
   WHERE user_id=@user_id AND model_provider IN (SELECT provider FROM @credit);
+  -- 核对可售余量之前先以更新锁锁住本单涉及供应商的上游账号行，同一供应商的订单完成在此排队。
+  -- 否则两个事务各自对已售批次持有范围共享锁、随后都要插入批次，会互相等待形成死锁（见第12周报告“并发”一节）。
+  SELECT @locked=COUNT(*) FROM dbo.UpstreamAccount WITH(UPDLOCK,HOLDLOCK)
+  WHERE provider IN (SELECT provider FROM @credit);
   IF EXISTS(SELECT 1 FROM (SELECT provider,SUM(upstream) upstream FROM @need GROUP BY provider) n
     CROSS APPLY w11.fn_ProviderSellable(n.provider) s WHERE n.upstream>s.available_quota-s.outstanding_upstream)
    THROW 53132,'Insufficient sellable upstream inventory for this order',1;
