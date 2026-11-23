@@ -1,44 +1,40 @@
-# TokenHub：数据库课程项目（第 1—9 周完成，第 10—12 周已实现，第 13 周进行中）
+# TokenHub：第三阶段（第10—13周）数据库编程与事务处理
 
-本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，并完成第 10—12 周数据库编程与事务处理的核心实现及验收；当前进入第 13 周锁等待、隔离级别与死锁实验。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和数据库准备工具。
+本阶段提交重点为**第10周存储过程与函数、第11周触发器与窗口查询、第12周递归查询和业务事务**。第13周并发控制实验仍待完成。既有数据库及 Web 基础代码只作为运行依赖，阶段报告和证据以第10周及以后为准。
 
-> **建库须加参数。** `tools/app_prepare.py` 默认不安装第10—12周的扩展。建库时须加 `--with-week10 --with-week11 --with-week12`，才会装上第10周的过程与函数、第11周的触发器和第12周的分类层级、商品分类自动维护与事务，Web 的“模拟支付”“完成补货”才走第12周的新事务；不加这些参数建出的库不含第10—12周的实现。完整命令见[第11—12周安装与验证](#第1112周安装与验证)。
+> **重要**：新建第三阶段数据库时必须使用 `--with-week10 --with-week11 --with-week12`，否则只会安装基础业务对象，缺少第10—12周扩展。
 
-## 交付内容与入口
+## 第三阶段成果与证据
 
-第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，40项专项用例全部通过。普通Windows账户对第10周增量的运行验收已于2026-11-23补做（WebXY1123R，同时覆盖第11—12周触发器与事务），见[补做记录](result/stage2/WebXY1123R/README.md)。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
-
-第11周增加库存审计与订单完成规则触发器、排名/累计/移动平均三条窗口查询；第12周增加商品分类层级递归查询、商品分类自动维护、订单完成事务与补货入库事务，Web的“模拟支付”“完成补货”改为调用新事务。新库WebXY1124D上分类自动维护6项、触发器14项、事务14项全部符合，全量Python测试126项通过、0跳过；Ruff检查与格式检查通过。结果见[第11周报告](report/week11_report.md)、[第12周报告](report/week12_report.md)及[最新复测记录](result/week12/WebXY1124D/README.md)。
-
-| 周次 | 当前成果 | 主要文件 |
+| 周次 | SQL与业务成果 | 提交及核验材料 |
 |---|---|---|
-| 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
-| 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
-| 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[Web SQL](sql/app/) |
-| 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](archive/stage2/docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
-| 第 11 周 | 库存审计、订单完成规则触发器；排名、累计值、移动平均 | [触发器与窗口查询](sql/week11/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
-| 第 12 周 | 分类层级递归查询与商品分类自动维护；订单完成与补货入库事务，替换原支付和补货实现 | [递归与事务](sql/week12/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
-| 第二阶段报告（历史归档） | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](archive/stage2/report/stage2_report.md)** |
-| 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
+| **10** | 销售统计、库存调整存储过程；补货量、销售汇总、折扣函数；库存校正记录表 | [procedure.sql](sql/week10/procedure.sql)、[function.sql](sql/week10/function.sql)、[报告](report/week10_report.md)、[40项逐例验证](result/week10/W10FinalVerify03/results.json) |
+| **11** | 库存审计和订单完成规则触发器；排名、累计值、移动平均三种窗口查询 | [trigger.sql](sql/week11/trigger.sql)、[window_query.sql](sql/week11/window_query.sql)、[报告](report/week11_report.md) |
+| **12** | 递归分类及商品分类自动维护；订单完成、补货入库事务；提交、回滚和重复调用验证 | [recursive_query.sql](sql/week12/recursive_query.sql)、[事务测试](sql/week12/test_transactions.sql)、[报告](report/week12_report.md) |
+| **13** | 锁等待、隔离级别、死锁实验 | 尚待完成 |
 
-## 第10周安装与人工核验
+第10周专项验证 **40项通过**。最新隔离验收批次 `WebXY1124D` 中，第12周商品分类维护 **6/6**、第11周触发器 **14/14**、第12周事务 **14/14**，全量 Python **126项通过、0跳过**；[原始验收记录](result/week12/WebXY1124D/README.md)。
 
-第10周在完整Web库后安装可选增量，数据库为19张表、26条可信外键。SQL过程/函数说明和直接SELECT例子见[周次SQL入口](sql/week10/README.md)，当前模型见[第10周ER](report/er_diagram_week10.png)。第二阶段报告继续使用原18表模型。
+[第三阶段组内分工](docs/team_division.md) · [AI使用文档](docs/ai使用文档.md) · [AI详细日志](docs/ai_usage_log.md)
+
+## 第10周对象及人工核验
+
+第10周在已有Web业务基础上安装增量，数据库为19张表、26条可信外键。SQL过程/函数说明与SELECT例子见[第10周SQL](sql/week10/README.md)，结构模型见[第10周ER](report/er_diagram_week10.png)。
 
 首次准备在原项目根目录执行，`WebW10Your01`须换为未使用的后缀。
 
 ```powershell
-Set-Location 'D:\Desktop\DB\DB_lab'
+# 在项目根目录运行
 $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 .\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebW10Your01 --with-week10
 ```
 
-新建的第10周库会先安装运营概览，再安装第10周增量。如果复用合并前准备的第10周库，先按[运营概览部署说明](archive/stage2/docs/stage2_dashboard.md)安装统计过程，再启动应用。
+新建的第10周库会在基础业务库上安装对应的存储过程、函数和库存校正记录。
 
 每次人工核验前，在终端A选择已准备的数据库并启动。
 
 ```powershell
-Set-Location 'D:\Desktop\DB\DB_lab'
+# 在项目根目录运行
 if (Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue) {
     throw '5050已有监听，请先核对对应服务'
 }
@@ -71,7 +67,7 @@ if ($catalog.code -ne 'OK') { throw '商品接口检查失败' }
 | 顾客 | 重复退款；直接访问销售或库存校正API | 退款返回已有项，越权403 |
 | 管理员 | 查看销售统计和退款账本，登记模拟结算 | 本商品销量1、成交190，退款后仍保留成交额；应退款142.50 |
 
-顾客使用全新账户可使FIFO批次和上述数量一致。调用账号由服务端选择，库存扣减应按调用记录的account_id核对。原有各角色商品、订单、员工等完整职责继续按[全角色人工清单](archive/stage2/docs/stage2_acceptance.md)检查。
+顾客使用全新账户可使FIFO批次和上述数量一致。调用账号由服务端选择，库存扣减应按调用记录的account_id核对。角色和接口权限继续由第三阶段回归及人工核验确认。
 
 金额阶梯为满100元优惠5%、满500元优惠10%，每行四舍五入至分，订单金额取折后明细之和。销售日期含首尾两天，按paid_at统计，成交额包含后续退款订单。
 
@@ -101,7 +97,7 @@ if (Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyCont
 .\.venv\Scripts\python.exe report/render_week10_er.py
 ```
 
-## 第11—12周安装与验证
+## 第11—12周增量与验证
 
 第11、12周增量依次装在第10周之后，新库一次构建：
 
@@ -112,136 +108,61 @@ $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 
 `WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；`test_category_maintenance.sql` 使用事务内临时商品并回滚，`test_transactions.sql` 会写入新的测试商品、订单和补货单，因此所有写入测试只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
 
-## 系统架构
+## 第三阶段从空库复现
 
-```text
-HTML / CSS / JavaScript（webapp/templates、webapp/static）
-  ↓ /api/v1/* HTTP + CSRF
-Flask 路由和统一错误处理（webapp/__init__.py）
-  ↓
-业务层：身份、权限、输入规则（webapp/services.py）
-  ↓
-数据访问层：pyodbc 参数化、事务及回滚（webapp/dao.py）
-  ↓
-SQL Server（sql/v01、sql/v10、sql/v11、sql/app）
-```
-
-[应用 ER 图](report/er_diagram_app.png) · [可编辑 ER 源码](report/er_diagram_app.mmd) · [模块结构图](report/overview_modules.png) · [模块可编辑源码](report/overview_modules.mmd) · [数据字典](docs/app_data_dictionary.md)。
-
-顾客可注册、创建订单、模拟支付、查询余额、模拟 Token 消费、申请部分退款；店员查询订单/库存、受控补货及取消待支付单；管理员另可维护商品/上游账号、处理符合规则的删除及模拟退款结算，并从新增的员工管理页面创建、修改、重置密码、停用和启用普通店员；停用代替物理删除，历史流水保留。**页面“待处理（pending）”表示等待顾客支付，不是等待店员审核。** 真实支付、真实 API 计费和真实资金结算不在本演示范围。
-
-## 环境及从空库复现
-
-Windows 64 位、Python ≥3.11、SQL Server Express（默认 `localhost\SQLEXPRESS`）、ODBC Driver 18、`sqlcmd`、PowerShell 5.1+。建库用户必须具备 SQL Server 创建、备份和还原实验库的权限；本地网站预览仅监听 127.0.0.1。
-
-### 路径A：新批次从空库构建（完成后跳到启动检查）
-
-**路径A与路径B二选一。** 首次建库或创建新批次选择A；继续使用已有Web库且需要补装大屏时选择B。A成功后直接执行“启动前核对数据库”，保留A中的目标库变量。
-
-在当前`demonstration`版本的项目根目录执行。每次准备记录同一组服务器、RunId和目标库，后续启动及清理沿用这些值。
+运行要求：Windows、Python 3.11+、SQL Server Express、ODBC Driver 18、PowerShell、`sqlcmd`；建库账号须有创建及备份还原实验库的权限。以下命令均在仓库根目录运行，用**从未使用的新后缀**创建隔离实验库。
 
 ```powershell
-Set-Location 'D:\Desktop\DB\DB_lab'
-$ServerInstance = 'localhost\SQLEXPRESS'
-$Suffix = 'WebR' + (Get-Date -Format 'MMddHHmmss')
-$DatabaseName = "TokenHubDB_v11_$Suffix"
-"本次RunId=$Suffix；目标库=$DatabaseName；服务器=$ServerInstance"
-
-if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe' -PathType Leaf)) {
-    python -m venv .venv
-    if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败，请检查Python和目录权限' }
-}
-.\.venv\Scripts\python.exe -c "import sys; assert sys.prefix != sys.base_prefix; print('venv OK')"
-if ($LASTEXITCODE -ne 0) { throw '现有虚拟环境不可用，请先检查环境' }
+if (-not (Test-Path .venv/Scripts/python.exe)) { python -m venv .venv }
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-if ($LASTEXITCODE -ne 0) { throw '依赖安装失败' }
-$env:PATH = "$pwd\.venv\Scripts;$env:PATH"
-$env:DB_LAB_DEMO_PASSWORD = 'cshztmdscshztmds'
-.\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix
-if ($LASTEXITCODE -ne 0) { throw '数据库准备失败，请先检查本次日志' }
-```
 
-上面的命令只建到第9周及运营概览。需要第10—12周的过程、触发器与事务时，在 `app_prepare.py` 命令末尾加 `--with-week10 --with-week11 --with-week12`，见[第11—12周安装与验证](#第1112周安装与验证)。
-
-已有可用`.venv`会直接复用。Windows覆盖正在使用的python.exe可能报Permission denied，先检查现有环境，避免反复创建。
-
-准备程序依次执行v0.1建库、备份/还原、v1.0迁移、v1.1扩展、Web过程、`app.Dashboard`统计过程及样例账户创建。当前版本的新库自动安装大屏，安装结果记录在`result/webapp/<RunId>/04_dashboard_install.log`。数据库或结果目录重名时拒绝覆盖。
-
-### 路径B：已有Web库补装大屏（选择路径A时跳过本节）
-
-仅在继续使用已有Web库时执行本节。目标库必须是本机仍存在、已安装Web应用的数据库，按原RunId或启动配置填写。
-
-```powershell
-Set-Location 'D:\Desktop\DB\DB_lab'
 $ServerInstance = 'localhost\SQLEXPRESS'
-$DatabaseName = Read-Host '输入现有Web数据库完整名称（须与启动配置一致）'
-sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -f 65001 -i sql/app/dashboard.sql
-if ($LASTEXITCODE -ne 0) { throw '大屏扩展安装失败，请检查SQL输出' }
-```
-
-该增量使用`CREATE OR ALTER`安装统计过程并授予`app_runtime`执行权限，保留业务数据。只补装该过程时，沿用原数据库的RunId。代码更新后重启Web服务；仅补装SQL时可直接点击“立即刷新”。
-
-### 2. 启动前核对数据库（A或B完成后继续）
-
-保留所选路径设置的`$ServerInstance`和`$DatabaseName`，在同一PowerShell执行以下检查，正常时输出实际库名及`app.Dashboard`。连接失败时先核对目标库存在性与访问权限；SQL错误2812表示调用的过程缺失。
-
-```powershell
-sqlcmd -S $ServerInstance -d $DatabaseName -E -C -b -Q "IF OBJECT_ID(N'app.Dashboard',N'P') IS NULL THROW 55004,'app.Dashboard is missing',1; SELECT DB_NAME() AS database_name, N'app.Dashboard' AS installed_procedure;"
-if ($LASTEXITCODE -ne 0) { throw '目标库连接或大屏对象检查失败，请核对上方SQL输出' }
-```
-
-### 3. 启动与页面核验
-
-在终端A设置刚才核对的服务器和目标库后，前台启动。运行普通账户计划任务时，连接配置来自`instance/runtime.json`，应核对其中的server/database与安装目标一致。
-
-```powershell
-.\.venv\Scripts\python.exe tools/seed_dashboard_recent.py --server $ServerInstance --database $DatabaseName
-if ($LASTEXITCODE -ne 0) { throw '近14天样例准备失败，请检查输出' }
+$Suffix = 'Web' + (Get-Date -Format 'MMddHHmmss')
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
+.\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix --with-week10 --with-week11 --with-week12
+if ($LASTEXITCODE -ne 0) { throw '第10—12周数据库准备失败' }
 
 $env:DB_LAB_SERVER = $ServerInstance
-$env:DB_LAB_APP_DATABASE = $DatabaseName
-$env:DB_LAB_PORT = '5050'
-$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
+$env:DB_LAB_TEST_DATABASE = "TokenHubDB_v01_$Suffix"
+$env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_$Suffix"
+$env:DB_LAB_WEEK10_DATABASE = $env:DB_LAB_APP_DATABASE
+$env:DB_LAB_WEEK12_DATABASE = $env:DB_LAB_APP_DATABASE
 $env:DB_LAB_PREVIEW = '1'
-Remove-Item Env:DB_LAB_HTTPS -ErrorAction SilentlyContinue
+$env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
+```
+
+建库后按各周 [第10周](sql/week10/README.md)、[第11周](sql/week11/README.md)、[第12周](sql/week12/README.md) 的调用与测试说明运行。数据库测试会修改实验数据，**只在本轮隔离库运行**：
+
+```powershell
+sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/week11/test_trigger.sql
+sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/week11/window_query.sql
+sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/week12/recursive_query.sql
+sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/week12/test_transactions.sql
+sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/week12/test_category_maintenance.sql
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+要展示第10周 Web 销售统计、补货建议及库存校正，以及第12周的订单完成和补货入库，可在同一环境启动：
+
+```powershell
 .\.venv\Scripts\python.exe -m webapp
 ```
 
-启动前的样例脚本以数据库准备身份运行，生成专用顾客`dashboard_recent_sample`与商品`Dashboard Recent Sample`，近14天每天1—4笔订单，包含待支付、支付、取消和退款。专用顾客使用随机不可知密码，日常登录继续使用原有账户。支付与退款调用已有过程，订单创建时间覆盖历史日期，支付与退款时间为本次执行时间。
+浏览器访问 <http://127.0.0.1:5050/>。结束后在运行 Web 的终端按 Ctrl+C，按文末“每次复现后的清理”删除本批次数据库及备份。浏览器自动验收和 ER 图重绘的可选环境依赖为 `requirements-qa.txt`。
 
-同日重复执行新增数为0，后续日期启动时只补缺少的样例订单。准备过程在一个事务内完成；原订单日期保持原值。样例会计入大屏指标，识别时按专用顾客和商品筛选。运行普通账户计划任务前，也先用数据库准备身份执行这一步。
-
-浏览器访问 **http://127.0.0.1:5050/**。顾客账户为`web_customer`、`web_other`，员工入口为`web_staff`、`web_admin`，密码取该数据库准备时设置的值。顾客也可自行注册。
-
-在终端B确认首页响应，再由店员或管理员登录“运营概览”，核对6张指标卡、14天趋势、状态图及刷新时间，每15秒自动更新。无近期订单时趋势可以全为0；出现“刷新失败”及请求编号时，按该编号检查`instance/webapp.log`。未登录访问`/api/v1/dashboard`返回401。
-
-```powershell
-$homeResponse = Invoke-WebRequest 'http://127.0.0.1:5050/' -UseBasicParsing
-if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
-```
-
-凭据与运行配置保存在Git忽略的环境变量或`instance/`中。详细统计口径见[大屏说明](archive/stage2/docs/stage2_dashboard.md)。
-
-正式受限 Windows 账户部署见 [Web 操作手册](docs/webapp.md) 的 `tools/setup_web_runtime.ps1`；开发预览的 `app_runtime_probe` 测试**不能替代**使用真实普通 Windows 身份的数据库权限验收。仓库须放在用户目录（`C:\Users\<用户名>`）之外，否则运行账户无法读取，配置脚本会直接拒绝。
-
-## 目录概览
+## 第三阶段目录
 
 ```text
-sql/v01/              迁移所需原始建库及数据脚本（保留执行依赖）
-sql/v10/              migration.sql、regression.sql（课程 v1.0）
-sql/v11/              业务加固及退款、库存扩展
-sql/app/              Web 应用过程与受限顾客注册
-archive/coursework/week5/、week6/  历史 ER、范式、重构与回归资料
-db_tools/v11/        当前运行依赖的 v1.1 数据库构建与验证脚本
-webapp/、tools/       Web 页面/业务/DAO 与准备、验收脚本
-report/               第二阶段报告、ER 图和渲染源码
-docs/                 Web 操作手册、数据字典、AI 日志及分工
-result/               第二阶段实际证据、迁移及测试日志
-archive/              第 1—4 周旧报告、历史说明、完整原日志和旧证据
+sql/week10/、sql/week11/、sql/week12/   本阶段程序对象及测试
+report/week10_report.md、week11_report.md、week12_report.md   本阶段报告
+plan/week10-procedures-functions-plan.md  第10周实施计划
+docs/ai_usage_log.md、docs/ai使用文档.md   第三阶段AI辅助记录
+docs/team_division.md                     第三阶段分工
+result/week10/、result/week11/、result/week12/   本阶段验收证据
+webapp/、tools/、tests/                  网站、建库、验证与清理工具
+sql/v01/、sql/v10/、sql/v11/、sql/app/    运行所需既有数据库对象
+archive/                                 旧阶段的报告、分工、计划和记录
 ```
-
-所有可编辑图源及 `report/render_app_er.py`、`report/render_overview_modules.py` **保留**。项目运行不依赖它们，但后续修改图像时可以重新导出；旧材料归档映射见 [archive/README.md](archive/README.md)。
-
 
 ## 每次复现后的清理（按 RunId）
 
@@ -448,4 +369,4 @@ Remove-Item Env:DB_LAB_DEMO_PASSWORD, Env:DB_LAB_SECRET, Env:DB_LAB_PREVIEW, Env
 
 清理程序位置：`tools/cleanup_reproduction.ps1`。它会在末尾核对三个数据库、备份文件、`result/sql_backups/<RunId>/` 和证据目录是否按选项清除。`.venv/`、`.git/`、SQL 源文件、`archive/`、其它 RunId 的数据库/结果、历史验收证据均保留；Python 临时 SQL 文件夹由 `TemporaryDirectory` 自动清理。
 
-清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。2026-11-14已按用户要求清理本机全部36个TokenHubDB项目库，之后按路径A重新建立新批次；迁移前 ZIP、archive/、result/stage2/、.venv/ 和 .git/ 均保留；未使用`-RemoveRuntime`时保留instance/。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
+清理脚本只处理命令中指定的 -Suffix 对应的三个数据库、该批次备份和三个证据子目录，不使用 LIKE 或通配符，也不会触及其它 RunId。旧项目测试数据库已按名单清理；archive/、本阶段结果、.venv/ 和 .git/ 均保留；未使用`-RemoveRuntime`时保留instance/。result/webapp/、result/week6/ 等父目录保留，只清理指定 RunId 子目录。SQL 备份只处理该批次记录的精确路径，不扫描或删除其它批次备份。
