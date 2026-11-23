@@ -4,7 +4,7 @@
 - [浏览器原始事件及 PNG SHA-256](WebStage2A02/browser/manifest.json)。
 - [数据库对账原始 JSON](WebStage2A02/database_reconciliation.json)。
 
-自动化测试不是人工签收；课程报告见 [第二阶段报告](../../report/stage2_report.md)。
+自动化测试不是人工签收；课程报告见 [第二阶段报告](../../archive/stage2/report/stage2_report.md)。
 
 ## 第9周员工管理与重新截图
 
@@ -20,4 +20,4 @@
 
 - [全新隔离数据库 WebFinal1106A：75项 unittest 全通过、0失败、0跳过](WebFinal1106A/README.md)。
 - [修复后的真实 Edge 员工姓名列与商品列表截图](WebEmp26A01/ui_fix_20261106/manifest.json)；旧业务截图和原始哈希仍保留。
-- [新电脑受限 Windows 运行身份与权限验收](WebXY1105F/README.md)；详细结论和截图见[最新阶段报告第9节](../../report/stage2_report.md)。
+- [新电脑受限 Windows 运行身份与权限验收](WebXY1105F/README.md)；详细结论和截图见[最新阶段报告第9节](../../archive/stage2/report/stage2_report.md)。

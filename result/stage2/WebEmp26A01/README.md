@@ -60,7 +60,7 @@
 - [首次自动化未通过记录（测试选择器错误，已修复）](employees/failure.json)
 - [真实 SQL Server 25 项只读对账](database_reconciliation.json)
 - [员工管理集成测试脚本](../../../tests/test_employee_management.py)
-- [新的第9周阶段报告](../../../report/stage2_report.md)
+- [新的第9周阶段报告](../../../archive/stage2/report/stage2_report.md)
 
 ## 数据与权限原则
 

@@ -10,4 +10,4 @@
 - [x] P5：专用普通Windows账户创建并以该身份实际启动验收；2026-11-06 在新电脑上完成，见[验收记录](../result/stage2/WebXY1105F/README.md)。
 - [ ] 组员独立复现及分工签收；不以自动测试代替。
 
-不自动commit/push，不覆盖原工作区改动，不删除旧数据库或历史结果。详细设计与交付边界见[阶段报告](../report/stage2_report.md)和[操作手册](../docs/webapp.md)。
+不自动commit/push，不覆盖原工作区改动，不删除旧数据库或历史结果。详细设计与交付边界见[阶段报告](../archive/stage2/report/stage2_report.md)和[操作手册](../docs/webapp.md)。

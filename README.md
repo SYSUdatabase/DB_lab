@@ -15,10 +15,10 @@
 | 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[Web SQL](sql/app/) |
-| 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
+| 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](archive/stage2/docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
 | 第 11 周 | 库存审计、订单完成规则触发器；排名、累计值、移动平均 | [触发器与窗口查询](sql/week11/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
 | 第 12 周 | 分类层级递归查询与商品分类自动维护；订单完成与补货入库事务，替换原支付和补货实现 | [递归与事务](sql/week12/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
-| 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
+| 第二阶段报告（历史归档） | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](archive/stage2/report/stage2_report.md)** |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
 
 ## 第10周安装与人工核验
@@ -33,7 +33,7 @@ $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 .\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebW10Your01 --with-week10
 ```
 
-新建的第10周库会先安装运营概览，再安装第10周增量。如果复用合并前准备的第10周库，先按[运营概览部署说明](docs/stage2_dashboard.md)安装统计过程，再启动应用。
+新建的第10周库会先安装运营概览，再安装第10周增量。如果复用合并前准备的第10周库，先按[运营概览部署说明](archive/stage2/docs/stage2_dashboard.md)安装统计过程，再启动应用。
 
 每次人工核验前，在终端A选择已准备的数据库并启动。
 
@@ -71,7 +71,7 @@ if ($catalog.code -ne 'OK') { throw '商品接口检查失败' }
 | 顾客 | 重复退款；直接访问销售或库存校正API | 退款返回已有项，越权403 |
 | 管理员 | 查看销售统计和退款账本，登记模拟结算 | 本商品销量1、成交190，退款后仍保留成交额；应退款142.50 |
 
-顾客使用全新账户可使FIFO批次和上述数量一致。调用账号由服务端选择，库存扣减应按调用记录的account_id核对。原有各角色商品、订单、员工等完整职责继续按[全角色人工清单](docs/stage2_acceptance.md)检查。
+顾客使用全新账户可使FIFO批次和上述数量一致。调用账号由服务端选择，库存扣减应按调用记录的account_id核对。原有各角色商品、订单、员工等完整职责继续按[全角色人工清单](archive/stage2/docs/stage2_acceptance.md)检查。
 
 金额阶梯为满100元优惠5%、满500元优惠10%，每行四舍五入至分，订单金额取折后明细之和。销售日期含首尾两天，按paid_at统计，成交额包含后续退款订单。
 
@@ -113,16 +113,6 @@ $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 `WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；`test_category_maintenance.sql` 使用事务内临时商品并回滚，`test_transactions.sql` 会写入新的测试商品、订单和补货单，因此所有写入测试只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
 
 ## 系统架构
-
-按PPT页码操作的流程见[第二阶段12页PPT展示流程](docs/stage2_ppt_walkthrough.md)，包含每页核心功能、点击步骤、输入示例与预期结果。
-
-进行PPT展示时，完成近14天样例准备后、启动服务器前，可运行以下命令自动准备商品、预警库存、顾客`chen_demo`及大屏基准。展示账户统一使用密码`cshztmdscshztmds`，准备命令自动设置`chen_demo`及`web_admin`的密码，详细步骤见上述流程的0.2节。
-
-```powershell
-.\.venv\Scripts\python.exe tools/prepare_ppt_demo.py --server $ServerInstance --database $DatabaseName
-if ($LASTEXITCODE -ne 0) { throw 'PPT数据准备失败' }
-```
-
 
 ```text
 HTML / CSS / JavaScript（webapp/templates、webapp/static）
@@ -230,7 +220,7 @@ $homeResponse = Invoke-WebRequest 'http://127.0.0.1:5050/' -UseBasicParsing
 if ($homeResponse.StatusCode -ne 200) { throw '首页尚未就绪' }
 ```
 
-凭据与运行配置保存在Git忽略的环境变量或`instance/`中。详细统计口径见[大屏说明](docs/stage2_dashboard.md)。
+凭据与运行配置保存在Git忽略的环境变量或`instance/`中。详细统计口径见[大屏说明](archive/stage2/docs/stage2_dashboard.md)。
 
 正式受限 Windows 账户部署见 [Web 操作手册](docs/webapp.md) 的 `tools/setup_web_runtime.ps1`；开发预览的 `app_runtime_probe` 测试**不能替代**使用真实普通 Windows 身份的数据库权限验收。仓库须放在用户目录（`C:\Users\<用户名>`）之外，否则运行账户无法读取，配置脚本会直接拒绝。
 

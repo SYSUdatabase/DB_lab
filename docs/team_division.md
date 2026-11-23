@@ -1,4 +1,4 @@
-# 第二阶段小组分工（第 5—9 周）
+# 数据库课程项目小组分工（第 5—12 周）
 
 项目：TokenHub 数据库规范化与 Web 应用。以下按**已实际完成的工作、两名组员网站验收、自动化辅助工作和部署待验证事项**分别登记。第 1—4 周的旧分工和整理前完整记录已移至 [历史原稿](../archive/coursework/week4/team_division_full_history.md)，不再混入第二阶段交付。
 
@@ -12,10 +12,10 @@
 | 第 6 周：问题核对与完善 | **阮依成** | 复核退款业务，明确已消费 Token 退款、应退金额、流水和重复退款保护；推动 v1.1 修复、统一 SQL 版本目录和复测 | [v1.1 方案](../archive/coursework/week6/v11/README.md)、[退款逻辑](../sql/v11/09_refund_workflow.sql)、[退款回归](../sql/v11/10_refund_regression.sql)，相关验证已执行 |
 | **第 7 周：数据库基础代码** | **陈诗翰** | 完成第7周数据库基础代码，为 Web 层调用提供数据与业务基础 | [SQL 分层入口](../sql/app/)、[第7—9周方案](../plan/week7-9-webapp-plan.md)，按组员分工说明登记 |
 | **第 8 周：顾客注册与测试** | **阮依成** | 发现无注册入口问题，提出并完成顾客注册、登录衔接、输入及重复账号验证；组织正常/异常测试和证据核对 | [注册过程](../sql/app/register.sql)、[业务层](../webapp/services.py)、[注册测试](../tests/test_registration.py)、[验收证据](../result/stage2/WebStage2A02/README.md)，自动化执行已完成 |
-| **第 8 周：交付整理** | **阮依成** | 合并依赖清单、整理第5—9周 README 与阶段报告、将第1—4周历史内容归档、整理 AI 日志和组内分工，形成可复现证据链 | [根 README](../README.md)、[第二阶段报告](../report/stage2_report.md)、[归档清单](../archive/stage1_to_stage2_manifest.json)，已整理 |
+| **第 8 周：交付整理** | **阮依成** | 合并依赖清单、整理第5—9周 README 与阶段报告、将第1—4周历史内容归档、整理 AI 日志和组内分工，形成可复现证据链 | [根 README](../README.md)、[第二阶段报告](../archive/stage2/report/stage2_report.md)、[归档清单](../archive/stage1_to_stage2_manifest.json)，已整理 |
 | **第9周：继续测试与更新** | **陈诗翰** | 在其负责版本上完成追加测试，并更新相关工作内容 | 测试由陈诗翰在其环境进行；本仓库不虚构未收到的原始日志或截图 |
 | **新环境部署与受限账户验收** | **肖懿** | 确定本轮只补完文档中未完成的验证、尽量少改代码；提供一台未部署过本项目的电脑，组织从空库部署、受限 Windows 账户启动、权限核对和 Edge 复测；对部署中暴露的 5 个问题逐一决定修正方式（判断回归脚本依赖原电脑数据库属于应修正的缺陷；否决“只改文档”的方案，要求脚本自动处理批处理登录权限，以免后来者重复踩坑；确认去掉 `/T`、改用用户目录外的仓库并加入检查），并要求全部记录在案；复核报告截图与图注，确认图 14 与图注不符，决定修复报告中的全部问题并重新截图；再次复查后决定删去截于加载中的员工列表图，并要求全文逻辑通顺 | [验收记录](../result/stage2/WebXY1105F/README.md)、[重截记录](../result/stage2/WebXY1106S/README.md)、[配置脚本](../tools/setup_web_runtime.ps1)、[权限工具](../tools/batch_logon_right.ps1) |
-| **第9周：员工管理、验收与报告** | **阮依成** | 发现管理员不能管理店员；确定停用代替物理删除方案，组织新增页面和按钮、SQL/接口权限、生命周期测试、真实浏览器截图及文档更新 | [实现](../sql/app/employees.sql)、[测试](../tests/test_employee_management.py)、[截图](../result/stage2/WebEmp26A01/README.md)、[报告](../report/stage2_report.md) |
+| **第9周：员工管理、验收与报告** | **阮依成** | 发现管理员不能管理店员；确定停用代替物理删除方案，组织新增页面和按钮、SQL/接口权限、生命周期测试、真实浏览器截图及文档更新 | [实现](../sql/app/employees.sql)、[测试](../tests/test_employee_management.py)、[截图](../result/stage2/WebEmp26A01/README.md)、[报告](../archive/stage2/report/stage2_report.md) |
 
 ## AI 辅助边界
 
@@ -49,3 +49,12 @@
 | 第11周窗口查询与触发器测试结果 | **陈诗翰**（审阅并确认，AI辅助执行） | `window_query.sql` 排名、累计值、移动平均；第11周触发器测试脚本与结果记录 | [窗口查询](../sql/week11/window_query.sql)、[触发器验证记录](../result/week12/WebXY1124B/README.md) |
 | 第12周分类层级与递归查询、事务证据核对 | **阮依成**（审阅并确认，AI辅助执行） | 分类层级表与 `recursive_query.sql`（根、中间、叶子、不存在编号）；第12周事务测试证据逐条核对 | [递归查询](../sql/week12/recursive_query.sql)、[事务验证记录](../result/week12/WebXY1124B/README.md) |
 | 其余部分 | **肖懿**（组织实施与验收，AI辅助执行） | 两个触发器、订单完成与补货入库事务、Web 入口整合、复查修改、受限账户补验收、对齐讲义与文档 | [第11周报告](../report/week11_report.md)、[第12周报告](../report/week12_report.md)、[受限账户补做记录](../result/stage2/WebXY1123R/README.md) |
+
+
+## 第12周人工复查与商品分类自动维护修正（2026-11-23）
+
+**阮依成**在复查第12周递归分类逻辑时，人工指出 `w12.ProductCategoryAssignments` 仅在安装时为现有商品建立关系，后续通过 Web 新增商品、删除商品、修改供应商或 Token 容量时，映射不会同步维护；因此新商品无法可靠参与层级递归统计。阮依成提出必须自动维护新增、删除及分类字段变化，并要求同步更新 AI 使用说明、README 与测试。
+
+AI 根据该问题辅助修改 `sql/week12/category.sql`，新增商品 INSERT/UPDATE 后自动归类触发器，并以级联外键维护删除；新增 `sql/week12/test_category_maintenance.sql` 及 Python 回归检查。**问题发现与修复要求属于阮依成的人工复查，SQL/测试实现及自动执行由 AI 辅助完成，不将自动执行写为阮依成本人的手工操作。**
+
+新建隔离库 WebXY1124D 上，分类维护 6/6、第11周触发器 14/14、第12周事务 14/14，全量 Python 126 项通过、0 跳过；验证记录见[第12周修正证据](../result/week12/WebXY1124D/README.md)。完成后测试数据库及备份已清理，原项目业务库未被此次分类维护测试改动。

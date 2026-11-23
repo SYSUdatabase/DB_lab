@@ -71,6 +71,6 @@
 - [Web 构建日志](../../webapp/WebStage2A02/)：来源 v0.1 创建、备份/还原、加固、Web SQL 安装。
 - [v1.1 数据库日志](../../week6/v11/WebStage2A02/)：核心 SQL 规则与回归。
 - [独立 66 测试原始日志](../../webapp/WebSign28A/registration_unit_stderr.log)。
-- [本次实验报告](../../../report/stage2_report.md)；[手动验收空白清单](../../../docs/stage2_acceptance.md)。
+- [本次实验报告](../../../archive/stage2/report/stage2_report.md)；[手动验收空白清单](../../../archive/stage2/docs/stage2_acceptance.md)。
 
 **验收边界（按批次说明）：** 这22张截图由 Edge 自动采集；本批次未执行正式受限账户测试，但该项已在[2026-11-06 的 WebXY1105F 批次](../WebXY1105F/README.md)由肖懿完成。真实支付、外部模型 API 和资金到账不属于本课程模拟系统，不能把模拟结算写成真实到账。
