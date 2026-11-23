@@ -830,3 +830,7 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 复查与简单修改：肖懿逐项听取第11周讲解后，AI复查指出五点（审计操作人可被会话上下文伪造；完成规则触发器读可售余量不加锁，直接SQL并发完成可能超卖，Web经w12.usp_CompleteOrder在SERIALIZABLE下以UPDLOCK、HOLDLOCK锁定后核对；新错误号在webapp/errors.py中落入50000—55999统一为BUSINESS_RULE通用提示；窗口查询金额为含退款订单的成交额；删除库存行与受限账户运行未覆盖）。AI建议只修第一点、其余写入报告，肖懿决定简单修改。
 - 改动：w11.InventoryAudit增加login_name（触发器写ORIGINAL_LOGIN()），test_trigger.sql的A2增加`@login=ORIGINAL_LOGIN()`判定，审计清单增加该列；报告补“已知限制”一节与成交额说明。
 - 验证批次WebXY1123J：`--with-week10 --with-week11 --with-week12`构建，test_trigger 13/13、TRANCOUNT=0，`tests/test_week11_12_sql.py` 9项OK；未重跑全量unittest。WebXY1123J数据库与备份已删除，证据保留在result/week11/WebXY1123J与构建日志目录。
+- 肖懿的审阅与决策（原话按会话记录）：开工前“你先看看现在的情况，跟我聊一下，先不要做”；确认“这两周全部我负责”，口径“1、2条按照你说的做”（paid即完成、保留调用时扣减），在win电脑执行，“第10周咱们不管”；要求“这两周工作完成后要按照规范检查好”。
+- 推送前追问“你对代码的改动大吗”，AI统计：未推送提交只增不删，原有文件只改sql/app/week10.sql、sql/week10/app_adapters.sql（各+4行）与tools/app_prepare.py（+53行），webapp未改。
+- 要求“一条一条讲”两周要求与实现，逐项审阅：问“你创建了一张新表？”，质疑“为什么选择创建新表而不是用新表替代旧表”，听完三点理由后“我觉得合理”，与在场组员决定采纳；追问订单完成规则是否另建表、触发器是什么；依次审阅排名、累计值、移动平均。
+- 追问“11周你认为还有什么问题”，引出复查五点，决定“那就简单修改下”。之后审阅AI使用记录，指出人的部分写得太少，要求补充，本条与ai使用文档对应段落据此补写。
