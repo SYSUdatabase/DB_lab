@@ -6,12 +6,16 @@
 
 第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，完整新库回归115项通过。普通Windows账户对第10周增量的运行验收待补做。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
 
+第11周增加库存审计与订单完成规则触发器、排名/累计/移动平均三条窗口查询；第12周增加商品分类层级递归查询、订单完成事务与补货入库事务，Web的“模拟支付”“完成补货”改为调用新事务。新库WebXY1123H上触发器13项、事务12项用例全部符合，全量Python测试124项通过。结果见[第11周报告](report/week11_report.md)、[第12周报告](report/week12_report.md)。
+
 | 周次 | 当前成果 | 主要文件 |
 |---|---|---|
 | 第 5 周 | ER 图、实体及联系、主外键、候选码、旧结构问题 | [ER 图及设计说明](archive/coursework/week5/README.md) |
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[Web SQL](sql/app/) |
 | 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
+| 第 11 周 | 库存审计、订单完成规则触发器；排名、累计值、移动平均 | [触发器与窗口查询](sql/week11/README.md)、[验证记录](result/week11/WebXY1123H/README.md) |
+| 第 12 周 | 分类层级递归查询；订单完成与补货入库事务，替换原支付和补货实现 | [递归与事务](sql/week12/README.md)、[验证记录](result/week12/WebXY1123H/README.md) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
 
@@ -94,6 +98,17 @@ if (Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyCont
 .\.venv\Scripts\python.exe tools/week10_browser.py --url 'http://127.0.0.1:5050' --evidence result/week10/YourNewRun/browser
 .\.venv\Scripts\python.exe report/render_week10_er.py
 ```
+
+## 第11—12周安装与验证
+
+第11、12周增量依次装在第10周之后，新库一次构建：
+
+```powershell
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
+.\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebW12Your01 --with-week10 --with-week11 --with-week12
+```
+
+`WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；测试脚本会写入新的测试账号、商品、订单和补货单，只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
 
 ## 系统架构
 

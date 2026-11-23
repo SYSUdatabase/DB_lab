@@ -662,3 +662,25 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 ## 2026-11-18：主线合并
 
 按用户要求将 `demonstration` 合入本地 `main`。冲突按功能整合：保留第10周统计、补货建议、库存校正、折扣快照及旧测试，同时加入运营概览和下单数量修复。更新 `webapp/` 和 `README.md` 等交付入口。Python回归115项中47项通过、68项跳过；浏览器下单6项通过，专用库回归未复跑。
+
+## 2026-11-23 第11—12周：触发器、窗口查询、递归查询与业务事务
+
+**问题与原始要求。** 肖懿提供《第11周任务讲解》《第十二周任务讲解》，要求先查看仓库现状、说明再做；随后要求完成两周全部内容，尽量沿用现有实现，在其Windows电脑上执行，每步本地提交，推送前征得同意，完成后逐条对照任务讲解、agent.md与测试全面检查，并清理用完的数据库与临时文件。
+
+**AI候选方案与用户决策。** AI读取0f3d16d后指出讲义的“商品库存”模板与本项目不完全对应：订单状态没有“已完成”，上游库存在模拟调用时按实际用量扣减而不是支付时扣减，Web只用一个SQL账号连接，项目没有商品分类层级。肖懿决定：以paid作为“已完成”；保持原扣减时机，完成事务只做检查与防重复，并在报告中说明理由；审计操作人、分类层级和补货单三处采用AI建议；第10周遗留项本轮不处理。
+
+**AI自行决定的设计取舍（用户授权一般取舍由AI决定并记录理由）。**
+- 审计记录库存行、账号和供应商，不记商品编号：库存按上游账号保存，一个账号对应同一供应商的多种商品。
+- 操作人员用会话上下文tokenhub.actor：在app.[Execute]与app.Week10解析会话后写入，每次调用覆盖，避免连接复用残留；为此在sql/week10/app_adapters.sql、sql/app/week10.sql各增加4行。
+- 订单完成前核对“可售余量”，以上游库存为单位：有效账号当前库存减去已售未消费部分将消耗的上游库存，订单需求为份数×每份上游消耗。理由是完成时不扣上游库存，仍需防止售出超过上游可提供的量。
+- 重复完成、重复入库返回明确错误号（53131、53311）而不是静默成功，保持原有接口对重复支付的拒绝行为；新错误号放在50000—55999区间，网站按业务规则错误（409）处理。
+- 原支付、补货完成过程保留名称改为调用w12事务，Web入口与页面不变，因此没有新增截图。
+- 订单完成规则触发器设为Orders上第一个执行，拒绝时给出本周错误号；分类表另加防环触发器；故障点用测试连接的会话上下文触发。
+
+**改动文件。** 新增sql/week11/（install、trigger、window_query、test_trigger、README）、sql/week12/（install、category、recursive_query、order_transaction、restock_transaction、test_transactions、README）、tests/test_week11_12_sql.py、report/week11_report.md、report/week12_report.md、result/week11/WebXY1123H、result/week12/WebXY1123F与WebXY1123H；修改tools/app_prepare.py（--with-week11、--with-week12）、sql/week10/app_adapters.sql、sql/app/week10.sql、README.md、sql/README.md、ROADMAP.md、docs/team_division.md与本记录。
+
+**验证结果。** 开发库WebXY1123D上发现并修正：防环触发器内的检查语句意外返回结果集；Python测试读取sqlcmd控制台输出时中文乱码，改为读取UTF-8输出文件。首个验收批次WebXY1123F全量测试3项失败、8项错误：可售余量把顾客Token与上游库存直接比较（测试商品两者相差上千万倍），以及触发器测试A3改库存未写流水；修正口径、补写流水并在脚本开头打开QUOTED_IDENTIFIER后，新批次WebXY1123G全部通过。最终对照讲义“保存审计记录、订单状态”的要求，为第11周测试补列审计记录与订单状态清单，在新批次WebXY1123H重新生成全部证据：触发器13项、事务12项全部符合，全量Python测试124项通过、0跳过；Ruff检查、格式检查与git diff --check通过。逐条记录见[第11周验证记录](../result/week11/WebXY1123H/README.md)、[第12周验证记录](../result/week12/WebXY1123H/README.md)、[失败批次说明](../result/week12/WebXY1123F/README.md)。
+
+**清理。** 开发库WebXY1123D连同其构建证据删除；WebXY1123F删除数据库、备份与构建证据，保留result/week11、week12下的失败日志；WebXY1123G被H取代，删除数据库与证据；WebXY1123H删除数据库与备份，保留证据。清理均用tools/cleanup_reproduction.ps1，核验PASS。电脑上的临时脚本与密码文件放在仓库外，已删除。11-17的WebR1117两批数据库与结果目录不属于本轮，未动。
+
+**未完成事项。** 第11—12周各成员分工待组员确认后登记；推送待用户确认；第13周并发实验未开始；第10周普通Windows账户入口验收与旧业务浏览器重跑未处理。

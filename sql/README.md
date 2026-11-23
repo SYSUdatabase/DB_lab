@@ -24,3 +24,7 @@ v0.1 独立建库入口仍是 `tools/run_v01.ps1`，使用 `sql/v01/`；历史�
 ## 第10周可选增量
 
 完整v1.1 Web基线后可安装[week10](week10/README.md)，使用app_prepare.py --with-week10一次构建。新增销售/补货/折扣函数、库存调整与受控Web入口，安装后19表26FK。第二阶段默认构建入口保持18表。
+
+## 第11—12周增量
+
+第10周之后依次安装[week11](week11/README.md)（库存审计与订单完成规则触发器、窗口查询）和[week12](week12/README.md)（分类层级递归查询、订单完成与补货入库事务），使用app_prepare.py --with-week10 --with-week11 --with-week12一次构建。原支付与补货完成过程保留名称，改为调用第12周事务。

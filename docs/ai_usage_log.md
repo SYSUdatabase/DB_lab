@@ -811,3 +811,18 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 用户要求合并。AI先用 `git merge-tree --write-tree main demonstration` 检查冲突，再在原工作区合并。保留第10周销售、补货建议、库存校正和折扣快照，合入运营概览、复现工具与下单数量修复。保留主线原有回归测试。
 - 涉及 `webapp/`、`tools/app_prepare.py`、`sql/app/` 和相关文档。新库自动安装统计过程；README注明既有第10周库的补装入口。
 - 合并后执行 `unittest discover -s tests`：115项，47项通过、68项跳过。Ruff、JavaScript语法检查及 `tools/check_order_quantity.py` 的6个浏览器用例通过；未重新运行专用库SQL回归。
+
+## 2026-11-23：第11—12周实施过程
+
+- 上下文：用户上传两份任务讲解；AI经SSH在肖懿电脑的仓库中工作，先确认本地仓库仅多出11-17两批未跟踪的复现结果目录（WebR1117150833、WebR1117172539，未改动），再快进到0f3d16d。
+- 开发库：`app_prepare.py --suffix WebXY1123D --with-week10` 退出0。安装第11、12周增量后，第12周安装日志出现一个空结果集，定位为防环触发器用`SELECT TOP (1) 1 ... IF @@ROWCOUNT`判断，改为赋值后判断。
+- 递归查询四个起点、窗口查询三类结果首轮即符合预期；排名中OpenAI 100K与Claude 100K同为131.10元，RANK为6、6、8，DENSE_RANK为6、6、7。
+- 触发器测试13项、事务测试12项在开发库首轮全部符合。错误号原设57xxx，核对webapp/errors.py后改为54401—54409、53131—53132、53310—53313，避开已有regression脚本使用的54300—54308。
+- tests/test_week11_12_sql.py首轮1项失败：sqlcmd标准输出不是UTF-8且关闭了表头，改为`-o`输出文件读取后9项通过。
+- 验收批次WebXY1123F：周次脚本通过；全量unittest 124项中3失败8错误，10项为53132可售余量不足（测试商品token_amount为10亿—20亿，required_upstream_tokens为3或100），1项为期初库存修复计划报告账户18等库存与流水不一致（A3未写流水）。修正w11.fn_ProviderSellable、触发器与w12.usp_CompleteOrder的需求口径，A3在同一事务补写manual流水；重跑A3时因sqlcmd默认QUOTED_IDENTIFIER OFF写流水报1934，四个周次脚本开头统一打开。开发库补丁后全量124项只剩期初库存1项（开发库保留了修正前的不平账号），据此重建新批次。
+- 验收批次WebXY1123G：`--with-week10 --with-week11 --with-week12`退出0；test_trigger 13/13、test_transactions 12/12、window_query与recursive_query退出0；全量unittest 124项OK，0跳过，环境变量DB_LAB_TEST_DATABASE、DB_LAB_APP_DATABASE、DB_LAB_WEEK10_DATABASE、DB_LAB_WEEK12_DATABASE均指向本批次。
+- 提交：70145e9（第11周）、06f8ee5（第12周）、198ed1b（准备脚本）、afc7608（测试）、b991d4f（口径与测试修正），作者为本机git配置xiaoyi，未推送。
+- 验收批次WebXY1123G：`--with-week10 --with-week11 --with-week12`退出0；test_trigger 13/13、test_transactions 12/12、两条只读脚本退出0；全量unittest 124项OK，0跳过。
+- 收尾检查对照第11周讲义“结果记录：保存审计记录、订单状态……”，发现输出只在各用例实际结果中描述审计内容，补充本次测试账号的审计记录清单与测试订单状态清单（PASS判定不变）。新批次WebXY1123H重新构建并生成全部证据：13/13、12/12，全量unittest 124项OK、0跳过；G批次证据未提交，随数据库一并清理。
+- 检查：`ruff check webapp tests tools`、`ruff format --check webapp tests tools`通过；`git diff --check`首次报4个文档末尾多余空行，去除后通过。
+- 清理：`tools/cleanup_reproduction.ps1`依次处理D、F（不保留构建证据）、G、H（H保留证据），四批核验PASS；E:\Claude产物\DB_lab_w1112下的临时脚本、密码文件与中间输出已删除。
