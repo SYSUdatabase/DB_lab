@@ -843,3 +843,11 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 对齐讲义（WebXY1123S）：trigger.sql说明与视图w11.v_InventoryAuditProduct、test_trigger.sql显示文字与A7、test_transactions.sql显示文字；触发器14/14、事务12/12、全量124 OK、ruff通过；清理脚本核验PASS。
 - 全量重跑（WebXY1123K）：124 OK、0跳过；首次脚本无BOM未执行，误建空目录已删。
 - 分工：据肖懿转告组员已审阅确认，更新docs/team_division.md与ROADMAP。
+
+## 2026-11-23 第12周复查与并发死锁修正
+
+- 复查（另开AI会话，只读）：临时库WebXY1123V（391d95e，app_prepare第10—12周）。嵌套失败经app.[Execute]：54490/54491原样返回、数据回滚、无266；直接SQL外层事务中失败后@@TRANCOUNT 1→0；同一订单/补货单双连接并发10轮均一成一败（直接53131/53311，Web 55009）；6顾客×20单并发完成：直接死锁78/120、89/120，经Web 82/120，付款与调用混跑付款45/60失败，一致性0差异；临时副本过程对比：去掉预检查120/120、预检查前锁UpstreamAccount 120/120。新商品未挂分类、可挂根节点；depleted账号补货777000后可售余量不变；受限身份app_runtime_probe可自设w12.fail_point，仅本请求54490回滚。test_transactions.sql连跑两次12/12。清理脚本核验PASS。
+- 肖懿决定“开始修吧”：只改问题1代码（order_transaction.sql加一条UPDLOCK,HOLDLOCK锁供应商账号行），其余写文档。
+- 更正：前文“Web支付经w12.usp_CompleteOrder加锁后核对，不受影响”仅指无超卖，未考虑死锁；原句保留。
+- 复测WebXY1124A：app_prepare退出0；test_transactions 12/12、TRANCOUNT=0；test_week11_12_sql 9 OK；全量124 OK；ruff check/format（webapp tests tools）通过，对全仓库运行时db_tools旧脚本20项原有问题，不在范围内未改。压测脚本stress.py、alter.py存入证据目录：修改后直接/Web均120/120；修改前（按文件去掉锁临时替换）直接死锁84/120、Web 83/120。首次压测修改前一轮因测试商品唯一键冲突未执行、恢复脚本有误，修正后整组重跑，日志为重跑结果。
+- 文档：week12_report.md补嵌套事务说明、Web重复操作55009、分类维护限制、表关系表、不重置数据的理由与用例依赖、未覆盖项、并发核对一节、已知限制；删去过时的“受限账户验收待补做”；证据链接改为WebXY1124A。sql/week12/README.md、根README同步。未推送。
