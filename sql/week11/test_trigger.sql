@@ -58,13 +58,14 @@ END TRY
 BEGIN CATCH SET @err=CONCAT(N'错误 ',ERROR_NUMBER(),N' ',ERROR_MESSAGE()); IF XACT_STATE()<>0 ROLLBACK; END CATCH;
 EXEC sys.sp_set_session_context @key=N'tokenhub.actor',@value=NULL;
 SELECT @n1=COUNT(*) FROM w11.InventoryAudit;
-SELECT TOP (1) @type=operation_type,@before=quota_before,@after=quota_after,@op=operator FROM w11.InventoryAudit
+DECLARE @login NVARCHAR(128);
+SELECT TOP (1) @type=operation_type,@before=quota_before,@after=quota_after,@op=operator,@login=login_name FROM w11.InventoryAudit
  WHERE inventory_id=@inv1 ORDER BY audit_id DESC;
 INSERT @r VALUES('A2',N'单条修改',N'账号 #'+CONVERT(NVARCHAR(11),@a1)+N' 库存 '+CONVERT(NVARCHAR(20),@q1),
  N'以 employee:test-admin 身份调用 w10.usp_AdjustInventory +3000',
- N'新增 1 行：increase，'+CONVERT(NVARCHAR(20),@q1)+N'→'+CONVERT(NVARCHAR(20),@q1+3000)+N'，操作人 employee:test-admin',
- COALESCE(@err,N'新增 '+CONVERT(NVARCHAR(11),@n1-@n0)+N' 行：'+@type+N'，'+CONVERT(NVARCHAR(20),@before)+N'→'+CONVERT(NVARCHAR(20),@after)+N'，操作人 '+@op),
- CASE WHEN @err IS NULL AND @n1-@n0=1 AND @type='increase' AND @before=@q1 AND @after=@q1+3000 AND @op=N'employee:test-admin' THEN 1 ELSE 0 END);
+ N'新增 1 行：increase，'+CONVERT(NVARCHAR(20),@q1)+N'→'+CONVERT(NVARCHAR(20),@q1+3000)+N'，操作人 employee:test-admin，登录名为实际连接登录名',
+ COALESCE(@err,N'新增 '+CONVERT(NVARCHAR(11),@n1-@n0)+N' 行：'+@type+N'，'+CONVERT(NVARCHAR(20),@before)+N'→'+CONVERT(NVARCHAR(20),@after)+N'，操作人 '+@op+N'，登录名 '+@login),
+ CASE WHEN @err IS NULL AND @n1-@n0=1 AND @type='increase' AND @before=@q1 AND @after=@q1+3000 AND @op=N'employee:test-admin' AND @login=ORIGINAL_LOGIN() THEN 1 ELSE 0 END);
 
 -- A3 多条修改：一条 UPDATE 同时减少两个账号的库存，审计应逐行记 2 条。同一事务内同步减少总额度、
 -- 写入 manual 调整流水，保持“库存=总额度-已用”和“库存变动都有流水”两条账务规则。
@@ -209,9 +210,9 @@ INSERT @r VALUES('O7',N'多条修改',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N'�
  CASE WHEN @err IS NULL AND @n1=2 AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o5) THEN 1 ELSE 0 END);
 
 -- 结果记录：本次测试账号的全部库存审计记录与测试订单的最终状态（列之间用 | 分隔）。
-PRINT N'== 库存审计记录：audit_id|account_id|provider|operation_type|quota_before|quota_after|change_quantity|operated_at|operator';
+PRINT N'== 库存审计记录：audit_id|account_id|provider|operation_type|quota_before|quota_after|change_quantity|operated_at|operator|login_name';
 SELECT CONCAT_WS(N'|',audit_id,account_id,provider,operation_type,COALESCE(CONVERT(NVARCHAR(20),quota_before),N'NULL'),
- COALESCE(CONVERT(NVARCHAR(20),quota_after),N'NULL'),change_quantity,CONVERT(NVARCHAR(23),operated_at,121),operator)
+ COALESCE(CONVERT(NVARCHAR(20),quota_after),N'NULL'),change_quantity,CONVERT(NVARCHAR(23),operated_at,121),operator,login_name)
 FROM w11.InventoryAudit WHERE account_id IN(@a1,@a2) ORDER BY audit_id;
 PRINT N'== 测试订单状态：order_id|status|total_amount|total_tokens|paid_at';
 SELECT CONCAT_WS(N'|',order_id,status,total_amount,total_tokens,COALESCE(CONVERT(NVARCHAR(19),paid_at,120),N'NULL'))

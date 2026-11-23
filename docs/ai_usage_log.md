@@ -827,3 +827,6 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 收尾检查对照第11周讲义“结果记录：保存审计记录、订单状态……”，发现输出只在各用例实际结果中描述审计内容，补充本次测试账号的审计记录清单与测试订单状态清单（PASS判定不变）。新批次WebXY1123H重新构建并生成全部证据：13/13、12/12，全量unittest 124项OK、0跳过；G批次证据未提交，随数据库一并清理。
 - 检查：`ruff check webapp tests tools`、`ruff format --check webapp tests tools`通过；`git diff --check`首次报4个文档末尾多余空行，去除后通过。
 - 清理：`tools/cleanup_reproduction.ps1`依次处理D、F（不保留构建证据）、G、H（H保留证据），四批核验PASS；E:\Claude产物\DB_lab_w1112下的临时脚本、密码文件与中间输出已删除。
+- 复查与简单修改：肖懿逐项听取第11周讲解后，AI复查指出五点（审计操作人可被会话上下文伪造；完成规则触发器读可售余量不加锁，直接SQL并发完成可能超卖，Web经w12.usp_CompleteOrder在SERIALIZABLE下以UPDLOCK、HOLDLOCK锁定后核对；新错误号在webapp/errors.py中落入50000—55999统一为BUSINESS_RULE通用提示；窗口查询金额为含退款订单的成交额；删除库存行与受限账户运行未覆盖）。AI建议只修第一点、其余写入报告，肖懿决定简单修改。
+- 改动：w11.InventoryAudit增加login_name（触发器写ORIGINAL_LOGIN()），test_trigger.sql的A2增加`@login=ORIGINAL_LOGIN()`判定，审计清单增加该列；报告补“已知限制”一节与成交额说明。
+- 验证批次WebXY1123J：`--with-week10 --with-week11 --with-week12`构建，test_trigger 13/13、TRANCOUNT=0，`tests/test_week11_12_sql.py` 9项OK；未重跑全量unittest。WebXY1123J数据库与备份已删除，证据保留在result/week11/WebXY1123J与构建日志目录。

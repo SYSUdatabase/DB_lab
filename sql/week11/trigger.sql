@@ -13,6 +13,7 @@ CREATE TABLE w11.InventoryAudit (
  change_quantity BIGINT NOT NULL,
  operated_at DATETIME2(3) NOT NULL,
  operator NVARCHAR(128) NOT NULL,
+ login_name NVARCHAR(128) NOT NULL,
  CONSTRAINT CK_W11_AuditType CHECK (operation_type IN ('insert','increase','decrease','delete')),
  CONSTRAINT CK_W11_AuditValues CHECK (
   (operation_type='insert' AND quota_before IS NULL AND quota_after IS NOT NULL)
@@ -32,7 +33,8 @@ END;
 GO
 -- 库存审计：一次语句改多行时，inserted/deleted 按 inventory_id 全外连接逐行记录。
 -- 只改 last_updated_at、数量不变的行不记录。操作人员取应用入口写入的会话上下文
--- tokenhub.actor（如 employee:7、user:44）；直接用 SQL 连接操作时记录登录名。
+-- tokenhub.actor（如 employee:7、user:44）；直接用 SQL 连接操作时记录登录名。会话上下文可由连接自行设置，
+-- 因此另记 login_name=ORIGINAL_LOGIN()，即实际连接数据库的登录名，不能由会话上下文改写。
 CREATE TRIGGER dbo.trg_W11_InventoryAudit ON dbo.Inventory AFTER INSERT,UPDATE,DELETE AS
 BEGIN
  SET NOCOUNT ON;
@@ -41,12 +43,12 @@ BEGIN
   N'sql:'+ORIGINAL_LOGIN());
  DECLARE @now DATETIME2(3)=SYSDATETIME();
  INSERT w11.InventoryAudit(inventory_id,account_id,provider,operation_type,
-  quota_before,quota_after,change_quantity,operated_at,operator)
+  quota_before,quota_after,change_quantity,operated_at,operator,login_name)
  SELECT COALESCE(i.inventory_id,d.inventory_id),COALESCE(i.account_id,d.account_id),a.provider,
   CASE WHEN d.inventory_id IS NULL THEN 'insert' WHEN i.inventory_id IS NULL THEN 'delete'
    WHEN i.current_quota>d.current_quota THEN 'increase' ELSE 'decrease' END,
   d.current_quota,i.current_quota,
-  COALESCE(i.current_quota,0)-COALESCE(d.current_quota,0),@now,@operator
+  COALESCE(i.current_quota,0)-COALESCE(d.current_quota,0),@now,@operator,ORIGINAL_LOGIN()
  FROM inserted i FULL OUTER JOIN deleted d ON d.inventory_id=i.inventory_id
  LEFT JOIN dbo.UpstreamAccount a ON a.account_id=COALESCE(i.account_id,d.account_id)
  WHERE d.inventory_id IS NULL OR i.inventory_id IS NULL OR i.current_quota<>d.current_quota;

@@ -17,7 +17,7 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 | `test_trigger.sql` | 13 个用例，按“编号\|类别\|初始数据\|操作\|预期结果\|实际结果\|是否符合”输出，任一不符合则以 57900 结束 |
 | `install.sql` | 增量安装入口 |
 
-库存审计的操作人员来自会话上下文 `tokenhub.actor`。`app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`；直接 SQL 连接时记为 `sql:登录名`。
+库存审计的操作人员来自会话上下文 `tokenhub.actor`。`app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`；直接 SQL 连接时记为 `sql:登录名`。会话上下文可由连接自行设置，因此审计表另有 `login_name` 列，由触发器写入 `ORIGINAL_LOGIN()`，记录实际连接数据库的登录名。
 
 | 错误号 | 含义 |
 |---|---|

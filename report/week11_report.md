@@ -7,7 +7,7 @@
 | 对象 | 类型与用途 |
 |---|---|
 | dbo.trg_W11_InventoryAudit | `dbo.Inventory` 的 AFTER INSERT/UPDATE/DELETE 触发器，逐行写入库存审计 |
-| w11.InventoryAudit | 审计表：库存对象编号、账号、供应商、操作类型、调整前后数量、变化量、操作时间、操作人员 |
+| w11.InventoryAudit | 审计表：库存对象编号、账号、供应商、操作类型、调整前后数量、变化量、操作时间、操作人员、连接登录名 |
 | w11.trg_InventoryAuditImmutable | 审计记录只允许追加，修改或删除报 54409 |
 | dbo.trg_W11_OrderCompletionRules | `dbo.Orders` 的 AFTER INSERT/UPDATE 触发器，订单改为已完成时核对规则 |
 | w11.fn_ProviderSellable | 内联表值函数，返回某供应商的可用上游库存与已售未消费部分的上游消耗 |
@@ -17,7 +17,7 @@
 
 本项目的库存按上游账号保存（`Inventory.account_id` 与 `UpstreamAccount` 一一对应），商品按 `model_provider` 对应同一供应商的账号，因此审计记录库存行编号、账号编号和供应商，不单独记录商品编号。操作类型分为 insert、increase、decrease、delete，变化量等于调整后减调整前，由 CHECK 约束保证。
 
-触发器用 `inserted` 与 `deleted` 按 `inventory_id` 全外连接，一条语句改多行时逐行记录；只改 `last_updated_at`、数量不变的行不记录。操作人员取会话上下文 `tokenhub.actor`：Web 入口 `app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`，每次调用都覆盖；直接用 SQL 连接操作时记为 `sql:登录名`。审计表与业务修改在同一事务中，业务回滚时审计一并回滚，因此它记录的是已生效的库存变化，不作为失败日志。
+触发器用 `inserted` 与 `deleted` 按 `inventory_id` 全外连接，一条语句改多行时逐行记录；只改 `last_updated_at`、数量不变的行不记录。操作人员取会话上下文 `tokenhub.actor`：Web 入口 `app.[Execute]` 与 `app.Week10` 在解析会话后写入 `employee:编号` 或 `user:编号`，每次调用都覆盖；直接用 SQL 连接操作时记为 `sql:登录名`。会话上下文可由任意连接自行设置，不能单独作为可信身份，因此审计表另有 `login_name` 列，由触发器写入 `ORIGINAL_LOGIN()`，即实际连接数据库的登录名，不受会话上下文影响。审计表与业务修改在同一事务中，业务回滚时审计一并回滚，因此它记录的是已生效的库存变化，不作为失败日志。
 
 ## 订单完成规则触发器
 
@@ -36,7 +36,7 @@
 
 ## 窗口查询
 
-三条查询沿用第10周的成交口径：状态为 paid、refunded、partially_refunded 的订单，金额取明细折后小计，日期取 `paid_at`。下列结果来自 WebXY1123H 新库的样例数据，统计区间 2026-07-01 至 2026-09-30，原始输出见 [window_query.log](../result/week11/WebXY1123H/window_query.log)。
+三条查询沿用第10周的成交口径：状态为 paid、refunded、partially_refunded 的订单，金额取明细折后小计，日期取 `paid_at`。因此下文的“销售金额”是成交额：之后发生退款的订单仍按原成交金额计入，不是扣除退款后的净收入。下列结果来自 WebXY1123H 新库的样例数据，统计区间 2026-07-01 至 2026-09-30，原始输出见 [window_query.log](../result/week11/WebXY1123H/window_query.log)。
 
 **排名。** 按销售金额对商品排名，同时给出 RANK、DENSE_RANK、ROW_NUMBER，并在供应商内按销量排名。金额最高的是 Claude 1M Token包（1018.30 元）。OpenAI 100K 与 Claude 100K 同为 131.10 元：RANK 均为 6，下一名为 8；DENSE_RANK 均为 6，下一名为 7；ROW_NUMBER 按商品编号给出 6 和 7。前者适合“前 N 名”的名次，后者适合需要连续名次的榜单。供应商内销量排名可用于选择各供应商主推的套餐。
 
@@ -51,7 +51,14 @@
 | 新库构建 | WebXY1123H 从 v0.1 构建至第12周，准备退出码 0，安装日志位于 `result/webapp/WebXY1123H/` |
 | 失败批次 | 第一次验收批次 WebXY1123F 的全量测试有 11 项未通过，原因与修正见[失败批次说明](../result/week12/WebXY1123F/README.md) |
 | 触发器测试 | 13 项全部符合，`@@TRANCOUNT=0`，[验证记录](../result/week11/WebXY1123H/README.md) |
+| 增加登录名后复测 | WebXY1123J 从空库构建至第12周，触发器 13 项全部符合，`tests/test_week11_12_sql.py` 9 项通过；未重跑全量 unittest，[验证记录](../result/week11/WebXY1123J/README.md) |
 | 窗口查询 | 三条查询退出码 0，[原始输出](../result/week11/WebXY1123H/window_query.log) |
 | 自动化测试 | `tests/test_week11_12_sql.py` 随全量 unittest 运行，结果见[第12周报告](week12_report.md) |
 
 测试覆盖单条插入（新建账号自动生成库存）、单条修改（经第10周库存调整过程）、一条语句修改两行、数量不变的修改、负库存被约束拒绝、审计记录被修改时拒绝，以及订单的正常完成、重复完成、无明细、金额不符、可售余量不足、一条语句中合格与不合格订单混合、两张合格订单同时完成。
+
+## 已知限制
+
+- **直接 SQL 并发完成订单时可能超卖。** 订单完成规则触发器读取可售余量时不加锁，两个连接同时直接 UPDATE 同一供应商的不同订单，可能都读到足够的余量而同时通过。经 Web 支付时走第12周的 `w12.usp_CompleteOrder`，该过程在 SERIALIZABLE 隔离级别下先以 UPDLOCK、HOLDLOCK 锁定订单与余额再核对余量，不受影响。直接 SQL 路径的并发控制留待第13周并发实验处理。
+- **网页上的错误提示较笼统。** 本周新增的错误号 54401—54409 位于 50000—55999 区间，`webapp/errors.py` 将该区间统一映射为业务规则错误（HTTP 409），页面显示通用提示，不区分是重复完成、金额不符还是余量不足。具体原因记录在数据库错误号与服务端日志中。为不改动网站代码，本周未细分提示。
+- **测试未覆盖的情况。** 删除库存行由触发器按 delete 类型处理，但现有外键与规则不允许删除被引用的库存，测试未构造该用例；触发器测试以本机登录直接连接运行，未在普通 Windows 受限账户下运行。

@@ -45,3 +45,5 @@
 | 116 | pending | 8.00 | 224506 | NULL |
 
 窗口查询的原始结果见 [window_query.log](window_query.log)，三类查询的含义与结果分析见[第11周报告](../../../report/week11_report.md)。
+
+本记录对应审计表增加 `login_name` 之前的版本，保留原样。增加登录名后的复测见 [WebXY1123J](../WebXY1123J/README.md)。
