@@ -208,6 +208,15 @@ INSERT @r VALUES('O7',N'多条修改',N'订单 #'+CONVERT(NVARCHAR(11),@o3)+N'�
  COALESCE(@err,N'更新 '+CONVERT(NVARCHAR(11),@n1)+N' 行；回滚后 '+(SELECT status FROM dbo.Orders WHERE order_id=@o3)+N' / '+(SELECT status FROM dbo.Orders WHERE order_id=@o5)),
  CASE WHEN @err IS NULL AND @n1=2 AND 'pending'=(SELECT status FROM dbo.Orders WHERE order_id=@o5) THEN 1 ELSE 0 END);
 
+-- 结果记录：本次测试账号的全部库存审计记录与测试订单的最终状态（列之间用 | 分隔）。
+PRINT N'== 库存审计记录：audit_id|account_id|provider|operation_type|quota_before|quota_after|change_quantity|operated_at|operator';
+SELECT CONCAT_WS(N'|',audit_id,account_id,provider,operation_type,COALESCE(CONVERT(NVARCHAR(20),quota_before),N'NULL'),
+ COALESCE(CONVERT(NVARCHAR(20),quota_after),N'NULL'),change_quantity,CONVERT(NVARCHAR(23),operated_at,121),operator)
+FROM w11.InventoryAudit WHERE account_id IN(@a1,@a2) ORDER BY audit_id;
+PRINT N'== 测试订单状态：order_id|status|total_amount|total_tokens|paid_at';
+SELECT CONCAT_WS(N'|',order_id,status,total_amount,total_tokens,COALESCE(CONVERT(NVARCHAR(19),paid_at,120),N'NULL'))
+FROM dbo.Orders WHERE order_id IN(@o1,@o2,@o3,@o4,@o5) ORDER BY order_id;
+PRINT N'== 用例结果：编号|类别|初始数据|操作|预期结果|实际结果|是否符合';
 SELECT case_no+N'|'+category+N'|'+initial+N'|'+operation+N'|'+expected+N'|'+actual+N'|'+CASE passed WHEN 1 THEN N'符合' ELSE N'不符合' END AS result_row
 FROM @r ORDER BY case_no;
 SELECT CONCAT(N'SUMMARY|',SUM(CONVERT(INT,passed)),N'/',COUNT(*),N'|TRANCOUNT=',@@TRANCOUNT) FROM @r;
