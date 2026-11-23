@@ -1,14 +1,14 @@
-# TokenHub：数据库课程项目（第 1—9 周完成，第 10—13 周进行中）
+# TokenHub：数据库课程项目（第 1—9 周完成，第 10—12 周已实现，第 13 周进行中）
 
-本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，现进入第 10—13 周数据库编程与事务处理阶段。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和数据库准备工具。
+本仓库已完成**第 5—9 周的数据库重构与 Web 应用**，并完成第 10—12 周数据库编程与事务处理的核心实现及验收；当前进入第 13 周锁等待、隔离级别与死锁实验。课程提交版本称为 **v1.0**；其中 v1.0 完成规范化迁移，内部 v1.1 继续完善库存、订单、Token 批次及退款业务。Web 页面运行在 v1.1 上。原第 1—4 周资料已统一归档至 [archive](archive/README.md)，保留作为 v0.1 迁移基线的正式 SQL 和数据库准备工具。
 
-> **建库须加参数。** `tools/app_prepare.py` 默认不安装第10—12周的扩展。建库时须加 `--with-week10 --with-week11 --with-week12`，才会装上第10周的过程与函数、第11周的触发器和第12周的分类层级与事务，Web 的“模拟支付”“完成补货”才走第12周的新事务；不加这些参数建出的库不含第10—12周的实现。完整命令见[第11—12周安装与验证](#第1112周安装与验证)。
+> **建库须加参数。** `tools/app_prepare.py` 默认不安装第10—12周的扩展。建库时须加 `--with-week10 --with-week11 --with-week12`，才会装上第10周的过程与函数、第11周的触发器和第12周的分类层级、商品分类自动维护与事务，Web 的“模拟支付”“完成补货”才走第12周的新事务；不加这些参数建出的库不含第10—12周的实现。完整命令见[第11—12周安装与验证](#第1112周安装与验证)。
 
 ## 交付内容与入口
 
-第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，完整新库回归115项通过。普通Windows账户对第10周增量的运行验收已于2026-11-23补做（WebXY1123R，同时覆盖第11—12周触发器与事务），见[补做记录](result/stage2/WebXY1123R/README.md)。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
+第10周已增加销售统计、补货建议、管理员库存校正与SQL折扣快照，40项专项用例全部通过。普通Windows账户对第10周增量的运行验收已于2026-11-23补做（WebXY1123R，同时覆盖第11—12周触发器与事务），见[补做记录](result/stage2/WebXY1123R/README.md)。实现范围见[第10周执行计划](plan/week10-procedures-functions-plan.md)，结果见[第10周报告](report/week10_report.md)。
 
-第11周增加库存审计与订单完成规则触发器、排名/累计/移动平均三条窗口查询；第12周增加商品分类层级递归查询、订单完成事务与补货入库事务，Web的“模拟支付”“完成补货”改为调用新事务。新库WebXY1123H上触发器13项、事务12项用例全部符合，全量Python测试124项通过；复查后修正订单完成的并发死锁，新库WebXY1124A上事务12项符合、全量124项通过。终审补齐第12周用例对全部业务表的检查后，新库WebXY1124B上触发器14项、事务14项全部符合，全量124项通过。结果见[第11周报告](report/week11_report.md)、[第12周报告](report/week12_report.md)。
+第11周增加库存审计与订单完成规则触发器、排名/累计/移动平均三条窗口查询；第12周增加商品分类层级递归查询、商品分类自动维护、订单完成事务与补货入库事务，Web的“模拟支付”“完成补货”改为调用新事务。新库WebXY1124D上分类自动维护6项、触发器14项、事务14项全部符合，全量Python测试126项通过、0跳过；Ruff检查与格式检查通过。结果见[第11周报告](report/week11_report.md)、[第12周报告](report/week12_report.md)及[最新复测记录](result/week12/WebXY1124D/README.md)。
 
 | 周次 | 当前成果 | 主要文件 |
 |---|---|---|
@@ -16,8 +16,8 @@
 | 第 6 周 | 函数依赖、范式分析、无损分解、迁移与回归、v1.1 规则完善 | [依赖分析](archive/coursework/week6/dependency_normalization.md)、[重构方案](archive/coursework/week6/redesign_decisions.md)、[迁移](sql/v10/migration.sql)、[回归](sql/v10/regression.sql)、[第六周说明](archive/coursework/week6/README.md) |
 | 第 7—9 周 | Flask 四层 Web、顾客注册和登录、商品/订单/库存/补货/退款、角色及异常控制 | [Web 操作手册](docs/webapp.md)、[应用代码](webapp/)、[Web SQL](sql/app/) |
 | 第二阶段展示版 | 员工端运营概览：订单统计、14天趋势、状态分布、库存预警；SQL 实时汇总，每15秒刷新 | [看板功能与部署说明](docs/stage2_dashboard.md)、[统计过程](sql/app/dashboard.sql) |
-| 第 11 周 | 库存审计、订单完成规则触发器；排名、累计值、移动平均 | [触发器与窗口查询](sql/week11/README.md)、[验证记录](result/week12/WebXY1124B/README.md) |
-| 第 12 周 | 分类层级递归查询；订单完成与补货入库事务，替换原支付和补货实现 | [递归与事务](sql/week12/README.md)、[验证记录](result/week12/WebXY1124B/README.md) |
+| 第 11 周 | 库存审计、订单完成规则触发器；排名、累计值、移动平均 | [触发器与窗口查询](sql/week11/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
+| 第 12 周 | 分类层级递归查询与商品分类自动维护；订单完成与补货入库事务，替换原支付和补货实现 | [递归与事务](sql/week12/README.md)、[验证记录](result/week12/WebXY1124D/README.md) |
 | 最终报告 | 设计、实验过程、图示、实际运行与异常证据、总结 | **[第二阶段报告](report/stage2_report.md)** |
 | 过程材料 | AI 使用记录、组内分工、复现说明 | [AI 使用文档](docs/ai使用文档.md)、[详细日志](docs/ai_usage_log.md)、[组内分工](docs/team_division.md) |
 
@@ -110,7 +110,7 @@ $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 .\.venv\Scripts\python.exe tools/app_prepare.py --suffix WebW12Your01 --with-week10 --with-week11 --with-week12
 ```
 
-`WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；测试脚本会写入新的测试账号、商品、订单和补货单，只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
+`WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；`test_category_maintenance.sql` 使用事务内临时商品并回滚，`test_transactions.sql` 会写入新的测试商品、订单和补货单，因此所有写入测试只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
 
 ## 系统架构
 

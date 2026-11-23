@@ -9,7 +9,7 @@ CREATE TABLE w12.ProductCategories (
 );
 CREATE TABLE w12.ProductCategoryAssignments (
  product_id INT NOT NULL CONSTRAINT PK_W12_CategoryAssignments PRIMARY KEY
-  CONSTRAINT FK_W12_AssignmentProduct REFERENCES dbo.Products(product_id),
+  CONSTRAINT FK_W12_AssignmentProduct REFERENCES dbo.Products(product_id) ON DELETE CASCADE,
  category_id INT NOT NULL CONSTRAINT FK_W12_AssignmentCategory REFERENCES w12.ProductCategories(category_id)
 );
 GO
@@ -59,10 +59,36 @@ INSERT w12.ProductCategories(category_id,parent_id,name) VALUES
  (7,3,N'其他供应商套餐'),
  (8,4,N'OpenAI小容量（≤100K）'),
  (9,4,N'OpenAI大容量（>100K）');
--- 现有商品按供应商与容量挂到叶子分类。之后新建的商品可再补挂。
+GO
+-- 安装时为已有商品建立初始映射。之后的新增和分类字段修改由商品触发器维护；
+-- 删除商品时由 ProductCategoryAssignments.product_id 的 ON DELETE CASCADE 清理映射。
 INSERT w12.ProductCategoryAssignments(product_id,category_id)
 SELECT p.product_id,CASE p.model_provider
   WHEN 'OpenAI' THEN CASE WHEN p.token_amount<=100000 THEN 8 ELSE 9 END
   WHEN 'Claude' THEN 5 WHEN 'Gemini' THEN 6 ELSE 7 END
 FROM dbo.Products p;
+GO
+CREATE TRIGGER dbo.trg_W12_ProductCategoryAssignments ON dbo.Products AFTER INSERT,UPDATE AS
+BEGIN
+ SET NOCOUNT ON;
+ IF NOT EXISTS(SELECT 1 FROM inserted) RETURN;
+
+ -- 更新已有映射：OpenAI 按 Token 容量分成两个叶子分类，其余供应商各对应一个叶子分类。
+ UPDATE a SET category_id=CASE p.model_provider
+   WHEN 'OpenAI' THEN CASE WHEN p.token_amount<=100000 THEN 8 ELSE 9 END
+   WHEN 'Claude' THEN 5 WHEN 'Gemini' THEN 6 ELSE 7 END
+ FROM w12.ProductCategoryAssignments a
+ JOIN inserted p ON p.product_id=a.product_id
+ WHERE a.category_id<>CASE p.model_provider
+   WHEN 'OpenAI' THEN CASE WHEN p.token_amount<=100000 THEN 8 ELSE 9 END
+   WHEN 'Claude' THEN 5 WHEN 'Gemini' THEN 6 ELSE 7 END;
+
+ -- 新增商品，或修复此前缺失的映射。
+ INSERT w12.ProductCategoryAssignments(product_id,category_id)
+ SELECT p.product_id,CASE p.model_provider
+   WHEN 'OpenAI' THEN CASE WHEN p.token_amount<=100000 THEN 8 ELSE 9 END
+   WHEN 'Claude' THEN 5 WHEN 'Gemini' THEN 6 ELSE 7 END
+ FROM inserted p
+ WHERE NOT EXISTS(SELECT 1 FROM w12.ProductCategoryAssignments a WHERE a.product_id=p.product_id);
+END;
 GO

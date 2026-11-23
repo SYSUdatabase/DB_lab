@@ -1,4 +1,4 @@
-"""Week 11 triggers/window queries and week 12 recursion/transactions on a disposable Web database."""
+"""Week 11 triggers/windows and week 12 category lifecycle, recursion, and transactions."""
 
 from __future__ import annotations
 
@@ -72,6 +72,15 @@ class Week11And12SourceTests(unittest.TestCase):
             source = (ROOT / path).read_text(encoding="utf-8")
             self.assertIn("sp_set_session_context @key=N'tokenhub.actor'", source)
 
+    def test_product_category_assignments_follow_product_lifecycle(self) -> None:
+        source = (ROOT / "sql/week12/category.sql").read_text(encoding="utf-8")
+        self.assertIn("REFERENCES dbo.Products(product_id) ON DELETE CASCADE", source)
+        self.assertIn(
+            "CREATE TRIGGER dbo.trg_W12_ProductCategoryAssignments ON dbo.Products AFTER INSERT,UPDATE",
+            source,
+        )
+        self.assertIn("JOIN inserted p ON p.product_id=a.product_id", source)
+
 
 @unittest.skipUnless(
     DATABASE, "Set DB_LAB_WEEK12_DATABASE to an isolated database with weeks 10-12"
@@ -90,6 +99,12 @@ class Week11And12SqlTests(unittest.TestCase):
 
     def test_transaction_script_cases_all_pass(self) -> None:
         output = run_script("sql/week12/test_transactions.sql")
+        summary = re.search(r"SUMMARY\|(\d+)/(\d+)\|TRANCOUNT=0", output)
+        self.assertIsNotNone(summary, output[-2000:])
+        self.assertEqual(summary.group(1), summary.group(2))
+
+    def test_category_maintenance_script_cases_all_pass(self) -> None:
+        output = run_script("sql/week12/test_category_maintenance.sql")
         summary = re.search(r"SUMMARY\|(\d+)/(\d+)\|TRANCOUNT=0", output)
         self.assertIsNotNone(summary, output[-2000:])
         self.assertEqual(summary.group(1), summary.group(2))

@@ -855,3 +855,18 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 测试脚本：T5补批次与paid_at；R2补审计、actual_amount、completed_at；R4补total_quota、流水、审计；新增R6（status='failed'补货单→53312）。53313在本库不可构造（供应商CHECK四值，trg_W6_ProductsHistory禁止改已引用商品供应商，四个供应商均有被引用商品），新增R7核对此前提，未伪造场景。
 - 复测WebXY1124B：app_prepare --with-week10 --with-week11 --with-week12退出0；test_trigger 14/14、test_transactions 14/14、TRANCOUNT=0；test_week11_12_sql 9 OK；全量124 OK；ruff check、format --check通过。启动方式：Win32_Process Create 运行带BOM的脚本，避免SSH断开中止；首次启动命令因PowerShell 5吞掉引号未执行，改为启动脚本后成功。清理-KeepEvidence PASS。
 - 文档：README开头写明建库参数及链接改指WebXY1124B；分工表链接改指WebXY1124B；第11周报告补删除订单保护、验证表补S与1124B、覆盖补A7；第12周报告补R6/R7、覆盖范围、分工链接；ROADMAP补死锁修正与终审两节，第10周旧条目下追加说明；R、S证据说明末尾补记已写入AI记录。用户转达的“11-24”按实际日期记为11-23。
+
+
+## 2026-11-23 第12周商品分类自动维护修正
+
+- **用户人工发现与要求**：阮依成指出第12周 `w12.ProductCategoryAssignments` 只在安装时为已有商品建立映射，Web 后续新增/删除商品时没有自动维护，要求修复，并把本次人工发现与修改同步记录到 AI 使用日志和 AI 使用文档。
+- **实现方案**：将维护放在数据库层，避免只在 Web 单一路径维护。商品新增和更新由 `dbo.Products` 的 AFTER INSERT、UPDATE 触发器处理；OpenAI 根据 `token_amount <= 100000` 映射到分类 8，否则分类 9；Claude、Gemini、Other 分别映射到分类 5、6、7。商品删除成功时，由 `w12.ProductCategoryAssignments.product_id` 外键的 `ON DELETE CASCADE` 清除映射。已有订单或调用历史的商品仍受原有历史保护和外键限制，不能绕过规则删除或变更供应商。
+- **代码与测试**：
+  - 修改 `sql/week12/category.sql`：增加级联删除，并新增 `dbo.trg_W12_ProductCategoryAssignments`，对 inserted 集合执行映射更新和缺失映射补建；原递归函数 `w12.fn_CategoryDescendants` 不变。
+  - 新增 `sql/week12/test_category_maintenance.sql`：6 个用例覆盖新增商品、OpenAI 容量跨越 100K、供应商变更为 Claude/Gemini/Other、删除后商品及映射均不存在；通过递归函数连接映射表检查可见性与叶子分类。测试在事务中执行并回滚。
+  - 修改 `tests/test_week11_12_sql.py`：增加分类自动维护 SQL 回归与源码检查。
+- **验证过程**：源码测试 5 项通过，Ruff 检查与格式检查通过。首批 WebXY1124C 从空库构建成功，分类 6/6、触发器 14/14、事务 14/14；第一次全量 unittest 因构建后未保留 `DB_LAB_DEMO_PASSWORD`，13 项需要该环境变量的员工/Web 集成测试被跳过，未把这次结果作为最终全量验收。随后以同一临时密码变量贯穿构建与测试，在新批次 WebXY1124D 从空库重建并复测：分类 6/6、触发器 14/14、事务 14/14，窗口与递归查询退出码 0；全量 unittest 126 项通过、0 失败、0 错误、0 跳过；`ruff check webapp tests tools` 通过，`ruff format --check webapp tests tools` 显示 38 个文件已格式化。
+- **证据与文档**：验证结果保存在 `result/week12/WebXY1124D/`；`README.md`、`sql/week12/README.md`、`report/week12_report.md`、`ROADMAP.md` 同步更新，移除“新建/修改商品不自动维护”的过期描述。触发器日志中的本机 Windows SQL 登录标识已脱敏；A2 用例仍验证 `login_name=ORIGINAL_LOGIN()`。
+- **边界**：递归查询函数本身未改；已有历史引用的商品仍不能删除，级联删除仅在商品删除操作本身符合原业务约束时发生。
+
+- **清理**：WebXY1124C、WebXY1124D 均执行 `tools/cleanup_reproduction.ps1 -KeepEvidence` 并核验 PASS，三个测试数据库及对应 SQL 备份删除，证据目录保留；未改动原有演示数据库。

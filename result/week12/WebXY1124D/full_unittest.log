@@ -1,0 +1,318 @@
+test_account_creation_failure_rolls_back_account_inventory_and_opening (test_app_faults.AppSqlFaultTests.test_account_creation_failure_rolls_back_account_inventory_and_opening) ... ok
+test_payment_failure_after_balance_header_and_lot_writes (test_app_faults.AppSqlFaultTests.test_payment_failure_after_balance_header_and_lot_writes) ... ok
+test_refund_failure_after_lot_balance_ledger_and_order_writes (test_app_faults.AppSqlFaultTests.test_refund_failure_after_lot_balance_ledger_and_order_writes) ... ok
+test_restock_failure_after_quota_inventory_audit_and_task_writes (test_app_faults.AppSqlFaultTests.test_restock_failure_after_quota_inventory_audit_and_task_writes) ... ok
+test_usage_failure_after_balance_account_inventory_and_log_writes (test_app_faults.AppSqlFaultTests.test_usage_failure_after_balance_account_inventory_and_log_writes) ... ok
+test_refund_serializes_concurrent_usage_then_both_units_rollback (test_app_faults.AppSqlRaceTests.test_refund_serializes_concurrent_usage_then_both_units_rollback) ... ok
+test_guard_and_narrow_public_grants (test_app_sql.AppSqlSourceTests.test_guard_and_narrow_public_grants) ... ok
+test_atomic_create_with_invalid_late_item (test_app_sql.AppSqlWorkflowTests.test_atomic_create_with_invalid_late_item) ... ok
+test_cross_customer_cannot_modify_order (test_app_sql.AppSqlWorkflowTests.test_cross_customer_cannot_modify_order) ... ok
+test_customer_payload_cannot_elevate_role (test_app_sql.AppSqlWorkflowTests.test_customer_payload_cannot_elevate_role) ... ok
+test_expired_revoked_and_inactive_sessions (test_app_sql.AppSqlWorkflowTests.test_expired_revoked_and_inactive_sessions) ... ok
+test_guest_catalog_and_authentication_boundary (test_app_sql.AppSqlWorkflowTests.test_guest_catalog_and_authentication_boundary) ... ok
+test_multiple_pending_refunds_are_independent (test_app_sql.AppSqlWorkflowTests.test_multiple_pending_refunds_are_independent) ... ok
+test_old_business_error_propagates_without_insert_exec_masking (test_app_sql.AppSqlWorkflowTests.test_old_business_error_propagates_without_insert_exec_masking) ... ok
+test_opening_repair_plan_is_idempotent_and_rejects_unapproved_delta (test_app_sql.AppSqlWorkflowTests.test_opening_repair_plan_is_idempotent_and_rejects_unapproved_delta) ... ok
+test_order_usage_refund_lifecycle_and_exact_ceiling (test_app_sql.AppSqlWorkflowTests.test_order_usage_refund_lifecycle_and_exact_ceiling) ... ok
+test_product_and_account_crud_restock_cancel_delete (test_app_sql.AppSqlWorkflowTests.test_product_and_account_crud_restock_cancel_delete) ... ok
+test_restock_reference_still_blocks_account_deletion (test_app_sql.AppSqlWorkflowTests.test_restock_reference_still_blocks_account_deletion) ... ok
+test_runtime_all_table_dml_and_ddl_denied (test_app_sql.AppSqlWorkflowTests.test_runtime_all_table_dml_and_ddl_denied) ... ok
+test_fails_closed_when_icacls_cannot_grant_access (test_backup_directory.BackupDirectoryPermissionTests.test_fails_closed_when_icacls_cannot_grant_access) ... ok
+test_grants_modify_to_the_exact_sql_service_account (test_backup_directory.BackupDirectoryPermissionTests.test_grants_modify_to_the_exact_sql_service_account) ... ok
+test_rejects_control_characters_in_service_account (test_backup_directory.BackupDirectoryPermissionTests.test_rejects_control_characters_in_service_account) ... ok
+test_create_edit_password_disable_enable_and_history (test_employee_management.EmployeeIntegrationTests.test_create_edit_password_disable_enable_and_history) ... [2026-11-23 23:16:17,607] INFO in __init__: request_id=d4dab5398d7a4e7296d7fcbf34649edb operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:18,582] INFO in __init__: request_id=1b902298c8f64a4685200b406dbd015e operation=login role=admin code=OK result=200
+[2026-11-23 23:16:19,420] INFO in __init__: request_id=1ba7417a83fc4869a3c7c720950cb512 operation=employees.create role=admin code=OK result=200
+[2026-11-23 23:16:19,843] INFO in __init__: request_id=4565f43da86942baab075d9e2ad437d8 operation=employees.list role=admin code=OK result=200
+[2026-11-23 23:16:19,845] INFO in __init__: request_id=32597deab4f74b4187867ec2f518429c operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:20,695] INFO in __init__: request_id=8a36040f82634f2086de7be8ac8aedf0 operation=login role=staff code=OK result=200
+[2026-11-23 23:16:20,928] INFO in __init__: request_id=151252e49a2a4abe8e81bec2907bcf21 operation=employees.list role=staff code=FORBIDDEN result=403
+[2026-11-23 23:16:21,012] INFO in __init__: request_id=45008b135ee54f23811db66f57c3e6d4 operation=employees.create role=staff code=FORBIDDEN result=403
+[2026-11-23 23:16:21,315] INFO in __init__: request_id=2f189003098d48e8a6e30c10047624ef operation=employees.update role=admin code=OK result=200
+[2026-11-23 23:16:21,601] INFO in __init__: request_id=31b765b7443740e49d460a256e0bb7af operation=employees.status role=admin code=OK result=200
+[2026-11-23 23:16:21,750] INFO in __init__: request_id=52eed3a6166b4be7b98b1d5941e1dcab operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-23 23:16:21,752] INFO in __init__: request_id=a46096a8ab594aacaae81bf7b53b5196 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:21,817] INFO in __init__: request_id=2533df86f8c34803a5dceeff17866b3e operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-23 23:16:22,074] INFO in __init__: request_id=a4b8bfa184c1443ebe36e492594dadda operation=employees.status role=admin code=OK result=200
+[2026-11-23 23:16:22,077] INFO in __init__: request_id=f105467c47394d92a4529c225dfbb9d2 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:22,924] INFO in __init__: request_id=bb086c163f9b4ba6ae34207e60846315 operation=login role=staff code=OK result=200
+[2026-11-23 23:16:23,810] INFO in __init__: request_id=d8e1b8a9db7a4338bb3caf1c81bd9017 operation=employees.password role=admin code=OK result=200
+[2026-11-23 23:16:23,897] INFO in __init__: request_id=f9a4ea51552643aaa02f563b435ac9a1 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-23 23:16:23,899] INFO in __init__: request_id=18dd766a7f3340e3b14b0c292b8f131b operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:24,595] INFO in __init__: request_id=b54584ecd73349e7b715b46ef3a8c15b operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-23 23:16:24,595] INFO in __init__: request_id=44fc0e3ffe16423883ef474b4695c1c5 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:25,422] INFO in __init__: request_id=3941ac8a91e64767aa1b727cd0c00e9c operation=login role=staff code=OK result=200
+[2026-11-23 23:16:25,427] INFO in __init__: request_id=4a126fbb82ff4580ac8698c540d62da4 operation=unknown role=guest code=INVALID_REQUEST result=405
+[2026-11-23 23:16:25,704] ERROR in dao: database_failure request_id=2453a6f893d849b3b12a87b44d93d802 operation=employees.status role=admin sqlstate=42000 native_codes=55004
+[2026-11-23 23:16:25,708] INFO in __init__: request_id=2453a6f893d849b3b12a87b44d93d802 operation=employees.status role=admin code=NOT_FOUND result=404
+[2026-11-23 23:16:25,745] INFO in __init__: request_id=aac32b4e72024143b10a16e828e606a0 operation=employees.create role=admin code=INVALID_INPUT result=400
+ok
+test_duplicate_account_and_no_customer_or_staff_access (test_employee_management.EmployeeIntegrationTests.test_duplicate_account_and_no_customer_or_staff_access) ... [2026-11-23 23:16:25,745] INFO in __init__: request_id=5f28e0ebe6114b03b92ea0635931155e operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:26,330] INFO in __init__: request_id=562ed23a94594ac2b9c3a7708136d330 operation=login role=admin code=OK result=200
+[2026-11-23 23:16:26,907] ERROR in dao: database_failure request_id=587c02022d554771a18a76a2540d36d7 operation=employees.create role=admin sqlstate=23000 native_codes=2627
+[2026-11-23 23:16:26,911] INFO in __init__: request_id=587c02022d554771a18a76a2540d36d7 operation=employees.create role=admin code=CONSTRAINT_CONFLICT result=409
+[2026-11-23 23:16:26,919] INFO in __init__: request_id=83ee4663821d4991b6fe94f67a7a7e24 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:27,689] INFO in __init__: request_id=d3454e7e8fe342d8a27bdce1f361804d operation=login role=customer code=OK result=200
+[2026-11-23 23:16:27,802] INFO in __init__: request_id=313d3414ca7e41e1806db28551df78b4 operation=employees.list role=customer code=FORBIDDEN result=403
+[2026-11-23 23:16:27,977] INFO in __init__: request_id=554b01a85b0a477fb97689e3661f01b4 operation=employees.create role=customer code=FORBIDDEN result=403
+[2026-11-23 23:16:27,978] INFO in __init__: request_id=67a42f050c524995aee127f020a65491 operation=employees.list role=guest code=UNAUTHENTICATED result=401
+ok
+test_bad_password_and_account_rejected (test_employee_management.EmployeeValidationTests.test_bad_password_and_account_rejected) ... ok
+test_missing_csrf_blocks_management_before_database (test_employee_management.EmployeeValidationTests.test_missing_csrf_blocks_management_before_database) ... [2026-11-23 23:16:28,027] INFO in __init__: request_id=466578cdf4d84de9a7e260a044702813 operation=employees.create_6 role=guest code=CSRF_REJECTED result=403
+ok
+test_reject_self_requested_role_change_and_arbitrary_id (test_employee_management.EmployeeValidationTests.test_reject_self_requested_role_change_and_arbitrary_id) ... ok
+test_role_and_extra_fields_not_accepted (test_employee_management.EmployeeValidationTests.test_role_and_extra_fields_not_accepted) ... ok
+test_fail_marker_prevents_capture_despite_pass_marker (test_evidence_tool.EvidenceToolTests.test_fail_marker_prevents_capture_despite_pass_marker) ... ok
+test_unexpected_sql_error_prevents_capture (test_evidence_tool.EvidenceToolTests.test_unexpected_sql_error_prevents_capture) ... ok
+test_execute_procedure_is_standalone_and_owner_controlled (test_opening_inventory.OpeningInventorySourceTests.test_execute_procedure_is_standalone_and_owner_controlled) ... ok
+test_bad_request_does_not_create_any_user (test_registration.RegistrationIntegrationTests.test_bad_request_does_not_create_any_user) ... [2026-11-23 23:16:33,082] INFO in __init__: request_id=a8288e69d87145119a6ecb54831677af operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:33,082] INFO in __init__: request_id=466fd6ffb3c040d5b38981eadce432e0 operation=register_customer role=guest code=INVALID_INPUT result=400
+ok
+test_register_and_login_duplicates_and_forbidden_admin (test_registration.RegistrationIntegrationTests.test_register_and_login_duplicates_and_forbidden_admin) ... [2026-11-23 23:16:33,082] INFO in __init__: request_id=c0ec9cf4c75e4232ba76f46ade454fd1 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:33,820] INFO in __init__: request_id=8483a5abfdb74f07bf18cab6746f3aa5 operation=register_customer role=customer code=OK result=200
+[2026-11-23 23:16:33,893] INFO in __init__: request_id=3c5636e4360d426cbc639e408ba9f5af operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:33,979] INFO in __init__: request_id=3fba8d3aa1d146408f3c397647cfeb26 operation=products.save role=customer code=FORBIDDEN result=403
+[2026-11-23 23:16:33,979] INFO in __init__: request_id=590257e761be4775abf8429bf83f7202 operation=register_customer role=guest code=INVALID_REQUEST result=409
+[2026-11-23 23:16:34,101] INFO in __init__: request_id=1252cadb3d2c499c9a394767d7874045 operation=logout role=guest code=OK result=200
+[2026-11-23 23:16:34,105] INFO in __init__: request_id=f952f57340ba4fc2b4ca801b171c11de operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:34,951] INFO in __init__: request_id=b4b080e909c4408baf8504860fea0697 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:34,953] INFO in __init__: request_id=5299b3224e8d4bb69b8643b8bf2d0bbc operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:35,623] ERROR in dao: database_failure request_id=9d734bf45c6247418fc6c7f60f37ad5f operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-23 23:16:35,628] INFO in __init__: request_id=9d734bf45c6247418fc6c7f60f37ad5f operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+[2026-11-23 23:16:36,242] ERROR in dao: database_failure request_id=903b7eb988064efab11a7699ed8cf73f operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-23 23:16:36,247] INFO in __init__: request_id=903b7eb988064efab11a7699ed8cf73f operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+ok
+test_csrf_is_required_before_db_access (test_registration.RegistrationValidationTests.test_csrf_is_required_before_db_access) ... [2026-11-23 23:16:36,303] INFO in __init__: request_id=e60cd7301d674378ac8e8d536c291e5f operation=register_customer role=guest code=CSRF_REJECTED result=403
+ok
+test_invalid_account_and_email (test_registration.RegistrationValidationTests.test_invalid_account_and_email) ... ok
+test_reject_role_escalation_and_unexpected_fields (test_registration.RegistrationValidationTests.test_reject_role_escalation_and_unexpected_fields) ... ok
+test_reject_weak_unmatched_or_nonstring_password (test_registration.RegistrationValidationTests.test_reject_weak_unmatched_or_nonstring_password) ... ok
+test_direct_customer_view_write_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_customer_view_write_is_detected) ... ok
+test_direct_user_grant_is_detected (test_sql_integration.SqlIntegrationTests.test_direct_user_grant_is_detected) ... ok
+test_expiry_equal_boundary (test_sql_integration.SqlIntegrationTests.test_expiry_equal_boundary) ... ok
+test_historical_overdraft_with_correct_final_totals (test_sql_integration.SqlIntegrationTests.test_historical_overdraft_with_correct_final_totals) ... ok
+test_missing_one_manager_permission (test_sql_integration.SqlIntegrationTests.test_missing_one_manager_permission) ... ok
+test_provider_mismatch (test_sql_integration.SqlIntegrationTests.test_provider_mismatch) ... ok
+test_registration_order (test_sql_integration.SqlIntegrationTests.test_registration_order) ... ok
+test_registration_usage (test_sql_integration.SqlIntegrationTests.test_registration_usage) ... ok
+test_business_totals_are_preserved (test_timeline.TimelineTests.test_business_totals_are_preserved) ... ok
+test_expired_usage_is_rejected (test_timeline.TimelineTests.test_expired_usage_is_rejected) ... ok
+test_expiry_is_exclusive_and_null_expiry_is_supported (test_timeline.TimelineTests.test_expiry_is_exclusive_and_null_expiry_is_supported) ... ok
+test_final_balance_cannot_hide_historical_overdraft (test_timeline.TimelineTests.test_final_balance_cannot_hide_historical_overdraft) ... ok
+test_fixed_dataset_and_serialized_sql (test_timeline.TimelineTests.test_fixed_dataset_and_serialized_sql) ... ok
+test_insufficient_credit_cannot_be_scheduled (test_timeline.TimelineTests.test_insufficient_credit_cannot_be_scheduled) ... ok
+test_missing_parent_is_rejected_before_serialization (test_timeline.TimelineTests.test_missing_parent_is_rejected_before_serialization) ... ok
+test_no_eligible_account_fails_explicitly (test_timeline.TimelineTests.test_no_eligible_account_fails_explicitly) ... ok
+test_order_before_registration_is_rejected (test_timeline.TimelineTests.test_order_before_registration_is_rejected) ... ok
+test_payment_at_same_second_precedes_consumption (test_timeline.TimelineTests.test_payment_at_same_second_precedes_consumption) ... ok
+test_provider_mismatch_is_rejected (test_timeline.TimelineTests.test_provider_mismatch_is_rejected) ... ok
+test_usage_before_registration_is_rejected (test_timeline.TimelineTests.test_usage_before_registration_is_rejected) ... ok
+test_01_purchase_usage_partial_refund_and_idempotence (test_web_integration.WebIntegrationTests.test_01_purchase_usage_partial_refund_and_idempotence) ... [2026-11-23 23:16:41,846] INFO in __init__: request_id=5fbc7dc6a537492cb4bd1a3fa4060f08 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:42,634] INFO in __init__: request_id=efda6b855ff24f2fb89348fea39df7d0 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:43,532] INFO in __init__: request_id=ff1c200e24074b789b98e2035e36712f operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:16:44,503] INFO in __init__: request_id=fdb21cb4b00741bc824415f09d16c7f1 operation=orders.pay role=customer code=OK result=200
+[2026-11-23 23:16:44,902] INFO in __init__: request_id=a92a3bd84355418a881768b387e8f96d operation=usage.create role=customer code=OK result=200
+[2026-11-23 23:16:45,894] INFO in __init__: request_id=963e223a32e340678b5a5383625f90ce operation=refunds.request role=customer code=OK result=200
+[2026-11-23 23:16:46,731] INFO in __init__: request_id=d781a6c269da4a478a66938abaab31a6 operation=refunds.request role=customer code=OK result=200
+[2026-11-23 23:16:46,734] INFO in __init__: request_id=440ba411f86d48579237361d79e14f37 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:47,641] INFO in __init__: request_id=8176c2f0b7754570857453dcb526cbe0 operation=login role=admin code=OK result=200
+[2026-11-23 23:16:48,310] INFO in __init__: request_id=ed91164e4d2e40b6b290ffbddc8d5333 operation=refunds.settle role=admin code=OK result=200
+ok
+test_02_detail_update_delete_and_empty_payment (test_web_integration.WebIntegrationTests.test_02_detail_update_delete_and_empty_payment) ... [2026-11-23 23:16:48,310] INFO in __init__: request_id=8d735618002340a484dbb6087f0862b9 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:49,112] INFO in __init__: request_id=dc08e6d4574b4463888e1a63c806e2d7 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:49,855] INFO in __init__: request_id=d832020b3fb54906b64c5b7e2d6166a1 operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:16:50,539] INFO in __init__: request_id=bf3615d017664019846a74bf0f9ee1e9 operation=orders.get role=customer code=OK result=200
+[2026-11-23 23:16:51,395] INFO in __init__: request_id=d12f52c2682b4803a94aaf4541aa9d41 operation=orders.item_set role=customer code=OK result=200
+[2026-11-23 23:16:51,547] INFO in __init__: request_id=2cfaf443e9354cc5bd91fb868d2a5280 operation=orders.get role=customer code=OK result=200
+[2026-11-23 23:16:52,395] INFO in __init__: request_id=9d39ffebaf954baaa5411be703b863ee operation=orders.item_delete role=customer code=OK result=200
+[2026-11-23 23:16:53,240] ERROR in dao: database_failure request_id=f09c8420d6364e9eb1cc5ac816dd587a operation=orders.pay role=customer sqlstate=42000 native_codes=53125
+[2026-11-23 23:16:53,246] INFO in __init__: request_id=f09c8420d6364e9eb1cc5ac816dd587a operation=orders.pay role=customer code=BUSINESS_RULE result=409
+ok
+test_03_cross_customer_and_role_bypass (test_web_integration.WebIntegrationTests.test_03_cross_customer_and_role_bypass) ... [2026-11-23 23:16:53,256] INFO in __init__: request_id=1cf7d089cbd443e9966b3283c5b25e4d operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:54,174] INFO in __init__: request_id=e7a615693f894d59a3b56499228edf77 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:54,896] INFO in __init__: request_id=7ce120f398244451a1fe9f7c8973316c operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:16:54,898] INFO in __init__: request_id=2bf4103e650d4d568b573fe89358ec54 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:55,682] INFO in __init__: request_id=abc5df7178c84152bae5fc3fd5cb05e0 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:56,167] ERROR in dao: database_failure request_id=2e5082e10d934812ab800d7c247ad99a operation=orders.get role=customer sqlstate=42000 native_codes=55003
+[2026-11-23 23:16:56,172] INFO in __init__: request_id=2e5082e10d934812ab800d7c247ad99a operation=orders.get role=customer code=FORBIDDEN result=403
+[2026-11-23 23:16:56,823] ERROR in dao: database_failure request_id=28e7d8be3f3b4e99b9ac605d539fe31f operation=orders.pay role=customer sqlstate=42000 native_codes=55003
+[2026-11-23 23:16:56,830] INFO in __init__: request_id=28e7d8be3f3b4e99b9ac605d539fe31f operation=orders.pay role=customer code=FORBIDDEN result=403
+[2026-11-23 23:16:56,832] INFO in __init__: request_id=21062f7ca97649a991a4de621ccd7a27 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:57,559] INFO in __init__: request_id=0d72052167814f72b728421c76135abb operation=login role=staff code=OK result=200
+[2026-11-23 23:16:57,796] INFO in __init__: request_id=02abd6f4491b454eb507c46d3b8af972 operation=products.save role=staff code=FORBIDDEN result=403
+[2026-11-23 23:16:57,891] INFO in __init__: request_id=7021a4ec5ca64137b9a3a69c9c9eb2a4 operation=orders.create role=customer code=INVALID_INPUT result=400
+ok
+test_04_bad_input_and_injection_are_not_sql (test_web_integration.WebIntegrationTests.test_04_bad_input_and_injection_are_not_sql) ... [2026-11-23 23:16:57,894] INFO in __init__: request_id=954950fe1e3946ec8ff9eba3e0555874 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:16:58,739] INFO in __init__: request_id=1faa11b4a98c483bbc8981cec9c3d6e4 operation=login role=customer code=OK result=200
+[2026-11-23 23:16:59,496] INFO in __init__: request_id=af4c795213494a2e9802ef9d8de25d22 operation=products.list role=customer code=OK result=200
+[2026-11-23 23:16:59,583] INFO in __init__: request_id=8dad496ad1564bf287c7ccfd12ad2b2e operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:16:59,810] INFO in __init__: request_id=d97306d6e9a64ff69507e725a0af2fe0 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:00,012] INFO in __init__: request_id=72a21a36fe9f4e85838af8fc71331e5e operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:00,099] INFO in __init__: request_id=94b4d78af4fb434082b4185ffda438d3 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:00,300] INFO in __init__: request_id=52533b05c16e417fb05c36bc41c25a7e operation=usage.create role=customer code=INVALID_INPUT result=400
+ok
+test_05_logout_revokes_database_session (test_web_integration.WebIntegrationTests.test_05_logout_revokes_database_session) ... [2026-11-23 23:17:00,302] INFO in __init__: request_id=ed003ccec4c14cb18d6fdd7c6247865f operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:00,974] INFO in __init__: request_id=30c673e6db6741578ede4582cd03af82 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:01,027] INFO in __init__: request_id=ef36d3f6728e4a4eab45275e41cc73b6 operation=logout role=guest code=OK result=200
+[2026-11-23 23:17:01,107] INFO in __init__: request_id=51c8d57d64f4477a904131cc0166afb0 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+ok
+test_06_atomic_create_rejects_second_invalid_item (test_web_integration.WebIntegrationTests.test_06_atomic_create_rejects_second_invalid_item) ... [2026-11-23 23:17:01,110] INFO in __init__: request_id=251d7510726a4cd780339d8d14518ae6 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:01,898] INFO in __init__: request_id=8bf28bb8003440e8a5d87b1ae21ca757 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:02,443] INFO in __init__: request_id=c3a45c84ebb14b078e97c0408792ba4e operation=orders.list role=customer code=OK result=200
+[2026-11-23 23:17:02,816] ERROR in dao: database_failure request_id=d1f40a13deb844dfbdbc4043cb5685b5 operation=orders.create role=customer sqlstate=42000 native_codes=52127
+[2026-11-23 23:17:02,821] INFO in __init__: request_id=d1f40a13deb844dfbdbc4043cb5685b5 operation=orders.create role=customer code=BUSINESS_RULE result=409
+[2026-11-23 23:17:02,983] INFO in __init__: request_id=9f359dc58be74e7d921fda3594393280 operation=orders.list role=customer code=OK result=200
+ok
+test_07_concurrent_payment_only_credits_once (test_web_integration.WebIntegrationTests.test_07_concurrent_payment_only_credits_once) ... [2026-11-23 23:17:02,988] INFO in __init__: request_id=b2d77669b3174e78a10578fc37bb45af operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:03,868] INFO in __init__: request_id=81b7d5faf6674e1c8384d884d632ae25 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:04,598] INFO in __init__: request_id=2d599a7983844341acaadba7318c458b operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:17:04,601] INFO in __init__: request_id=aa52fd26f1dd4c83a46418c4bb8ccc3b operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:04,604] INFO in __init__: request_id=18d30ff956914fbdbdf81b63d2f4f2e5 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:05,305] INFO in __init__: request_id=bffb72b8bb8742fdbe3c10a598fcdc09 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:05,308] INFO in __init__: request_id=410b390d589643a9a5e862f263df9ef1 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:06,185] ERROR in dao: database_failure request_id=d2ca409ef403409eaa6bae0579deb050 operation=orders.pay role=customer sqlstate=42000 native_codes=55009
+[2026-11-23 23:17:06,187] INFO in __init__: request_id=b13e4617297b48f68917606a43a79f6a operation=orders.pay role=customer code=OK result=200
+[2026-11-23 23:17:06,191] INFO in __init__: request_id=d2ca409ef403409eaa6bae0579deb050 operation=orders.pay role=customer code=BUSINESS_RULE result=409
+ok
+test_08_token_values_are_wire_strings (test_web_integration.WebIntegrationTests.test_08_token_values_are_wire_strings) ... [2026-11-23 23:17:06,194] INFO in __init__: request_id=6d8706aba2234a0f9578139554d35d8a operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:06,915] INFO in __init__: request_id=17447e2f7c9a4891843852a4b921059d operation=login role=customer code=OK result=200
+[2026-11-23 23:17:07,569] INFO in __init__: request_id=f7d836ed1b75400d86ef9d75ce0fbf9b operation=products.list role=customer code=OK result=200
+ok
+test_09_connection_failure_is_safe (test_web_integration.WebIntegrationTests.test_09_connection_failure_is_safe) ... [2026-11-23 23:17:07,575] INFO in __init__: request_id=b6954a88d2fc42548f73d75175902ad6 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:08,337] INFO in __init__: request_id=4a0c8ae21f1f4d75b46f5f263b67036e operation=login role=customer code=OK result=200
+[2026-11-23 23:17:08,340] ERROR in dao: database_failure request_id=b952f29368664d25b16b01c3ad9261fc operation=orders.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-23 23:17:08,342] INFO in __init__: request_id=b952f29368664d25b16b01c3ad9261fc operation=orders.list role=guest code=DATABASE_UNAVAILABLE result=503
+ok
+test_10_concurrent_consumption_cannot_overdraw (test_web_integration.WebIntegrationTests.test_10_concurrent_consumption_cannot_overdraw) ... [2026-11-23 23:17:08,344] INFO in __init__: request_id=a375e3a781df4e6b8c28894562d481e8 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:09,042] INFO in __init__: request_id=5ee9d33fa58042f7a4253f6cf4c51ab6 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:09,826] INFO in __init__: request_id=1c9a7dee78724e47b2a5c6971bf69dbe operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:17:10,821] INFO in __init__: request_id=1c8608ca882049b9a8e22ec018ca0a2a operation=orders.pay role=customer code=OK result=200
+[2026-11-23 23:17:11,576] INFO in __init__: request_id=508738cffa314cc2ad71893e083ca96c operation=balances.list role=customer code=OK result=200
+[2026-11-23 23:17:11,579] INFO in __init__: request_id=75f6392b31c1458b8366392022443274 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:11,584] INFO in __init__: request_id=99d2d17474414913a0d618a68b64990a operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:12,294] INFO in __init__: request_id=53fd4926e1f049809cdc0b360baa54ac operation=login role=customer code=OK result=200
+[2026-11-23 23:17:12,297] INFO in __init__: request_id=0687e2c2372948abbcc887c93ba9b798 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:13,081] INFO in __init__: request_id=1cb0c4f7cf7c41beac6f56a33074d156 operation=usage.create role=customer code=OK result=200
+[2026-11-23 23:17:13,090] ERROR in dao: database_failure request_id=307977ed432f432aaf6dbe149552fbda operation=usage.create role=customer sqlstate=42000 native_codes=51956
+[2026-11-23 23:17:13,095] INFO in __init__: request_id=307977ed432f432aaf6dbe149552fbda operation=usage.create role=customer code=BUSINESS_RULE result=409
+[2026-11-23 23:17:13,761] INFO in __init__: request_id=d7426801ffa6450e885f3584841e6a42 operation=balances.list role=customer code=OK result=200
+ok
+test_11_refund_and_consumption_compete_for_same_tokens (test_web_integration.WebIntegrationTests.test_11_refund_and_consumption_compete_for_same_tokens) ... [2026-11-23 23:17:13,764] INFO in __init__: request_id=04d6342721f545eb8b195e694563e359 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:14,495] INFO in __init__: request_id=e91601fa906b496a9d65b38b28d7b65a operation=login role=customer code=OK result=200
+[2026-11-23 23:17:15,266] INFO in __init__: request_id=41c869aae53a409caebca8182bdb2475 operation=orders.create role=customer code=OK result=200
+[2026-11-23 23:17:16,289] INFO in __init__: request_id=66aff2b9b9e6473c8dcc9b4fc69e2bde operation=orders.pay role=customer code=OK result=200
+[2026-11-23 23:17:16,433] INFO in __init__: request_id=45eef6f3766645929333b61147240b90 operation=orders.get role=customer code=OK result=200
+[2026-11-23 23:17:16,436] INFO in __init__: request_id=136e33858b974339960666e2b47e76bb operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:16,438] INFO in __init__: request_id=f798a59f769a4fdc9c07d67f0cb99a53 operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:17,304] INFO in __init__: request_id=1baefe1d97f64bba96e0a284e28d0155 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:17,309] INFO in __init__: request_id=c791bc52d0134253bb75d54b48f81e66 operation=login role=customer code=OK result=200
+[2026-11-23 23:17:21,183] ERROR in dao: database_failure request_id=f0b509628cfb47c5bcbe741eb1c55d69 operation=refunds.request role=customer sqlstate=40001 native_codes=1205
+[2026-11-23 23:17:21,187] INFO in __init__: request_id=f0b509628cfb47c5bcbe741eb1c55d69 operation=refunds.request role=customer code=TRANSACTION_CONFLICT result=409
+[2026-11-23 23:17:21,210] INFO in __init__: request_id=d8eb723670b94e9da3b42bfe310d0c84 operation=usage.create role=customer code=OK result=200
+[2026-11-23 23:17:21,876] INFO in __init__: request_id=938a281af45c474ead327f201314b1ff operation=balances.list role=customer code=OK result=200
+ok
+test_database_unavailable_is_sanitized (test_webapp.HttpBoundaryTests.test_database_unavailable_is_sanitized) ... [2026-11-23 23:17:21,929] ERROR in dao: database_failure request_id=fc1cf2223c3f464b8e53c7dd3988032c operation=products.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-23 23:17:21,929] INFO in __init__: request_id=fc1cf2223c3f464b8e53c7dd3988032c operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+ok
+test_disconnect_cleanup_does_not_mask_service_unavailable (test_webapp.HttpBoundaryTests.test_disconnect_cleanup_does_not_mask_service_unavailable) ... [2026-11-23 23:17:21,986] ERROR in dao: database_failure request_id=5d62b25b45434270986df7918d70efff operation=products.list role=guest sqlstate=08S01 native_codes=
+[2026-11-23 23:17:21,990] WARNING in dao: connection_cleanup_failed request_id=5d62b25b45434270986df7918d70efff operation=products.list
+[2026-11-23 23:17:21,994] INFO in __init__: request_id=5d62b25b45434270986df7918d70efff operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+ok
+test_invalid_operation_not_exposed (test_webapp.HttpBoundaryTests.test_invalid_operation_not_exposed) ... [2026-11-23 23:17:22,055] INFO in __init__: request_id=4ef2228941ef44049128da18ff89a6e2 operation=unknown role=guest code=NOT_FOUND result=404
+ok
+test_login_rejects_structured_kind (test_webapp.HttpBoundaryTests.test_login_rejects_structured_kind) ... [2026-11-23 23:17:22,103] INFO in __init__: request_id=30d25e51a6184cf594bb70815d2a3e3a operation=current_identity role=guest code=OK result=200
+[2026-11-23 23:17:22,108] INFO in __init__: request_id=1357a9c88bb0460084979d711180fa41 operation=login role=guest code=INVALID_INPUT result=400
+ok
+test_mutation_requires_csrf_before_database (test_webapp.HttpBoundaryTests.test_mutation_requires_csrf_before_database) ... [2026-11-23 23:17:22,153] INFO in __init__: request_id=a96afbcc4e3741cdb7357af348efcd42 operation=orders.create_15 role=guest code=CSRF_REJECTED result=403
+ok
+test_shell_and_security_headers (test_webapp.HttpBoundaryTests.test_shell_and_security_headers) ... [2026-11-23 23:17:22,232] INFO in __init__: request_id=5f63c54c7b914d3daf0432f975eb7ef8 operation=index role=guest code=OK result=200
+ok
+test_unknown_api_is_json (test_webapp.HttpBoundaryTests.test_unknown_api_is_json) ... [2026-11-23 23:17:22,288] INFO in __init__: request_id=e3d93eee26bf4ea7bc64365ff4f077b0 operation=unknown role=guest code=NOT_FOUND result=404
+ok
+test_extension_uses_guarded_entry_and_own_log (test_week10_prepare.Week10PreparationTests.test_extension_uses_guarded_entry_and_own_log) ... ok
+test_help_exposes_opt_in_without_connecting (test_week10_prepare.Week10PreparationTests.test_help_exposes_opt_in_without_connecting) ... ok
+test_rejects_unbounded_database_before_running_sql (test_week10_prepare.Week10PreparationTests.test_rejects_unbounded_database_before_running_sql) ... ok
+test_explicit_extension_and_narrow_grant (test_week10_sql.Week10SourceTests.test_explicit_extension_and_narrow_grant) ... ok
+test_adjustment_audit_and_same_key_idempotency (test_week10_sql.Week10SqlTests.test_adjustment_audit_and_same_key_idempotency) ... ok
+test_adjustment_ledger_failure_rolls_back_four_tables (test_week10_sql.Week10SqlTests.test_adjustment_ledger_failure_rolls_back_four_tables) ... ok
+test_discount_payment_fifo_partial_refund_and_repeat_refund (test_week10_sql.Week10SqlTests.test_discount_payment_fifo_partial_refund_and_repeat_refund) ... ok
+test_discount_thresholds_and_invalid_values (test_week10_sql.Week10SqlTests.test_discount_thresholds_and_invalid_values) ... ok
+test_draft_amount_overflow_rolls_back_without_partial_order (test_week10_sql.Week10SqlTests.test_draft_amount_overflow_rolls_back_without_partial_order) ... ok
+test_draft_repricing_add_set_delete_and_price_snapshot (test_week10_sql.Week10SqlTests.test_draft_repricing_add_set_delete_and_price_snapshot) ... ok
+test_duplicate_json_fields_are_rejected_at_runtime_boundary (test_week10_sql.Week10SqlTests.test_duplicate_json_fields_are_rejected_at_runtime_boundary) ... ok
+test_invalid_account_product_operator_and_pair_are_rejected (test_week10_sql.Week10SqlTests.test_invalid_account_product_operator_and_pair_are_rejected) ... ok
+test_invalid_quantity_and_reason_do_not_write (test_week10_sql.Week10SqlTests.test_invalid_quantity_and_reason_do_not_write) ... ok
+test_legacy_draft_preserves_zero_discount (test_week10_sql.Week10SqlTests.test_legacy_draft_preserves_zero_discount) ... ok
+test_operation_key_parameter_conflict_rolls_back (test_week10_sql.Week10SqlTests.test_operation_key_parameter_conflict_rolls_back) ... ok
+test_payment_lot_failure_rolls_back_order_balance_and_lots (test_week10_sql.Week10SqlTests.test_payment_lot_failure_rolls_back_order_balance_and_lots) ... ok
+test_refund_ledger_failure_rolls_back_balance_lots_and_refund (test_week10_sql.Week10SqlTests.test_refund_ledger_failure_rolls_back_balance_lots_and_refund) ... ok
+test_replenishment_boundaries_defaults_and_invalid_values (test_week10_sql.Week10SqlTests.test_replenishment_boundaries_defaults_and_invalid_values) ... ok
+test_rounding_is_per_line (test_week10_sql.Week10SqlTests.test_rounding_is_per_line) ... ok
+test_runtime_boundary_rejects_forged_fields_and_structured_quotas (test_week10_sql.Week10SqlTests.test_runtime_boundary_rejects_forged_fields_and_structured_quotas) ... ok
+test_runtime_cannot_execute_internal_week10_objects (test_week10_sql.Week10SqlTests.test_runtime_cannot_execute_internal_week10_objects) ... ok
+test_sales_empty_invalid_and_maximum_end_date (test_week10_sql.Week10SqlTests.test_sales_empty_invalid_and_maximum_end_date) ... ok
+test_sales_inclusive_dates_use_payment_time (test_week10_sql.Week10SqlTests.test_sales_inclusive_dates_use_payment_time) ... ok
+test_sales_two_results_distinct_orders_refunded_and_pending (test_week10_sql.Week10SqlTests.test_sales_two_results_distinct_orders_refunded_and_pending) ... ok
+test_two_connections_payment_credits_exactly_once (test_week10_sql.Week10SqlTests.test_two_connections_payment_credits_exactly_once) ... ok
+test_two_connections_same_key_and_competing_debits (test_week10_sql.Week10SqlTests.test_two_connections_same_key_and_competing_debits) ... ok
+test_underflow_and_bigint_extremes_roll_back (test_week10_sql.Week10SqlTests.test_underflow_and_bigint_extremes_roll_back) ... ok
+test_week10_app_json_and_strict_dates (test_week10_sql.Week10SqlTests.test_week10_app_json_and_strict_dates) ... ok
+test_week10_authorization_and_forged_actor (test_week10_sql.Week10SqlTests.test_week10_authorization_and_forged_actor) ... ok
+test_adjustment_signed_range_and_forgery (test_week10_web.Week10WebTests.test_adjustment_signed_range_and_forgery) ... [2026-11-23 23:17:32,962] INFO in __init__: request_id=f92a6a4402bc42d9b7658f4093c305d7 operation=inventory.adjustments.create role=admin code=OK result=200
+[2026-11-23 23:17:32,966] INFO in __init__: request_id=01e769c677074ad6a8992ac8167ef04f operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:32,970] INFO in __init__: request_id=3a1b15058ef14216ad2c6516672813ab operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:32,978] INFO in __init__: request_id=02bae418cf2d47b4b56ae36686cadf66 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:32,983] INFO in __init__: request_id=7bf08ba993d64ea99b91542c8122f880 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:32,989] INFO in __init__: request_id=74099fb7523941a5b07d55da59fd9724 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:32,995] INFO in __init__: request_id=27b9b31fa6ad4791917d78d361719a9a operation=inventory.adjustments.create role=staff code=FORBIDDEN result=403
+ok
+test_dao_binds_week10_parameters_and_preserves_bigint (test_week10_web.Week10WebTests.test_dao_binds_week10_parameters_and_preserves_bigint) ... ok
+test_list_defaults_and_csrf (test_week10_web.Week10WebTests.test_list_defaults_and_csrf) ... [2026-11-23 23:17:33,195] INFO in __init__: request_id=3690a2b85bb64c76b9f960041e521c7e operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-23 23:17:33,201] INFO in __init__: request_id=b97bdf76a00341909a515babfab5cd0a operation=inventory.adjustments.create_2 role=guest code=CSRF_REJECTED result=403
+ok
+test_list_optional_filters (test_week10_web.Week10WebTests.test_list_optional_filters) ... [2026-11-23 23:17:33,246] INFO in __init__: request_id=68de7f843e9d42ad98501b19b31019d2 operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-23 23:17:33,254] INFO in __init__: request_id=9eafbb0c90354463aada5289d142c460 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,261] INFO in __init__: request_id=19fc9c38b2de47fabbd88a8d4c49ed5d operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,267] INFO in __init__: request_id=e4479de459d54e6d8f5433d5f68a0207 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,270] INFO in __init__: request_id=c463d5da5bdd4c029af3e657c41ce684 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,310] INFO in __init__: request_id=c1cbd9abc4754eb39761eeb96b6d7e63 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+ok
+test_numeric_sql_overflow_is_input_error (test_week10_web.Week10WebTests.test_numeric_sql_overflow_is_input_error) ... ok
+test_order_rejects_client_pricing (test_week10_web.Week10WebTests.test_order_rejects_client_pricing) ... [2026-11-23 23:17:33,437] INFO in __init__: request_id=928012d3b6814108b517fc960a5ac916 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,443] INFO in __init__: request_id=98a8081f8ac646b186bd409763383fbd operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,447] INFO in __init__: request_id=5ea3bae68ae842f68f84cfdc557ff811 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,451] INFO in __init__: request_id=589be287c23d44a4aaf732f8c5e38599 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,454] INFO in __init__: request_id=1d8e085a301c4507af4e495f2d3a9a6c operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,459] INFO in __init__: request_id=6b9dbf4b34cf467f8f8a3dfcf18f050a operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,464] INFO in __init__: request_id=7e41c9d2ab8646cea16ad9592de4448a operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,468] INFO in __init__: request_id=032d10c31c0d448d8252c9c4df82e307 operation=orders.create role=customer code=INVALID_INPUT result=400
+ok
+test_reason_uses_utf16_storage_limit (test_week10_web.Week10WebTests.test_reason_uses_utf16_storage_limit) ... [2026-11-23 23:17:33,522] INFO in __init__: request_id=d41a12f81a9546f2bb5648e39c071ec3 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,529] INFO in __init__: request_id=32711b204ffc41fbb838480a98ce75f8 operation=inventory.adjustments.create role=admin code=OK result=200
+ok
+test_recommendation_bigint_and_optional_minimum (test_week10_web.Week10WebTests.test_recommendation_bigint_and_optional_minimum) ... [2026-11-23 23:17:33,602] INFO in __init__: request_id=77d79a82b7ac40779421c6890528bc81 operation=restocks.recommendation role=staff code=OK result=200
+[2026-11-23 23:17:33,607] INFO in __init__: request_id=6f27598e726d46a6bcb5c780e0bfb4e0 operation=restocks.recommendation role=admin code=INVALID_INPUT result=400
+ok
+test_sales_validates_dates_and_roles (test_week10_web.Week10WebTests.test_sales_validates_dates_and_roles) ... [2026-11-23 23:17:33,663] INFO in __init__: request_id=5b9896a3420746298a91f3deb583a772 operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,668] INFO in __init__: request_id=a78cea75f09e444095c1ff10c9bdba0f operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-23 23:17:33,673] INFO in __init__: request_id=fe2369687af9467694af2351124c5067 operation=reports.sales role=staff code=OK result=200
+[2026-11-23 23:17:33,681] INFO in __init__: request_id=32a2ce78a6f946f5bea59b9482daaed5 operation=reports.sales role=customer code=FORBIDDEN result=403
+ok
+test_week10_bigint_list_total_preserves_precision (test_week10_web.Week10WebTests.test_week10_bigint_list_total_preserves_precision) ... ok
+test_wire_precision_and_errors (test_week10_web.Week10WebTests.test_wire_precision_and_errors) ... ok
+test_app_entries_set_actor_for_audit (test_week11_12_sql.Week11And12SourceTests.test_app_entries_set_actor_for_audit) ... ok
+test_old_entries_delegate_to_week12_transactions (test_week11_12_sql.Week11And12SourceTests.test_old_entries_delegate_to_week12_transactions) ... ok
+test_product_category_assignments_follow_product_lifecycle (test_week11_12_sql.Week11And12SourceTests.test_product_category_assignments_follow_product_lifecycle) ... ok
+test_triggers_handle_multiple_rows (test_week11_12_sql.Week11And12SourceTests.test_triggers_handle_multiple_rows) ... ok
+test_window_queries_cover_three_kinds (test_week11_12_sql.Week11And12SourceTests.test_window_queries_cover_three_kinds) ... ok
+test_category_cycle_is_rejected (test_week11_12_sql.Week11And12SqlTests.test_category_cycle_is_rejected) ... ok
+test_category_maintenance_script_cases_all_pass (test_week11_12_sql.Week11And12SqlTests.test_category_maintenance_script_cases_all_pass) ... ok
+test_descendants_for_each_node_kind (test_week11_12_sql.Week11And12SqlTests.test_descendants_for_each_node_kind) ... ok
+test_read_only_scripts_run (test_week11_12_sql.Week11And12SqlTests.test_read_only_scripts_run) ... ok
+test_transaction_script_cases_all_pass (test_week11_12_sql.Week11And12SqlTests.test_transaction_script_cases_all_pass) ... ok
+test_trigger_script_cases_all_pass (test_week11_12_sql.Week11And12SqlTests.test_trigger_script_cases_all_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 126 tests in 89.609s
+
+OK

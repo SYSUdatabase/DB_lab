@@ -209,3 +209,12 @@
 - [x] 终审对照讲义与 agent.md：补齐第12周用例对全部业务表的检查（T5 批次与完成时间；R2 审计、实际量与入库时间；R4 流水、总额度与审计），新增 R6（53312 补货单已关闭）与 R7（53313 可达性核对，本库不可触发）。新批次 WebXY1124B：触发器 14/14、事务 14/14、全量 unittest 124 项通过，见[记录](result/week12/WebXY1124B/README.md)。
 - [x] README 显眼处写明建库须加 `--with-week10 --with-week11 --with-week12`；README、分工表、第11周与第12周报告的证据链接改指 WebXY1124B，第11周报告验证表补 WebXY1123S 与 WebXY1124B；第11周报告补写删除订单的保护方式；第12周报告补分工链接。
 - [x] WebXY1123R、WebXY1123S 证据说明末尾补记暂存内容已写入 AI 使用记录。
+
+
+## 2026-11-23 第12周商品分类自动维护修正
+
+- [x] 用户人工发现第12周商品分类映射只在安装时生成，新增/删除商品后不会自动维护，要求修复并记录 AI 使用过程。
+- [x] `sql/week12/category.sql`：新增 `dbo.trg_W12_ProductCategoryAssignments`，在商品 INSERT、UPDATE 后按供应商和 Token 容量建立/更新叶子分类映射；商品映射外键增加 `ON DELETE CASCADE`，删除成功时自动清理映射。
+- [x] 新增 `sql/week12/test_category_maintenance.sql`，覆盖新增商品、OpenAI 容量跨越 100K、供应商变更为 Claude/Gemini/Other、删除级联清理，共 6 项；新增源检查和 SQL 回归到 `tests/test_week11_12_sql.py`。
+- [x] 新库 WebXY1124D 从空库构建至第12周：分类维护 6/6、触发器 14/14、事务 14/14；全量 unittest 126 项通过、0 跳过；Ruff 检查通过、38 个文件格式符合要求。证据见[WebXY1124D](result/week12/WebXY1124D/README.md)。
+- [x] 更新根 README、第12周 SQL README 与报告，移除“新建/修改商品不自动维护”的过期描述；同步更新 `docs/ai_usage_log.md` 与 `docs/ai使用文档.md`。

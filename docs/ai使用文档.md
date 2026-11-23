@@ -742,3 +742,18 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 **验证结果。** 新批次WebXY1124B以--with-week10 --with-week11 --with-week12从空库构建，各安装步骤PASS；触发器14/14、事务14/14，TRANCOUNT=0；tests/test_week11_12_sql.py 9项OK；全量unittest 124项OK、0跳过；ruff check与format --check（webapp tests tools）通过。cleanup_reproduction.ps1 -KeepEvidence核验PASS，数据库与备份已删除。
 
 **未完成事项。** depleted、suspended账号补货后不恢复可售待项目组决定；运行账户TokenHubWebR待重启后删除；第10周旧业务浏览器脚本未修；第13周并发实验未开始。
+
+
+### 第12周商品分类自动维护修正（2026-11-23）
+
+**问题与人工发现。** 阮依成指出第12周商品分类映射只在安装时生成，后续新增、删除商品不会自动维护，要求修复并记录本次人工发现。此前报告中的“新建或修改商品不自动挂到分类”已不再适用于修正后的实现。
+
+**实现。** AI将维护逻辑放到数据库层：`dbo.Products` 的 AFTER INSERT、UPDATE 触发器按供应商和 Token 容量建立或调整 `w12.ProductCategoryAssignments`；OpenAI 按 100K 阈值映射到分类 8/9，Claude、Gemini、Other 映射到分类 5/6/7。商品删除成功时，映射表外键 `ON DELETE CASCADE` 自动清理对应映射。原递归函数保持不变，递归查询通过映射表读取当前分类。已有历史引用商品仍受原有保护规则限制。
+
+**改动文件。** `sql/week12/category.sql`、新增 `sql/week12/test_category_maintenance.sql`、`tests/test_week11_12_sql.py`、`sql/week12/README.md`、`report/week12_report.md`、根 `README.md`、`ROADMAP.md`，以及本 AI 使用文档和详细日志。
+
+**验证结果。** WebXY1124D 从空库构建至第12周；商品分类自动维护 6/6、触发器 14/14、事务 14/14；全量 unittest 126 项通过、0 失败、0 跳过；Ruff 检查通过，38 个文件格式符合要求。证据见[WebXY1124D](../result/week12/WebXY1124D/README.md)。
+
+**验证边界。** 删除级联只在商品本身符合原业务删除约束、能够成功删除时发生；有订单或调用历史的商品仍不能绕过既有外键和历史保护。
+
+**清理。** WebXY1124C、WebXY1124D 的三个测试数据库及本批次 SQL 备份均已通过 `cleanup_reproduction.ps1 -KeepEvidence` 删除，验收证据保留；原有演示数据库未修改。

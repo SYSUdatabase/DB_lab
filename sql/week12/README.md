@@ -6,24 +6,26 @@
 sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -v "DatabaseName=$env:DB_LAB_APP_DATABASE" -i sql/week12/install.sql
 sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -W -i sql/week12/recursive_query.sql
 sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -v "DatabaseName=$env:DB_LAB_APP_DATABASE" -i sql/week12/test_transactions.sql
+sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -i sql/week12/test_category_maintenance.sql
 ```
 
 新库可直接用 `tools/app_prepare.py --suffix <新后缀> --with-week10 --with-week11 --with-week12` 构建。
 
 | 文件 | 内容 |
 |---|---|
-| `category.sql` | 分类表 `w12.ProductCategories`、商品分类表、防环触发器、递归函数 `w12.fn_CategoryDescendants` 与样例层级 |
+| `category.sql` | 分类表 `w12.ProductCategories`、商品分类表、防环触发器、递归函数 `w12.fn_CategoryDescendants`、商品分类自动维护触发器与样例层级；商品删除通过 `ON DELETE CASCADE` 清理映射 |
 | `recursive_query.sql` | 层级结构说明、样例数据，以及根节点、中间节点、叶子节点、不存在编号四次递归查询，只读 |
 | `order_transaction.sql` | 订单完成事务 `w12.usp_CompleteOrder(@order_id)`，原支付过程改为调用它 |
 | `restock_transaction.sql` | 补货入库事务 `w12.usp_ReceiveRestock(@task_id, @actual_amount)`，原补货完成过程改为调用它 |
-| `test_transactions.sql` | 12 个用例：两项事务各自的正常提交、中途失败回滚、重复调用、规则拒绝、原入口调用，以及账务一致性检查 |
+| `test_transactions.sql` | 14 个用例：两项事务各自的正常提交、中途失败回滚、重复调用、规则拒绝、原入口调用，以及账务一致性检查 |
+| `test_category_maintenance.sql` | 6 个用例：新增商品、OpenAI 容量阈值变化、供应商变化（Claude/Gemini/Other）、删除级联清理；检查递归查询可见性和叶子分类 |
 | `install.sql` | 增量安装入口 |
 
 调用顺序：准备补货单或待支付订单 → 调用事务过程（或经 Web 的“完成补货”“模拟支付”）→ 查询订单、余额、批次、库存、流水、审计和单据核对结果。测试连接可设置会话上下文 `w12.fail_point` 为 `order_after_credit` 或 `restock_after_inventory`，在部分数据已写入后主动抛错，验证回滚。故障点留在正式过程中，任何连接只能设置自己会话的值，作用仅是让本次调用失败并回滚。
 
 订单完成事务在核对可售余量之前先以 `UPDLOCK,HOLDLOCK` 锁住本单涉及供应商的上游账号行，同一供应商的并发完成在此排队，避免两个事务在已售批次上互相等待而死锁。直接 SQL 在自己开的事务中调用时，事务过程出错会连同调用者此前的改动一起回滚。
 
-商品分类只在安装时按供应商和容量挂一次，新建或修改的商品不会自动挂到分类，也不限制只挂叶子分类。补货可以入库到 depleted、suspended 账号，但不会恢复其可售状态（原有行为，未改）。
+商品分类在安装时先为已有商品建立初始映射；之后由 `dbo.trg_W12_ProductCategoryAssignments` 在商品 INSERT、UPDATE 后自动建立或更新映射。OpenAI 按 Token 数量是否超过 100K 分到分类 8/9，Claude、Gemini、Other 分别对应分类 5/6/7。商品删除成功时，`ProductCategoryAssignments.product_id` 的 `ON DELETE CASCADE` 自动删除映射。Web 商品维护和直接 SQL 写入都经过同一数据库触发器；有订单或调用历史的商品仍受既有历史保护和外键约束，不能绕过这些规则删除或变更供应商。递归函数本身不变，查询通过分类映射表关联商品即可看到最新归属。补货可以入库到 depleted、suspended 账号，但不会恢复其可售状态（原有行为，未改）。
 
 | 错误号 | 含义 |
 |---|---|
@@ -39,4 +41,4 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 | 54420 | 分类层级会成环或超过 32 层 |
 | 54490、54491 | 测试故障点触发的回滚 |
 
-53131、53311 只在直接调用事务过程时出现：经 Web 的“模拟支付”“完成补货”在调用前由 `app.[Execute]` 检查状态，重复操作返回 55009，页面显示通用的 409 提示。53312、53313 暂无测试用例。其余错误号沿用原支付与补货过程。
+53131、53311 只在直接调用事务过程时出现：经 Web 的“模拟支付”“完成补货”在调用前由 `app.[Execute]` 检查状态，重复操作返回 55009，页面显示通用的 409 提示。53312 已由 `test_transactions.sql` 的 R6 覆盖；53313 由 R7 核对可达性，因四个供应商均有被订单引用的商品，当前样例库无法构造“供应商没有商品”的场景，故保留为防御性检查。其余错误号沿用原支付与补货过程。

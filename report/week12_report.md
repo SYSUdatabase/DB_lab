@@ -2,13 +2,14 @@
 
 ## 实现范围
 
-第12周增量装在第11周之后，安装入口为 `sql/week12/install.sql`，`tools/app_prepare.py --with-week10 --with-week11 --with-week12` 从空库复现。增量包括商品分类层级、递归查询函数、订单完成事务和补货入库事务；原支付过程与原补货完成过程改为调用新事务，Web 的“模拟支付”和“完成补货”随之换成新实现，页面和接口不变。
+第12周增量装在第11周之后，安装入口为 `sql/week12/install.sql`，`tools/app_prepare.py --with-week10 --with-week11 --with-week12` 从空库复现。增量包括商品分类层级、递归查询函数与商品分类自动维护、订单完成事务和补货入库事务；原支付过程与原补货完成过程改为调用新事务，Web 的“模拟支付”和“完成补货”随之换成新实现，页面和接口不变。
 
 | 对象 | 类型与用途 |
 |---|---|
 | w12.ProductCategories | 分类表，`parent_id` 引用本表，根节点为 NULL |
 | w12.ProductCategoryAssignments | 商品挂到叶子分类 |
 | w12.trg_CategoryNoCycle | 插入或修改父级后检查是否成环，超过 32 层同样拒绝（54420） |
+| dbo.trg_W12_ProductCategoryAssignments | 商品新增或更新后自动建立/调整分类映射；删除时由映射表外键级联清理 |
 | w12.fn_CategoryDescendants | 递归 CTE 内联函数，返回指定分类及全部后代 |
 | w12.usp_CompleteOrder | 订单完成事务 |
 | w12.usp_ReceiveRestock | 补货入库事务 |
@@ -21,7 +22,7 @@
 
 递归 CTE 的锚点只取指定编号，层级为 0；递归部分用 `子分类.parent_id = 上一层.category_id` 连接，层级加 1、路径追加本节点；没有更深的子分类时终止。路径列在两部分都转换为 `NVARCHAR(400)`。外键只保证父级存在，不能阻止成环，所以另加防环触发器；查询本身也排除路径中已出现的编号并限制 32 层，语句带 `OPTION (MAXRECURSION 32)`。
 
-| 起点 | 结果（原始输出见 [recursive_query.log](../result/week12/WebXY1124B/recursive_query.log)） |
+| 起点 | 结果（原始输出见 [recursive_query.log](../result/week12/WebXY1124D/recursive_query.log)） |
 |---|---|
 | 根节点 1 | 9 行，层级 0—3，例如 `/1/2/4/8/`：全部Token套餐 > 文本对话模型 > OpenAI套餐 > OpenAI小容量（≤100K） |
 | 中间节点 2 | 5 行：2、4、8、9、5，层级 0—2 |
@@ -30,7 +31,7 @@
 
 对照样例关系，各节点的父级、层级和路径均正确。脚本最后用函数列出分类 2 及其后代下的 7 个商品。
 
-商品与分类的对应关系只在安装时按供应商和容量一次性写入 `w12.ProductCategoryAssignments`：之后经 Web 新建的商品不会自动挂到分类，修改商品的供应商或容量后分类也不跟着变；该表不限制只能挂到叶子分类。因此分类层级目前只对安装时已有的 10 个商品完整，测试脚本新建的商品不出现在分类统计中。
+安装时先按供应商和容量为已有商品建立 `w12.ProductCategoryAssignments` 初始映射。之后由 `dbo.trg_W12_ProductCategoryAssignments` 在 `dbo.Products` 的 INSERT、UPDATE 后自动维护：OpenAI 按 `token_amount <= 100000` 分到分类 8，否则分到分类 9；Claude、Gemini、Other 分别分到分类 5、6、7。商品修改供应商或容量时，映射随之调整；商品删除成功时，`product_id` 外键的 `ON DELETE CASCADE` 自动清除映射。该触发器位于数据库层，Web 商品维护与直接 SQL 写入共用同一逻辑。递归函数本身不变，查询通过分类映射表关联商品即可得到最新归属。已有订单或调用历史的商品仍受历史保护与外键约束，不能通过修改分类映射绕过。
 
 ## 订单完成事务
 
@@ -70,7 +71,7 @@ Web 入口在调用事务过程之前先按订单或补货单状态检查：已�
 
 ## 提交、回滚与重复调用验证
 
-测试脚本 `sql/week12/test_transactions.sql` 在 WebXY1124B 新库上运行，14 项全部符合，结束时 `@@TRANCOUNT=0`（WebXY1123H、WebXY1123S、WebXY1124A 三批为补充用例前的 12 项版本，均全部符合）。逐条的“初始数据—操作—预期结果—实际结果”见[验证记录](../result/week12/WebXY1124B/README.md)，摘要如下。
+测试脚本 `sql/week12/test_transactions.sql` 在 WebXY1124D 新库上运行，14 项全部符合，结束时 `@@TRANCOUNT=0`。新增 `sql/week12/test_category_maintenance.sql` 的 6 项商品分类维护用例也全部符合。逐条的“初始数据—操作—预期结果—实际结果”见[最新验证记录](../result/week12/WebXY1124D/README.md)，事务摘要如下。
 
 | 业务 | 用例 | 结果 |
 |---|---|---|
@@ -87,6 +88,7 @@ Web 入口在调用事务过程之前先按订单或补货单状态检查：已�
 | 补货 | 已关闭（failed）的补货单入库 | 53312，库存、总额度、流水、审计不变，单据仍 failed |
 | 补货 | 53313 可达性 | 四个供应商都有被订单引用的商品，53313 在本库不可触发 |
 | 一致性 | 用例结束后核对 | 库存等于总额度减已用，顾客余额等于其未消费批次合计 |
+| 商品分类 | 新增、更新、删除 | 6/6：新增 OpenAI 小容量商品自动映射到分类 8；容量超过 100K 转分类 9；供应商变更为 Claude/Gemini/Other 分别转分类 5/6/7；删除后商品及映射均不存在 |
 
 故障点用会话上下文 `w12.fail_point` 触发，只在测试连接中设置；失败发生在已经写入部分数据之后，用来证明回滚有效，而不是在执行前拒绝参数。故障点保留在正式过程中：任何连接（包括受限运行身份）都可以给自己的会话设置这个值，效果只是让本连接这一次调用报错并整体回滚，不能改动数据；会话上下文按连接隔离，Web 每个请求新开连接且关闭连接池，因此也影响不到其他请求。
 
@@ -107,9 +109,7 @@ Web 入口在调用事务过程之前先按订单或补货单状态检查：已�
 
 ## 全量回归
 
-在同一新库运行 `python -m unittest discover -s tests -v`，数据库相关环境变量全部指向 WebXY1124A：124 项通过，0 失败、0 错误、0 跳过，[日志](../result/week12/WebXY1124A/full_unittest.log)。其中 9 项为本周新增的 `tests/test_week11_12_sql.py`，其余为原有的 SQL、HTTP 集成、故障注入和第10周测试，覆盖 Web“模拟支付”与“完成补货”经新事务的完整路径。Ruff 检查与格式检查通过。
-
-补齐用例检查后，在 WebXY1124B 新库重跑全量 unittest：124 项通过，0 失败、0 跳过，[日志](../result/week12/WebXY1124B/full_unittest.log)。
+在新库 WebXY1124D 运行 `python -m unittest discover -s tests -v`：126 项通过，0 失败、0 错误、0 跳过，[日志](../result/week12/WebXY1124D/full_unittest.log)。其中 `tests/test_week11_12_sql.py` 有 11 项测试，新增源文件检查与商品分类维护 SQL 回归；其余为原有 SQL、HTTP 集成、故障注入和第10周测试。Ruff 检查与格式检查通过（[日志](../result/week12/WebXY1124D/ruff.log)）。
 
 第一次验收批次 WebXY1123F 的全量测试有 3 项失败、8 项错误：可售余量把顾客 Token 当作上游库存比较，测试商品的两者相差很大而被误拒；另有第11周测试 A3 改库存时没有写流水，期初库存核对发现不一致。修正后在 WebXY1123H 重新构建，经过见[失败批次说明](../result/week12/WebXY1123F/README.md)。
 
@@ -119,8 +119,7 @@ Web 入口在调用事务过程之前先按订单或补货单状态检查：已�
 
 第13周的锁等待、隔离级别和死锁实验将以这两个事务为对象。本周没有改动页面，Web 入口沿用原有路由，因此没有新增截图；Web 路径通过全量测试中的 HTTP 集成用例覆盖。普通 Windows 受限账户下的运行验收已于 2026-11-23 补做，覆盖第10—12周的写入，见[WebXY1123R](../result/stage2/WebXY1123R/README.md)；第10周旧业务浏览器脚本与现界面不符，仍未重跑。
 
-已知限制（本周未改代码，待项目组决定）：
+仍待项目组决定的限制：
 
 - 补货允许 depleted、suspended 状态的账号入库，但入库后不改变账号状态，而可售余量只统计 active 账号，所以这部分补货不会增加可售余量。这是原补货过程已有的行为。
-- 分类只在安装时挂一次，新建或修改商品不自动维护，见“层级递归查询”一节。
 - Web 重复操作只显示通用的 409 提示，不区分“订单已完成”“补货单已入库”。

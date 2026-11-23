@@ -1,0 +1,50 @@
+﻿== 样例数据：分类表与各叶子分类下的商品数
+category_id parent_id name product_count
+----------- --------- ---- -------------
+1 NULL 全部Token套餐 0
+2 1 文本对话模型 0
+3 1 多模态与其他 0
+4 2 OpenAI套餐 0
+5 2 Claude套餐 3
+6 3 Gemini套餐 3
+7 3 其他供应商套餐 6
+8 4 OpenAI小容量（≤100K） 2
+9 4 OpenAI大容量（>100K） 2
+== 根节点：category_id=1
+category_id parent_id level id_path name_path
+----------- --------- ----- ------- ---------
+1 NULL 0 /1/ 全部Token套餐
+2 1 1 /1/2/ 全部Token套餐 > 文本对话模型
+4 2 2 /1/2/4/ 全部Token套餐 > 文本对话模型 > OpenAI套餐
+8 4 3 /1/2/4/8/ 全部Token套餐 > 文本对话模型 > OpenAI套餐 > OpenAI小容量（≤100K）
+9 4 3 /1/2/4/9/ 全部Token套餐 > 文本对话模型 > OpenAI套餐 > OpenAI大容量（>100K）
+5 2 2 /1/2/5/ 全部Token套餐 > 文本对话模型 > Claude套餐
+3 1 1 /1/3/ 全部Token套餐 > 多模态与其他
+6 3 2 /1/3/6/ 全部Token套餐 > 多模态与其他 > Gemini套餐
+7 3 2 /1/3/7/ 全部Token套餐 > 多模态与其他 > 其他供应商套餐
+== 中间节点：category_id=2
+category_id parent_id level id_path name_path
+----------- --------- ----- ------- ---------
+2 1 0 /2/ 文本对话模型
+4 2 1 /2/4/ 文本对话模型 > OpenAI套餐
+8 4 2 /2/4/8/ 文本对话模型 > OpenAI套餐 > OpenAI小容量（≤100K）
+9 4 2 /2/4/9/ 文本对话模型 > OpenAI套餐 > OpenAI大容量（>100K）
+5 2 1 /2/5/ 文本对话模型 > Claude套餐
+== 叶子节点：category_id=8
+category_id parent_id level id_path name_path
+----------- --------- ----- ------- ---------
+8 4 0 /8/ OpenAI小容量（≤100K）
+== 不存在的编号：category_id=999
+category_id parent_id level id_path name_path
+----------- --------- ----- ------- ---------
+结果为空：分类不存在
+== 某分类及其全部后代下的商品（以中间节点 2 为例，经函数调用）
+category_id level name_path product_id product_name
+----------- ----- --------- ---------- ------------
+8 2 文本对话模型 > OpenAI套餐 > OpenAI小容量（≤100K） 1 OpenAI 50K Token包
+8 2 文本对话模型 > OpenAI套餐 > OpenAI小容量（≤100K） 2 OpenAI 100K Token包
+9 2 文本对话模型 > OpenAI套餐 > OpenAI大容量（>100K） 3 OpenAI 500K Token包
+9 2 文本对话模型 > OpenAI套餐 > OpenAI大容量（>100K） 4 OpenAI 1M Token包
+5 1 文本对话模型 > Claude套餐 5 Claude 100K Token包
+5 1 文本对话模型 > Claude套餐 6 Claude 500K Token包
+5 1 文本对话模型 > Claude套餐 7 Claude 1M Token包
