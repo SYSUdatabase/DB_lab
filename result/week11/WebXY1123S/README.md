@@ -25,3 +25,5 @@ A7 执行时 Other 供应商只有 1 个商品，该用例本身体现的是“�
 ## 待写入 AI 使用记录的内容（暂存）
 
 AI 使用文档的修改正等待肖懿确认，本轮内容先记于此：AI 提出两项对齐讲义的修改，肖懿同意——数据库状态值保持 `paid`，文档与测试记录统一写“已完成（paid）”；新增视图把审计记录对应到受影响的商品编号，不改原表，测试覆盖该视图。按肖懿安排在受限账户验收之后实施。改动文件：`sql/week11/trigger.sql`（说明与视图）、`sql/week11/test_trigger.sql`（显示文字、A7、视图输出）、`sql/week12/test_transactions.sql`（显示文字）、`sql/week11/README.md`、`report/week11_report.md`、`report/week12_report.md`、`ROADMAP.md`。复测结果见上表。
+
+（2026-11-23 补记）上面暂存的内容已写入 [AI 使用文档](../../../docs/ai使用文档.md) 与 [详细日志](../../../docs/ai_usage_log.md)。

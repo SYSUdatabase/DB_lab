@@ -726,3 +726,19 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 **验证结果。** 新批次WebXY1124A从空库构建至第12周：事务测试12/12、tests/test_week11_12_sql.py 9项OK、全量unittest 124项OK、ruff检查与格式检查通过。并发压测（6顾客×20单）修改前直接SQL死锁84/120、经Web 83/120，修改后两者均120/120成功，一致性核对无差异。数据库与备份经清理脚本删除、核验PASS，证据保留。
 
 **未完成事项。** 本轮提交未推送，等待肖懿同意；问题②—⑤未改代码；第13周并发实验未开始。
+
+### 第11—12周终审与修改（2026-11-23）
+
+**问题/原始要求。** 推送87d96a7后，肖懿要求再检查是否符合任务讲解，看还有没有没解决的问题。AI另开会话，对照两份讲义与agent.md逐条检查87d96a7，只查不改。
+
+**AI终审结论。** 主体符合讲义；列出8点：① 讲义要求“检查涉及的全部业务表”，T5未查批次，R2未查审计表、补货单实际量与入库时间，R4未查流水与总额度，53312、53313无用例；② ROADMAP未记第12周死锁修正；③ README、分工表的证据链接仍指向旧批次，第11周报告验证表缺WebXY1123S；④ WebXY1123R、WebXY1123S证据说明仍留有“暂存、等待肖懿确认”段落；⑤ 第11—12周扩展须加参数才安装，默认建库不含新实现；⑥ 第12周报告未写分工；⑦ 第11周报告未说明删除订单如何处理；⑧ ROADMAP第10周旧条目“尚未执行”与实际不符。
+
+**用户决定。** 肖懿决定“继续改”，8点全部按AI建议处理：第5点不改默认安装，只在README显眼处写明参数；第8点不改原文，在其下追加说明。
+
+**执行中的偏差。** 53313（供应商无商品）无法在本库构造：供应商取值受CHECK限制为四个，被订单引用的商品不能改供应商、不能删除，四个供应商都有被引用商品。AI未伪造场景，改为新增R7核对这一前提，并在报告中写明53313为防御性检查。用户转达中写的“11-24修死锁”，按实际执行日期记为2026-11-23（批次名WebXY1124A）。删除订单的说明按实际约束写：有明细的订单受外键保护，被审计事件引用的订单由trg_W5_BlockDeleteReferencedOrders拒绝，Web只允许管理员删除空的pending或cancelled订单。
+
+**改动文件。** sql/week12/test_transactions.sql（T5、R2、R4补检查，新增R6、R7）；README.md、ROADMAP.md、docs/team_division.md、report/week11_report.md、report/week12_report.md；result/stage2/WebXY1123R/README.md、result/week11/WebXY1123S/README.md末尾追加补记；新增result/week12/WebXY1124B/。
+
+**验证结果。** 新批次WebXY1124B以--with-week10 --with-week11 --with-week12从空库构建，各安装步骤PASS；触发器14/14、事务14/14，TRANCOUNT=0；tests/test_week11_12_sql.py 9项OK；全量unittest 124项OK、0跳过；ruff check与format --check（webapp tests tools）通过。cleanup_reproduction.ps1 -KeepEvidence核验PASS，数据库与备份已删除。
+
+**未完成事项。** depleted、suspended账号补货后不恢复可售待项目组决定；运行账户TokenHubWebR待重启后删除；第10周旧业务浏览器脚本未修；第13周并发实验未开始。

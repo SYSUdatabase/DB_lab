@@ -46,6 +46,6 @@
 
 | 部分 | 负责人 | 内容 | 证据 |
 |---|---|---|---|
-| 第11周窗口查询与触发器测试结果 | **陈诗翰**（审阅并确认，AI辅助执行） | `window_query.sql` 排名、累计值、移动平均；第11周触发器测试脚本与结果记录 | [窗口查询](../sql/week11/window_query.sql)、[触发器验证记录](../result/week11/WebXY1123S/README.md) |
-| 第12周分类层级与递归查询、事务证据核对 | **阮依成**（审阅并确认，AI辅助执行） | 分类层级表与 `recursive_query.sql`（根、中间、叶子、不存在编号）；第12周事务测试证据逐条核对 | [递归查询](../sql/week12/recursive_query.sql)、[事务验证记录](../result/week12/WebXY1123H/README.md) |
+| 第11周窗口查询与触发器测试结果 | **陈诗翰**（审阅并确认，AI辅助执行） | `window_query.sql` 排名、累计值、移动平均；第11周触发器测试脚本与结果记录 | [窗口查询](../sql/week11/window_query.sql)、[触发器验证记录](../result/week12/WebXY1124B/README.md) |
+| 第12周分类层级与递归查询、事务证据核对 | **阮依成**（审阅并确认，AI辅助执行） | 分类层级表与 `recursive_query.sql`（根、中间、叶子、不存在编号）；第12周事务测试证据逐条核对 | [递归查询](../sql/week12/recursive_query.sql)、[事务验证记录](../result/week12/WebXY1124B/README.md) |
 | 其余部分 | **肖懿**（组织实施与验收，AI辅助执行） | 两个触发器、订单完成与补货入库事务、Web 入口整合、复查修改、受限账户补验收、对齐讲义与文档 | [第11周报告](../report/week11_report.md)、[第12周报告](../report/week12_report.md)、[受限账户补做记录](../result/stage2/WebXY1123R/README.md) |

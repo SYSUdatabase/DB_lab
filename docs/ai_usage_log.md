@@ -851,3 +851,7 @@ README新增流程入口，同步ROADMAP及AI记录。只生成操作文档，PP
 - 更正：前文“Web支付经w12.usp_CompleteOrder加锁后核对，不受影响”仅指无超卖，未考虑死锁；原句保留。
 - 复测WebXY1124A：app_prepare退出0；test_transactions 12/12、TRANCOUNT=0；test_week11_12_sql 9 OK；全量124 OK；ruff check/format（webapp tests tools）通过，对全仓库运行时db_tools旧脚本20项原有问题，不在范围内未改。压测脚本stress.py、alter.py存入证据目录：修改后直接/Web均120/120；修改前（按文件去掉锁临时替换）直接死锁84/120、Web 83/120。首次压测修改前一轮因测试商品唯一键冲突未执行、恢复脚本有误，修正后整组重跑，日志为重跑结果。
 - 文档：week12_report.md补嵌套事务说明、Web重复操作55009、分类维护限制、表关系表、不重置数据的理由与用例依赖、未覆盖项、并发核对一节、已知限制；删去过时的“受限账户验收待补做”；证据链接改为WebXY1124A。sql/week12/README.md、根README同步。未推送。
+- 终审（另开AI会话，只读）：对照两份讲义与agent.md检查87d96a7，提出8点（用例未查全部业务表、ROADMAP缺死锁修正、证据链接指向旧批次、证据说明残留“暂存”段、扩展需加参数、第12周报告缺分工、未说明删除订单、ROADMAP第10周旧条目）。肖懿决定“继续改”，第5、8点按AI建议（不改默认安装、旧条目不改原文只追加）。
+- 测试脚本：T5补批次与paid_at；R2补审计、actual_amount、completed_at；R4补total_quota、流水、审计；新增R6（status='failed'补货单→53312）。53313在本库不可构造（供应商CHECK四值，trg_W6_ProductsHistory禁止改已引用商品供应商，四个供应商均有被引用商品），新增R7核对此前提，未伪造场景。
+- 复测WebXY1124B：app_prepare --with-week10 --with-week11 --with-week12退出0；test_trigger 14/14、test_transactions 14/14、TRANCOUNT=0；test_week11_12_sql 9 OK；全量124 OK；ruff check、format --check通过。启动方式：Win32_Process Create 运行带BOM的脚本，避免SSH断开中止；首次启动命令因PowerShell 5吞掉引号未执行，改为启动脚本后成功。清理-KeepEvidence PASS。
+- 文档：README开头写明建库参数及链接改指WebXY1124B；分工表链接改指WebXY1124B；第11周报告补删除订单保护、验证表补S与1124B、覆盖补A7；第12周报告补R6/R7、覆盖范围、分工链接；ROADMAP补死锁修正与终审两节，第10周旧条目下追加说明；R、S证据说明末尾补记已写入AI记录。用户转达的“11-24”按实际日期记为11-23。
