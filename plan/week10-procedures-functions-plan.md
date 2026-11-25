@@ -17,7 +17,7 @@
 - 当前为17张业务表与 `app.Sessions`。库存按 `Inventory.account_id` 管理，与上游账号一一配对。商品通过 `model_provider` 对应上游供应商。
 - 下单保存快照，支付发放余额与Token批次，调用扣上游库存，退款按明细 `subtotal` 和未消费批次比例计算。
 - 已有SQL过程覆盖订单创建/合并、支付、调用、补货、退款。本周扩展这些入口，页面取数据库计算结果。
-- 最新完整测试记录为 [WebFinal1106A](../result/stage2/WebFinal1106A/README.md) 的75项通过。受限Windows账户验收见 [WebXY1105F](../result/stage2/WebXY1105F/README.md)。本轮仅读取上述记录与源码。
+- 最新完整测试记录为 [WebFinal1106A](../archive/stage2/result/stage2/WebFinal1106A/README.md) 的75项通过。受限Windows账户验收见 [WebXY1105F](../archive/stage2/result/stage2/WebXY1105F/README.md)。本轮仅读取上述记录与源码。
 - 当前构建依赖 `sql/v01`、`sql/v10`、`sql/v11`、`db_tools/v11` 和 `sql/app`，新增内容接在 `tools/app_prepare.py` 的应用安装之后。
 
 ## 2. 第10周要求映射

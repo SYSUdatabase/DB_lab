@@ -69,7 +69,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 
 用户此次不是简单要求“生成一张漂亮的图”，而是连续细化**可编辑性、最少交叉、基数记号统一、信息删减、特殊 ER 语义和来源真实性**。AI 需要将每轮人工反馈落到可复现的项目源文件及验证脚本，并在修改的同时记录采用、拒绝、失败、验证与遗留，而不是修改完才按结果倒写一个“全部成功”的结论。
 
-详细过程同步到 [AI 使用详细日志](../../../docs/ai_usage_log.md)；可编辑图及审核依据见 [第五周交付入口](../../coursework/week5/README.md)、[特殊 ER 要素说明](../../coursework/week5/special_er_features.md)和[当前 QA 日志](../../../result/week5/qa_special_er.log)。
+详细过程同步到 [AI 使用详细日志](../../../docs/ai_usage_log.md)；可编辑图及审核依据见 [第五周交付入口](../../coursework/week5/README.md)、[特殊 ER 要素说明](../../coursework/week5/special_er_features.md)和[当前 QA 日志](../result/week5/qa_special_er.log)。
 
 
 ### 本次记录文档的校验补充
@@ -105,7 +105,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 - **失败与修正**：第一次迁移在验证最终视图数量时失败并回滚，发现选定 v0.1_A 源库只有 9 个视图，少正式定义的 `v_CustomerService`；在迁移脚本中补入官方视图及 manager/staff 权限。完整 VFY03 又查出源库 `v_InventoryStatus` 缺少官方的 `quota_headroom`，仅在目标副本对齐并整合至脚本。
 - **回归证据**：`sql/v10/regression.sql` 的 R01–R12 通过；与旧库双向对账、合法插入回滚、重复键/CHECK/FK 负例、角色权限与单独 VFY14 均通过。迁移前后非权限业务行 3763 条差异为 0；源数据库前后 SHA-256 一致。
 - **明确的未通过事项**：旧库本来存在订单早于注册 20、调用早于注册 402、上游有效性/provider 问题 225、历史余额负值事件 1，迁移副本四项数量不变。旧 VFY12/VFY13 **未通过**，不把规范化成功表述成旧历史数据全量正确。
-- **交付**：[第六周 README](../../coursework/week6/README.md)、[v1.0 数据字典](../../coursework/week6/data_dictionary_v10.md)、[可编辑 ER](../../coursework/week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../../coursework/week6/report_material.md)、[迁移](../../../sql/v10/migration.sql)、[回归](../../../sql/v10/regression.sql)、[验证日志](../../../result/week6/README.md)。
+- **交付**：[第六周 README](../../coursework/week6/README.md)、[v1.0 数据字典](../../coursework/week6/data_dictionary_v10.md)、[可编辑 ER](../../coursework/week6/er_diagram_v10.mmd)及 SVG/PNG、[报告](../../coursework/week6/report_material.md)、[迁移](../../../sql/v10/migration.sql)、[回归](../../../sql/v10/regression.sql)、[验证日志](../result/week6/README.md)。
 - **Python 检验**：原项目 `unittest` 共 22 项，12 项 PASS、10 项因未指定专用集成测试库 skipped（不能冒称通过）；第五周与第六周 ER QA 均通过。后续若要修复旧历史数据或适配 v1.0 写入生成器，需要另行决定改动范围；本次未执行第二次 commit/push。
 
 ## 2026-10-14：第五周遗留问题的 v1.1 隔离修复
@@ -143,7 +143,7 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 - **选择的代码基线**：检查提交历史，发现首个第六周提交为 `43b5112`，其父提交 `c8d4e64`（2026-10-10）为第六周开始前的最后提交。使用 `git archive` 冻结其 344 个 Git 跟踪文件，另写 Git 对象清单，不用当前最新版本冒充旧代码。压缩包及 SHA-256 见 [历史源码备份](../../week6-pre-migration/README.md)。
 - **实际复现**：从旧 ZIP 解压，在新的 `TokenHubDB_v01_W6Replay261014` 上运行历史 `run_v01.ps1`，全部 SQL/原 `verify.sql` 和签名通过；备份/校验/还原到新 `TokenHubDB_v10_W6Replay261014`，再运行规范化迁移、R01–R12 与 VFY01–VFY14，全部通过。
 - **发现并修正兼容性**：原本 `migration.sql` 只接受旧本地 v0.1_A 的 9 个视图；标准历史代码构建的 v0.1 有 10 个视图。将结构前置检查改为只接受这两种**已核实**的状态，缺少 `v_CustomerService` 时按正式代码补建，已有时保留；仍拒绝未知模式，没有弱化 14 表/17 FK、3394 汇总等前提。
-- **自动化复测**：新增 [`run_from_snapshot.ps1`](../../coursework/week6/reproduction/run_from_snapshot.ps1)，再次以新库名 `W6Auto261014` 执行整个流程：ZIP 哈希核对→解压→旧代码建库→COPY_ONLY/VERIFYONLY/还原→迁移→R01–R12→VFY01–VFY14→业务对账。全部通过，迁移前后 3763 条非权限业务结果差异 0。完整命令与日志见 [复现说明](../../coursework/week6/reproduction/README.md) 与 [执行证据](../../../result/week6/reproduction/README.md)。
+- **自动化复测**：新增 [`run_from_snapshot.ps1`](../../coursework/week6/reproduction/run_from_snapshot.ps1)，再次以新库名 `W6Auto261014` 执行整个流程：ZIP 哈希核对→解压→旧代码建库→COPY_ONLY/VERIFYONLY/还原→迁移→R01–R12→VFY01–VFY14→业务对账。全部通过，迁移前后 3763 条非权限业务结果差异 0。完整命令与日志见 [复现说明](../../coursework/week6/reproduction/README.md) 与 [执行证据](../result/week6/reproduction/README.md)。
 - **区分两种数据来源**：旧本地 v0.1_A 有 VFY12/VFY13 历史异常，本次没有修改它；完整通过的数据是**从迁移前代码全新生成的标准 v0.1 样例**，不能用标准样例的 PASS 掩盖旧库问题。v1.1 的后续业务约束单独保留，不混入此次 v0.1→v1.0 规范化脚本。
 - **边界**：所有复现数据库/物理文件/目录使用全新名称，未删除和覆盖原有数据库或备份；压缩包备份历史 Git 跟踪源代码，不包含未跟踪环境文件、SQL Server BAK/MDF/LDF 和 Git 历史数据库。未执行 commit/push。
 
@@ -162,11 +162,11 @@ AI 随后对照正式 DDL 核对**弱实体、存在依赖、多值属性、复�
 
 ## 2026-10-17 v1.1 退款与统一交付
 
-用户要求整合原基础修复与加固目录，补齐退款金额、已消费 Token 的差额处理及退款流水防重复。采用每个支付明细对应一个 Token 批次、调用 FIFO 扣减、退款只回收未消费余额、每订单唯一退款账本和待外部付款凭证结清的机制。独立一键部署验证结果见 [v1.1 统一说明](../../coursework/week6/v11/README.md) 与 [本轮回归](../../../result/week6/v11/Full261017D)；R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过。对外退款网关未接入，因此结算状态不能在无外部凭证的情况下宣称到账。
+用户要求整合原基础修复与加固目录，补齐退款金额、已消费 Token 的差额处理及退款流水防重复。采用每个支付明细对应一个 Token 批次、调用 FIFO 扣减、退款只回收未消费余额、每订单唯一退款账本和待外部付款凭证结清的机制。独立一键部署验证结果见 [v1.1 统一说明](../../coursework/week6/v11/README.md) 与 [本轮回归](../result/week6/v11/Full261017D)；R01–R12、VFY01–VFY14、X01–X10、Y01–Y04、RF01–RF06 通过。对外退款网关未接入，因此结算状态不能在无外部凭证的情况下宣称到账。
 
 ## 2026-10-17 SQL 三版本目录与独立重建
 
-用户指出原 `sql/` 目录仍以旧版 v0.1 为主，并要求将 SQL 拆为 `sql/v01`（原基线）、`sql/v10`（规范化迁移）、`sql/v11`（最新业务与退款），周次目录保留 ER、数据字典和 Python 部署入口。已执行文件迁移和所有引用更新，增加 [版本导航](../../../sql/README.md)。旧签名解析在 Windows PowerShell 中失败后，改用 `sqlcmd` 文件及 Python UTF-8 校验并复测。新隔离库中 v0.1、v1.0 历史复现及完整 v1.1 退款回归均通过；详细迭代、失败记录和结果见 [AI 操作日志](../../../docs/ai_usage_log.md) 与 [最终 v1.1 日志](../../../result/week6/v11/SqlTree261017A)。原始数据库、归档及报告正文未修改，未提交或推送。
+用户指出原 `sql/` 目录仍以旧版 v0.1 为主，并要求将 SQL 拆为 `sql/v01`（原基线）、`sql/v10`（规范化迁移）、`sql/v11`（最新业务与退款），周次目录保留 ER、数据字典和 Python 部署入口。已执行文件迁移和所有引用更新，增加 [版本导航](../../../sql/README.md)。旧签名解析在 Windows PowerShell 中失败后，改用 `sqlcmd` 文件及 Python UTF-8 校验并复测。新隔离库中 v0.1、v1.0 历史复现及完整 v1.1 退款回归均通过；详细迭代、失败记录和结果见 [AI 操作日志](../../../docs/ai_usage_log.md) 与 [最终 v1.1 日志](../result/week6/v11/SqlTree261017A)。原始数据库、归档及报告正文未修改，未提交或推送。
 
 ## 2026-10-21 第7–9周 Web 应用开始
 
@@ -405,7 +405,7 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 4. 仓库位于 `C:\Users\<用户>\Desktop`，运行账户 `Set-Location` 被拒绝（WebXY1105E）。AI 提出：改用用户目录外的仓库副本部署（AGENT.md 规定另建副本须用户明确同意）、手册补充部署位置要求、配置脚本开头检查并直接报错。肖懿同意三项一起做。
 5. 服务处理第一个请求后退出：`run_web.ps1` 在 `Stop` 模式下，Windows PowerShell 5.1 把重定向的 Flask stderr 日志当作终止错误（WebXY1105F 首次启动）。AI 加 1 行在启动前改为 `Continue`，成败仍由退出码判断；该处改动推送前经肖懿审阅确认。
 
-**改动文件。** `week6/v11/build_sandbox.py`、`tools/setup_web_runtime.ps1`、`tools/cleanup_reproduction.ps1`、`tools/run_web.ps1`、新增 `tools/batch_logon_right.ps1`；文档 README、ROADMAP、docs/webapp.md、docs/team_division.md、plan/week7-9-webapp-plan.md、result/stage2/README.md 及新的 [WebXY1105F 验收记录](../../../result/stage2/WebXY1105F/README.md)。网站代码与 SQL 脚本未改。
+**改动文件。** `week6/v11/build_sandbox.py`、`tools/setup_web_runtime.ps1`、`tools/cleanup_reproduction.ps1`、`tools/run_web.ps1`、新增 `tools/batch_logon_right.ps1`；文档 README、ROADMAP、docs/webapp.md、docs/team_division.md、plan/week7-9-webapp-plan.md、result/stage2/README.md 及新的 [WebXY1105F 验收记录](../result/stage2/WebXY1105F/README.md)。网站代码与 SQL 脚本未改。
 
 **验证结果与证据。** 实际执行：WebXY1105F 从空库构建全部 PASS；运行账户 `TokenHubWebF` 实际连接执行 runtime_identity.py，sysadmin=0、db_owner=0、三项越权操作拒绝、商品目录可读；SQL 端只属于 app_runtime；监听进程属主为该账户；对该服务重跑 Edge E2E，原业务 22 张/42 事件、员工管理 11 张/10 事件 PASS，截图抽查目视一致。配置脚本的用户目录检查做了反向测试：在用户目录内的仓库运行时直接拒绝，未创建任何账户。
 
@@ -425,7 +425,7 @@ DB_lab原目录重新安装依赖后，08_original_final_tests.log记录56项全
 
 **问题与原始要求。** 肖懿说明报告图注当初都由 AI 撰写，要求再检查 `report/stage2_report.md` 是否还有问题。AI 逐张打开 25 张截图与图注比对，列出问题：原图 14 图注称展示 `web_other` 的订单列表，图片实际是登录后的商品目录页；原图 22、23 截于“正在读取数据…”状态；原图 16 与原图 24 为同一文件；原图 17—21 仍显示修复前的“套餐名称 / 套餐 #undefined”而 8.2 节未说明；图 3、7、10、17、20、21、22 的图注写了图上看不到的内容；开头只列 WebEmp26A01、示例命令沿用已用过的后缀、图注格式不一致、第 9 节未注明 AI 辅助执行。肖懿查看原图 14 后确认有误，决定修复全部问题并重新截图。
 
-**改动。** 截图脚本 `tools/stage2_browser_e2e.py`（第二位顾客进入订单管理、断言看不到订单 #112 后截图，5 行）与 `tools/stage2_employee_browser.py`（两张店员截图前等待加载完成，2 行）；网站代码与 SQL 未改。报告替换图 14 与图 16—22 为新批次截图，删去与图 22 逐字节相同的原图 23 并顺延后续编号，图注只描述图上可见内容、其余注明由执行清单、SQL 对账或自动化测试核实，新增 9.4 节说明本次复核与重截。另更新 ROADMAP、组内分工，新增 [WebXY1106S 重截记录](../../../result/stage2/WebXY1106S/README.md)。
+**改动。** 截图脚本 `tools/stage2_browser_e2e.py`（第二位顾客进入订单管理、断言看不到订单 #112 后截图，5 行）与 `tools/stage2_employee_browser.py`（两张店员截图前等待加载完成，2 行）；网站代码与 SQL 未改。报告替换图 14 与图 16—22 为新批次截图，删去与图 22 逐字节相同的原图 23 并顺延后续编号，图注只描述图上可见内容、其余注明由执行清单、SQL 对账或自动化测试核实，新增 9.4 节说明本次复核与重截。另更新 ROADMAP、组内分工，新增 [WebXY1106S 重截记录](../result/stage2/WebXY1106S/README.md)。
 
 **验证结果与证据。** 实际执行：在肖懿电脑上以新后缀 WebXY1106S 从空库建库 PASS；本人账户启动预览服务（非受限账户核验）后运行两个脚本，原业务 22 张截图/42 条事件、员工管理 11 张截图/10 条事件 PASS；第二位顾客订单列表为空、越权请求 403。业务脚本首次运行在截第一张图时 Edge 报 `Unable to capture screenshot`，无业务事件，失败现场保留后重跑通过。新截图经目视抽查与图注一致；Ruff 检查通过。
 

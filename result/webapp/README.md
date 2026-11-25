@@ -7,14 +7,14 @@
 | 第7周先行 Web 验证 | [Web261021D](Web261021D/) | 先行完整准备、角色接口、原始 56 项测试及相关异常测试 |
 | 注册补全后的完整自动化测试 | [WebSign28A](WebSign28A/registration_unit_stderr.log) | 66 项 unittest 全通过、无失败/跳过 |
 | 最终浏览器验收数据库构建 | [WebStage2A02](WebStage2A02/) | 从 v0.1 → v1.0 → v1.1 → Web 的新库创建及安装过程 |
-| 最终 Edge 截图与数据库对账 | [最终验收索引](../stage2/WebStage2A02/README.md) | 22 张真页面截图、42 条操作/API 记录、25 项 SQL 核对 |
+| 最终 Edge 截图与数据库对账 | [最终验收索引](../../archive/stage2/result/stage2/WebStage2A02/README.md) | 22 张真页面截图、42 条操作/API 记录、25 项 SQL 核对 |
 | 用户当前的手动测试库 | [WebManualA01](WebManualA01/) | 5050 网站所连接的实验库准备记录；**不可误删或重建** |
 | 期初库存流水问题修复 | [opening_inventory_20261028](opening_inventory_20261028/README.md) | 独立检测、修复和账务前后对照 |
 
 **两名组员的人员验收顺序**：第一名陈诗翰在其环境先行测试，第二名阮依成亲自进入当前网站检查登录/订单并发现顾客注册缺失。完整 Edge 截图是自动化补充证据，不能将其表述为组员逐项手动截图。
 
-当前网站的支付、调用及退款结算为本地模拟。真正受限 Windows 服务账户的身份与 SQL 最小权限已在 2026-11-06 的独立新电脑验收中完成，见[WebXY1105F 跨机器记录](../stage2/WebXY1105F/README.md)。课程报告见[第二阶段报告](../../archive/stage2/report/stage2_report.md)。
+当前网站的支付、调用及退款结算为本地模拟。真正受限 Windows 服务账户的身份与 SQL 最小权限已在 2026-11-06 的独立新电脑验收中完成，见[WebXY1105F 跨机器记录](../../archive/stage2/result/stage2/WebXY1105F/README.md)。课程报告见[第二阶段报告](../../archive/stage2/report/stage2_report.md)。
 
 ## 第9周更新
 
-管理员工扩展在 WebEmp26A01 全新库从 v0.1 到 Web 安装 PASS；完整72项测试 PASS，真实Edge旧业务22张新截图及管理员工11张新截图，保存在[本轮第9周证据](../stage2/WebEmp26A01/README.md)。
+管理员工扩展在 WebEmp26A01 全新库从 v0.1 到 Web 安装 PASS；完整72项测试 PASS，真实Edge旧业务22张新截图及管理员工11张新截图，保存在[本轮第9周证据](../../archive/stage2/result/stage2/WebEmp26A01/README.md)。

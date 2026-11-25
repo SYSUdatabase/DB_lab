@@ -5,7 +5,7 @@
 - [x] 重新读取当前提交 `afbcf54`、项目文档、SQL与Web入口及第10周任务说明，确认顾客注册、员工管理和受限账户验收已有后续成果。
 - [x] 整理[第10周执行计划](../../plan/week10-procedures-functions-plan.md)，覆盖销售统计、库存校正、补货函数、销售TVF、折扣快照及页面整合。
 - [ ] 审核建议的金额阶梯折扣、管理员校正权限、补货阈值和成交统计口径后实施。第10周数据库对象、代码和运行验收尚未执行。
-  - 2026-11-23 补记：普通 Windows 受限账户运行验收已于 2026-11-23 补做，见 [WebXY1123R](../../result/stage2/WebXY1123R/README.md)；第10周数据库对象与代码的实施见下文“第10周P0实施”。
+  - 2026-11-23 补记：普通 Windows 受限账户运行验收已于 2026-11-23 补做，见 [WebXY1123R](../../result/week12/WebXY1123R/README.md)；第10周数据库对象与代码的实施见下文“第10周P0实施”。
 
 本文件只记录第二阶段的当前进度；第 1—4 周和整合前的完整执行过程保留在 [历史 ROADMAP](../coursework/week4/ROADMAP_combined_before_stage2.md)。详细技术过程见 [AI 日志](../../docs/ai_usage_log.md)。
 
@@ -16,7 +16,7 @@
 | 第 7 周 | 数据库基础代码（陈诗翰）、Web 四层结构和受控业务入口 | [sql/app](../../sql/app)、[Web 代码](../../webapp) |
 | 第 8 周 | 顾客注册与输入/角色检查、Web 完整测试、交付整理（阮依成） | [注册](../../sql/app/register.sql)、[集成测试](../../tests/test_registration.py)、[组内分工](../../docs/team_division.md) |
 | 第9周：陈诗翰 | 完成负责版本的后续测试与更新（按组内确认记录） | [分工](../../docs/team_division.md) |
-| 第9周：阮依成 | 补齐管理员工：新增、改名、密码重置、停用/启用、权限检查；重截业务与员工管理页面并更新报告 | [第9周新证据](../../result/stage2/WebEmp26A01/README.md)、[报告](report/stage2_report.md) |
+| 第9周：阮依成 | 补齐管理员工：新增、改名、密码重置、停用/启用、权限检查；重截业务与员工管理页面并更新报告 | [第9周新证据](result/stage2/WebEmp26A01/README.md)、[报告](report/stage2_report.md) |
 
 ## 2026-10-28 当前自动化验收结果
 
@@ -58,7 +58,7 @@
 - 陈诗翰继续进行其负责部分的测试和更新。
 - 阮依成发现管理端缺少员工管理；新增仅管理员可用的员工列表、创建/改名/重置密码、停用/启用。员工的业务历史通过软停用保存，不允许物理删除。
 - 真 Edge 对旧业务重新截图22张，新增员工管理真实截图11张；SQL只读对账25项通过。浏览器操作为AI辅助自动化，区别于组员人工测试。
-- 独立测试、日志、异常结果及截图位于 [WebEmp26A01](../../result/stage2/WebEmp26A01/README.md)。
+- 独立测试、日志、异常结果及截图位于 [WebEmp26A01](result/stage2/WebEmp26A01/README.md)。
 
 ## 2026-11-04 每次复现按 RunId 清理
 
@@ -78,15 +78,15 @@
 - [x] 在一台未部署过本项目的 Windows 10 家庭版电脑（SQL Server 2025 Express、Python 3.14）上从空库构建 `WebXY1105F`，全部阶段 PASS。
 - [x] 以普通 Windows 账户 `TokenHubWebF` 通过计划任务启动网站；该账户实际连接执行 `tools/runtime_identity.py`：sysadmin=0、db_owner=0，读基表/改商品/DDL 三项拒绝，商品目录可读。SQL 端只属于 `app_runtime`，Windows 端不属于任何本地组，5050 监听进程属主为该账户。
 - [x] 对该受限账户运行的服务重跑 Edge E2E：原业务 22 张截图/42 条事件、员工管理 11 张截图/10 条事件 PASS。
-- [x] 部署中发现并修正 5 个只在新电脑上出现的问题：回归脚本依赖原电脑的 `TokenHubDB_v01_A`；运行账户缺少批处理登录权限；`instance` 权限设置清空文件 DACL；仓库位于用户目录时运行账户无法进入；PowerShell 5.1 下 Flask 日志使启动脚本中止。改动 4 个已有脚本（新增 11 行、修改 2 行），另新增 35 行的 `tools/batch_logon_right.ps1`；网站代码与 SQL 未改。详见[验收记录](../../result/stage2/WebXY1105F/README.md)。
-- [x] 员工列表“套餐名称 / 套餐 #undefined”显示问题已于 2026-11-06 修复，真实 Edge 复核通过，见[修复后的截图与哈希](../../result/stage2/WebEmp26A01/ui_fix_20261106/manifest.json)。
+- [x] 部署中发现并修正 5 个只在新电脑上出现的问题：回归脚本依赖原电脑的 `TokenHubDB_v01_A`；运行账户缺少批处理登录权限；`instance` 权限设置清空文件 DACL；仓库位于用户目录时运行账户无法进入；PowerShell 5.1 下 Flask 日志使启动脚本中止。改动 4 个已有脚本（新增 11 行、修改 2 行），另新增 35 行的 `tools/batch_logon_right.ps1`；网站代码与 SQL 未改。详见[验收记录](result/stage2/WebXY1105F/README.md)。
+- [x] 员工列表“套餐名称 / 套餐 #undefined”显示问题已于 2026-11-06 修复，真实 Edge 复核通过，见[修复后的截图与哈希](result/stage2/WebEmp26A01/ui_fix_20261106/manifest.json)。
 
 - [x] 清理：重启电脑使运行账户用户配置卸载后，删除 TokenHubWeb、TokenHubWebE、TokenHubWebF 三个运行账户及其计划任务、SQL 登录、用户配置和 SeBatchLogonRight 授权，删除各批次数据库与备份，清除仓库根目录上的运行账户 ACE；核对 SeBatchLogonRight 恢复为系统默认三组、5050 无监听。WebXY1105D 曾先单独清理数据库，第二次带 `-RemoveRuntime` 运行时清理脚本因批次备份目录已不存在、回退到 msdb 历史路径检查而中止，D/E 两个账户按脚本相同步骤手动删除，清理脚本未为此修改。
 
 ## 2026-11-06 报告截图复核与重截（肖懿）
 
 - [x] 复核第二阶段报告 25 张截图与图注：原图 14 停在商品目录页、未显示第二位顾客的订单列表；原图 22、23 截于数据加载完成前；原图 16 与原图 24 重复；员工管理截图仍是姓名列修复前的界面；若干图注写了图上看不到的内容。
-- [x] 截图脚本修正 7 行（第二位顾客进入订单管理并断言看不到 #112；店员截图前等待加载完成），网站代码与 SQL 未改；新批次 `WebXY1106S` 从空库构建 PASS，原业务 22 张/42 事件、员工管理 11 张/10 事件 PASS，见[重截记录](../../result/stage2/WebXY1106S/README.md)。
+- [x] 截图脚本修正 7 行（第二位顾客进入订单管理并断言看不到 #112；店员截图前等待加载完成），网站代码与 SQL 未改；新批次 `WebXY1106S` 从空库构建 PASS，原业务 22 张/42 事件、员工管理 11 张/10 事件 PASS，见[重截记录](result/stage2/WebXY1106S/README.md)。
 - [x] 报告替换图 14 与图 16—22，删去与图 22 逐字节相同的原图 23，图注改为只描述图上可见内容，统一图注格式，补充各批次数据库说明和 AI 辅助执行说明。
 - [x] 清理：预览服务停止，`WebXY1106S` 三个数据库与两份备份按 RunId 删除并核验 PASS，保留证据目录。
 

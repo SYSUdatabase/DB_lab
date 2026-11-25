@@ -19,7 +19,7 @@ edges = re.findall(
     re.M,
 )
 tables = set(re.findall(r"^    (\w+)\s+\{$", model, re.M))
-raw_fks = (ROOT / "result/week6/regression/actual_fks.txt").read_text(encoding="utf-8-sig")
+raw_fks = (ROOT / "archive/stage2/result/week6/regression/actual_fks.txt").read_text(encoding="utf-8-sig")
 actual = [
     tuple(line.strip().split("|"))
     for line in raw_fks.splitlines()

@@ -14,7 +14,7 @@
 | **13** | 写入等待、读取隔离级别对照、反序死锁与同序更新、订单并发竞购 | [双会话脚本](sql/week13/README.md)、[第13周报告](report/week13_report.md) |
 
 第10周专项验证 **40项通过**。第12周隔离验收批次 `WebXY1124D` 中，商品分类维护 **6/6**、第11周触发器 **14/14**、第12周事务 **14/14**，全量 Python **126项通过、0跳过**；[原始验收记录](result/week12/WebXY1124D/README.md)。
-第13周独立批次 `WebW13Run03` 也完成了全量 Python **126 项通过、0 跳过**，并验证双会话等待、隔离、死锁与竞购；见[最新验收记录](result/week13/WebW13Run03/README.md)。
+第13周正式批次 `WebW13Run03` 完成全量 Python **126 项通过、0 跳过**，并验证双会话等待、隔离、死锁与竞购；后续 `WebW13Fix01` 完成新增专项3/3、并发实验和事务14/14复验。见[正式验收](result/week13/WebW13Run03/README.md)及[审查修复复验](result/week13/WebW13Fix01/README.md)。最终批次 **WebW13Final01** 从空库安装当前完整版本，统一运行 **129项 Python 测试全部通过、0跳过**，5类并发场景、触发器14/14、事务14/14、分类维护6/6及 Ruff 检查均通过；见[最终统一复验](result/week13/WebW13Final01/README.md)。
 
 [第三阶段组内分工](docs/team_division.md) · [AI使用文档](docs/ai使用文档.md) · [AI详细日志](docs/ai_usage_log.md)
 
@@ -109,6 +109,29 @@ $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 
 `WebW12Your01` 须换为未使用的后缀。建库后按 [第11周 SQL](sql/week11/README.md) 与 [第12周 SQL](sql/week12/README.md) 的命令运行测试脚本和只读查询；`test_category_maintenance.sql` 使用事务内临时商品并回滚，`test_transactions.sql` 会写入新的测试商品、订单和补货单，因此所有写入测试只在专用实验库上运行。全量 Python 测试另设 `DB_LAB_WEEK12_DATABASE` 指向同一 v1.1 库，其余变量同第10周。用完按下文“每次复现后的清理”删除本批次。
 
+## 两项业务事务的完整流程
+
+- **订单完成：** Web `orders.pay` → `app.[Execute]` → `dbo.usp_W6_PayPendingOrder` → `w12.usp_CompleteOrder`。在事务内锁定待支付订单和明细，验证买家、商品数量、金额与折扣快照；按供应商名称升序获取共用事务锁，锁定余额与上游账号，检查可售额度；增加顾客余额、更新订单为 paid、发放 Token 批次。订单完成规则触发器在同一事务内再次核验。任何一步失败均整体回滚；重复完成返回53131，可售不足返回53132。支付占用可售额度，物理库存于顾客实际调用时扣减。
+- **补货入库：** Web `restocks.complete` → `app.[Execute]` → `dbo.usp_W6_RestockAccount` → `w12.usp_ReceiveRestock`。锁定补货单、检查状态与实际到货量，取得对应供应商事务锁，锁定上游账号与库存；同时增加总额度及当前库存，写 InventoryLog、触发 InventoryAudit，最后更新单据为 completed，保存实际量与入库时间。核对库存=总额度−已用后提交；失败整体回滚，重复入库返回53311。
+- **事务边界：** Web 入口持有外层事务，内层提交不提前释放外层锁。两个事务均由 SQL Server 执行，异常时统一回滚。直接 SQL 测试通过会话故障点分别注入54490、54491，验证已写入的余额或库存、流水、审计及单据状态均恢复。
+
+实现及调用：[订单事务](sql/week12/order_transaction.sql)、[补货事务](sql/week12/restock_transaction.sql)、[第13周共用锁](sql/week13/provider_lock.sql)、[事务与故障注入结果](result/week13/WebW13Final01/test_transactions.log)。
+
+## 双会话操作顺序
+
+在独立实验库打开 A、B 和观察窗口，先执行 `sql/week13/init.sql`，A/B 分别执行 `session.sql` 确认 SPID、隔离级别和 RCSI；每次只选中对应脚本中的一个步骤执行，发生阻塞后用 `observe.sql` 采集锁与等待关系。
+
+| 实验 | A/B 执行顺序 | 预期结果 |
+|---|---|---|
+| 写等待 | A1 扣P×2 → B1 请求补货 → 观察 → A2提交；重置后改为A2回滚 | P=13或15，核对订单和补货状态 |
+| 脏读 | A1 未提交补货 → B1_ru读取 → A2回滚；重置后以B1_rc、B1_locking_rc对照 | RU读15；锁式RC等待后读10 |
+| 不可重复读 | A1_rc读10 → B1提交 → A2再次读；重置后 A1_rr → B1等待 → A2读10并提交 | RC读10、15；RR读10、10 |
+| 死锁 | A1锁P → B1_reverse锁Q → A2等待Q → B2_reverse请求P | 1205，失败事务回滚 |
+| 同序改进 | A1锁P → B1_ordered等待P → A2更新Q并提交 | 两边均提交，P=13、Q=11 |
+| 实际竞购 | 准备两个不同P×6订单 → A完成但不提交 → B完成并等待 → A提交 | 一单成功，另一单53132，可售余量4份 |
+
+每轮执行 `state.sql` 核对结果，确认两边事务计数为0，执行 `reset.sql` 后开始下一轮；实验结束恢复隔离设置，清理独立批次。脚本链接、各步骤和实际竞购夹具见[第13周完整操作说明](sql/week13/README.md)。
+
 ## 第三阶段从空库复现
 
 运行要求：Windows、Python 3.11+、SQL Server Express、ODBC Driver 18、PowerShell、`sqlcmd`；建库账号须有创建及备份还原实验库的权限。以下命令均在仓库根目录运行，用**从未使用的新后缀**创建隔离实验库。
@@ -119,15 +142,17 @@ if (-not (Test-Path .venv/Scripts/python.exe)) { python -m venv .venv }
 
 $ServerInstance = 'localhost\SQLEXPRESS'
 $Suffix = 'WebW13' + (Get-Date -Format 'ddHHmmss')
-$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
+$env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码（12—72 UTF-8 字节）'
 .\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix --with-week10 --with-week11 --with-week12
 if ($LASTEXITCODE -ne 0) { throw '第10—12周数据库准备失败' }
 
 $env:DB_LAB_SERVER = $ServerInstance
+$env:DB_LAB_TEST_SERVER = $ServerInstance
 $env:DB_LAB_TEST_DATABASE = "TokenHubDB_v01_$Suffix"
 $env:DB_LAB_APP_DATABASE = "TokenHubDB_v11_$Suffix"
 $env:DB_LAB_WEEK10_DATABASE = $env:DB_LAB_APP_DATABASE
 $env:DB_LAB_WEEK12_DATABASE = $env:DB_LAB_APP_DATABASE
+$env:DB_LAB_WEEK13_DATABASE = $env:DB_LAB_APP_DATABASE
 $env:DB_LAB_PREVIEW = '1'
 $env:DB_LAB_SECRET = [Guid]::NewGuid().ToString('N') + [Guid]::NewGuid().ToString('N')
 ```

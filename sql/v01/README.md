@@ -29,7 +29,7 @@
 
 - [migration.sql](../v10/migration.sql)：仅允许在已备份并还原、且尚未迁移的 `TokenHubDB_v10_W6_20261014` 上执行。统一统计周期迁入 `dbo.UsagePeriod`，原汇总表成为 `dbo.UsageSummaryCore`，兼容只读视图 `dbo.UsageSummary` 恢复旧列。事务失败回滚，禁止将脚本指向原 `TokenHubDB_v01_A` 或重复运行。
 - [regression.sql](../v10/regression.sql)：仅对迁移后的隔离副本运行，校验 15 张表/18 FK/11 视图、汇总无损连接、旧订单/销售/库存/余额/调用双向等价、合法与非法写入、四类角色权限以及原库未变。
-- 完整分析及现有数据限制见 [week6 README](../../archive/coursework/week6/README.md) 和 [结果记录](../../result/week6/README.md)。旧 `02_insert_data.sql` / `run_v01.ps1` 保留为 v0.1 的原始复现入口，不能直接作为 v1.0 的写入/重建脚本使用。
+- 完整分析及现有数据限制见 [week6 README](../../archive/coursework/week6/README.md) 和 [结果记录](../../archive/stage2/result/week6/README.md)。旧 `02_insert_data.sql` / `run_v01.ps1` 保留为 v0.1 的原始复现入口，不能直接作为 v1.0 的写入/重建脚本使用。
 
 ## 迁移兼容性与从旧代码复现
 

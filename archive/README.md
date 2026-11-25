@@ -39,7 +39,7 @@
 
 全部移动文件逐项校验 SHA-256 或目录子文件哈希；映射及校验数据见 [stage1_to_stage2_manifest.json](stage1_to_stage2_manifest.json)。第 5—9 周仍在活动目录中的 AI 日志来自历史原记录第二阶段段落，不凭空生成旧内容。
 
-当前入口为 [根 README](../README.md)、[第二阶段报告](stage2/report/stage2_report.md)、[最终真实截图与 SQL 对账](../result/stage2/WebStage2A02/README.md)。可编辑 ER/架构图源码和两份 `render_*.py` **按用户要求保留**。
+当前入口为 [根 README](../README.md)、[第二阶段报告](stage2/report/stage2_report.md)、[最终真实截图与 SQL 对账](stage2/result/stage2/WebStage2A02/README.md)。可编辑 ER/架构图源码和两份 `render_*.py` **按用户要求保留**。
 
 ## 第三阶段的第5、6周历史归档
 

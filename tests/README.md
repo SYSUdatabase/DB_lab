@@ -1,27 +1,19 @@
-# 第二阶段数据库与 Web 测试（第5—9周）
+# 第三阶段数据库与 Web 回归测试
 
-本目录保留 v0.1 基线验证、v1.0/v1.1 数据库回归和第7—9周的 Web 登录、注册、订单、库存、权限、事务和故障测试。第一阶段旧说明已保存在 [archive](../archive/coursework/week4/tests_README_old_v01.md)，原有 22 项测试日志已移到 [历史结果](../archive/evidence/stage1-legacy/recheck/)，不将历史记录作为当前最终验收。
+测试目录保留历史基础库和 Web 业务回归，并包含第10—13周程序对象、事务、权限及并发测试。历史第二阶段结果见[归档](../archive/stage2/result/README.md)。
 
-## 当前有效测试结果
+| 测试范围 | 文件及证据 |
+|---|---|
+| 第10周过程、函数与 Web 接口 | `test_week10_sql.py`、`test_week10_web.py`；[40项逐例结果](../result/week10/W10FinalVerify03/results.json) |
+| 第11—12周触发器、查询、分类及业务事务 | `test_week11_12_sql.py`；[SQL 结果](../result/week12/WebXY1124D/README.md) |
+| 第13周并发与超时回滚 | `test_week13_sql.py`、[双会话执行器](../tools/week13_verify.py)；[正式验收](../result/week13/WebW13Run03/README.md)、[修复复验](../result/week13/WebW13Fix01/README.md)、[最终129项统一验收](../result/week13/WebW13Final01/README.md) |
+| 基础业务、权限与回滚 | 登录注册、商品、订单、退款、员工管理、受限 SQL 身份、异常及证据工具等现有测试 |
 
-- [66 项 Python 单元与集成测试，0 失败、0 跳过](../result/webapp/WebSign28A/registration_unit_stderr.log)。
-- [真实 Edge 浏览器流程：22 张截图、42 条操作及错误码](../result/stage2/WebStage2A02/README.md)。
-- [25 项 SQL Server 读库对账、截图 SHA-256 核验](../result/stage2/WebStage2A02/database_reconciliation.json)。
-- [第六周迁移回归](../result/week6/README.md)。
+按[根 README](../README.md#第三阶段从空库复现) 新建 WebW13 隔离批次，并保持同一终端中的实验密码与全部环境变量（包括 DB_LAB_TEST_DATABASE、DB_LAB_APP_DATABASE、DB_LAB_WEEK10_DATABASE、DB_LAB_WEEK12_DATABASE、DB_LAB_WEEK13_DATABASE、DB_LAB_TEST_SERVER、DB_LAB_PREVIEW）。执行：
 
-## 在新实验库复测
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m ruff check webapp tests tools
+```
 
-先按照 [根 README](../README.md) 创建从未使用过的新后缀（例如 WebNewRun01），不要重建已有数据或在当前手动测试用的 WebManualA01 中执行自动测试。
-
-在 PowerShell 中设置 DB_LAB_TEST_DATABASE 为 TokenHubDB_v01_WebNewRun01，DB_LAB_APP_DATABASE 为 TokenHubDB_v11_WebNewRun01，DB_LAB_PREVIEW 为 1，并设置对应的 DB_LAB_DEMO_PASSWORD、随机 DB_LAB_SECRET。进入项目根目录执行：
-
-    .\.venv\Scripts\python.exe -m unittest discover -s tests -v
-    .\.venv\Scripts\ruff.exe check webapp tests tools
-
-test_registration.py 覆盖顾客注册、格式/重复账号/CSRF/角色检查及注册后登录；test_app_sql.py 验证 SQL 授权；test_app_faults.py 验证事务失败回滚；test_webapp.py 等覆盖 Web API 和角色业务。旧 test_evidence_tool.py 是 v0.1 证据工具正反例，会在 result/recheck 创建临时输出，不是第二阶段截图。
-
-**成员验收：** 第一名陈诗翰在其环境测试；第二名阮依成亲自登录当前网站并核对订单，发现注册缺失并要求补齐。22 张截图是自动化补充证据，不代表成员逐张手动截图。
-
-## 第9周员工管理新增测试
-
-tests/test_employee_management.py 新增6项测试（输入/越权/CSRF边界及真实数据库员工生命周期），在 WebEmp26A01 独立库上完整运行 72 项 unittest 全部通过。测试验证新店员能用普通员工身份登录、改名、重置密码、停用/启用及旧会话失效；管理员不被普通员工操作覆盖；顾客和店员请求被403拒绝，未登录被401拒绝；删除员工不存在对应路由（HTTP 405）。首次断言将405误写为404，经核对是测试预期错误，修正后完整复测通过，前后日志均保留在第9周结果目录。
+全量测试不应有失败、错误或跳过。第13周完整双会话现象另用 `tools/week13_verify.py` 执行；不得连接现有业务数据库。结果保存及清理按 README 对应步骤进行。

@@ -25,4 +25,8 @@
 - [第二阶段AI详细日志](docs/ai_usage_log_stage2.md)、[第二阶段AI使用文档](docs/ai使用文档_stage2.md)
 - [第二阶段及Web交付旧路线记录](ROADMAP_stage2.md)
 
-当前README、AI日志、团队分工和活动计划从第10周开始；第13周并发控制仍待实施。
+当前README、AI日志、团队分工和活动计划从第10周开始；第13周并发控制已实现。
+
+## 历史结果归档与重复构建日志精简（2026-11-25）
+
+第5—9周的结果和历史构建日志整理见[历史结果索引](result/README.md)。第三阶段受限账户补验收 WebXY1123R 保留在活动结果目录；旧备份和压缩归档校验见[清理清单](result/cleanup_manifest_20261125.json)。

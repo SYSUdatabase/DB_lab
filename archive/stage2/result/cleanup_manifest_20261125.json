@@ -1,0 +1,1092 @@
+{
+  "moved": {
+    "result/week5": "archive/stage2/result/week5",
+    "result/stage2/WebXY1123R": "result/week12/WebXY1123R",
+    "result/stage2/README.md": "archive/stage2/result/stage2/README.md",
+    "result/stage2/WebEmp26A01": "archive/stage2/result/stage2/WebEmp26A01",
+    "result/stage2/WebFinal1106A": "archive/stage2/result/stage2/WebFinal1106A",
+    "result/stage2/WebStage2A02": "archive/stage2/result/stage2/WebStage2A02",
+    "result/stage2/WebXY1105C": "archive/stage2/result/stage2/WebXY1105C",
+    "result/stage2/WebXY1105D": "archive/stage2/result/stage2/WebXY1105D",
+    "result/stage2/WebXY1105E": "archive/stage2/result/stage2/WebXY1105E",
+    "result/stage2/WebXY1105F": "archive/stage2/result/stage2/WebXY1105F",
+    "result/stage2/WebXY1106S": "archive/stage2/result/stage2/WebXY1106S",
+    "result/week6/baseline": "archive/stage2/result/week6/baseline",
+    "result/week6/hardening": "archive/stage2/result/week6/hardening",
+    "result/week6/issue_fixes": "archive/stage2/result/week6/issue_fixes",
+    "result/week6/migration": "archive/stage2/result/week6/migration",
+    "result/week6/README.md": "archive/stage2/result/week6/README.md",
+    "result/week6/regression": "archive/stage2/result/week6/regression",
+    "result/week6/reproduction": "archive/stage2/result/week6/reproduction",
+    "result/week6/v11/Full261017D": "archive/stage2/result/week6/v11/Full261017D",
+    "result/week6/v11/SqlTree261017A": "archive/stage2/result/week6/v11/SqlTree261017A",
+    "result/week6/v11/Web261021D": "archive/stage2/result/week6/v11/Web261021D",
+    "result/week6/v11/WebNewRun01": "archive/stage2/result/week6/v11/WebNewRun01",
+    "result/week6/v11/WebSign28A": "archive/stage2/result/week6/v11/WebSign28A",
+    "result/week6/v11/WebXY1105B": "archive/stage2/result/week6/v11/WebXY1105B",
+    "result/week6/v11/WebXY1105F": "archive/stage2/result/week6/v11/WebXY1105F",
+    "result/week6/v11/WebXY1106S": "archive/stage2/result/week6/v11/WebXY1106S"
+  },
+  "linked_markdown_files_updated": 26,
+  "existing_links_checked": 914,
+  "source_signature_sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1",
+  "source_directories_kept": [
+    "source_WebW10Final03",
+    "source_WebXY1105F",
+    "source_WebXY1106S",
+    "source_WebXY1123R",
+    "source_WebXY1124D"
+  ],
+  "source_directories_archived": [
+    "source_Web261021D",
+    "source_WebEmp26A01",
+    "source_WebFinal1106A",
+    "source_WebManualA01",
+    "source_WebNewRun01",
+    "source_WebW10Base01",
+    "source_WebW10Dev01",
+    "source_WebW10Final01",
+    "source_WebW10Final02",
+    "source_WebW10Rollback1",
+    "source_WebXY1105B",
+    "source_WebXY1123H",
+    "source_WebXY1123J",
+    "source_WebXY1123K",
+    "source_WebXY1123S",
+    "source_WebXY1124A",
+    "source_WebXY1124B",
+    "source_WebXY1124C"
+  ],
+  "zip": "archive/stage2/result/source_build_logs_20261125.zip",
+  "zip_bytes": 517368,
+  "zip_entries": [
+    {
+      "path": "source_Web261021D/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_Web261021D/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "b7a36365808b751465e4bf655cbfe12b774a64c5c91e1dc931450af7ad0fcab6"
+    },
+    {
+      "path": "source_Web261021D/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "acd868029d1aec3a98d8418a6deacd6af5881721efda72b659ffa45eeb12ae8c"
+    },
+    {
+      "path": "source_Web261021D/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "84563e2b7f1f864bcf37c3e33c5a009dbb2e6731fda7fb7ea5226d53cb309b38"
+    },
+    {
+      "path": "source_Web261021D/console.log",
+      "bytes": 1116,
+      "sha256": "1615edf1cfb12c8526352c807f911ac217cdb0509a1b79fa28a623e4fab198f0"
+    },
+    {
+      "path": "source_Web261021D/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "04c9b1702f57ba8c032428e028b6a2db631cfd7c14eeb530f51d2e8f529eefbb"
+    },
+    {
+      "path": "source_Web261021D/query.sql.log",
+      "bytes": 160354,
+      "sha256": "155e7a103780661435075ec0c7af3618b814130d0ea311bd08cc375f781767e8"
+    },
+    {
+      "path": "source_Web261021D/role.sql.log",
+      "bytes": 452906,
+      "sha256": "8918d4af88d21d9d0e9c95a3c4dc7485bbb92f473d475c6e2c3b82bb9f29ccef"
+    },
+    {
+      "path": "source_Web261021D/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_Web261021D/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "1d88589a402025ca1eb397a3caf7129be6694cfe66016080e5db0c4ecd3340bb"
+    },
+    {
+      "path": "source_Web261021D/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "8e1239044ecd5a06c8390e0a185e0aeea8638755269ae5ff2d35b3522d8229b8"
+    },
+    {
+      "path": "source_Web261021D/view.sql.log",
+      "bytes": 184384,
+      "sha256": "ca129c5c6588c760843f9a05e7dbec608e788053fad547678b5a62b1348bc025"
+    },
+    {
+      "path": "source_WebEmp26A01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebEmp26A01/01_create_tables.sql.log",
+      "bytes": 88,
+      "sha256": "31a36f494488fa25a20c75b87e87ddf773fd365f1c35f43f69a8a26151455d6b"
+    },
+    {
+      "path": "source_WebEmp26A01/02_insert_data.sql.log",
+      "bytes": 214,
+      "sha256": "c158039efc311d7d10dfebecb4fe7d2484c7d4ca812a93b42d22f262b6a894c9"
+    },
+    {
+      "path": "source_WebEmp26A01/03_crud_demo.sql.log",
+      "bytes": 20108,
+      "sha256": "170f0f1652838defbc425fc35285f92200f36f66bdf3f5fa29d66b75fa80fbb9"
+    },
+    {
+      "path": "source_WebEmp26A01/console.log",
+      "bytes": 1128,
+      "sha256": "1a430e88dd8eecb3f4cf5a02fab152475ae1b41524ab1379fd6c05598036b400"
+    },
+    {
+      "path": "source_WebEmp26A01/constraint.sql.log",
+      "bytes": 507998,
+      "sha256": "1af91fe75d8a421b3f817378a6b6dc477a5227bdd15954e7858c1471c34585de"
+    },
+    {
+      "path": "source_WebEmp26A01/query.sql.log",
+      "bytes": 160356,
+      "sha256": "c1b709ead0bc55da39a53f831712ab1921377784040b747172ee56d6a1128a38"
+    },
+    {
+      "path": "source_WebEmp26A01/role.sql.log",
+      "bytes": 452908,
+      "sha256": "86b4af481124d7ca400aa1500d2a0cbfd5a3fa033018b57e3e431f7b1448620c"
+    },
+    {
+      "path": "source_WebEmp26A01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebEmp26A01/signature_sqlcmd_raw.txt",
+      "bytes": 1196,
+      "sha256": "971aebd5eb18faff0438d2bbaf2f64f8a50770ce271caa9aa37ae6b7bacb95b5"
+    },
+    {
+      "path": "source_WebEmp26A01/verify.sql.log",
+      "bytes": 16572,
+      "sha256": "c60455f71673ab6e614a1af070463e0f1a30941ad0b8c94b31b16f149bdc5e74"
+    },
+    {
+      "path": "source_WebEmp26A01/view.sql.log",
+      "bytes": 184386,
+      "sha256": "200d5a23be3c619e71e0d5954ac9ccf9bfb026a6419f02aa0cad5dea04c002c2"
+    },
+    {
+      "path": "source_WebFinal1106A/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebFinal1106A/01_create_tables.sql.log",
+      "bytes": 92,
+      "sha256": "048857866e12aadd31dcf987061439f44fa6880d723a887b40d0740e85ddb9ea"
+    },
+    {
+      "path": "source_WebFinal1106A/02_insert_data.sql.log",
+      "bytes": 218,
+      "sha256": "b0a7c72b57421f9a25606a3a9688f5148ec7e0fbe0991fb5f97f2e6939c01347"
+    },
+    {
+      "path": "source_WebFinal1106A/03_crud_demo.sql.log",
+      "bytes": 20112,
+      "sha256": "809635166715535e0aa1dc0d7fafbcc4a4f7bdb66a844af3ae4915ddda8bd574"
+    },
+    {
+      "path": "source_WebFinal1106A/console.log",
+      "bytes": 1135,
+      "sha256": "73ddea56240347e3c9edf9c6a13eff67e842fd8258c2670b9214126800947469"
+    },
+    {
+      "path": "source_WebFinal1106A/constraint.sql.log",
+      "bytes": 508002,
+      "sha256": "fd6ca24d8f4a6663a90673604a2281373bf04efa4e1ab81f1d8b2d65482f5bbe"
+    },
+    {
+      "path": "source_WebFinal1106A/query.sql.log",
+      "bytes": 160360,
+      "sha256": "2ed1b2d1bb0e8795e009889c4cf4170059e3736e75174f8917f21877ee14dc2d"
+    },
+    {
+      "path": "source_WebFinal1106A/role.sql.log",
+      "bytes": 452912,
+      "sha256": "0491f0faa024ee5e4bba13c1b9c499c71072aaf150acb5978e521df33aef5bba"
+    },
+    {
+      "path": "source_WebFinal1106A/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebFinal1106A/signature_sqlcmd_raw.txt",
+      "bytes": 1198,
+      "sha256": "3c6f0cc0f1321bd5d0944ff8f19c3386ee47c76736c1ca919c97a65f11871fab"
+    },
+    {
+      "path": "source_WebFinal1106A/verify.sql.log",
+      "bytes": 16576,
+      "sha256": "887c063963f667cdc4182c71429c6b92c4343ca6d203debc672bbf291a3e7ab7"
+    },
+    {
+      "path": "source_WebFinal1106A/view.sql.log",
+      "bytes": 184390,
+      "sha256": "f0bd7d2763527e9dda12fe8c54be55db2a28e33800a0bf82915bf4d45f709f77"
+    },
+    {
+      "path": "source_WebManualA01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebManualA01/01_create_tables.sql.log",
+      "bytes": 90,
+      "sha256": "0fefa622fba69645ced59362a4889dcec090afc6ca0579b1a8f4e84d2dbe24a7"
+    },
+    {
+      "path": "source_WebManualA01/02_insert_data.sql.log",
+      "bytes": 216,
+      "sha256": "fb96280cdd31f9a664d7c75aec7373ac0d4640d0965e4d861548d6a2d8029ea0"
+    },
+    {
+      "path": "source_WebManualA01/03_crud_demo.sql.log",
+      "bytes": 20110,
+      "sha256": "cbda75ec3827834d45574fae33b0c4b7d50258657791d8089278254a4a0a085d"
+    },
+    {
+      "path": "source_WebManualA01/console.log",
+      "bytes": 1131,
+      "sha256": "a2ce4f626b42bfdb71c1f9953e9d736ad8aee5f15eaa4a29462629e14e2f94cd"
+    },
+    {
+      "path": "source_WebManualA01/constraint.sql.log",
+      "bytes": 508000,
+      "sha256": "248b671389253e84b3cf6f43d87e477e1dd34fe4de8491490cca7a5d93d5ac52"
+    },
+    {
+      "path": "source_WebManualA01/query.sql.log",
+      "bytes": 160358,
+      "sha256": "d5ca31e399da68615454ce8b7aec84c519681d3fd49b5ad5b12afc51a358957e"
+    },
+    {
+      "path": "source_WebManualA01/role.sql.log",
+      "bytes": 452910,
+      "sha256": "0c0e7a6ed86f0605ec9162eaba324829e378142acffe06520c686cc0a6f78c88"
+    },
+    {
+      "path": "source_WebManualA01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebManualA01/signature_sqlcmd_raw.txt",
+      "bytes": 1197,
+      "sha256": "0f50c33d5fec94760a476b1c91af7584e8846a8d57a63cac2bae0dc7cd6c9e09"
+    },
+    {
+      "path": "source_WebManualA01/verify.sql.log",
+      "bytes": 16574,
+      "sha256": "450294876c235454d168572ae13321243ae970927a24879165401f34ecef3237"
+    },
+    {
+      "path": "source_WebManualA01/view.sql.log",
+      "bytes": 184388,
+      "sha256": "b26e440f98a4f36cd465507c52b35caae45f51fc7f1140b4511e7139f15f0b89"
+    },
+    {
+      "path": "source_WebNewRun01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebNewRun01/01_create_tables.sql.log",
+      "bytes": 88,
+      "sha256": "cd770b839a427f2b9fc1d8891708ab639337e6156590abb1881a139c78ea5c99"
+    },
+    {
+      "path": "source_WebNewRun01/02_insert_data.sql.log",
+      "bytes": 214,
+      "sha256": "bb37a7c932f1a7ad78131e49e109446311535dff52d16ff96308577cc45f2848"
+    },
+    {
+      "path": "source_WebNewRun01/03_crud_demo.sql.log",
+      "bytes": 20108,
+      "sha256": "cc52d54c6dce85a60a40caeb6e966946591c229e58afd261fa98004a27bf45ff"
+    },
+    {
+      "path": "source_WebNewRun01/constraint.sql.log",
+      "bytes": 507998,
+      "sha256": "303d2065fe1ed2ba9615a10bcd3bc846e56055be70c8a8c76d0c47825f3dc5ef"
+    },
+    {
+      "path": "source_WebNewRun01/query.sql.log",
+      "bytes": 160356,
+      "sha256": "6f06cc3cda98904ccf558bbacc430519b2b081d67983fb94acab5c33ccfb97ca"
+    },
+    {
+      "path": "source_WebNewRun01/role.sql.log",
+      "bytes": 452908,
+      "sha256": "a416920d5eda5f07b08d37561de4c2090fa61a9e4c86531ec26954cc908dab48"
+    },
+    {
+      "path": "source_WebNewRun01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebNewRun01/signature_sqlcmd_raw.txt",
+      "bytes": 1181,
+      "sha256": "925bcdf8b9569e97aef4d2698d88c2cff06c4302aa991c40e91e31f1428db9c3"
+    },
+    {
+      "path": "source_WebNewRun01/verify.sql.log",
+      "bytes": 16572,
+      "sha256": "e8599fbe92bafefa8ca2ceb20bc5f397c162cf3bea4eaa785b7bbc48cdd94637"
+    },
+    {
+      "path": "source_WebNewRun01/view.sql.log",
+      "bytes": 184386,
+      "sha256": "2e61cca8a6ff23fe42a0bf59690cabaa776059526bc441d0b4ca557f7f020569"
+    },
+    {
+      "path": "source_WebW10Base01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebW10Base01/01_create_tables.sql.log",
+      "bytes": 90,
+      "sha256": "6952ff631b58734572abeaaa087789ddd1fc2561245618fb036a42dcf44dd48f"
+    },
+    {
+      "path": "source_WebW10Base01/02_insert_data.sql.log",
+      "bytes": 216,
+      "sha256": "6fe5743a865723b92637f01c214bc4ff4da1b7689e561a354457b3fa79cb716e"
+    },
+    {
+      "path": "source_WebW10Base01/03_crud_demo.sql.log",
+      "bytes": 20110,
+      "sha256": "8032a8b7e03bc06371ea2e16722d39ec8463a2fd133f173e16c4c509d78f95a3"
+    },
+    {
+      "path": "source_WebW10Base01/constraint.sql.log",
+      "bytes": 508000,
+      "sha256": "9ebaf1f2387c3945b39cdbf9262720d14cbef90a553fd1e885205aab01113052"
+    },
+    {
+      "path": "source_WebW10Base01/query.sql.log",
+      "bytes": 160358,
+      "sha256": "c29ab7417edcc08affa4a71aaf0982d0de842ad37d2f7af042727417da2dfec3"
+    },
+    {
+      "path": "source_WebW10Base01/role.sql.log",
+      "bytes": 452910,
+      "sha256": "59d6b39b878433e83ddd00eb8e82a4e50a82fbb9f43b226d0202b3fa26662a42"
+    },
+    {
+      "path": "source_WebW10Base01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebW10Base01/signature_sqlcmd_raw.txt",
+      "bytes": 1182,
+      "sha256": "9157152fae93773571e5e46e9c722fa965f9f6e92d3236ef856cbd8e92cb6c89"
+    },
+    {
+      "path": "source_WebW10Base01/verify.sql.log",
+      "bytes": 16574,
+      "sha256": "b7e6fa8a3de93c97e62c96424a92605a06089275daa15a098c08e01b0f2d4d5b"
+    },
+    {
+      "path": "source_WebW10Base01/view.sql.log",
+      "bytes": 184388,
+      "sha256": "727bcc5015ad79954df3702375fce2a3c62f9d4af12b0ee5bb489514051fd364"
+    },
+    {
+      "path": "source_WebW10Dev01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebW10Dev01/01_create_tables.sql.log",
+      "bytes": 88,
+      "sha256": "87028e56a4a04fd11ecbc48779b1574fa112e09ff1273acbfa5c20af702bf042"
+    },
+    {
+      "path": "source_WebW10Dev01/02_insert_data.sql.log",
+      "bytes": 214,
+      "sha256": "a4432dbc0faf60e37311b78bd7061700454cb913a6bc0e95ef7427ce4b013c9d"
+    },
+    {
+      "path": "source_WebW10Dev01/03_crud_demo.sql.log",
+      "bytes": 20108,
+      "sha256": "f551448f0e72d940ceb203b9e3421366168030535aeacddf63f65a46a2da2e67"
+    },
+    {
+      "path": "source_WebW10Dev01/constraint.sql.log",
+      "bytes": 507998,
+      "sha256": "5d4cf4f568894084446133c2bc52437ccc49f27c02395a72e3cfe11d0cc4edd0"
+    },
+    {
+      "path": "source_WebW10Dev01/query.sql.log",
+      "bytes": 160356,
+      "sha256": "e52f46b176434e48a771a0df6b2733fad8360ae21920594d938743b5234c369d"
+    },
+    {
+      "path": "source_WebW10Dev01/role.sql.log",
+      "bytes": 452908,
+      "sha256": "0f6764eea986bf885a107755f717284d32a089cb01d5d33dff3ca89bf5882bc9"
+    },
+    {
+      "path": "source_WebW10Dev01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebW10Dev01/signature_sqlcmd_raw.txt",
+      "bytes": 1181,
+      "sha256": "f525a5cdefa25fd98f1ee372dd72a3378c5aac749b2442f5b238386f518a6d94"
+    },
+    {
+      "path": "source_WebW10Dev01/verify.sql.log",
+      "bytes": 16572,
+      "sha256": "cde44f6bac81f24e4f9242f204475d4eda9aca946624a2eff35802e138116f50"
+    },
+    {
+      "path": "source_WebW10Dev01/view.sql.log",
+      "bytes": 184386,
+      "sha256": "f7aa0f9bdb5938378ed42e9ac3a13ea41d0d0120bbc39d022117ac473e95badd"
+    },
+    {
+      "path": "source_WebW10Final01/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebW10Final01/01_create_tables.sql.log",
+      "bytes": 92,
+      "sha256": "1fb0241406ff167fe3332e67e047c09057be0c8aadb6ada145bb4bbe272c7c9a"
+    },
+    {
+      "path": "source_WebW10Final01/02_insert_data.sql.log",
+      "bytes": 218,
+      "sha256": "01eab56c6e27892e3f0257ecacec47f51db6db1b46f46cc855989fb1246b3e77"
+    },
+    {
+      "path": "source_WebW10Final01/03_crud_demo.sql.log",
+      "bytes": 20112,
+      "sha256": "d3a97bee86a0cfbd6e30db3d0e2e94d329cd81f690b74b83ec53a09ebe4da544"
+    },
+    {
+      "path": "source_WebW10Final01/constraint.sql.log",
+      "bytes": 508002,
+      "sha256": "d3ab0c7f43721b4ca47faabbd255e28d067063258292bd11de8780a42de40fbb"
+    },
+    {
+      "path": "source_WebW10Final01/query.sql.log",
+      "bytes": 160360,
+      "sha256": "9bd75254c24e5306487b747153a1adab4fe0f61c29fec40a91c9fb67a6c4e6b5"
+    },
+    {
+      "path": "source_WebW10Final01/role.sql.log",
+      "bytes": 452912,
+      "sha256": "aab143285b2df1d660152e0c59fa25289650e289d88c8dac96b2aa397fd50a89"
+    },
+    {
+      "path": "source_WebW10Final01/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebW10Final01/signature_sqlcmd_raw.txt",
+      "bytes": 1183,
+      "sha256": "1c8b975af0c89c0011844256c0a693c547a9a15f86829e17f25d7ce11ef438aa"
+    },
+    {
+      "path": "source_WebW10Final01/verify.sql.log",
+      "bytes": 16576,
+      "sha256": "c33f2fa7f147fa7c1be139375efa84f7285bb944bf7e21ed9d497ad533009292"
+    },
+    {
+      "path": "source_WebW10Final01/view.sql.log",
+      "bytes": 184390,
+      "sha256": "15b620603cc74959b8ed935861ece1bc87a7fd84cca80f3e6e9c395da2cfed24"
+    },
+    {
+      "path": "source_WebW10Final02/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebW10Final02/01_create_tables.sql.log",
+      "bytes": 92,
+      "sha256": "736158fb2638ca16784d9152669fdcbb83a4e613cfacf71703c437bb5d31e8f4"
+    },
+    {
+      "path": "source_WebW10Final02/02_insert_data.sql.log",
+      "bytes": 218,
+      "sha256": "bab58a57ebb52c951c6366e166c62c04fa534fe9e1827261fa628df0b13e6a0a"
+    },
+    {
+      "path": "source_WebW10Final02/03_crud_demo.sql.log",
+      "bytes": 20112,
+      "sha256": "9ffd79de8d72b1c534afe0b6c2eb26f99555e189cc499e0fcfdc5b21083a45ca"
+    },
+    {
+      "path": "source_WebW10Final02/constraint.sql.log",
+      "bytes": 508002,
+      "sha256": "5fcdc27ae3afe17d2505511b3decb0b43bf9ce04d6b711a00b2a93b8a860ba14"
+    },
+    {
+      "path": "source_WebW10Final02/query.sql.log",
+      "bytes": 160360,
+      "sha256": "06b8562ec13737a80439c82858f5d04efcc07fcae164494dd75b2baea18b3ea7"
+    },
+    {
+      "path": "source_WebW10Final02/role.sql.log",
+      "bytes": 452912,
+      "sha256": "a6c4a972c96ed666f6b2b1122ad614e19934d4fc7ff72c2f7a90310f8defca8b"
+    },
+    {
+      "path": "source_WebW10Final02/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebW10Final02/signature_sqlcmd_raw.txt",
+      "bytes": 1183,
+      "sha256": "83b80840b74e6985c09434d7d39ebfdb22f2be9ae8f93e866ed6c48ce48dfbaf"
+    },
+    {
+      "path": "source_WebW10Final02/verify.sql.log",
+      "bytes": 16576,
+      "sha256": "fe6751b7e214991319972375c957ea7f143ad2f0f541d79a94e7276099c23071"
+    },
+    {
+      "path": "source_WebW10Final02/view.sql.log",
+      "bytes": 184390,
+      "sha256": "3beed49db0ba4bb0878d0bb3ce9bcdb94b3e71b9607ab73683cff79103fc349b"
+    },
+    {
+      "path": "source_WebW10Rollback1/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebW10Rollback1/01_create_tables.sql.log",
+      "bytes": 96,
+      "sha256": "43a4efebd8b5442d69e2fe4c8fadfa91659d893de021aa0d67da5ac53e228f06"
+    },
+    {
+      "path": "source_WebW10Rollback1/02_insert_data.sql.log",
+      "bytes": 222,
+      "sha256": "f547b849ee04c16d4d05ab24e4b67449cab1c9304d6859f1f5b6bd747aa290dd"
+    },
+    {
+      "path": "source_WebW10Rollback1/03_crud_demo.sql.log",
+      "bytes": 20116,
+      "sha256": "bdd2fae486fc70315a3ac30594e2ce3d9932932be47476e43509aecc5335ecec"
+    },
+    {
+      "path": "source_WebW10Rollback1/constraint.sql.log",
+      "bytes": 508006,
+      "sha256": "33b3cac5be231a6c6b119764af5c1578167468e27c3145ee92762e9c00967d1a"
+    },
+    {
+      "path": "source_WebW10Rollback1/query.sql.log",
+      "bytes": 160364,
+      "sha256": "1a28712d8dbee1771c952c94ec655f6db893a90c9ef8e9bd0e1c73648f3d3647"
+    },
+    {
+      "path": "source_WebW10Rollback1/role.sql.log",
+      "bytes": 452916,
+      "sha256": "f4cec8f8753820e3653d240ccb6089d1fc0fa68b98068c29fd0fd2fe91927b1c"
+    },
+    {
+      "path": "source_WebW10Rollback1/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebW10Rollback1/signature_sqlcmd_raw.txt",
+      "bytes": 1185,
+      "sha256": "7383323f851b752ae118b5f07c5e8067ae539e9eec605b28c636bde02146d940"
+    },
+    {
+      "path": "source_WebW10Rollback1/verify.sql.log",
+      "bytes": 16580,
+      "sha256": "2c54f8ac7202f576504a79f2e3042de4ecc0e3fef54e80fba66cd441a9ee7320"
+    },
+    {
+      "path": "source_WebW10Rollback1/view.sql.log",
+      "bytes": 184394,
+      "sha256": "84db27fb95560ebde5424531120a9645c65e3ba3f3de3b46069e8836d87cb207"
+    },
+    {
+      "path": "source_WebXY1105B/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1105B/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "89e03ad9ab2f43706ccfcea92dc5ed2d6a5a18858d871360a112f353e0bc5770"
+    },
+    {
+      "path": "source_WebXY1105B/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "61197f5a6a70fa43225888c78f8316bd6b6f6fa04c1f0f5eff9ad43ca75003b6"
+    },
+    {
+      "path": "source_WebXY1105B/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "3999d00e3ef6bd9b0530841137bfd7706ad230dcdb30b14a066904d03b6ea968"
+    },
+    {
+      "path": "source_WebXY1105B/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "469dbe74024fc7aced8d11c6963dc541053dcfcfdd6e93f63dee3afdd58d34ad"
+    },
+    {
+      "path": "source_WebXY1105B/query.sql.log",
+      "bytes": 160354,
+      "sha256": "e0b6b1c7dfac4c02e6f96a4df62fba55f54bb1ee303a718e424616643a616fc6"
+    },
+    {
+      "path": "source_WebXY1105B/role.sql.log",
+      "bytes": 452906,
+      "sha256": "5a8adfe43a98d8611de850377357e35960e8067adf428843a3ead5b513cc2254"
+    },
+    {
+      "path": "source_WebXY1105B/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1105B/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "1068289212f3e262b49203f63964cac120d56bcbff67467709aa28742742618a"
+    },
+    {
+      "path": "source_WebXY1105B/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "b53b31ce916021a016d48377b78ae67277ceaac5e4a340e64876bb18233e1f3d"
+    },
+    {
+      "path": "source_WebXY1105B/view.sql.log",
+      "bytes": 184384,
+      "sha256": "302ba6e807579d77b55a14882ac798281bd3d531df7fb8ce85f9b64e99941bbf"
+    },
+    {
+      "path": "source_WebXY1123H/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1123H/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "efb186846f80c62b0f3920a9f4bad4c52266494151d878203e7f258e5c9c5aa7"
+    },
+    {
+      "path": "source_WebXY1123H/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "d1d7d755e0a76dc052d19ee22216a2d14d275a6aca4b7f7a3798746201f454d1"
+    },
+    {
+      "path": "source_WebXY1123H/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "d3a88ea98fdc3445d1d95b10f7e0bb2d0ee8bb75a1ae07c4f10aae2ad8dee053"
+    },
+    {
+      "path": "source_WebXY1123H/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "bd8e5273ce70986e0337b8641e28c80c2938893e3a0b2a7482a49a6e6b94bbcf"
+    },
+    {
+      "path": "source_WebXY1123H/query.sql.log",
+      "bytes": 160354,
+      "sha256": "c0a5ca072f64356dca046ad38bdf1c1d1111f0a9ef2b9c7db830e6d59ced694c"
+    },
+    {
+      "path": "source_WebXY1123H/role.sql.log",
+      "bytes": 452906,
+      "sha256": "1565e0289368c54338a37cb27a487a8ed5d31fad3152a1a0b317a1f0c94a223a"
+    },
+    {
+      "path": "source_WebXY1123H/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1123H/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "ca7e0fd1761f74a94dd4943ce51c84d68706d75476705e66cfaa452e66d14fea"
+    },
+    {
+      "path": "source_WebXY1123H/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "ebd8c594f6c1d47ba2aeab9255fedb8605e7769b091b56237825d195861141c9"
+    },
+    {
+      "path": "source_WebXY1123H/view.sql.log",
+      "bytes": 184384,
+      "sha256": "f532b5958e31ccb0ac63c4e4eab3c2b6682ae6de37dec988d6c0d50730ab4a6f"
+    },
+    {
+      "path": "source_WebXY1123J/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1123J/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "90f3ba8ffe61d1fa4a611fe92c8d090c8596f42084269ac35661e9de7bd5a3d4"
+    },
+    {
+      "path": "source_WebXY1123J/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "440216f8e5ef7736ed2a998738af1383f329c8918bc09985107ec6aa0f3f1668"
+    },
+    {
+      "path": "source_WebXY1123J/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "c6563e6e93f3c8408c497537fd7661da963af53278522a5276c2583c99c629b3"
+    },
+    {
+      "path": "source_WebXY1123J/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "6c170444705122dc7f5790d70c883224926477b2aaafaa27bd12d5884be814fb"
+    },
+    {
+      "path": "source_WebXY1123J/query.sql.log",
+      "bytes": 160354,
+      "sha256": "b5db69f65277057b0a86e6dba82a9c18a37dade1b81f261a658d1ae8e3922e29"
+    },
+    {
+      "path": "source_WebXY1123J/role.sql.log",
+      "bytes": 452906,
+      "sha256": "53c56bb0d12ad9ef43fce8a4c3ff471be8f0ce1ac721fb40807054da74403067"
+    },
+    {
+      "path": "source_WebXY1123J/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1123J/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "5a9960ff2aae069114d5fb631e898ead169e966990f7f8130c384ea7801db77c"
+    },
+    {
+      "path": "source_WebXY1123J/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "df968f2296cc0cc9aea34aa02dfae641906f1163a1f7ce36d76129e6cb899d76"
+    },
+    {
+      "path": "source_WebXY1123J/view.sql.log",
+      "bytes": 184384,
+      "sha256": "3b9ee6f20959624ccd1742b2f4b4d20ce75f843a293ee783b427bc848209fd5b"
+    },
+    {
+      "path": "source_WebXY1123K/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1123K/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "dfc5e088ded0fabbce9a47fa132e7fd2221ebc02e5a42b1dce8d20a031a6e792"
+    },
+    {
+      "path": "source_WebXY1123K/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "d32ac0b728d35f6b91b4e6e2650900c853c637a4ce0d00974431a13f5fc38310"
+    },
+    {
+      "path": "source_WebXY1123K/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "2227ab49ec6a81e7f81775c782d4f05c139f55d2559d5c313a22297d8d3771a0"
+    },
+    {
+      "path": "source_WebXY1123K/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "3c76e6917bded9c43b7f0cacbe9837fd5b6deca2e12412134cd4c9dfd29edaec"
+    },
+    {
+      "path": "source_WebXY1123K/query.sql.log",
+      "bytes": 160354,
+      "sha256": "35d6164d410d0b65221cfebb0d5f0ccc07fab2ce3f0efc306c14ca7a66d6abe3"
+    },
+    {
+      "path": "source_WebXY1123K/role.sql.log",
+      "bytes": 452906,
+      "sha256": "3eba52f626459c9889d2433a1855e95c0ba5f6b4419995afdaed8c5765d13c5c"
+    },
+    {
+      "path": "source_WebXY1123K/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1123K/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "79ed3690e13a3c18092261247ea287f6d32d882f3c6a98fac8d5557983d1a2bd"
+    },
+    {
+      "path": "source_WebXY1123K/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "ac0c83d00b420663e289c61c21e9001dd5117e890fc56e4c1c4a7d8c2c03e25c"
+    },
+    {
+      "path": "source_WebXY1123K/view.sql.log",
+      "bytes": 184384,
+      "sha256": "df0d2022292ab44a69845dc063a66a2ef67dbf61a9a551e368cacd8fac8b68eb"
+    },
+    {
+      "path": "source_WebXY1123S/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1123S/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "1152ae1604ed971de11a70eb4074d62f5ecef4d33f0c88351099732533b713df"
+    },
+    {
+      "path": "source_WebXY1123S/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "38ca15bccf9a22f19e3c046e12581e7d8f9f652a07322a1445e22d763d539186"
+    },
+    {
+      "path": "source_WebXY1123S/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "54f44b2a6749c91911263ad797344924dc668ccb22cf7a21a0469ca7c0fcc6d8"
+    },
+    {
+      "path": "source_WebXY1123S/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "c9b90cd482dc00be2fa0823b27e255bd03cd32352e7d0adeda220732e80b03c0"
+    },
+    {
+      "path": "source_WebXY1123S/query.sql.log",
+      "bytes": 160354,
+      "sha256": "800652b2cb2caa20c10f27e91e91b0425b02b71597cf835808b17b5cd604bb13"
+    },
+    {
+      "path": "source_WebXY1123S/role.sql.log",
+      "bytes": 452906,
+      "sha256": "6e203591a8ce2be6b0504a5fa0bf87db178807467556ea87e836a352832fb706"
+    },
+    {
+      "path": "source_WebXY1123S/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1123S/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "182e15a2de6370f23c49977b07fa642698f31b5af208d509d8871ed53408dbf8"
+    },
+    {
+      "path": "source_WebXY1123S/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "12db6778c6e02b02152e21a787ce9e9bffb55c136bfc99a36c2953f3e31a2b04"
+    },
+    {
+      "path": "source_WebXY1123S/view.sql.log",
+      "bytes": 184384,
+      "sha256": "b86da7ebe85618d4f154e53d3acc5b5da324aaf7e24ca48b81f633fe183ba07c"
+    },
+    {
+      "path": "source_WebXY1124A/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1124A/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "8bd60b8d6430ffe1dfcc7259c6cf7c342751111950b2b276de1961e313a0f9d7"
+    },
+    {
+      "path": "source_WebXY1124A/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "6da26aae3124da6f168d853ff2637b520d61cb297da8154d53a05123b0d0a967"
+    },
+    {
+      "path": "source_WebXY1124A/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "239f7f04f012a43745cf79349416184da8e47984cff6062a61826d275361312f"
+    },
+    {
+      "path": "source_WebXY1124A/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "79a6db251a4a0c234d3505df7030bdfd5ead443a1add58eccd6484e9389f8050"
+    },
+    {
+      "path": "source_WebXY1124A/query.sql.log",
+      "bytes": 160354,
+      "sha256": "5d75e59d4b9010145e9300d0a115984f975e485048b2cb9db9679632e07135e8"
+    },
+    {
+      "path": "source_WebXY1124A/role.sql.log",
+      "bytes": 452906,
+      "sha256": "32161016879d3dec13871df40f31499acec534af94684bbd2f1161781490e9b1"
+    },
+    {
+      "path": "source_WebXY1124A/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1124A/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "479a75a4cbb5e63c8e45efc8a62279a09db5f566278ead125451c9a51989f5e5"
+    },
+    {
+      "path": "source_WebXY1124A/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "bec7f4ff50089d021189bc37c580940b9d936ada5a544a27018abf803fb0a08e"
+    },
+    {
+      "path": "source_WebXY1124A/view.sql.log",
+      "bytes": 184384,
+      "sha256": "ca9dcbccb1c4e9e48da3bd3ad20515a1b126eb84eee1de3e5560d5d1dee8e0fb"
+    },
+    {
+      "path": "source_WebXY1124B/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1124B/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "8d2557db7614f4c26571f7d3b052ce225ac48af3ec01c0f019a7850870eca0df"
+    },
+    {
+      "path": "source_WebXY1124B/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "dd074ca9f4dfaa1ff309cec409851eab2cb238f75a80884a9af669989c1994ad"
+    },
+    {
+      "path": "source_WebXY1124B/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "d4758f4ca4416900a39cd7a6e6d40fdbdb6b9ed34ec19c8aeb64f8ebfd243693"
+    },
+    {
+      "path": "source_WebXY1124B/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "7ce38e8fb2b75abd4c9cd603527d4b25a584aa1e40ef365efd036059205fd27a"
+    },
+    {
+      "path": "source_WebXY1124B/query.sql.log",
+      "bytes": 160354,
+      "sha256": "b03f217b0f750be4d204dafa91fe74a7dc5d8dda44b8d7be820f4e524624c0d0"
+    },
+    {
+      "path": "source_WebXY1124B/role.sql.log",
+      "bytes": 452906,
+      "sha256": "c1392c599e091bd3589b9f448205343f658bdf02a497f4e05ad7b0bab8203c3b"
+    },
+    {
+      "path": "source_WebXY1124B/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1124B/signature_sqlcmd_raw.txt",
+      "bytes": 1180,
+      "sha256": "bac9d3ddeeabd9c0e42c742cde78d87d67cb6b616078a8f03fc4407110b6f0d0"
+    },
+    {
+      "path": "source_WebXY1124B/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "969271897d6a8b6da6727a2b452b5c6917e88846629916b9e328689caf26e524"
+    },
+    {
+      "path": "source_WebXY1124B/view.sql.log",
+      "bytes": 184384,
+      "sha256": "1d673803539cce8099acd1796322ee9a4bd2c791973c66f7894ff1131c4e3676"
+    },
+    {
+      "path": "source_WebXY1124C/00_create_database.sql.log",
+      "bytes": 48,
+      "sha256": "cd7a0512ea3349ec1500b261a10f4544f6c7b1cbf96d53522a27446bb8284c4b"
+    },
+    {
+      "path": "source_WebXY1124C/01_create_tables.sql.log",
+      "bytes": 86,
+      "sha256": "3c8e32e0bbde051f80ac13cf655c86f5670af37db877986d661c6f3056e8b94c"
+    },
+    {
+      "path": "source_WebXY1124C/02_insert_data.sql.log",
+      "bytes": 212,
+      "sha256": "4466af64568fae506ffd5b5612c45ff2084064101069d43f6bcbfb84e0491e22"
+    },
+    {
+      "path": "source_WebXY1124C/03_crud_demo.sql.log",
+      "bytes": 20106,
+      "sha256": "8e7c4e2984d4aa42a7e002f7dc38f000fde11b99750b380b36e9b1270b37c60b"
+    },
+    {
+      "path": "source_WebXY1124C/console.log",
+      "bytes": 1126,
+      "sha256": "fac19c7bf5a5c7af6159b392183f0fe6d0666d104fea3f4eca5dd2facc31b086"
+    },
+    {
+      "path": "source_WebXY1124C/constraint.sql.log",
+      "bytes": 507996,
+      "sha256": "9b6e09e55607045b82c28771e4207fd9ef8d8d47903cbf4e5adba0f85698f2d2"
+    },
+    {
+      "path": "source_WebXY1124C/query.sql.log",
+      "bytes": 160354,
+      "sha256": "e642427178f84f9c7d13e2d00f99ff06db716105f4061a19f559659195b910cc"
+    },
+    {
+      "path": "source_WebXY1124C/role.sql.log",
+      "bytes": 452906,
+      "sha256": "c5a1291be39148fa1ffb54b79d4756f5c47da38b9d3e4ad69608275ed7fb54ac"
+    },
+    {
+      "path": "source_WebXY1124C/signature.txt",
+      "bytes": 1115,
+      "sha256": "29b45ca9e0d86e1cec3b0b53f3f2a619d24fa2db180f89f6534b54e9bc9828a1"
+    },
+    {
+      "path": "source_WebXY1124C/signature_sqlcmd_raw.txt",
+      "bytes": 1195,
+      "sha256": "b77f48e50af4d44f0961ca569200f97dbfb80fc2f405dc5ba4bbdd029f2fe053"
+    },
+    {
+      "path": "source_WebXY1124C/verify.sql.log",
+      "bytes": 16570,
+      "sha256": "bbc67e5b382020e880ffb4dd0bd4f765e2663f8c6c03b45bd16d20793e2c630b"
+    },
+    {
+      "path": "source_WebXY1124C/view.sql.log",
+      "bytes": 184384,
+      "sha256": "0345ee08a361c3d1d5bb139fdb4d269a44dac6fdd77cc7092c516146fb1c52aa"
+    }
+  ],
+  "backup_files_removed": [
+    {
+      "path": "result/sql_backups/WebFinal1106A/TokenHubDB_v01_WebFinal1106A_W6_ab2cd0ee7205.bak",
+      "bytes": 8114176,
+      "sha256": "4d05462055a615bfc5724fa48829d9c467407bb769756a24b19e0984a8c371f0"
+    },
+    {
+      "path": "result/sql_backups/WebFinal1106A/TokenHubDB_v10_WebFinal1106A_W6_3293a3985cd3.bak",
+      "bytes": 8245248,
+      "sha256": "0e552412a29bc5570e6e80ec61ac76434ff42de6c906034c33528d05431f7c0b"
+    }
+  ],
+  "source_bytes_before_compression": 24215279
+}

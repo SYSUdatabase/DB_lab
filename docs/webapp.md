@@ -63,7 +63,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup_web_runtime.ps1 
 
 `instance/runtime.log` 保存服务启动输出；`instance/webapp.log` 保存请求编号、时间、操作、角色、错误码和结果。日志不包含密码、会话令牌、原始SQL或完整异常参数。运行账户应执行 [身份核对脚本](../tools/runtime_identity.py)，确认sysadmin/db_owner均为0，读取基表、修改商品及DDL均拒绝，商品目录可读。该检查须以该账户实际连接执行，不能用sysadmin的EXECUTE AS结果代替。
 
-此前开发会话没有Windows管理员权限，未创建普通Windows账户。2026-11-06 肖懿在新电脑上完成该项验收：运行账户 `TokenHubWebF` 实际连接结果为 sysadmin=0、db_owner=0、三项越权操作均拒绝、商品目录可读，见[验收记录](../result/stage2/WebXY1105F/README.md)。
+此前开发会话没有Windows管理员权限，未创建普通Windows账户。2026-11-06 肖懿在新电脑上完成该项验收：运行账户 `TokenHubWebF` 实际连接结果为 sysadmin=0、db_owner=0、三项越权操作均拒绝、商品目录可读，见[验收记录](../archive/stage2/result/stage2/WebXY1105F/README.md)。
 
 ## 开发预览
 
@@ -122,4 +122,4 @@ sqlcmd -S 'localhost\SQLEXPRESS' -d TokenHubDB_v11_Web261021D -E -C -b -i sql/ap
 
 只安装员工管理过程，不删除旧员工、订单或库存记录。注意端口、DB_LAB_APP_DATABASE 和浏览器缓存对应同一站点。不要将脚本运行在原始 TokenHubDB_v01 数据库上。
 
-第9周截图与操作记录见[记录索引](../result/stage2/WebEmp26A01/README.md)。
+第9周截图与操作记录见[记录索引](../archive/stage2/result/stage2/WebEmp26A01/README.md)。
