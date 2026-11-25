@@ -14,7 +14,7 @@
 --                  在同一事务内再次核对明细、金额与可售余量；任一步出错整体回滚。
 -- 测试时可用会话上下文 w12.fail_point='order_after_credit'，在余额已记入、状态未改之前
 -- 主动抛错，验证回滚。
-CREATE PROCEDURE w12.usp_CompleteOrder
+CREATE OR ALTER PROCEDURE w12.usp_CompleteOrder
  @order_id INT,
  @emit_result BIT=1,
  @app_result_id INT=NULL OUTPUT
@@ -69,8 +69,15 @@ BEGIN
   WHERE d.order_id=@order_id GROUP BY d.product_id,p.model_provider;
   DECLARE @credit TABLE (provider VARCHAR(50) PRIMARY KEY, tokens BIGINT NOT NULL);
   INSERT @credit SELECT provider,SUM(tokens) FROM @need GROUP BY provider;
-  -- 加锁顺序与模拟调用一致：先锁本顾客的余额行，再在 SERIALIZABLE 下读取账号与库存，
-  -- 读到的范围保持共享锁直到提交，核对之后库存不会被并发调用改小。
+  -- 第13周：逐项按供应商名称升序取得与补货共用的事务锁；
+  -- 在读取余额索引范围前排队，不靠集合查询的执行计划决定取锁顺序。
+  DECLARE @provider VARCHAR(50)=(SELECT MIN(provider) FROM @credit);
+  WHILE @provider IS NOT NULL
+  BEGIN
+   EXEC w12.usp_LockInventoryProvider @provider;
+   SELECT @provider=MIN(provider) FROM @credit WHERE provider>@provider;
+  END;
+  -- 物理行锁顺序与模拟调用一致：先锁顾客余额，再在 SERIALIZABLE 下读取账号与库存。
   DECLARE @locked INT;
   SELECT @locked=COUNT(*) FROM dbo.TokenBalances WITH(UPDLOCK,HOLDLOCK)
   WHERE user_id=@user_id AND model_provider IN (SELECT provider FROM @credit);

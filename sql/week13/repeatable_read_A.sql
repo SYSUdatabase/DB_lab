@@ -1,0 +1,15 @@
+-- 逐段选中执行；切勿一次执行整份文件。每轮顺序和重置见 README。
+-- step: A1_rc
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN TRAN;
+SELECT quantity FROM w13lab.Stock  WHERE product_id=1;
+GO
+-- step: A1_rr
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+BEGIN TRAN;
+SELECT quantity FROM w13lab.Stock  WHERE product_id=1;
+GO
+-- step: A2
+SELECT quantity FROM w13lab.Stock  WHERE product_id=1;
+COMMIT;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;

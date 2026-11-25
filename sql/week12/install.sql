@@ -18,6 +18,7 @@ IF SCHEMA_ID('w12') IS NOT NULL THROW 57009,'Week12 already installed',1;
 BEGIN TRANSACTION;
 GO
 :r sql/week12/category.sql
+:r sql/week13/provider_lock.sql
 :r sql/week12/order_transaction.sql
 :r sql/week12/restock_transaction.sql
 COMMIT TRANSACTION;

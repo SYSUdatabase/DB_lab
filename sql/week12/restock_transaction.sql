@@ -13,7 +13,7 @@
 --               └─ UPDATE dbo.Inventory 触发 dbo.trg_W11_InventoryAudit，审计记录随事务一起提交或回滚。
 -- 测试时可用会话上下文 w12.fail_point='restock_after_inventory'，在库存已增加、
 -- 单据未完成之前主动抛错，验证回滚。
-CREATE PROCEDURE w12.usp_ReceiveRestock
+CREATE OR ALTER PROCEDURE w12.usp_ReceiveRestock
  @task_id INT,
  @actual_amount BIGINT,
  @emit_result BIT=1,
@@ -28,7 +28,8 @@ BEGIN
  IF @actual_amount IS NULL OR @actual_amount<=0
   THROW 53303,'Restock amount must be positive',1;
  DECLARE @now DATETIME2(0)=CONVERT(DATETIME2(0),SYSDATETIME()),
-         @account_id INT,@operator INT,@task_status VARCHAR(20),@quota BIGINT,@remaining BIGINT;
+         @account_id INT,@operator INT,@task_status VARCHAR(20),@quota BIGINT,@remaining BIGINT,
+         @provider VARCHAR(50);
  BEGIN TRY
   SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
   BEGIN TRANSACTION;
@@ -40,10 +41,15 @@ BEGIN
    THROW 53311,'Restock task was already received; inventory is not added again',1;
   IF @task_status NOT IN ('pending','in_progress')
    THROW 53312,'Restock task is closed and cannot be received',1;
+  -- 定位供应商时不把共享锁带入入口锁等待；取得入口锁后按该供应商重新核对账号。
+  SELECT @provider=provider FROM dbo.UpstreamAccount WITH(READCOMMITTEDLOCK)
+  WHERE account_id=@account_id;
+  IF @provider IS NULL THROW 53305,'No restockable upstream account/inventory pair',1;
+  EXEC w12.usp_LockInventoryProvider @provider;
   SELECT @quota=a.total_quota,@remaining=i.current_quota
   FROM dbo.UpstreamAccount a WITH(UPDLOCK,HOLDLOCK)
   JOIN dbo.Inventory i WITH(UPDLOCK,HOLDLOCK) ON i.account_id=a.account_id
-  WHERE a.account_id=@account_id
+  WHERE a.account_id=@account_id AND a.provider=@provider
     AND a.status IN ('active','depleted','suspended');
   IF @quota IS NULL OR @remaining IS NULL
    THROW 53305,'No restockable upstream account/inventory pair',1;
