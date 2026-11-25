@@ -10,12 +10,22 @@
 
 工具在 A、B 两个连接执行下列同一批 SQL 段，用观察连接读取锁和等待信息。观察账号需有 SQL Server 实例 DMV 查看权限。工具不更改 RCSI 或其他实例设置。证据写入 `result/week13/<RunId>/concurrency.jsonl`，拒绝覆盖旧结果；实际竞购会留下专用测试订单，每次完整重放请用新批次。
 
+专项回归额外检查供应商别名、手工脚本等锁超时后的回滚，以及 Web 请求在 SQL 等锁超时时返回 409。可在并发重放前运行：
+
+```powershell
+$env:DB_LAB_WEEK13_DATABASE = "TokenHubDB_v11_$Suffix"
+$env:DB_LAB_TEST_SERVER = $ServerInstance
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_week13_sql.py -v
+```
+
 ## 手工重放
 
 1. 在 SSMS 打开三个查询窗口，数据库下拉框都选本轮 `TokenHubDB_v11_<RunId>`。在观察窗口单独执行 [init.sql](init.sql)。
 2. 在 A、B 各执行 [session.sql](session.sql)，记录 SPID、数据库名、SQL Server 版本、初始隔离级别和 RCSI，确认 SPID 不同。
 3. 打开下表相应的 A/B 脚本，只选中一个 `-- step:` 代码块执行。每出现阻塞，保持等待窗口运行，在观察窗口执行 [observe.sql](observe.sql)；记录等待者、阻塞者、等待类型、键资源描述、所属表、锁模式和授予/等待状态。然后回到可执行的另一窗口操作。
 4. 每轮结束在观察窗口执行 [state.sql](state.sql)。确认 A、B 均为 `@@TRANCOUNT=0` 后，在观察窗口运行 [reset.sql](reset.sql)，再做下一轮。同一行表中用分号分开的两轮也须重置。
+
+遇到超时或其他错误时停止本轮。写入段会回滚能捕获的 SQL 错误；若在 SSMS 手动取消查询，仍须在两边检查 `@@TRANCOUNT` 并显式回滚未结束的事务，再重置库存。
 
 | 场景 | A/B 脚本和顺序 | 预期 |
 |---|---|---|

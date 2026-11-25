@@ -94,3 +94,4 @@
 - [x] 订单与补货共用事务级供应商锁；订单按名称升序取得。实测补货等待和两单竞购，可售量 10→4，失败单仍 pending。
 - [x] [WebW13Run03](result/week13/WebW13Run03/README.md) 从空库完成，126 项 Python 测试通过、0 跳过；触发器 14/14、事务 14/14、分类 6/6。同步根 README、[第13周报告](report/week13_report.md)、[第三阶段报告](report/stage3_report.md)和 AI 记录。
 - [ ] 第13周个人分工待小组确认；RCSI 开启时的读取对照未实测。
+- [x] 审查修复：统一供应商锁名，手工 SQL 捕获写入失败并回滚，入口锁等待缩短到 10 秒。[专项批次](result/week13/WebW13Fix01/README.md)验证 3 项新增测试、双会话实验和事务回归 14/14。

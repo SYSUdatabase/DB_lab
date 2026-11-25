@@ -1,0 +1,10 @@
+test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) ... ok
+test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) ... ok
+test_web_restock_conflict_precedes_driver_timeout (test_week13_sql.Week13ReviewTests.test_web_restock_conflict_precedes_driver_timeout) ... [2026-11-25 10:54:50,149] ERROR in dao: database_failure request_id=1051b8ad5e4c489d80e6cf55570b4192 operation=restocks.complete role=admin sqlstate=42000 native_codes=55009
+[2026-11-25 10:54:50,151] INFO in __init__: request_id=1051b8ad5e4c489d80e6cf55570b4192 operation=restocks.complete role=admin code=BUSINESS_RULE result=409
+ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 11.080s
+
+OK

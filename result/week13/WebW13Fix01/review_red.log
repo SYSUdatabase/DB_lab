@@ -1,0 +1,94 @@
+test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) ... 
+  test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='write_wait') ... FAIL
+  test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='repeatable_read') ... FAIL
+  test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='deadlock') ... FAIL
+test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) ... 
+  test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) (alias='other') ... FAIL
+  test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) (alias='Óther ') ... FAIL
+test_web_restock_conflict_precedes_driver_timeout (test_week13_sql.Week13ReviewTests.test_web_restock_conflict_precedes_driver_timeout) ... [2026-11-25 10:51:07,692] ERROR in dao: database_failure request_id=6099c3b31a6c46f89a460dd97a559aa4 operation=restocks.complete role=admin sqlstate=HYT00 native_codes=
+[2026-11-25 10:51:07,694] INFO in __init__: request_id=6099c3b31a6c46f89a460dd97a559aa4 operation=restocks.complete role=admin code=DATABASE_UNAVAILABLE result=503
+FAIL
+
+======================================================================
+FAIL: test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='write_wait')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 77, in test_manual_stock_timeouts_do_not_commit_restock
+    self.assertEqual((state["restock_state"], state["actual"]), ("pending", None))
+AssertionError: Tuples differ: ('completed', 5) != ('pending', None)
+
+First differing element 0:
+'completed'
+'pending'
+
+- ('completed', 5)
++ ('pending', None)
+
+======================================================================
+FAIL: test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='repeatable_read')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 77, in test_manual_stock_timeouts_do_not_commit_restock
+    self.assertEqual((state["restock_state"], state["actual"]), ("pending", None))
+AssertionError: Tuples differ: ('completed', 5) != ('pending', None)
+
+First differing element 0:
+'completed'
+'pending'
+
+- ('completed', 5)
++ ('pending', None)
+
+======================================================================
+FAIL: test_manual_stock_timeouts_do_not_commit_restock (test_week13_sql.Week13ReviewTests.test_manual_stock_timeouts_do_not_commit_restock) (scenario='deadlock')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 76, in test_manual_stock_timeouts_do_not_commit_restock
+    self.assertEqual((state["p"], state["q"]), (10, 8))
+AssertionError: Tuples differ: (10, 13) != (10, 8)
+
+First differing element 1:
+13
+8
+
+- (10, 13)
+?      ^^
+
++ (10, 8)
+?      ^
+
+
+======================================================================
+FAIL: test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) (alias='other')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 49, in test_provider_aliases_use_one_inventory_lock
+    self.assertEqual(modes["alias"], "NoLock")
+AssertionError: 'Exclusive' != 'NoLock'
+- Exclusive
++ NoLock
+
+
+======================================================================
+FAIL: test_provider_aliases_use_one_inventory_lock (test_week13_sql.Week13ReviewTests.test_provider_aliases_use_one_inventory_lock) (alias='Óther ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 49, in test_provider_aliases_use_one_inventory_lock
+    self.assertEqual(modes["alias"], "NoLock")
+AssertionError: 'Exclusive' != 'NoLock'
+- Exclusive
++ NoLock
+
+
+======================================================================
+FAIL: test_web_restock_conflict_precedes_driver_timeout (test_week13_sql.Week13ReviewTests.test_web_restock_conflict_precedes_driver_timeout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Desktop\DB\DB_lab\tests\test_week13_sql.py", line 118, in test_web_restock_conflict_precedes_driver_timeout
+    self.assertEqual(response.status_code, 409, response.json)
+AssertionError: 503 != 409 : {'code': 'DATABASE_UNAVAILABLE', 'data': None, 'message': '数据库暂时无法连接，请稍后再试', 'request_id': '6099c3b31a6c46f89a460dd97a559aa4'}
+
+----------------------------------------------------------------------
+Ran 3 tests in 16.252s
+
+FAILED (failures=6)
