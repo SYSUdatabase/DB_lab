@@ -265,7 +265,9 @@ SET NOCOUNT ON;
   ELSE
   BEGIN
    IF @operation IN('orders.item_add','orders.item_set','orders.item_delete','orders.pay','refunds.request') AND @role<>'customer' THROW 55003,'Customer required',1;
-   IF @operation IN('orders.item_add','orders.item_set','orders.item_delete','orders.cancel','orders.pay') AND @ostatus<>'pending' THROW 55009,'Pending order required',1;
+   IF @operation='orders.pay' AND @ostatus IN('paid','refunded','partially_refunded')
+    THROW 53131,'Order is already completed',1;
+   IF @operation IN('orders.item_add','orders.item_set','orders.item_delete','orders.cancel','orders.pay') AND @ostatus<>'pending' THROW 55011,'Pending order required',1;
    IF @operation='orders.item_add'
    BEGIN
     IF @pid IS NULL OR @pid<=0 OR @qty IS NULL OR @qty<=0 THROW 55000,'Product and positive quantity required',1;
@@ -417,7 +419,9 @@ SET NOCOUNT ON;
    DECLARE @actual BIGINT=TRY_CONVERT(BIGINT,JSON_VALUE(@payload,'$.actual_amount'));
    IF @tid IS NULL OR @tid<=0 OR @actual IS NULL OR @actual<=0 THROW 55000,'Task and positive actual amount required',1;
    IF NOT EXISTS(SELECT 1 FROM dbo.RestockTask WITH(UPDLOCK,HOLDLOCK) WHERE task_id=@tid) THROW 55004,'Task missing',1;
-   IF NOT EXISTS(SELECT 1 FROM dbo.RestockTask WHERE task_id=@tid AND status IN('pending','in_progress')) THROW 55009,'Task finalized',1;
+   IF EXISTS(SELECT 1 FROM dbo.RestockTask WHERE task_id=@tid AND status='completed')
+    THROW 53311,'Restock task was already received',1;
+   IF NOT EXISTS(SELECT 1 FROM dbo.RestockTask WHERE task_id=@tid AND status IN('pending','in_progress')) THROW 53312,'Restock task is closed',1;
    UPDATE dbo.RestockTask SET assigned_to=@employee WHERE task_id=@tid;
    EXEC dbo.usp_W6_RestockAccount @tid,@actual,@emit_result=0;
   END;

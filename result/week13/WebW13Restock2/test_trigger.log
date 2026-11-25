@@ -1,0 +1,99 @@
+== 库存审计记录：audit_id|account_id|provider|operation_type|quota_before|quota_after|change_quantity|operated_at|operator|login_name
+ 
+-
+118|100|Other|insert|NULL|500000|500000|2026-11-25 14:31:16.023|sql:[local SQL login redacted]|[local SQL login redacted]
+119|101|Other|insert|NULL|800000|800000|2026-11-25 14:31:16.112|sql:[local SQL login redacted]|[local SQL login redacted]
+120|100|Other|increase|500000|503000|3000|2026-11-25 14:31:16.270|employee:test-admin|[local SQL login redacted]
+121|101|Other|decrease|800000|799800|-200|2026-11-25 14:31:16.401|sql:[local SQL login redacted]|[local SQL login redacted]
+122|100|Other|decrease|503000|502800|-200|2026-11-25 14:31:16.401|sql:[local SQL login redacted]|[local SQL login redacted]
+== 审计对应商品（视图 w11.v_InventoryAuditProduct）：audit_id|account_id|provider|product_id|product_name|operation_type|change_quantity
+ 
+-
+118|100|Other|75|w10_635970356a9242e58aa2 product c7cdb|insert|500000
+118|100|Other|76|w10_aba898be254f4608825c product 2fc89|insert|500000
+118|100|Other|92|W12商品P_1125143056|insert|500000
+118|100|Other|93|W12商品Q_1125143056|insert|500000
+118|100|Other|94|W12超量套餐_1125143056|insert|500000
+118|100|Other|95|W11商品P_1125143058|insert|500000
+118|100|Other|96|W11商品Q_1125143058|insert|500000
+118|100|Other|97|W11超量套餐_1125143058|insert|500000
+118|100|Other|98|W13 Product P|insert|500000
+118|100|Other|99|W11商品P_1125143115|insert|500000
+118|100|Other|100|W11商品Q_1125143115|insert|500000
+118|100|Other|101|W11超量套餐_1125143115|insert|500000
+119|101|Other|75|w10_635970356a9242e58aa2 product c7cdb|insert|800000
+119|101|Other|76|w10_aba898be254f4608825c product 2fc89|insert|800000
+119|101|Other|92|W12商品P_1125143056|insert|800000
+119|101|Other|93|W12商品Q_1125143056|insert|800000
+119|101|Other|94|W12超量套餐_1125143056|insert|800000
+119|101|Other|95|W11商品P_1125143058|insert|800000
+119|101|Other|96|W11商品Q_1125143058|insert|800000
+119|101|Other|97|W11超量套餐_1125143058|insert|800000
+119|101|Other|98|W13 Product P|insert|800000
+119|101|Other|99|W11商品P_1125143115|insert|800000
+119|101|Other|100|W11商品Q_1125143115|insert|800000
+119|101|Other|101|W11超量套餐_1125143115|insert|800000
+120|100|Other|75|w10_635970356a9242e58aa2 product c7cdb|increase|3000
+120|100|Other|76|w10_aba898be254f4608825c product 2fc89|increase|3000
+120|100|Other|92|W12商品P_1125143056|increase|3000
+120|100|Other|93|W12商品Q_1125143056|increase|3000
+120|100|Other|94|W12超量套餐_1125143056|increase|3000
+120|100|Other|95|W11商品P_1125143058|increase|3000
+120|100|Other|96|W11商品Q_1125143058|increase|3000
+120|100|Other|97|W11超量套餐_1125143058|increase|3000
+120|100|Other|98|W13 Product P|increase|3000
+120|100|Other|99|W11商品P_1125143115|increase|3000
+120|100|Other|100|W11商品Q_1125143115|increase|3000
+120|100|Other|101|W11超量套餐_1125143115|increase|3000
+121|101|Other|75|w10_635970356a9242e58aa2 product c7cdb|decrease|-200
+121|101|Other|76|w10_aba898be254f4608825c product 2fc89|decrease|-200
+121|101|Other|92|W12商品P_1125143056|decrease|-200
+121|101|Other|93|W12商品Q_1125143056|decrease|-200
+121|101|Other|94|W12超量套餐_1125143056|decrease|-200
+121|101|Other|95|W11商品P_1125143058|decrease|-200
+121|101|Other|96|W11商品Q_1125143058|decrease|-200
+121|101|Other|97|W11超量套餐_1125143058|decrease|-200
+121|101|Other|98|W13 Product P|decrease|-200
+121|101|Other|99|W11商品P_1125143115|decrease|-200
+121|101|Other|100|W11商品Q_1125143115|decrease|-200
+121|101|Other|101|W11超量套餐_1125143115|decrease|-200
+122|100|Other|75|w10_635970356a9242e58aa2 product c7cdb|decrease|-200
+122|100|Other|76|w10_aba898be254f4608825c product 2fc89|decrease|-200
+122|100|Other|92|W12商品P_1125143056|decrease|-200
+122|100|Other|93|W12商品Q_1125143056|decrease|-200
+122|100|Other|94|W12超量套餐_1125143056|decrease|-200
+122|100|Other|95|W11商品P_1125143058|decrease|-200
+122|100|Other|96|W11商品Q_1125143058|decrease|-200
+122|100|Other|97|W11超量套餐_1125143058|decrease|-200
+122|100|Other|98|W13 Product P|decrease|-200
+122|100|Other|99|W11商品P_1125143115|decrease|-200
+122|100|Other|100|W11商品Q_1125143115|decrease|-200
+122|100|Other|101|W11超量套餐_1125143115|decrease|-200
+== 测试订单状态：order_id|status|total_amount|total_tokens|paid_at
+ 
+-
+159|paid|32.00|529345|2026-11-25 14:31:17
+160|pending|0.00|0|NULL
+161|pending|12.00|143115|NULL
+162|pending|1.00|1999956885|NULL
+163|pending|8.00|243115|NULL
+== 用例结果：编号|类别|初始数据|操作|预期结果|实际结果|是否符合
+result_row
+----------
+A1|单条插入|审计表 29 行|新建 Other 账号 #100，总额度 500000|新增 1 行审计：insert，调整前 NULL，调整后 500000|新增 1 行：insert，调整前 NULL，调整后 500000，操作人 sql:[local SQL login redacted]|符合
+A2|单条修改|账号 #100 库存 500000|以 employee:test-admin 身份调用 w10.usp_AdjustInventory +3000|新增 1 行：increase，500000→503000，操作人 employee:test-admin，登录名为实际连接登录名|新增 1 行：increase，500000→503000，操作人 employee:test-admin，登录名 [local SQL login redacted]|符合
+A3|多条修改|账号 #100 库存 503000，账号 #101 库存 800000|一条 UPDATE 把两行库存各减 200|新增 2 行 decrease，变化量均为 -200，调整前后分别对应各自账号|新增 2 行：#100 decrease 503000→502800（-200）；#101 decrease 800000→799800（-200）|符合
+A4|正常操作|审计表 34 行|两行库存只更新时间、数量不变|不新增审计记录|新增 0 行|符合
+A5|非法数据|账号 #100 库存 502800|UPDATE 库存为 -1|约束拒绝（547），库存不变，审计不新增|错误 547，库存 502800，审计新增 0|符合
+A6|触发器拒绝|账号 #100 已有审计记录|UPDATE 审计表的操作人字段|拒绝（54409），记录不变|错误 54409，被改记录 0 行|符合
+A7|视图映射|账号 #100、#101 共 5 条审计，Other 供应商商品 9 个|查询 w11.v_InventoryAuditProduct|每条审计展开为该供应商的每个商品各一行，共 45 行，商品供应商均与审计一致|视图 45 行，供应商不一致或缺商品 0 行|符合
+O1|正常操作|订单 #159 pending，明细 P×2、Q×1|调用订单完成事务（状态改为已完成（paid））|触发器放行，状态已完成（paid）|状态 paid|符合
+O2|触发器拒绝|订单 #159 已为已完成（paid）|UPDATE 状态再次设为已完成（paid）|拒绝（54401），状态仍为已完成（paid）|错误 54401，状态 paid|符合
+O3|非法数据|订单 #160 pending，无明细|UPDATE 状态为已完成（paid）|拒绝（54403），状态仍为 pending|错误 54403，状态 pending|符合
+O4|非法数据|订单 #161 pending，P×1，金额 12.00|UPDATE 金额 +1 元并改为已完成（paid）|拒绝（54405），金额与状态不变|错误 54405，状态 pending，金额 12.00|符合
+O5|触发器拒绝|订单 #162 上游需求 1999956885，Other 可售上游余量 40579675|UPDATE 状态为已完成（paid）|拒绝（54406），状态仍为 pending|错误 54406，状态 pending|符合
+O6|多条修改|订单 #161（有明细）与 #160（无明细）均为 pending|一条 UPDATE 同时改为已完成（paid）|整条拒绝（54403），两单都仍为 pending|错误 54403，状态 pending / pending|符合
+O7|多条修改|订单 #161、#163 均有明细、金额一致|事务内一条 UPDATE 同时改为已完成（paid），随后回滚|触发器放行 2 行；回滚后仍为 pending|更新 2 行；回滚后 pending / pending|符合
+ 
+-
+SUMMARY|14/14|TRANCOUNT=0

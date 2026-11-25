@@ -863,7 +863,7 @@ class Week10SqlTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=2) as pool:
             results = list(pool.map(pay, range(2)))
         self.assertEqual(sum(result[0] for result in results), 1, str(results))
-        self.assertIn("55009", str([result[1] for result in results if not result[0]]))
+        self.assertIn("53131", str([result[1] for result in results if not result[0]]))
         self.assertEqual(
             self.db.execute(
                 "SELECT remaining_tokens FROM dbo.TokenBalances WHERE user_id=? AND model_provider='Other'",

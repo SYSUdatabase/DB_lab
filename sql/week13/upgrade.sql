@@ -12,6 +12,8 @@ IF DB_NAME()<>N'$(DatabaseName)' OR DB_NAME() NOT LIKE N'TokenHubDB[_]v11[_]WebW
  OR SCHEMA_ID('w12') IS NULL THROW 57116,'Use a dedicated Week 13 batch',1;
 BEGIN TRAN;
 GO
+-- Refresh Web entry checks first; restore the Week 12 payment wrapper afterwards.
+:r sql/week10/app_adapters.sql
 :r sql/week13/provider_lock.sql
 :r sql/week12/order_transaction.sql
 :r sql/week12/restock_transaction.sql

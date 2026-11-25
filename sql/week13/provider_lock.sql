@@ -12,6 +12,6 @@ BEGIN
  DECLARE @resource nvarchar(255)=CONCAT(N'TokenHub.Inventory.',@canonical),@result int;
  EXEC @result=sys.sp_getapplock @Resource=@resource,@LockMode='Exclusive',
   @LockOwner='Transaction',@LockTimeout=10000,@DbPrincipal='public';
- IF @result<0 THROW 55009,'Could not acquire inventory provider lock',1;
+ IF @result<0 THROW 55010,'Could not acquire inventory provider lock',1;
 END;
 GO

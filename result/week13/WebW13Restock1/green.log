@@ -1,0 +1,30 @@
+test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) ... ok
+test_expired_status_cannot_be_restocked (test_restock_feedback.RestockFeedbackTests.test_expired_status_cannot_be_restocked) ... ok
+test_restock_activation_rollback_and_duplicate (test_restock_feedback.RestockFeedbackTests.test_restock_activation_rollback_and_duplicate) ... ok
+test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) ... ok
+test_web_restock_and_order_feedback (test_restock_feedback.RestockFeedbackTests.test_web_restock_and_order_feedback) ... [2026-11-25 14:29:23,016] INFO in __init__: request_id=8b63a5b01f3f48118eb3a0044aaefd0d operation=restocks.complete role=admin code=OK result=200
+[2026-11-25 14:29:23,064] ERROR in dao: database_failure request_id=871797971ea54e2b9d5f49569e3a7d7e operation=restocks.complete role=admin sqlstate=42000 native_codes=53311
+[2026-11-25 14:29:23,064] INFO in __init__: request_id=871797971ea54e2b9d5f49569e3a7d7e operation=restocks.complete role=admin code=RESTOCK_ALREADY_COMPLETED result=409
+[2026-11-25 14:29:23,138] ERROR in dao: database_failure request_id=0961b403194947f394599fd8121ea1d9 operation=restocks.complete role=admin sqlstate=42000 native_codes=53312
+[2026-11-25 14:29:23,138] INFO in __init__: request_id=0961b403194947f394599fd8121ea1d9 operation=restocks.complete role=admin code=RESTOCK_CLOSED result=409
+[2026-11-25 14:29:23,489] INFO in __init__: request_id=bd4af31ce9e047f59394f42fed9ac941 operation=orders.create role=customer code=OK result=200
+[2026-11-25 14:29:23,791] INFO in __init__: request_id=cb7872b083604a60990f2000b4cf56ee operation=orders.pay role=customer code=OK result=200
+[2026-11-25 14:29:23,866] ERROR in dao: database_failure request_id=510df489900c495698c95cb84db4a538 operation=orders.pay role=customer sqlstate=42000 native_codes=53131
+[2026-11-25 14:29:23,873] INFO in __init__: request_id=510df489900c495698c95cb84db4a538 operation=orders.pay role=customer code=ORDER_ALREADY_PAID result=409
+[2026-11-25 14:29:23,957] INFO in __init__: request_id=a6af644c53d54d4ebb26e9d94344719e operation=orders.create role=customer code=OK result=200
+[2026-11-25 14:29:24,030] INFO in __init__: request_id=7f1ed4f00d524e4783c5c3170f0370a5 operation=orders.get role=customer code=OK result=200
+[2026-11-25 14:29:24,168] INFO in __init__: request_id=62406840089440418161b66ee936242e operation=orders.item_delete role=customer code=OK result=200
+[2026-11-25 14:29:24,255] ERROR in dao: database_failure request_id=d586926e4cad4d50a43033c5a057cc1f operation=orders.pay role=customer sqlstate=42000 native_codes=53125
+[2026-11-25 14:29:24,255] INFO in __init__: request_id=d586926e4cad4d50a43033c5a057cc1f operation=orders.pay role=customer code=ORDER_EMPTY result=409
+[2026-11-25 14:29:24,350] INFO in __init__: request_id=c638281d0743491c92e9d2c82002c1ec operation=orders.create role=customer code=OK result=200
+[2026-11-25 14:29:24,436] ERROR in dao: database_failure request_id=9068be7ba2a04ac3b9b61e919d158167 operation=orders.pay role=customer sqlstate=42000 native_codes=53132
+[2026-11-25 14:29:24,439] INFO in __init__: request_id=9068be7ba2a04ac3b9b61e919d158167 operation=orders.pay role=customer code=INSUFFICIENT_SELLABLE_QUOTA result=409
+[2026-11-25 14:29:24,530] INFO in __init__: request_id=e98a234587684140962edcae4b88f371 operation=orders.cancel role=customer code=OK result=200
+[2026-11-25 14:29:24,590] ERROR in dao: database_failure request_id=7d27c508bc004730b9a419ad359f1483 operation=orders.pay role=customer sqlstate=42000 native_codes=55011
+[2026-11-25 14:29:24,604] INFO in __init__: request_id=7d27c508bc004730b9a419ad359f1483 operation=orders.pay role=customer code=ORDER_NOT_PENDING result=409
+ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 3.391s
+
+OK

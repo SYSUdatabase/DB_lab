@@ -1,0 +1,172 @@
+test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) ... 
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53131) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53132) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53125) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53311) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53312) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=55010) ... FAIL
+test_restock_activation_rollback_and_duplicate (test_restock_feedback.RestockFeedbackTests.test_restock_activation_rollback_and_duplicate) ... FAIL
+test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) ... 
+  test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='active', expired=False) ... ERROR
+  test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=False) ... ERROR
+  test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='suspended', expired=False) ... ERROR
+  test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=True) ... ERROR
+test_web_restock_and_order_feedback (test_restock_feedback.RestockFeedbackTests.test_web_restock_and_order_feedback) ... [2026-11-25 14:26:17,525] ERROR in dao: database_failure request_id=f57d8e52b3b747ec969cb443720eae04 operation=restocks.complete role=admin sqlstate=42000 native_codes=53313
+[2026-11-25 14:26:17,525] INFO in __init__: request_id=f57d8e52b3b747ec969cb443720eae04 operation=restocks.complete role=admin code=BUSINESS_RULE result=409
+FAIL
+
+======================================================================
+ERROR: test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='active', expired=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 105, in test_restock_status_and_sellable_quota
+    select(self.db, "EXEC w12.usp_ReceiveRestock ?,10000,0;", task)
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tools\week13_verify.py", line 47, in select
+    cur.execute(query, *params)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')
+
+======================================================================
+ERROR: test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 105, in test_restock_status_and_sellable_quota
+    select(self.db, "EXEC w12.usp_ReceiveRestock ?,10000,0;", task)
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tools\week13_verify.py", line 47, in select
+    cur.execute(query, *params)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')
+
+======================================================================
+ERROR: test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='suspended', expired=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 105, in test_restock_status_and_sellable_quota
+    select(self.db, "EXEC w12.usp_ReceiveRestock ?,10000,0;", task)
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tools\week13_verify.py", line 47, in select
+    cur.execute(query, *params)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')
+
+======================================================================
+ERROR: test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 105, in test_restock_status_and_sellable_quota
+    select(self.db, "EXEC w12.usp_ReceiveRestock ?,10000,0;", task)
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tools\week13_verify.py", line 47, in select
+    cur.execute(query, *params)
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53131)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('ORDER_ALREADY_PAID', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'ORDER_ALREADY_PAID'
+
+- ('BUSINESS_RULE', 409)
++ ('ORDER_ALREADY_PAID', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53132)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('INSUFFICIENT_SELLABLE_QUOTA', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'INSUFFICIENT_SELLABLE_QUOTA'
+
+- ('BUSINESS_RULE', 409)
++ ('INSUFFICIENT_SELLABLE_QUOTA', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53125)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('ORDER_EMPTY', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'ORDER_EMPTY'
+
+- ('BUSINESS_RULE', 409)
++ ('ORDER_EMPTY', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53311)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('RESTOCK_ALREADY_COMPLETED', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'RESTOCK_ALREADY_COMPLETED'
+
+- ('BUSINESS_RULE', 409)
++ ('RESTOCK_ALREADY_COMPLETED', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53312)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('RESTOCK_CLOSED', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'RESTOCK_CLOSED'
+
+- ('BUSINESS_RULE', 409)
++ ('RESTOCK_CLOSED', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=55010)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('INVENTORY_BUSY', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'INVENTORY_BUSY'
+
+- ('BUSINESS_RULE', 409)
++ ('INVENTORY_BUSY', 409)
+
+======================================================================
+FAIL: test_restock_activation_rollback_and_duplicate (test_restock_feedback.RestockFeedbackTests.test_restock_activation_rollback_and_duplicate)
+----------------------------------------------------------------------
+pyodbc.ProgrammingError: ('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 124, in test_restock_activation_rollback_and_duplicate
+    with self.assertRaisesRegex(pyodbc.Error, r"\(54491\)"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "\(54491\)" does not match "('42000', '[42000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]No product is sold from this upstream account provider (53313) (SQLExecDirectW)')"
+
+======================================================================
+FAIL: test_web_restock_and_order_feedback (test_restock_feedback.RestockFeedbackTests.test_web_restock_and_order_feedback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 143, in test_web_restock_and_order_feedback
+    self.assertEqual(response.status_code, 200, response.json)
+AssertionError: 409 != 200 : {'code': 'BUSINESS_RULE', 'data': None, 'message': '当前状态、余额或可用额度不满足操作条件', 'request_id': 'f57d8e52b3b747ec969cb443720eae04'}
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.836s
+
+FAILED (failures=8, errors=4)

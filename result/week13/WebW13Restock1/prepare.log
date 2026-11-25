@@ -1,0 +1,11 @@
+PASS 01_source.log
+PASS 02_clone.log
+PASS deploy_extension.py.log
+PASS install_refund.py.log
+PASS validate_hardened.py.log
+PASS 03_app_install.log
+PASS 04_dashboard_install.log
+PASS 04_week10_install.log
+PASS 05_week11_install.log
+PASS 06_week12_install.log
+PASS application prepared: TokenHubDB_v11_WebW13Restock1

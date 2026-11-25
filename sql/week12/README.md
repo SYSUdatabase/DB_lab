@@ -27,7 +27,7 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 
 第13周在该检查前又增加了订单、补货共用的事务级供应商锁。订单按供应商名称升序依次取锁，补货单只取得其账号所在供应商的锁；原账号和库存行锁仍保留。[并发重放说明](../week13/README.md)。
 
-商品分类在安装时先为已有商品建立初始映射；之后由 `dbo.trg_W12_ProductCategoryAssignments` 在商品 INSERT、UPDATE 后自动建立或更新映射。OpenAI 按 Token 数量是否超过 100K 分到分类 8/9，Claude、Gemini、Other 分别对应分类 5/6/7。商品删除成功时，`ProductCategoryAssignments.product_id` 的 `ON DELETE CASCADE` 自动删除映射。Web 商品维护和直接 SQL 写入都经过同一数据库触发器；有订单或调用历史的商品仍受既有历史保护和外键约束，不能绕过这些规则删除或变更供应商。递归函数本身不变，查询通过分类映射表关联商品即可看到最新归属。补货可以入库到 depleted、suspended 账号，但不会恢复其可售状态（原有行为，未改）。
+商品分类在安装时先为已有商品建立初始映射；之后由 `dbo.trg_W12_ProductCategoryAssignments` 在商品 INSERT、UPDATE 后自动建立或更新映射。OpenAI 按 Token 数量是否超过 100K 分到分类 8/9，Claude、Gemini、Other 分别对应分类 5/6/7。商品删除成功时，`ProductCategoryAssignments.product_id` 的 `ON DELETE CASCADE` 自动删除映射。Web 商品维护和直接 SQL 写入都经过同一数据库触发器；有订单或调用历史的商品仍受既有历史保护和外键约束，不能绕过这些规则删除或变更供应商。递归函数本身不变，查询通过分类映射表关联商品即可看到最新归属。补货成功后，未到期且有效期已经开始的 depleted 上游账号在同一事务内恢复为 active；active 保持原状态，suspended 不自动启用，到期账号不自动激活，expired 状态的账号仍拒绝入库。账号状态、库存、流水及补货单状态一起提交或回滚。
 
 | 错误号 | 含义 |
 |---|---|
@@ -43,4 +43,4 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 | 54420 | 分类层级会成环或超过 32 层 |
 | 54490、54491 | 测试故障点触发的回滚 |
 
-53131、53311 只在直接调用事务过程时出现：经 Web 的“模拟支付”“完成补货”在调用前由 `app.[Execute]` 检查状态，重复操作返回 55009，页面显示通用的 409 提示。53312 已由 `test_transactions.sql` 的 R6 覆盖；53313 由 R7 核对可达性，因四个供应商均有被订单引用的商品，当前样例库无法构造“供应商没有商品”的场景，故保留为防御性检查。其余错误号沿用原支付与补货过程。
+第13周后修正：直接 SQL 与 Web 的重复支付、重复入库分别返回 53131、53311；关闭补货单返回53312，Web 将这些错误映射为具体的中文提示及 HTTP 409。库存入口锁等待失败单独使用55010。53312 已由 `test_transactions.sql` 的 R6 覆盖；53313 由 R7 核对可达性，因四个供应商均有被订单引用的商品，当前样例库无法构造“供应商没有商品”的场景，故保留为防御性检查。其余错误号沿用原支付与补货过程。

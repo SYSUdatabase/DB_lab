@@ -62,7 +62,12 @@ BEGIN
   IF @remaining<>(SELECT a.total_quota-a.used_quota FROM dbo.UpstreamAccount a
                    WHERE a.account_id=@account_id)
    THROW 53307,'Pre-existing quota/inventory divergence',1;
-  UPDATE dbo.UpstreamAccount SET total_quota=total_quota+@actual_amount,updated_at=@now
+  -- A successful purchase restores an exhausted, still-valid upstream account only.
+  -- Do not override manual suspension or reactivate an expired account.
+  UPDATE dbo.UpstreamAccount SET total_quota=total_quota+@actual_amount,
+    status=CASE WHEN status='depleted' AND created_at<=SYSDATETIME()
+       AND (expires_at IS NULL OR expires_at>SYSDATETIME())
+       THEN 'active' ELSE status END,updated_at=@now
   WHERE account_id=@account_id;
   UPDATE dbo.Inventory SET current_quota=current_quota+@actual_amount,last_updated_at=@now
   WHERE account_id=@account_id;

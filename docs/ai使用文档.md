@@ -210,3 +210,13 @@ AI辅助整理根README、阶段路线、AI记录和组员分工，将原文保�
 阮依成要求落实旧结果归档、重复构建日志精简、无用备份删除及阶段 README 完善。AI 核对现有脚本依赖、证据引用与基础库签名，归档第5—9周历史结果；受限账户的第10—12周验收单独保留在活动结果目录。18个历史构建目录的203个文件无损压缩并逐项校验，保留5份有引用或代表性的完整基线，删除两份旧中间备份。归档清单见[历史结果索引](../archive/stage2/result/README.md)。README 增补两项业务事务与双会话步骤、测试环境变量，历史 ER QA 路径同步更新并通过。
 
 最终新批次 WebW13Final01 从空库构建，完整129项测试通过、0跳过，5类并发场景通过，触发器14/14、事务14/14、分类6/6，窗口及递归查询正常，Ruff通过。清理本批次数据库和备份并保留原始证据；详见[最终统一复验](../result/week13/WebW13Final01/README.md)。本轮未重新执行完整浏览器或普通 Windows 账户验收。
+
+
+## 2026-11-25 上游补货状态及 Web 冲突提示复查
+
+- 阮依成指出：若补货代表向上游购买额度，则未到期的 depleted 上游账号补货后应恢复可用；并要求细化 Web 冲突提示。确认对象为 dbo.UpstreamAccount，不涉及顾客 Users 状态。采用 depleted 在成功入库事务内恢复 active、suspended 保持暂停、到期不自动激活的规则。
+- 源码检查：w12.usp_ReceiveRestock 原先只增加 total_quota/current_quota，不改变 status；app.[Execute] 对非 pending 订单和已结束补货单统一 THROW 55009，webapp/errors.py 将多数业务错误归入通用409。新增 tests/test_restock_feedback.py，用独立 WebW13Restock1 批次先验证旧实现反例，后续记录实际结果。
+
+- 旧版反例：WebW13Restock1 首轮测试误用未销售商品的 Other 供应商而触发53313，改用现有 OpenAI 供应商后重测，日志 red_corrected.log 确认未到期 depleted 补货后仍未激活，且六种具体错误映射均不符合预期（4个测试、9处断言失败）。随后修改 w12.usp_ReceiveRestock 在同一入库事务中恢复有效的 depleted 账号；保留 suspended 状态和到期限制。同步修改 sql/app/install.sql、sql/week10/app_adapters.sql 的前置状态检查、sql/week13/provider_lock.sql 的锁冲突错误码，以及 webapp/errors.py 的业务错误映射，保持409冲突状态与权限边界。更新重复支付和锁等待的既有回归断言，新增实际 Web 支付、补货和异常回滚用例。分工表新增阮依成第13周后业务测试与 Debug 条目。
+
+- 最终复验：WebW13Restock1 使用 sql/week13/upgrade.sql 升级通过，新增5项专项通过（3.391秒）。WebW13Restock2 从空库构建通过，134项 Python 测试全部通过、0跳过（115.045秒）；5类并发场景、触发器14/14、事务14/14、分类6/6、窗口与递归查询、Ruff检查和41个文件格式检查均通过。两批次各自3个数据库与2份备份已按后缀清理，原有5个数据库不变。证据见 [反例与升级](../result/week13/WebW13Restock1/README.md)、[最终验收](../result/week13/WebW13Restock2/README.md)。未重新执行浏览器流程或普通Windows账户验收。阮依成要求将第13周后的测试和Debug写入组内分工，已同步分工表及阶段报告。

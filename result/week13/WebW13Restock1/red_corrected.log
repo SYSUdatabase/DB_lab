@@ -1,0 +1,140 @@
+test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) ... 
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53131) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53132) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53125) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53311) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53312) ... FAIL
+  test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=55010) ... FAIL
+test_restock_activation_rollback_and_duplicate (test_restock_feedback.RestockFeedbackTests.test_restock_activation_rollback_and_duplicate) ... FAIL
+test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) ... 
+  test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=False) ... FAIL
+test_web_restock_and_order_feedback (test_restock_feedback.RestockFeedbackTests.test_web_restock_and_order_feedback) ... [2026-11-25 14:26:55,472] INFO in __init__: request_id=c4465c6d445d4fbdbd542162d34f5d6b operation=restocks.complete role=admin code=OK result=200
+FAIL
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53131)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('ORDER_ALREADY_PAID', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'ORDER_ALREADY_PAID'
+
+- ('BUSINESS_RULE', 409)
++ ('ORDER_ALREADY_PAID', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53132)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('INSUFFICIENT_SELLABLE_QUOTA', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'INSUFFICIENT_SELLABLE_QUOTA'
+
+- ('BUSINESS_RULE', 409)
++ ('INSUFFICIENT_SELLABLE_QUOTA', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53125)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('ORDER_EMPTY', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'ORDER_EMPTY'
+
+- ('BUSINESS_RULE', 409)
++ ('ORDER_EMPTY', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53311)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('RESTOCK_ALREADY_COMPLETED', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'RESTOCK_ALREADY_COMPLETED'
+
+- ('BUSINESS_RULE', 409)
++ ('RESTOCK_ALREADY_COMPLETED', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=53312)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('RESTOCK_CLOSED', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'RESTOCK_CLOSED'
+
+- ('BUSINESS_RULE', 409)
++ ('RESTOCK_CLOSED', 409)
+
+======================================================================
+FAIL: test_specific_conflicts_are_safe (test_restock_feedback.ConflictMessageTests.test_specific_conflicts_are_safe) (number=55010)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 35, in test_specific_conflicts_are_safe
+    self.assertEqual((error.code, error.status), (code, 409))
+AssertionError: Tuples differ: ('BUSINESS_RULE', 409) != ('INVENTORY_BUSY', 409)
+
+First differing element 0:
+'BUSINESS_RULE'
+'INVENTORY_BUSY'
+
+- ('BUSINESS_RULE', 409)
++ ('INVENTORY_BUSY', 409)
+
+======================================================================
+FAIL: test_restock_activation_rollback_and_duplicate (test_restock_feedback.RestockFeedbackTests.test_restock_activation_rollback_and_duplicate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 133, in test_restock_activation_rollback_and_duplicate
+    self.assertEqual(completed["account_status"], "active")
+AssertionError: 'depleted' != 'active'
+- depleted
++ active
+
+
+======================================================================
+FAIL: test_restock_status_and_sellable_quota (test_restock_feedback.RestockFeedbackTests.test_restock_status_and_sellable_quota) (status='depleted', expired=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 107, in test_restock_status_and_sellable_quota
+    self.assertEqual(after["account_status"], expected)
+AssertionError: 'depleted' != 'active'
+- depleted
++ active
+
+
+======================================================================
+FAIL: test_web_restock_and_order_feedback (test_restock_feedback.RestockFeedbackTests.test_web_restock_and_order_feedback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ruanyicheng\Desktop\数据库\DB_lab\tests\test_restock_feedback.py", line 144, in test_web_restock_and_order_feedback
+    self.assertEqual(self.state(account, task)["account_status"], "active")
+AssertionError: 'depleted' != 'active'
+- depleted
++ active
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.098s
+
+FAILED (failures=9)

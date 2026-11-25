@@ -122,4 +122,5 @@ JOIN dbo.Inventory i ON i.account_id=a.account_id WHERE t.task_id=? AND a.accoun
                 select(db, "IF @@TRANCOUNT>0 ROLLBACK;")
                 select(db, "EXEC app.EndSession ?;", digest(token))
             self.assertEqual(response.status_code, 409, response.json)
+            self.assertEqual(response.json["code"], "INVENTORY_BUSY")
             self.assertEqual(select(db, snapshot_sql, task, account), before)

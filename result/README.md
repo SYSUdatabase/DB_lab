@@ -7,7 +7,7 @@
 | 10 | [40项逐例结果](week10/W10FinalVerify03/results.json)、[全量115项与专项结果](week10/README.md) |
 | 11 | [14项触发器验证](week13/WebW13Run03/test_trigger.log)、[窗口查询](week13/WebW13Run03/window_query.log) |
 | 12 | [分类维护6项](week13/WebW13Run03/test_category_maintenance.log)、[递归查询](week13/WebW13Run03/recursive_query.log)、[事务14项](week13/WebW13Run03/test_transactions.log)、[受限账户验收](week12/WebXY1123R/README.md) |
-| 13 | [正式批次](week13/WebW13Run03/README.md)、[修复专项复验](week13/WebW13Fix01/README.md)、[最终129项统一验收](week13/WebW13Final01/README.md) |
+| 13 | [正式批次](week13/WebW13Run03/README.md)、[修复专项复验](week13/WebW13Fix01/README.md)、[129项统一验收](week13/WebW13Final01/README.md)、[最终134项验收](week13/WebW13Restock2/README.md) |
 
 第三阶段报告见 [stage3_report.md](../report/stage3_report.md)，复现说明见 [根 README](../README.md)。
 

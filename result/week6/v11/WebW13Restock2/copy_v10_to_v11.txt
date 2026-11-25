@@ -1,0 +1,4 @@
+BACKUP COPY_ONLY CHECKSUM + VERIFYONLY + RESTORE PASS
+source=TokenHubDB_v10_WebW13Restock2
+target=TokenHubDB_v11_WebW13Restock2
+backup=C:\Users\ruanyicheng\Desktop\数据库\DB_lab\result\sql_backups\WebW13Restock2\TokenHubDB_v10_WebW13Restock2_W6_21a4236d5adc.bak
