@@ -1,0 +1,192 @@
+......................[2026-11-25 10:30:11,914] INFO in __init__: request_id=f75435d5219a46fe818c6acbdc5c145b operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:12,773] INFO in __init__: request_id=9c0abaee790940e6894b552bb1877c68 operation=login role=admin code=OK result=200
+[2026-11-25 10:30:13,215] INFO in __init__: request_id=f05e596020824d51a27e7efaa4796e30 operation=employees.create role=admin code=OK result=200
+[2026-11-25 10:30:13,305] INFO in __init__: request_id=41e55f0c89cc4a7fadd2ef18c4bb1bb7 operation=employees.list role=admin code=OK result=200
+[2026-11-25 10:30:13,305] INFO in __init__: request_id=319b6cf1c129497eb514328a298785bc operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:13,827] INFO in __init__: request_id=a7925b45f70a4f17a2598ec7bae13d74 operation=login role=staff code=OK result=200
+[2026-11-25 10:30:13,888] INFO in __init__: request_id=342d2061357b496792357a1e4a2d63b4 operation=employees.list role=staff code=FORBIDDEN result=403
+[2026-11-25 10:30:13,935] INFO in __init__: request_id=df4a691884384f7f8c30a2bf78068e3f operation=employees.create role=staff code=FORBIDDEN result=403
+[2026-11-25 10:30:14,158] INFO in __init__: request_id=9f3bf43af31e4ef399bacac51318d481 operation=employees.update role=admin code=OK result=200
+[2026-11-25 10:30:14,386] INFO in __init__: request_id=4fbeaca14a50458fa3d5bf9e071a31ff operation=employees.status role=admin code=OK result=200
+[2026-11-25 10:30:14,408] INFO in __init__: request_id=ad6601e377c14f0c9ee6900b3a5e9f9a operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-25 10:30:14,410] INFO in __init__: request_id=745873ed7baa494b8f1fba00fac0e283 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:14,446] INFO in __init__: request_id=877852a1c4ea4ece9d2005197bcede19 operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-25 10:30:14,665] INFO in __init__: request_id=bef923a6433a424180b1690d93ed80a8 operation=employees.status role=admin code=OK result=200
+[2026-11-25 10:30:14,666] INFO in __init__: request_id=0f3eff3626a44f4a8e14c809bf631254 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:15,027] INFO in __init__: request_id=6304200958d14f1a80b4895896fde0f0 operation=login role=staff code=OK result=200
+[2026-11-25 10:30:15,421] INFO in __init__: request_id=4edc820a085441e788c89b661a127d0a operation=employees.password role=admin code=OK result=200
+[2026-11-25 10:30:15,459] INFO in __init__: request_id=1d6656b19130470c80492b2274a53a46 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-25 10:30:15,460] INFO in __init__: request_id=7a6540185aac4a08871152189baf5c02 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:15,688] INFO in __init__: request_id=6dd92cb555db4d078d0c8a67706b13d1 operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-25 10:30:15,689] INFO in __init__: request_id=dbc02591a8024d5c91fce6b207d97a96 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:16,139] INFO in __init__: request_id=5b9ba1cfc8cc4e93997e10a98c039d54 operation=login role=staff code=OK result=200
+[2026-11-25 10:30:16,140] INFO in __init__: request_id=edd7398384b7429eaca15717ac58a7a3 operation=unknown role=guest code=INVALID_REQUEST result=405
+[2026-11-25 10:30:16,248] ERROR in dao: database_failure request_id=c35002ecc8fc43088c669b67162de0de operation=employees.status role=admin sqlstate=42000 native_codes=55004
+[2026-11-25 10:30:16,249] INFO in __init__: request_id=c35002ecc8fc43088c669b67162de0de operation=employees.status role=admin code=NOT_FOUND result=404
+[2026-11-25 10:30:16,267] INFO in __init__: request_id=f11ef8f1756f4bbaa8c02172a3f04e49 operation=employees.create role=admin code=INVALID_INPUT result=400
+.[2026-11-25 10:30:16,268] INFO in __init__: request_id=a24dabd1b47342f99c988b667093d884 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:16,492] INFO in __init__: request_id=04475726e6224e998766f05cbf5d020f operation=login role=admin code=OK result=200
+[2026-11-25 10:30:16,719] ERROR in dao: database_failure request_id=66b141c419e1451b860dfba9acdce9d6 operation=employees.create role=admin sqlstate=23000 native_codes=2627
+[2026-11-25 10:30:16,721] INFO in __init__: request_id=66b141c419e1451b860dfba9acdce9d6 operation=employees.create role=admin code=CONSTRAINT_CONFLICT result=409
+[2026-11-25 10:30:16,722] INFO in __init__: request_id=088f39e8b8c948259ef5b60568a3ee0b operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:17,066] INFO in __init__: request_id=9e0a57d260274dd5878c118ae378029d operation=login role=customer code=OK result=200
+[2026-11-25 10:30:17,120] INFO in __init__: request_id=ac0a905770d14fb3971293c7d127f849 operation=employees.list role=customer code=FORBIDDEN result=403
+[2026-11-25 10:30:17,164] INFO in __init__: request_id=a6dc0541250641a09aa03a89c60cf486 operation=employees.create role=customer code=FORBIDDEN result=403
+[2026-11-25 10:30:17,164] INFO in __init__: request_id=7802c006fe8648ea91c0fa1efc020475 operation=employees.list role=guest code=UNAUTHENTICATED result=401
+..[2026-11-25 10:30:17,176] INFO in __init__: request_id=981024b1a3cf4d0f8830188d43e915cd operation=employees.create_6 role=guest code=CSRF_REJECTED result=403
+......[2026-11-25 10:30:18,440] INFO in __init__: request_id=5f0425f2f3bc4aa489bb3b141b53dc3d operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:18,441] INFO in __init__: request_id=f0ffbc31d55b494da0f4caddb3ac7642 operation=register_customer role=guest code=INVALID_INPUT result=400
+.[2026-11-25 10:30:18,442] INFO in __init__: request_id=3ff11aff54e34c08adffd137cad79b58 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:18,785] INFO in __init__: request_id=810543ca5f034a97a7ce474ffec848d7 operation=register_customer role=customer code=OK result=200
+[2026-11-25 10:30:18,820] INFO in __init__: request_id=4f47ed5499bc472c8e53a3e7e43ec654 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:18,862] INFO in __init__: request_id=c2a7d78db41b4abb86cc682d21b9105c operation=products.save role=customer code=FORBIDDEN result=403
+[2026-11-25 10:30:18,863] INFO in __init__: request_id=f8537c1b69944e92baf5dc0fa95d165f operation=register_customer role=guest code=INVALID_REQUEST result=409
+[2026-11-25 10:30:18,979] INFO in __init__: request_id=c7627cb3e2e54df0a28e6da0c14d6352 operation=logout role=guest code=OK result=200
+[2026-11-25 10:30:18,980] INFO in __init__: request_id=3137109fa0bc45169042e6f66f22fc09 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:19,334] INFO in __init__: request_id=ab4aa61037cb484592272c4b1a10b6ad operation=login role=customer code=OK result=200
+[2026-11-25 10:30:19,334] INFO in __init__: request_id=a1a911d72b984fa68ac2473b8d9d54e4 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:19,639] ERROR in dao: database_failure request_id=bc9c8adf0c7841519a030f0b38402003 operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-25 10:30:19,641] INFO in __init__: request_id=bc9c8adf0c7841519a030f0b38402003 operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+[2026-11-25 10:30:19,949] ERROR in dao: database_failure request_id=f0be0629f6c14f0a8d5f3c9ecc4da930 operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-25 10:30:19,951] INFO in __init__: request_id=f0be0629f6c14f0a8d5f3c9ecc4da930 operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+.[2026-11-25 10:30:19,965] INFO in __init__: request_id=37d3be8609374bc5925186600025f0c7 operation=register_customer role=guest code=CSRF_REJECTED result=403
+........................[2026-11-25 10:30:23,441] INFO in __init__: request_id=506f5a533a0641edac8c59d0e43b7aad operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:23,956] INFO in __init__: request_id=49fba8a607544c1392423e7012855da5 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:24,420] INFO in __init__: request_id=1e381c9388ed4dcb9676b098781ef12a operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:25,231] INFO in __init__: request_id=88365cf1461b4e43a1a31c2c85973393 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:30:25,495] INFO in __init__: request_id=3131b6a924de4075852810cc77187bdd operation=usage.create role=customer code=OK result=200
+[2026-11-25 10:30:25,659] INFO in __init__: request_id=d32dc36b78f94bc9934738011ee2b641 operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:30:25,754] INFO in __init__: request_id=183184a6d8b74942bcffea10e3b57bbc operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:30:25,756] INFO in __init__: request_id=66b12422495445b4a75ec1b668dcde81 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:26,308] INFO in __init__: request_id=2ab60831281d472a9ea7aaa9a67f1c76 operation=login role=admin code=OK result=200
+[2026-11-25 10:30:26,711] INFO in __init__: request_id=0ec2b8bdafce47618e017da02d158ad2 operation=refunds.settle role=admin code=OK result=200
+.[2026-11-25 10:30:26,712] INFO in __init__: request_id=d205a2583b08408880f1a5757f7b9c37 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:27,177] INFO in __init__: request_id=522aff14eac24f53a7d166cbcce9b585 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:27,958] INFO in __init__: request_id=e8c6c887ff384879be940fcbe0d2371b operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:28,450] INFO in __init__: request_id=9f9e992b9523487e95444b1ecc8e8b86 operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:30:29,254] INFO in __init__: request_id=b50d67081a27493d8f74126d7d033b28 operation=orders.item_set role=customer code=OK result=200
+[2026-11-25 10:30:29,840] INFO in __init__: request_id=887f3135cc664d1887dfd05dd215953e operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:30:30,104] INFO in __init__: request_id=6c3048ad40344296bedb4e6a4e2aa661 operation=orders.item_delete role=customer code=OK result=200
+[2026-11-25 10:30:30,731] ERROR in dao: database_failure request_id=fb615387c9e74652a3459e02ded03d3e operation=orders.pay role=customer sqlstate=42000 native_codes=53125
+[2026-11-25 10:30:30,734] INFO in __init__: request_id=fb615387c9e74652a3459e02ded03d3e operation=orders.pay role=customer code=BUSINESS_RULE result=409
+.[2026-11-25 10:30:30,736] INFO in __init__: request_id=b2f21be961504f88aa8a2809fe25c503 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:31,233] INFO in __init__: request_id=0c6c619780694c0db3e9a026c686a5d8 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:32,073] INFO in __init__: request_id=6ea96d3914db4831bb719ff1d4a2d8e2 operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:32,075] INFO in __init__: request_id=9a82eee479f349dbba6287bc52b6109e operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:32,558] INFO in __init__: request_id=bb0f5439ddfc444d9cec0d4d375e934e operation=login role=customer code=OK result=200
+[2026-11-25 10:30:32,902] ERROR in dao: database_failure request_id=b6ca2766cf6743b99bc4351c901778fc operation=orders.get role=customer sqlstate=42000 native_codes=55003
+[2026-11-25 10:30:32,904] INFO in __init__: request_id=b6ca2766cf6743b99bc4351c901778fc operation=orders.get role=customer code=FORBIDDEN result=403
+[2026-11-25 10:30:32,989] ERROR in dao: database_failure request_id=4a96b4b5b3e84fcd8db85ad2584a6a21 operation=orders.pay role=customer sqlstate=42000 native_codes=55003
+[2026-11-25 10:30:32,993] INFO in __init__: request_id=4a96b4b5b3e84fcd8db85ad2584a6a21 operation=orders.pay role=customer code=FORBIDDEN result=403
+[2026-11-25 10:30:32,995] INFO in __init__: request_id=2016cca54548446dbcc4df8ab5193dd4 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:33,470] INFO in __init__: request_id=fb5f00ca8057457aa35f666238173431 operation=login role=staff code=OK result=200
+[2026-11-25 10:30:33,551] INFO in __init__: request_id=5f10746719194b78b837b761bace2ea8 operation=products.save role=staff code=FORBIDDEN result=403
+[2026-11-25 10:30:33,721] INFO in __init__: request_id=f5931be34d1846dfa8e9c96057c6ab32 operation=orders.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:30:33,722] INFO in __init__: request_id=6e3f61596d674e26a60bf36040c251e3 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:34,180] INFO in __init__: request_id=0573cc7bdfb7458b9fb766f4ea3e7db4 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:34,501] INFO in __init__: request_id=21533535bfc1431295cdd488b5b2a82a operation=products.list role=customer code=OK result=200
+[2026-11-25 10:30:34,553] INFO in __init__: request_id=113b89c913ba4e2c8318bf001a22f6f9 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:34,606] INFO in __init__: request_id=1429ac3452da41c792badc0d8c5f88dd operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:34,793] INFO in __init__: request_id=6ec4a853f6a041b1920e747d9b03c172 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:34,848] INFO in __init__: request_id=957c1fd36a094da2aa3a6516e8779a7f operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:34,904] INFO in __init__: request_id=14e6cbd9dc2c44c4895a54369494ad8f operation=usage.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:30:34,905] INFO in __init__: request_id=e71523219b814279839396f5940848b3 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:35,333] INFO in __init__: request_id=6199fc8989d04d80bdf745fdc1071a73 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:35,371] INFO in __init__: request_id=1fb2282ef9254d649fa97b51656b7ff9 operation=logout role=guest code=OK result=200
+[2026-11-25 10:30:35,417] INFO in __init__: request_id=9304c6bd016b4d279b8fe090cf7e2837 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+.[2026-11-25 10:30:35,418] INFO in __init__: request_id=8afa9088f10b46a0a4bdfe61ef87bd42 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:35,887] INFO in __init__: request_id=a0752ee72cab4085a439fddaaf1ecf26 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:36,488] INFO in __init__: request_id=c984fd587cf94900aee947a8e430ff8d operation=orders.list role=customer code=OK result=200
+[2026-11-25 10:30:36,708] ERROR in dao: database_failure request_id=3135f356830b44f4b38fec6d2e097f05 operation=orders.create role=customer sqlstate=42000 native_codes=52127
+[2026-11-25 10:30:36,710] INFO in __init__: request_id=3135f356830b44f4b38fec6d2e097f05 operation=orders.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:30:36,792] INFO in __init__: request_id=916ce8eacf6c401189b0c3fbdf25faae operation=orders.list role=customer code=OK result=200
+.[2026-11-25 10:30:36,794] INFO in __init__: request_id=beb4056db2634cb7b13ef72faa70ddf6 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:37,286] INFO in __init__: request_id=7eaab20a1b054deeb23f4a0930b1f0c2 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:37,974] INFO in __init__: request_id=c05afac3dab0417fa32546c78bfdbeaa operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:37,976] INFO in __init__: request_id=4064c2c7b4964aa7ae45b3fa87659956 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:37,978] INFO in __init__: request_id=04e20d17073944efbc3a7492966b0cef operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:38,423] INFO in __init__: request_id=fb97dcd4917c4a5dbce8f7f67e9b72eb operation=login role=customer code=OK result=200
+[2026-11-25 10:30:38,437] INFO in __init__: request_id=9b82567100044cae9e564aff90c7979a operation=login role=customer code=OK result=200
+[2026-11-25 10:30:38,863] INFO in __init__: request_id=9ec235cb047f497d94112bcca523a4b0 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:30:38,864] ERROR in dao: database_failure request_id=656b14856209496bb25d9a7924fc33cf operation=orders.pay role=customer sqlstate=42000 native_codes=55009
+[2026-11-25 10:30:38,866] INFO in __init__: request_id=656b14856209496bb25d9a7924fc33cf operation=orders.pay role=customer code=BUSINESS_RULE result=409
+.[2026-11-25 10:30:38,869] INFO in __init__: request_id=e25cc6b7d0994ff08585c416037aa693 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:39,329] INFO in __init__: request_id=93609e4b6fda4aaf816a4267497ce23e operation=login role=customer code=OK result=200
+[2026-11-25 10:30:39,667] INFO in __init__: request_id=328adc8f5ccb496586125b45b6a9bf46 operation=products.list role=customer code=OK result=200
+.[2026-11-25 10:30:39,669] INFO in __init__: request_id=9dd31e049c05439b8262ad4d3dbaf67d operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:40,144] INFO in __init__: request_id=e2155223801649688160212445490478 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:40,146] ERROR in dao: database_failure request_id=2e476e95f6db42f9a6ad07c258fdacf1 operation=orders.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-25 10:30:40,147] INFO in __init__: request_id=2e476e95f6db42f9a6ad07c258fdacf1 operation=orders.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:30:40,148] INFO in __init__: request_id=b8d232edd0eb49039f3cd3c6e0e09d63 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:40,623] INFO in __init__: request_id=2e824aa0eb0b43c1bbe5247922176567 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:41,069] INFO in __init__: request_id=fc1dc36d949e47128775ecf78580d3eb operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:41,308] INFO in __init__: request_id=2c0be3e7a2ba4672ada459b37bfa1e56 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:30:41,400] INFO in __init__: request_id=3e26ac213b594ac89dca34d248138f3f operation=balances.list role=customer code=OK result=200
+[2026-11-25 10:30:41,402] INFO in __init__: request_id=fa4f0e91ced14783bb85a5355f3b6b06 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:41,404] INFO in __init__: request_id=8a148bdd0f3444c383f58584b61493c4 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:42,006] INFO in __init__: request_id=1044e8cfafc04406800e12a112a40359 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:42,008] INFO in __init__: request_id=a71f0898e89845d5a7f3d1c2dea746a0 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:42,472] INFO in __init__: request_id=6ac5eb1482764aceb92a22ad5335ae43 operation=usage.create role=customer code=OK result=200
+[2026-11-25 10:30:42,476] ERROR in dao: database_failure request_id=62e744df91c0404e94d18bea7298be11 operation=usage.create role=customer sqlstate=42000 native_codes=51956
+[2026-11-25 10:30:42,478] INFO in __init__: request_id=62e744df91c0404e94d18bea7298be11 operation=usage.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:30:42,567] INFO in __init__: request_id=a03f0c133a344859950e165d3a6d5dea operation=balances.list role=customer code=OK result=200
+.[2026-11-25 10:30:42,569] INFO in __init__: request_id=640b72d92d204a9d81772572bf311c0a operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:43,166] INFO in __init__: request_id=d24878ff43d74050aff2f3f611b04948 operation=login role=customer code=OK result=200
+[2026-11-25 10:30:43,643] INFO in __init__: request_id=8043780aa98744cb977343204306b974 operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:30:44,377] INFO in __init__: request_id=079b4f65ffff4f658272caa96ec69fe4 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:30:44,528] INFO in __init__: request_id=a999e14948b14a408bbd63fedf2afa60 operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:30:44,529] INFO in __init__: request_id=1722039aefd047fcbdc7aaba9dc8e410 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:44,530] INFO in __init__: request_id=cfb1bd1eaa94499c865f76a12a470a63 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:45,171] INFO in __init__: request_id=605a11aaa68b416bb889e1b5c48ae60e operation=login role=customer code=OK result=200
+[2026-11-25 10:30:45,172] INFO in __init__: request_id=515c559e968e42caa8260c0cf4c3581e operation=login role=customer code=OK result=200
+[2026-11-25 10:30:45,649] INFO in __init__: request_id=3f3d5dc49a94478183e982594eefb7a0 operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:30:45,649] ERROR in dao: database_failure request_id=14755c6942d6418f9a0b67d9c46d26da operation=usage.create role=customer sqlstate=42000 native_codes=51956
+[2026-11-25 10:30:45,652] INFO in __init__: request_id=14755c6942d6418f9a0b67d9c46d26da operation=usage.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:30:45,743] INFO in __init__: request_id=adb2270c4eb5453691ed75c26c90aea4 operation=balances.list role=customer code=OK result=200
+.[2026-11-25 10:30:45,771] ERROR in dao: database_failure request_id=9da96f056f664731903a7125c66f8302 operation=products.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-25 10:30:45,772] INFO in __init__: request_id=9da96f056f664731903a7125c66f8302 operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:30:45,798] ERROR in dao: database_failure request_id=f51e792b27b44c50a5314d9d9f63cce7 operation=products.list role=guest sqlstate=08S01 native_codes=
+[2026-11-25 10:30:45,799] WARNING in dao: connection_cleanup_failed request_id=f51e792b27b44c50a5314d9d9f63cce7 operation=products.list
+[2026-11-25 10:30:45,801] INFO in __init__: request_id=f51e792b27b44c50a5314d9d9f63cce7 operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:30:45,828] INFO in __init__: request_id=653abd96840e45de9b08532be931937b operation=unknown role=guest code=NOT_FOUND result=404
+.[2026-11-25 10:30:45,852] INFO in __init__: request_id=d32741fe10fa4ad2b1078b69e7452260 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:30:45,856] INFO in __init__: request_id=603d0a1299c34a5896a1e445c6bac9f6 operation=login role=guest code=INVALID_INPUT result=400
+.[2026-11-25 10:30:45,879] INFO in __init__: request_id=f66ecda2ad414d698abc7eea70e3a8d7 operation=orders.create_15 role=guest code=CSRF_REJECTED result=403
+.[2026-11-25 10:30:45,928] INFO in __init__: request_id=32f6bea2e04f4f47a0df0babe8d56354 operation=index role=guest code=OK result=200
+.[2026-11-25 10:30:45,951] INFO in __init__: request_id=dfee23106ed94f8d9ebe093ee1262c83 operation=unknown role=guest code=NOT_FOUND result=404
+..............................[2026-11-25 10:30:53,015] INFO in __init__: request_id=7d8f1e5decdb4000b99ca480b6de026b operation=inventory.adjustments.create role=admin code=OK result=200
+[2026-11-25 10:30:53,018] INFO in __init__: request_id=eaa510d883204bd6baaa01bbad69849a operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,020] INFO in __init__: request_id=31e433ba86de4239957f08fc341d81b6 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,023] INFO in __init__: request_id=fee3c1c0f4e945e399cce8127fdeb23b operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,024] INFO in __init__: request_id=1a695f669df84abbbd6086d41bb7ec62 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,027] INFO in __init__: request_id=0983fda07efb440fac656fc0f3b55dca operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,030] INFO in __init__: request_id=6f9e88d02bc84ca7ac8089276d2fd7ce operation=inventory.adjustments.create role=staff code=FORBIDDEN result=403
+..[2026-11-25 10:30:53,105] INFO in __init__: request_id=f05110da385d496a85af8b77b0b52833 operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-25 10:30:53,106] INFO in __init__: request_id=376f7a558dd14545bf9d070c13303186 operation=inventory.adjustments.create_2 role=guest code=CSRF_REJECTED result=403
+.[2026-11-25 10:30:53,135] INFO in __init__: request_id=6de162257ab14d2b9576871f29fc874d operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-25 10:30:53,156] INFO in __init__: request_id=5f08592594454777b7b6e563f4df2547 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,158] INFO in __init__: request_id=171ceffa9f1f4d038b4a43250185f6b5 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,161] INFO in __init__: request_id=955997cbc3284070ba60201bcfd995bf operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,163] INFO in __init__: request_id=d3627069f22548aaa61741ed4e4f7139 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,166] INFO in __init__: request_id=1c16bf0dc94a427e9dd1d9653a154aad operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+..[2026-11-25 10:30:53,218] INFO in __init__: request_id=2e80ab3e208b42a58136e8db5757aea3 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,221] INFO in __init__: request_id=1b901459615e4df291fe399e00898c61 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,224] INFO in __init__: request_id=241b816f493447509eb0b496376ce4d0 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,226] INFO in __init__: request_id=ae94c57bd1b247dab06dadcc6f56092d operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,229] INFO in __init__: request_id=5bd0cef5826441a39484fbd4216fb5a3 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,232] INFO in __init__: request_id=7dd3200fb4c44009865948e50af8b41d operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,234] INFO in __init__: request_id=63b61e06ea6948e296fc0f1f71cfaa93 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,238] INFO in __init__: request_id=bedbe3cc41d4477780090744be440958 operation=orders.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:30:53,266] INFO in __init__: request_id=6a805b0aa1034ead822555d773f4e843 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,269] INFO in __init__: request_id=cbe79f68c151457fb10fb9e4c2fac96f operation=inventory.adjustments.create role=admin code=OK result=200
+.[2026-11-25 10:30:53,294] INFO in __init__: request_id=ba83d0ff94aa465491746e92db1921e4 operation=restocks.recommendation role=staff code=OK result=200
+[2026-11-25 10:30:53,298] INFO in __init__: request_id=889057f22bb549128cdb39a76185aa9a operation=restocks.recommendation role=admin code=INVALID_INPUT result=400
+.[2026-11-25 10:30:53,324] INFO in __init__: request_id=d4202a833cf54c7096fc65eabecb141b operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,328] INFO in __init__: request_id=1d8d9e04371b4022b1d9fffef7a729b9 operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:30:53,331] INFO in __init__: request_id=d3e151a551ec4beaacce35f805110b3a operation=reports.sales role=staff code=OK result=200
+[2026-11-25 10:30:53,335] INFO in __init__: request_id=ebd4b19bdb0545dca807dfbf4e70261c operation=reports.sales role=customer code=FORBIDDEN result=403
+..............
+----------------------------------------------------------------------
+Ran 126 tests in 50.485s
+
+OK

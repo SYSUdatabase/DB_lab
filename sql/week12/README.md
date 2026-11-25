@@ -25,6 +25,8 @@ sqlcmd -S 'localhost\SQLEXPRESS' -E -C -b -f 65001 -d $env:DB_LAB_APP_DATABASE -
 
 订单完成事务在核对可售余量之前先以 `UPDLOCK,HOLDLOCK` 锁住本单涉及供应商的上游账号行，同一供应商的并发完成在此排队，避免两个事务在已售批次上互相等待而死锁。直接 SQL 在自己开的事务中调用时，事务过程出错会连同调用者此前的改动一起回滚。
 
+第13周在该检查前又增加了订单、补货共用的事务级供应商锁。订单按供应商名称升序依次取锁，补货单只取得其账号所在供应商的锁；原账号和库存行锁仍保留。[并发重放说明](../week13/README.md)。
+
 商品分类在安装时先为已有商品建立初始映射；之后由 `dbo.trg_W12_ProductCategoryAssignments` 在商品 INSERT、UPDATE 后自动建立或更新映射。OpenAI 按 Token 数量是否超过 100K 分到分类 8/9，Claude、Gemini、Other 分别对应分类 5/6/7。商品删除成功时，`ProductCategoryAssignments.product_id` 的 `ON DELETE CASCADE` 自动删除映射。Web 商品维护和直接 SQL 写入都经过同一数据库触发器；有订单或调用历史的商品仍受既有历史保护和外键约束，不能绕过这些规则删除或变更供应商。递归函数本身不变，查询通过分类映射表关联商品即可看到最新归属。补货可以入库到 depleted、suspended 账号，但不会恢复其可售状态（原有行为，未改）。
 
 | 错误号 | 含义 |

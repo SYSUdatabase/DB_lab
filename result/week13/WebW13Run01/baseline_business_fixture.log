@@ -1,0 +1,2 @@
+消息 515，级别 16，状态 2，服务器 localhost\SQLEXPRESS，第 29 行
+不能将值 NULL 插入列 'trigger_reason'，表 'TokenHubDB_v11_WebW13Run01.dbo.RestockTask'；列不允许有 Null 值。INSERT 失败。

@@ -1,0 +1,11 @@
+result_row
+----------
+C1|新增商品自动分类|OpenAI 小容量→分类 8，递归可见且为叶子|category_id=8；leaf=1|符合
+C2|容量变化自动重分类|OpenAI 大容量→分类 9，递归可见且为叶子|category_id=9；leaf=1|符合
+C3|供应商变更为 Claude|Claude→分类 5，递归可见且为叶子|category_id=5；leaf=1|符合
+C4|供应商变更为 Gemini|Gemini→分类 6，递归可见且为叶子|category_id=6；leaf=1|符合
+C5|供应商变更为 Other|Other→分类 7，递归可见且为叶子|category_id=7；leaf=1|符合
+C6|删除商品级联清理|商品与分类映射均不存在|product_rows=0；assignment_rows=0|符合
+
+-
+SUMMARY|6/6|TRANCOUNT=0

@@ -1,0 +1,19 @@
+Run suffix: WebW13Run01
+SQL Server: localhost\SQLEXPRESS
+Databases to drop:
+  TokenHubDB_v11_WebW13Run01
+  TokenHubDB_v10_WebW13Run01
+  TokenHubDB_v01_WebW13Run01
+Run-specific SQL backup directory to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01
+SQL backup files to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v01_WebW13Run01_W6_116be5170b14.bak
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v10_WebW13Run01_W6_256f3f68913c.bak
+Evidence directories: KEEP
+Cache directories to delete:
+  D:\Desktop\DB\DB_lab\.ruff_cache
+  D:\Desktop\DB\DB_lab\db_tools\v11\__pycache__
+  D:\Desktop\DB\DB_lab\tests\__pycache__
+  D:\Desktop\DB\DB_lab\tools\__pycache__
+  D:\Desktop\DB\DB_lab\webapp\__pycache__
+What if: Performing the operation "drop this run's databases, delete its SQL backups, (keep evidence) and caches" on target "Run WebW13Run01 on localhost\SQLEXPRESS".

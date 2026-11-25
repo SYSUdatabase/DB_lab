@@ -1,0 +1,26 @@
+Run suffix: WebW13Run01
+SQL Server: localhost\SQLEXPRESS
+Databases to drop:
+  TokenHubDB_v11_WebW13Run01
+  TokenHubDB_v10_WebW13Run01
+  TokenHubDB_v01_WebW13Run01
+Run-specific SQL backup directory to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01
+SQL backup files to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v01_WebW13Run01_W6_116be5170b14.bak
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v10_WebW13Run01_W6_256f3f68913c.bak
+Evidence directories: KEEP
+Cache directories to delete:
+  D:\Desktop\DB\DB_lab\.ruff_cache
+  D:\Desktop\DB\DB_lab\db_tools\v11\__pycache__
+  D:\Desktop\DB\DB_lab\tests\__pycache__
+  D:\Desktop\DB\DB_lab\tools\__pycache__
+  D:\Desktop\DB\DB_lab\webapp\__pycache__
+Dropped and verified absent: TokenHubDB_v11_WebW13Run01
+Dropped and verified absent: TokenHubDB_v10_WebW13Run01
+Dropped and verified absent: TokenHubDB_v01_WebW13Run01
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v01_WebW13Run01_W6_116be5170b14.bak
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01\TokenHubDB_v10_WebW13Run01_W6_256f3f68913c.bak
+Deleted run backup directory: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run01
+Cleanup verification PASS for WebW13Run01.
+Evidence was intentionally retained; all run databases/backups and disposable caches were removed.

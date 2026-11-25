@@ -1,0 +1,15 @@
+Run suffix: WebW13Run02
+SQL Server: localhost\SQLEXPRESS
+Databases to drop:
+  TokenHubDB_v11_WebW13Run02
+  TokenHubDB_v10_WebW13Run02
+  TokenHubDB_v01_WebW13Run02
+Run-specific SQL backup directory to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02
+SQL backup files to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v01_WebW13Run02_W6_fa6a721757d5.bak
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v10_WebW13Run02_W6_e98ae8ed9d33.bak
+Evidence directories: KEEP
+Cache directories to delete:
+  (none)
+What if: Performing the operation "drop this run's databases, delete its SQL backups, (keep evidence) and caches" on target "Run WebW13Run02 on localhost\SQLEXPRESS".

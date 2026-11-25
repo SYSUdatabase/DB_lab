@@ -1,6 +1,6 @@
-# TokenHub：第三阶段（第10—13周）数据库编程与事务处理
+# TokenHub v2.0：第三阶段（第10—13周）数据库编程与事务处理
 
-本阶段提交重点为**第10周存储过程与函数、第11周触发器与窗口查询、第12周递归查询和业务事务**。第13周并发控制实验仍待完成。既有数据库及 Web 基础代码只作为运行依赖，阶段报告和证据以第10周及以后为准。
+本阶段提交包括**第10周存储过程与函数、第11周触发器与窗口查询、第12周递归查询和业务事务、第13周并发控制**。交付版本为 v2.0，仍使用内部 v1.1 基础库和周次增量，数据库名称继续使用 `TokenHubDB_v11_<RunId>`。见[第三阶段报告](report/stage3_report.md)。
 
 > **重要**：新建第三阶段数据库时必须使用 `--with-week10 --with-week11 --with-week12`，否则只会安装基础业务对象，缺少第10—12周扩展。
 
@@ -11,9 +11,10 @@
 | **10** | 销售统计、库存调整存储过程；补货量、销售汇总、折扣函数；库存校正记录表 | [procedure.sql](sql/week10/procedure.sql)、[function.sql](sql/week10/function.sql)、[报告](report/week10_report.md)、[40项逐例验证](result/week10/W10FinalVerify03/results.json) |
 | **11** | 库存审计和订单完成规则触发器；排名、累计值、移动平均三种窗口查询 | [trigger.sql](sql/week11/trigger.sql)、[window_query.sql](sql/week11/window_query.sql)、[报告](report/week11_report.md) |
 | **12** | 递归分类及商品分类自动维护；订单完成、补货入库事务；提交、回滚和重复调用验证 | [recursive_query.sql](sql/week12/recursive_query.sql)、[事务测试](sql/week12/test_transactions.sql)、[报告](report/week12_report.md) |
-| **13** | 锁等待、隔离级别、死锁实验 | 尚待完成 |
+| **13** | 写入等待、读取隔离级别对照、反序死锁与同序更新、订单并发竞购 | [双会话脚本](sql/week13/README.md)、[第13周报告](report/week13_report.md) |
 
-第10周专项验证 **40项通过**。最新隔离验收批次 `WebXY1124D` 中，第12周商品分类维护 **6/6**、第11周触发器 **14/14**、第12周事务 **14/14**，全量 Python **126项通过、0跳过**；[原始验收记录](result/week12/WebXY1124D/README.md)。
+第10周专项验证 **40项通过**。第12周隔离验收批次 `WebXY1124D` 中，商品分类维护 **6/6**、第11周触发器 **14/14**、第12周事务 **14/14**，全量 Python **126项通过、0跳过**；[原始验收记录](result/week12/WebXY1124D/README.md)。
+第13周独立批次 `WebW13Run03` 也完成了全量 Python **126 项通过、0 跳过**，并验证双会话等待、隔离、死锁与竞购；见[最新验收记录](result/week13/WebW13Run03/README.md)。
 
 [第三阶段组内分工](docs/team_division.md) · [AI使用文档](docs/ai使用文档.md) · [AI详细日志](docs/ai_usage_log.md)
 
@@ -117,7 +118,7 @@ if (-not (Test-Path .venv/Scripts/python.exe)) { python -m venv .venv }
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 
 $ServerInstance = 'localhost\SQLEXPRESS'
-$Suffix = 'Web' + (Get-Date -Format 'MMddHHmmss')
+$Suffix = 'WebW13' + (Get-Date -Format 'ddHHmmss')
 $env:DB_LAB_DEMO_PASSWORD = Read-Host '设置本轮实验密码'
 .\.venv\Scripts\python.exe tools/app_prepare.py --server $ServerInstance --suffix $Suffix --with-week10 --with-week11 --with-week12
 if ($LASTEXITCODE -ne 0) { throw '第10—12周数据库准备失败' }
@@ -142,6 +143,15 @@ sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/w
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
+需要核验第13周时，在启动 Web 前运行双会话工具，或按[手工步骤](sql/week13/README.md)在 SSMS 分别执行 A/B 段。若只做现象实验，手动检查用的 P/Q 为简化库存；自动核验还会运行实际支付、补货和两笔订单竞购。手工与自动的完整业务竞争各使用独立批次。
+
+```powershell
+.\.venv\Scripts\python.exe tools/week13_verify.py --server $ServerInstance --suffix $Suffix
+if ($LASTEXITCODE -ne 0) { throw '第13周并发核验失败，请检查本轮证据' }
+```
+
+自动核验输出 `result/week13/<RunId>/concurrency.jsonl`。清理后若需留存实验依据，选择 `-KeepEvidence`；第13周独立证据目录不属于通用复现清理脚本的删除范围。
+
 要展示第10周 Web 销售统计、补货建议及库存校正，以及第12周的订单完成和补货入库，可在同一环境启动：
 
 ```powershell
@@ -153,12 +163,12 @@ sqlcmd -S $ServerInstance -d $env:DB_LAB_APP_DATABASE -E -C -b -f 65001 -i sql/w
 ## 第三阶段目录
 
 ```text
-sql/week10/、sql/week11/、sql/week12/   本阶段程序对象及测试
-report/week10_report.md、week11_report.md、week12_report.md   本阶段报告
-plan/week10-procedures-functions-plan.md  第10周实施计划
+sql/week10/、sql/week11/、sql/week12/、sql/week13/   本阶段程序对象及测试
+report/stage3_report.md、report/week10_report.md 至 week13_report.md   本阶段报告
+plan/                                    实施计划
 docs/ai_usage_log.md、docs/ai使用文档.md   第三阶段AI辅助记录
 docs/team_division.md                     第三阶段分工
-result/week10/、result/week11/、result/week12/   本阶段验收证据
+result/week10/、result/week11/、result/week12/、result/week13/   本阶段验收证据
 webapp/、tools/、tests/                  网站、建库、验证与清理工具
 sql/v01/、sql/v10/、sql/v11/、sql/app/    运行所需既有数据库对象
 archive/                                 旧阶段的报告、分工、计划和记录

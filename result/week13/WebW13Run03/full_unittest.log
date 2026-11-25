@@ -1,0 +1,1344 @@
+......................[2026-11-25 10:35:54,514] INFO in __init__: request_id=113a1cb8eb65403fa3e3a8e62fac49a1 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:54,884] INFO in __init__: request_id=0628d1a7c4004b08ad40b9c0d6265db1 operation=login role=admin code=OK result=200
+[2026-11-25 10:35:55,345] INFO in __init__: request_id=35065b1a8a95415db793769dc6d4728b operation=employees.create role=admin code=OK result=200
+[2026-11-25 10:35:55,448] INFO in __init__: request_id=0e8526f58a8a4819806ede83e588b600 operation=employees.list role=admin code=OK result=200
+[2026-11-25 10:35:55,449] INFO in __init__: request_id=e9cd96ca0e614ba1b78891ee3a3d715e operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:55,984] INFO in __init__: request_id=fd8422c14ed249d9ac3a5a58ba283025 operation=login role=staff code=OK result=200
+[2026-11-25 10:35:56,047] INFO in __init__: request_id=2576555e48bd4b1aaf7664ba2301883a operation=employees.list role=staff code=FORBIDDEN result=403
+[2026-11-25 10:35:56,097] INFO in __init__: request_id=4b72bd59407b4df48702132180013e28 operation=employees.create role=staff code=FORBIDDEN result=403
+[2026-11-25 10:35:56,319] INFO in __init__: request_id=5024b4a90f234fb0a4ee71bccf4a7ea3 operation=employees.update role=admin code=OK result=200
+[2026-11-25 10:35:56,526] INFO in __init__: request_id=40c0844a0b2d4953b7a3b97c0ff8f469 operation=employees.status role=admin code=OK result=200
+[2026-11-25 10:35:56,571] INFO in __init__: request_id=0e86c281654a4d9f9b8ea7b4790ce6f0 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-25 10:35:56,572] INFO in __init__: request_id=9c470678a73d4c36a1bf4f6f8392100a operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:56,611] INFO in __init__: request_id=88b483bc430f4ba89d3347247f911aec operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-25 10:35:56,843] INFO in __init__: request_id=872f573303a945ad8c06bb2f0dbe175f operation=employees.status role=admin code=OK result=200
+[2026-11-25 10:35:56,844] INFO in __init__: request_id=eb12dcb3db154902a4a184bf7c514c2c operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:57,316] INFO in __init__: request_id=1f5d43549f7644868a03ba7dff2fb293 operation=login role=staff code=OK result=200
+[2026-11-25 10:35:57,830] INFO in __init__: request_id=a4803179d3f6476e80f1cca4bbab2e02 operation=employees.password role=admin code=OK result=200
+[2026-11-25 10:35:57,878] INFO in __init__: request_id=0f0bc8907c5943d282b020ebfaa5fa94 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+[2026-11-25 10:35:57,879] INFO in __init__: request_id=38c717fe9b1d4cccbc7dbf7c694ec070 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:58,163] INFO in __init__: request_id=6b783a8cdcb54b6892f71359d0b6317e operation=login role=guest code=LOGIN_FAILED result=401
+[2026-11-25 10:35:58,164] INFO in __init__: request_id=15153ae35c8c44588f82639009f7aacb operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:58,754] INFO in __init__: request_id=fdde26f1aa42429291084d6798fc0c38 operation=login role=staff code=OK result=200
+[2026-11-25 10:35:58,755] INFO in __init__: request_id=1e67b19eb70e4fa68783dbd4506520c6 operation=unknown role=guest code=INVALID_REQUEST result=405
+[2026-11-25 10:35:58,884] ERROR in dao: database_failure request_id=a15aabe64ef940c9ada229b697c8fd03 operation=employees.status role=admin sqlstate=42000 native_codes=55004
+[2026-11-25 10:35:58,885] INFO in __init__: request_id=a15aabe64ef940c9ada229b697c8fd03 operation=employees.status role=admin code=NOT_FOUND result=404
+[2026-11-25 10:35:58,906] INFO in __init__: request_id=8262af815d66499aab72e051eab6a125 operation=employees.create role=admin code=INVALID_INPUT result=400
+.[2026-11-25 10:35:58,907] INFO in __init__: request_id=0022ecb76b8449a296bd780471c0c9df operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:59,219] INFO in __init__: request_id=13c24c71d446497d8d08629aa0c5e4dd operation=login role=admin code=OK result=200
+[2026-11-25 10:35:59,511] ERROR in dao: database_failure request_id=546a0868f3a1454db61f39a96876432d operation=employees.create role=admin sqlstate=23000 native_codes=2627
+[2026-11-25 10:35:59,513] INFO in __init__: request_id=546a0868f3a1454db61f39a96876432d operation=employees.create role=admin code=CONSTRAINT_CONFLICT result=409
+[2026-11-25 10:35:59,514] INFO in __init__: request_id=4a0e513eaa144893a078417c97abf8fb operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:35:59,952] INFO in __init__: request_id=a8e6d7117eab43c3877bd81451778355 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:00,027] INFO in __init__: request_id=37dd8fdd744f46b5915e7b3325a4196b operation=employees.list role=customer code=FORBIDDEN result=403
+[2026-11-25 10:36:00,195] INFO in __init__: request_id=cf81e1142fb8446dba4eece1a201f487 operation=employees.create role=customer code=FORBIDDEN result=403
+[2026-11-25 10:36:00,196] INFO in __init__: request_id=f10847d7d8d346f6abc9afbc476cb6a5 operation=employees.list role=guest code=UNAUTHENTICATED result=401
+..[2026-11-25 10:36:00,220] INFO in __init__: request_id=76efe4ce2b5840ca959cc405fb4d4830 operation=employees.create_6 role=guest code=CSRF_REJECTED result=403
+......[2026-11-25 10:36:01,423] INFO in __init__: request_id=b442dd2fd2cf42608f5a29b13cb3b480 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:01,425] INFO in __init__: request_id=34cf432019834e15ac294146d7aa40d2 operation=register_customer role=guest code=INVALID_INPUT result=400
+.[2026-11-25 10:36:01,426] INFO in __init__: request_id=7c2adabd940b45e5ad6bbdd69fc6b683 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:01,840] INFO in __init__: request_id=40cdb3da373040338f48e44114187905 operation=register_customer role=customer code=OK result=200
+[2026-11-25 10:36:01,884] INFO in __init__: request_id=b69d74f289174866b134fda48a529cfb operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:01,935] INFO in __init__: request_id=e75f402360e24030903e0d060b6124ab operation=products.save role=customer code=FORBIDDEN result=403
+[2026-11-25 10:36:01,937] INFO in __init__: request_id=5d6ef2d04b1740f39db95ba6a0555ee1 operation=register_customer role=guest code=INVALID_REQUEST result=409
+[2026-11-25 10:36:02,093] INFO in __init__: request_id=1dd9dac2a12f4f8aa4f06a03b0006ba3 operation=logout role=guest code=OK result=200
+[2026-11-25 10:36:02,094] INFO in __init__: request_id=517cf91f9eac4e5fa2e6732d80f46c6b operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:02,577] INFO in __init__: request_id=fb79db92ef544c868ad9b104dc807ec6 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:02,579] INFO in __init__: request_id=5d2400d77fe1421f9fb8f00bdc4c64fa operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:02,985] ERROR in dao: database_failure request_id=c252f626a184465bb71995a6506e663e operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-25 10:36:02,987] INFO in __init__: request_id=c252f626a184465bb71995a6506e663e operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+[2026-11-25 10:36:03,412] ERROR in dao: database_failure request_id=360d9005eb1149269f7ac40a804ddb3a operation=register_customer role=guest sqlstate=23000 native_codes=2627
+[2026-11-25 10:36:03,414] INFO in __init__: request_id=360d9005eb1149269f7ac40a804ddb3a operation=register_customer role=guest code=CONSTRAINT_CONFLICT result=409
+.[2026-11-25 10:36:03,448] INFO in __init__: request_id=08d41cf42fbb4e0ab323f6f42f611825 operation=register_customer role=guest code=CSRF_REJECTED result=403
+........................[2026-11-25 10:36:06,819] INFO in __init__: request_id=ccee9f182c544b5a99d28a3d09ab53fe operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:07,395] INFO in __init__: request_id=d7cf60395c0e449d9f340054427b8ff3 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:07,907] INFO in __init__: request_id=85c2d41af35c42abbd83cb8fcdc32d6f operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:08,694] INFO in __init__: request_id=d31e37b2cea84acdb1e6d1a7431f343e operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:36:08,956] INFO in __init__: request_id=1db37ad502f145019d855c3911588330 operation=usage.create role=customer code=OK result=200
+[2026-11-25 10:36:09,607] INFO in __init__: request_id=ad7f5fe3f42b45959b43ad8f180e76c5 operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:36:09,782] INFO in __init__: request_id=83cb0975a2774736a87e1a886e1a8d12 operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:36:09,784] INFO in __init__: request_id=bdf08ceeef3043ec8d3fb20887915585 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:10,515] INFO in __init__: request_id=e0cca7912e68485abf9ad456c749ec1b operation=login role=admin code=OK result=200
+[2026-11-25 10:36:11,434] INFO in __init__: request_id=90c89e1593114408b9273b4cce6a1cfd operation=refunds.settle role=admin code=OK result=200
+.[2026-11-25 10:36:11,436] INFO in __init__: request_id=a89b342e87fd49e686c157e47850ea43 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:11,909] INFO in __init__: request_id=2e4de6768417454c9e5557bc165e5be3 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:12,383] INFO in __init__: request_id=598edc7a56bf498ab72c19674387e255 operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:12,501] INFO in __init__: request_id=dc4db6b00dea428394bf02f0f0d2cdf0 operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:36:13,102] INFO in __init__: request_id=800fea7d40444acd93d6c8bfda39fb66 operation=orders.item_set role=customer code=OK result=200
+[2026-11-25 10:36:13,205] INFO in __init__: request_id=2bfaac6b361d4c23b1af3f706e90126a operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:36:13,790] INFO in __init__: request_id=a2a27b3d40f143fe8c746ca439c2bde9 operation=orders.item_delete role=customer code=OK result=200
+[2026-11-25 10:36:13,951] ERROR in dao: database_failure request_id=a2f7f75bd95542cfb51de032d8e5ae9f operation=orders.pay role=customer sqlstate=42000 native_codes=53125
+[2026-11-25 10:36:13,953] INFO in __init__: request_id=a2f7f75bd95542cfb51de032d8e5ae9f operation=orders.pay role=customer code=BUSINESS_RULE result=409
+.[2026-11-25 10:36:13,954] INFO in __init__: request_id=ea1f137e2fe944e0b4b0fe1881bd2fe1 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:14,452] INFO in __init__: request_id=8402b4a742304eb89c38cbb8df91b305 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:15,222] INFO in __init__: request_id=49e9e43e8cc842f2880cd4ce0ca36243 operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:15,223] INFO in __init__: request_id=ac82b0cbe2614d1caedfb486be43d461 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:15,698] INFO in __init__: request_id=5934e9756b7646fc9bc4ce235a9405cc operation=login role=customer code=OK result=200
+[2026-11-25 10:36:16,027] ERROR in dao: database_failure request_id=5bfecbbf504a486cb6bf0d7b05322b2c operation=orders.get role=customer sqlstate=42000 native_codes=55003
+[2026-11-25 10:36:16,030] INFO in __init__: request_id=5bfecbbf504a486cb6bf0d7b05322b2c operation=orders.get role=customer code=FORBIDDEN result=403
+[2026-11-25 10:36:16,108] ERROR in dao: database_failure request_id=7bda554bba5f4bc6a823aca374d55f68 operation=orders.pay role=customer sqlstate=42000 native_codes=55003
+[2026-11-25 10:36:16,112] INFO in __init__: request_id=7bda554bba5f4bc6a823aca374d55f68 operation=orders.pay role=customer code=FORBIDDEN result=403
+[2026-11-25 10:36:16,113] INFO in __init__: request_id=29681e29a0704fc7a92aa1030f599227 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:16,543] INFO in __init__: request_id=a7133883f47544df826a3aa2c92c80ae operation=login role=staff code=OK result=200
+[2026-11-25 10:36:16,613] INFO in __init__: request_id=71c8713c40a9483b83cfc1758ea5699e operation=products.save role=staff code=FORBIDDEN result=403
+[2026-11-25 10:36:16,798] INFO in __init__: request_id=4b0ce800331c4a8db977986eaf4ba966 operation=orders.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:36:16,799] INFO in __init__: request_id=b663b4434d484b7ba2480446346b7807 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:17,260] INFO in __init__: request_id=1c3c9ea91f1c4c668adb24442d7c7eaa operation=login role=customer code=OK result=200
+[2026-11-25 10:36:17,577] INFO in __init__: request_id=f84efd66be644c9295a2f21600a20bfa operation=products.list role=customer code=OK result=200
+[2026-11-25 10:36:17,633] INFO in __init__: request_id=0e3425a7f4db4222a888048c3c8dc6ea operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:17,690] INFO in __init__: request_id=001fd56aa892431ea1416229f23a65ca operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:17,744] INFO in __init__: request_id=5ed9a7aa1f5344f797f2ce995202ae11 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:17,970] INFO in __init__: request_id=81e65298252d415da4fb74c1393bd250 operation=usage.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:18,024] INFO in __init__: request_id=d98f02d90cfe48a1b796f935a313136f operation=usage.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:36:18,025] INFO in __init__: request_id=9b1d2a03a5af4e54b228d1a84a0b7d62 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:18,472] INFO in __init__: request_id=46d570342b124881ad59ccbc6c82fcf4 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:18,510] INFO in __init__: request_id=e6ad99a6b61444f5bcbe037e4248d4ab operation=logout role=guest code=OK result=200
+[2026-11-25 10:36:18,560] INFO in __init__: request_id=b8fde509ed2a4373b8ace11b32c0c6c5 operation=orders.list role=guest code=UNAUTHENTICATED result=401
+.[2026-11-25 10:36:18,563] INFO in __init__: request_id=209bb6102cc1450b887bf277be6203ee operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:19,080] INFO in __init__: request_id=f5e05dd84ed64bfa8b0df84ca0a341f8 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:19,394] INFO in __init__: request_id=45761a1bde4f4de4996b1d0df3220ac8 operation=orders.list role=customer code=OK result=200
+[2026-11-25 10:36:19,618] ERROR in dao: database_failure request_id=662b12f21a394be2bc879a47206117f5 operation=orders.create role=customer sqlstate=42000 native_codes=52127
+[2026-11-25 10:36:19,620] INFO in __init__: request_id=662b12f21a394be2bc879a47206117f5 operation=orders.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:36:19,695] INFO in __init__: request_id=12ce0cee5b864da8af4f54cdc8ffb9bb operation=orders.list role=customer code=OK result=200
+.[2026-11-25 10:36:19,696] INFO in __init__: request_id=4ab1ec24367d4a2ea85b906ab9f8a520 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:20,317] INFO in __init__: request_id=3800edfe185146e2b789164c57095a63 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:21,165] INFO in __init__: request_id=7cb6be90257842c3b4d09d0dcaf8830a operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:21,167] INFO in __init__: request_id=fc4864b2546544a7b55cae2de910fc4a operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:21,169] INFO in __init__: request_id=cb2ccd10bc394e7cac75149f68ac8d3d operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:21,630] INFO in __init__: request_id=2a4ac3a9b0e847ab9705f745498ffc39 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:21,633] INFO in __init__: request_id=873b4f00d2204a37b83db46e199c1cc0 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:22,112] ERROR in dao: database_failure request_id=fa67ad55bda444e681f1a74a46b8f5aa operation=orders.pay role=customer sqlstate=42000 native_codes=55009
+[2026-11-25 10:36:22,113] INFO in __init__: request_id=ba4b2d358c5c483e9c6e70fe321ec1e6 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:36:22,114] INFO in __init__: request_id=fa67ad55bda444e681f1a74a46b8f5aa operation=orders.pay role=customer code=BUSINESS_RULE result=409
+.[2026-11-25 10:36:22,116] INFO in __init__: request_id=c02243742c304d33a8a513214f3550bc operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:22,555] INFO in __init__: request_id=c847a0e6f52a4960a12b1ec2cba086d9 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:22,903] INFO in __init__: request_id=b687ded05f124de9b2fafe866606e6fd operation=products.list role=customer code=OK result=200
+.[2026-11-25 10:36:22,904] INFO in __init__: request_id=7536ca9b2e654a4a99dc70e7542bfe11 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:23,342] INFO in __init__: request_id=3fa54fdd29504579b45efa57ef09a76a operation=login role=customer code=OK result=200
+[2026-11-25 10:36:23,344] ERROR in dao: database_failure request_id=0e8101d9c68b4dc89ee6eaa34ae62a07 operation=orders.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-25 10:36:23,344] INFO in __init__: request_id=0e8101d9c68b4dc89ee6eaa34ae62a07 operation=orders.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:36:23,345] INFO in __init__: request_id=0f1cba2577f04f8097b96b467f1dd6d5 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:23,780] INFO in __init__: request_id=bd8c9b90c0ba4b7aba60b555aca4e957 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:24,226] INFO in __init__: request_id=ea548c77b48243ef8e96bc0c23898f9c operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:24,881] INFO in __init__: request_id=0c5cf54296a34a3aa315ad423b2f2c3d operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:36:24,995] INFO in __init__: request_id=ff13c068b03b4c4cac206f7aaae75127 operation=balances.list role=customer code=OK result=200
+[2026-11-25 10:36:24,998] INFO in __init__: request_id=a2ab977ab7fe4159aecf1b9de32ab9cf operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:24,998] INFO in __init__: request_id=864668aaf2124c6c9fadc56b0e705db6 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:25,396] INFO in __init__: request_id=32d013f851864e529acde3396af4b94c operation=login role=customer code=OK result=200
+[2026-11-25 10:36:25,398] INFO in __init__: request_id=120514fc57b746b3b441c2cfc135d0af operation=login role=customer code=OK result=200
+[2026-11-25 10:36:25,912] INFO in __init__: request_id=037fbc6be9ee42749d2847c0067279d8 operation=usage.create role=customer code=OK result=200
+[2026-11-25 10:36:25,916] ERROR in dao: database_failure request_id=0b53feb263d64285add0affe421dd301 operation=usage.create role=customer sqlstate=42000 native_codes=51956
+[2026-11-25 10:36:25,921] INFO in __init__: request_id=0b53feb263d64285add0affe421dd301 operation=usage.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:36:26,030] INFO in __init__: request_id=1fe7d5a6dba545a88c10a3c5c49f4441 operation=balances.list role=customer code=OK result=200
+.[2026-11-25 10:36:26,031] INFO in __init__: request_id=c58e22ffb7c34d53b76676405829ca03 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:26,430] INFO in __init__: request_id=581f982a87434a288b2de0d03721f677 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:26,854] INFO in __init__: request_id=739243344c814a6faebd183007ed4a4c operation=orders.create role=customer code=OK result=200
+[2026-11-25 10:36:27,555] INFO in __init__: request_id=9ae35d08e68840b1b9a30a41ffed9e94 operation=orders.pay role=customer code=OK result=200
+[2026-11-25 10:36:28,095] INFO in __init__: request_id=1e0b9c44b207402796b5cab7eb0d4550 operation=orders.get role=customer code=OK result=200
+[2026-11-25 10:36:28,097] INFO in __init__: request_id=db11760e87de48b58108a72b8af74e8c operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:28,098] INFO in __init__: request_id=ee0d5f28958c4cc18702b679176be532 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:28,466] INFO in __init__: request_id=e7524997757148048ca4d82d174f3581 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:28,467] INFO in __init__: request_id=6cad0e68d8fd45799ee21766f6514fa1 operation=login role=customer code=OK result=200
+[2026-11-25 10:36:28,882] INFO in __init__: request_id=e4b3297a11e940029e849763d27a535a operation=refunds.request role=customer code=OK result=200
+[2026-11-25 10:36:28,882] ERROR in dao: database_failure request_id=ea26ff31223040e99f95ba3b1e48eb66 operation=usage.create role=customer sqlstate=42000 native_codes=51956
+[2026-11-25 10:36:28,886] INFO in __init__: request_id=ea26ff31223040e99f95ba3b1e48eb66 operation=usage.create role=customer code=BUSINESS_RULE result=409
+[2026-11-25 10:36:28,999] INFO in __init__: request_id=505e61cec19b4134b0ee4aa3f65f1d06 operation=balances.list role=customer code=OK result=200
+.[2026-11-25 10:36:29,029] ERROR in dao: database_failure request_id=e217d8f6c67543d1b1dda2a6ccbbceee operation=products.list role=guest sqlstate=OS_IO native_codes=
+[2026-11-25 10:36:29,029] INFO in __init__: request_id=e217d8f6c67543d1b1dda2a6ccbbceee operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:36:29,069] ERROR in dao: database_failure request_id=1eb5b4ca83054e9ea9ca8195cebd0c4f operation=products.list role=guest sqlstate=08S01 native_codes=
+[2026-11-25 10:36:29,069] WARNING in dao: connection_cleanup_failed request_id=1eb5b4ca83054e9ea9ca8195cebd0c4f operation=products.list
+[2026-11-25 10:36:29,071] INFO in __init__: request_id=1eb5b4ca83054e9ea9ca8195cebd0c4f operation=products.list role=guest code=DATABASE_UNAVAILABLE result=503
+.[2026-11-25 10:36:29,104] INFO in __init__: request_id=3fb7e7bb8c774fb4b9747b2255fdb6f3 operation=unknown role=guest code=NOT_FOUND result=404
+.[2026-11-25 10:36:29,131] INFO in __init__: request_id=0d127434b5394a308ba991e300ac80a3 operation=current_identity role=guest code=OK result=200
+[2026-11-25 10:36:29,135] INFO in __init__: request_id=d5887446ca744ed1b5ce2ebe960fcc5a operation=login role=guest code=INVALID_INPUT result=400
+.[2026-11-25 10:36:29,164] INFO in __init__: request_id=f5588e036ebd4e51be91878b8db6866a operation=orders.create_15 role=guest code=CSRF_REJECTED result=403
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 23, in test_mutation_requires_csrf_before_database
+    response = self.client.post("/api/v1/orders", json={"items": []})
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1171, in post
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('f5588e036ebd4e51be91878b8db6866a', 'orders.create_15', 'guest', 'CSRF_REJECTED', 403)
+.[2026-11-25 10:36:29,387] INFO in __init__: request_id=93c9ec84a6194961ae3f4770c802aba5 operation=index role=guest code=OK result=200
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "D:\Program Files\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log' -> 'D:\\Desktop\\DB\\DB_lab\\instance\\webapp.log.1'
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Python\Python312\Lib\unittest\__main__.py", line 18, in <module>
+    main(module=None)
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 105, in __init__
+    self.runTests()
+  File "D:\Program Files\Python\Python312\Lib\unittest\main.py", line 281, in runTests
+    self.result = testRunner.run(self.test)
+  File "D:\Program Files\Python\Python312\Lib\unittest\runner.py", line 240, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+  File "D:\Program Files\Python\Python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+  File "D:\Desktop\DB\DB_lab\tests\test_webapp.py", line 17, in test_shell_and_security_headers
+    response = self.client.get("/")
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1166, in get
+    return self.open(*args, **kw)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\testing.py", line 235, in open
+    response = super().open(
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1120, in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 992, in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\werkzeug\test.py", line 1268, in run_wsgi_app
+    app_rv = app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 941, in finalize_request
+    response = self.process_response(response)
+  File "D:\Desktop\DB\DB_lab\.venv\Lib\site-packages\flask\app.py", line 1319, in process_response
+    response = self.ensure_sync(func)(response)
+  File "D:\Desktop\DB\DB_lab\webapp\__init__.py", line 72, in after
+    app.logger.info(
+Message: 'request_id=%s operation=%s role=%s code=%s result=%s'
+Arguments: ('93c9ec84a6194961ae3f4770c802aba5', 'index', 'guest', 'OK', 200)
+.[2026-11-25 10:36:29,449] INFO in __init__: request_id=679bc98fc2c743b697c40b87fd717db2 operation=unknown role=guest code=NOT_FOUND result=404
+..............................[2026-11-25 10:36:36,406] INFO in __init__: request_id=8c01b79098e14436b08c64ef01f265f5 operation=inventory.adjustments.create role=admin code=OK result=200
+[2026-11-25 10:36:36,407] INFO in __init__: request_id=82d6d302313b47eb8a2cafdb211d0a81 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,411] INFO in __init__: request_id=5a12a2afc5064b1db05c63211561a43f operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,412] INFO in __init__: request_id=b24b8713f52e40a3963bd058f8b0d9fa operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,414] INFO in __init__: request_id=de7a4833f3174abaa31e42501aa109f9 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,415] INFO in __init__: request_id=61e113952ff446fc8a9fc32b165fdd0d operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,416] INFO in __init__: request_id=814465b0ccc940839cff76af9b13801f operation=inventory.adjustments.create role=staff code=FORBIDDEN result=403
+..[2026-11-25 10:36:36,467] INFO in __init__: request_id=cfe45a6ec71a4fbeb33dfec2e5568072 operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-25 10:36:36,468] INFO in __init__: request_id=773346ba42a54c138f3a6bb287dc227a operation=inventory.adjustments.create_2 role=guest code=CSRF_REJECTED result=403
+.[2026-11-25 10:36:36,493] INFO in __init__: request_id=dd532b463fb5467c9dd4d54f0e186262 operation=inventory.adjustments.list role=admin code=OK result=200
+[2026-11-25 10:36:36,520] INFO in __init__: request_id=ab3e2e117497422aa98d319165013fc6 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,523] INFO in __init__: request_id=643ecd6eed2f415596398bc742971e77 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,525] INFO in __init__: request_id=752d90de12e34632a854ff778a3af262 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,527] INFO in __init__: request_id=4c2193e1d17a434aa7f723abb68359d3 operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,529] INFO in __init__: request_id=ea15bc64ca9b4fb8b2f7ea7ac5b7557a operation=inventory.adjustments.list role=admin code=INVALID_INPUT result=400
+..[2026-11-25 10:36:36,568] INFO in __init__: request_id=640d4089628d44a4ad6826bcd8cd3d58 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,569] INFO in __init__: request_id=f86d8e086ec140a9befef2752cb0b926 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,570] INFO in __init__: request_id=a3ed084591cd4ac5b49116b5de6acfb0 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,572] INFO in __init__: request_id=ec24e931d6894b7eb0bb4c1cad9aa8e1 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,574] INFO in __init__: request_id=392849b99da74d6a8f2bf1804c9238e4 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,576] INFO in __init__: request_id=c76bfb69edeb4da493b37bc0abc13d08 operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,578] INFO in __init__: request_id=39f384300a9746be9b3ecc7a3e4947fe operation=orders.create role=customer code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,579] INFO in __init__: request_id=8f30bd6766dd4a3086a2b61e3febf226 operation=orders.create role=customer code=INVALID_INPUT result=400
+.[2026-11-25 10:36:36,599] INFO in __init__: request_id=425bb12bde754026be56573957dcffa3 operation=inventory.adjustments.create role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,601] INFO in __init__: request_id=93319f627317459aace826a2ab8beaf6 operation=inventory.adjustments.create role=admin code=OK result=200
+.[2026-11-25 10:36:36,620] INFO in __init__: request_id=d461844c00374bad9c0ccda7a9f7510f operation=restocks.recommendation role=staff code=OK result=200
+[2026-11-25 10:36:36,622] INFO in __init__: request_id=49e656ac4f57485484e65d7fc90a6907 operation=restocks.recommendation role=admin code=INVALID_INPUT result=400
+.[2026-11-25 10:36:36,640] INFO in __init__: request_id=9a9e9147e2df4a8c9c284615c09e84df operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,642] INFO in __init__: request_id=172f455a7b8e4e22bcbfbbd07859a886 operation=reports.sales role=admin code=INVALID_INPUT result=400
+[2026-11-25 10:36:36,645] INFO in __init__: request_id=ac984a6e82624120bc90b328f5576eb8 operation=reports.sales role=staff code=OK result=200
+[2026-11-25 10:36:36,647] INFO in __init__: request_id=3dd7fc0b65df4760adfb3e0175158353 operation=reports.sales role=customer code=FORBIDDEN result=403
+..............
+----------------------------------------------------------------------
+Ran 126 tests in 50.171s
+
+OK

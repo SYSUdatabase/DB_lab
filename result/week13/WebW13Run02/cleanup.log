@@ -1,0 +1,22 @@
+Run suffix: WebW13Run02
+SQL Server: localhost\SQLEXPRESS
+Databases to drop:
+  TokenHubDB_v11_WebW13Run02
+  TokenHubDB_v10_WebW13Run02
+  TokenHubDB_v01_WebW13Run02
+Run-specific SQL backup directory to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02
+SQL backup files to delete:
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v01_WebW13Run02_W6_fa6a721757d5.bak
+  D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v10_WebW13Run02_W6_e98ae8ed9d33.bak
+Evidence directories: KEEP
+Cache directories to delete:
+  (none)
+Dropped and verified absent: TokenHubDB_v11_WebW13Run02
+Dropped and verified absent: TokenHubDB_v10_WebW13Run02
+Dropped and verified absent: TokenHubDB_v01_WebW13Run02
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v01_WebW13Run02_W6_fa6a721757d5.bak
+Deleted backup: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02\TokenHubDB_v10_WebW13Run02_W6_e98ae8ed9d33.bak
+Deleted run backup directory: D:\Desktop\DB\DB_lab\result\sql_backups\WebW13Run02
+Cleanup verification PASS for WebW13Run02.
+Evidence was intentionally retained; all run databases/backups and disposable caches were removed.
